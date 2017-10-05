@@ -1,0 +1,812 @@
+#+SETUPFILE: ./theme-bigblow-local.setup
+#+TITLE: Parallelprogrammierung -- Einstieg
+#+AUTHOR: Johannes Brauer
+#+OPTIONS:   H:4
+#+OPTIONS: num:nil d:true
+#+OPTIONS: toc:nil
+#+OPTIONS: reveal_single_file:nil
+#+Language:  de
+#+STARTUP: latexpreview
+#+STARTUP: inlineimages
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="mycss/mystyle.css" />
+# +REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: slide
+#+REVEAL_HLEVEL: 1
+#+REVEAL_INIT_SCRIPT: dependencies: [ { src: 'plugin/menu/menu.js', async: true },
+#+REVEAL_INIT_SCRIPT:                 { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true } ]
+#+REVEAL_MARGIN: 0.05
+#+REVEAL_EXTRA_CSS: ./mycss/myrevealstyle.css
+#+OPTIONS: reveal_control:t
+# um Folien mit reveal.js erzeugen zu können:ml
+# M-x load-library und dann ox-reveal
+
+* Warum Parallelprogrammierung?
+
+** Technische Gründe
++ Erhöhung der Rechenleistung durch Erhöhung der Taktfrequenzen stösst
+  technisch an Grenzen
++ Mooresche Gesetz gilt aber noch.
++ Folge: Prozessoren mit mehreren Kernen.
++ Leistungssteigerung durch Parallelarbeit
++ Geschwindigkeitssteigerung bei $n$ Kernen theoretisch n-fach
+  + praktisch nicht erreichbar
+  + Anwendungsentwicklung auf Parallelprogrammierung nicht vorbereitet
+# Thesen von Bo Martin berücksichtigen
+** Enwicklung der Mikroprozessortechnik
+#+attr_html: :width 400px
+[[file:./Abbildungen/CPU-Moore.png]]
+** Robert C. Martin: The failure of state
+[[https://www.youtube.com/watch?v=7Zlp9rKHGD4][Functional Programming -- The Failure of State]]
+
+Ausschnitte:
++ 34:34 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=2074s][fewer concurrency issues]]
++ 36:12 - Moore's law bis 43:47
++ 49:44 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=2984s][OO = procedure + state]] bis 50:56
++ 53:57 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=3237s][impose  discipine on the change of state]] bis 55:12 
+
+* Prozesse, Threads, Synchronisation
+(Die Ausführungen in diesem lehnen sich an ein Vorlesungsskript von
+Uwe Neuhaus an)
+** Bestandteile von Computersystemen
+1. Hardware – Bereitstellung grundlegender Betriebsmittel (Prozessor,
+   Speicher, Ein-/Ausgabegeräte)
+2. Betriebssystem – steuert und koordiniert die Nutzung der
+   Betriebsmittel für die verschiedenen Anwendungsprogramme der
+   verschiedenen Anwender
+3. Anwendungsprogramme – definieren, wie das zu bearbeitende Problem
+   mit Hilfe der Betriebsmittel gelöst wird (Compiler,
+   Datenbanksysteme, Textverarbeitung, Spiele usw.)
+4. Anwender (Menschen, Maschinen, andere Computer)
+** Abstrakte Sicht der Bestandteile
+[[file:./Abbildungen/computersystem.png]]
+** Mehrprogrammbetrieb
+*** Stapelverarbeitung
+#+attr_html: :width 200px
+#+ATTR_HTML: :style float:right
+[[file:./Abbildungen/mehrprogrammbetrieb.png]] Mehrere Aufträge werden im
+Speicher gehalten. Der Prozessor wechselt zwischen diesen Aufträgen
+hin und her.
+*** CPU-Aufteilung
+
+#+begin_nebeneinander
+Ablauf eines Programms:
+#+attr_html: :width 250px
+[[./Abbildungen/EinProgrammbetrieb.png]]
+#+end_nebeneinander
+
+#+begin_nebeneinander
+quasi-paralleler Ablauf zweier Programme:
+#+attr_html: :width 250px
+[[file:./Abbildungen/ZweiProgramme.png]]
+#+end_nebeneinander
+
+#+BEGIN_clear
+#+END_clear
+
+
+*** Benötigte Betriebssystemfähigkeiten beim Mehrprogrammbetrieb
++ Bereitstellung von Ein-/Ausgabe-Routinen
++ Zuordnung von Geräten zu   Aufträgen
++ Speicherverwaltung – das Betriebssystem muss den verschiedenen
+  Aufträgen Speicher zuordnen
++ Prozessor-Scheduling – das Betriebssystem muss zwischen den
+  verschiedenen, ausführbereiten Aufträgen auswählen
++ Schutz vor Programmfehlfunktionen (Übergriffen eines Auftrags auf
+  einen anderen, Endlosschleifen usw.)
+** Mehrbenutzersystem (Time-Sharing Systems) – Interaktive Benutzung
++ Eine interaktive Kommunikationsmöglichkeit zwischen dem Anwender und
+  der Computersystem wird bereitgestellt, die den Zugriff auf
+  Programme und Daten erlaubt. Nach der Abarbeitung eines Kommandos
+  wird das nächste Benutzerkommando erwartet.
++ Der Prozessor wird in schneller Abfolge zwischen verschiedenen
+  Aufträgen, die sich im Speicher und auf Festplatte befinden, hin und
+  her geschaltet. (Nur Aufträge im Speicher erhalten den Prozessor.)
++ Ein Auftrag wird in den Hauptspeicher ein- oder auf Festplatte
+  ausgelagert.
+** Arbeitsplatzrechnersysteme / Personal-Computer
++ Personal-Computer – Computersysteme, die ausschließlich einem
+  einzigen Benutzer zur Verfügung stehen
++ Ein-/Ausgabegeräte – Tastatur, Maus, Monitor, kleiner Drucker, ...
++ Komfortable Bedienung, schnelle Reaktionszeit
++ Konzepte größerer Betriebssysteme können verwendet werden
+  (z.B. Time-Sharing). Andere Aspekte u.U. weniger wichtig
+  (z.B. Prozessor- Auslastung). Ausführung verschiedener
+  Betriebssysteme möglich (Windows, MacOS, UNIX, Linux)
+** Mehrprozessorsysteme
+*** Prinzip
++ Mehrprozessorsysteme besitzen mehrere, eng gekoppelte Prozessoren
++ Eng gekoppelt -- Prozessoren nutzen gemeinsam Hauptspeicher und
+  Systemtakt. Die Kommunikation zwischen den Prozessoren findet
+  üblicherweise über den gemeinsam genutzten Speicher statt.
++ Vorteile von Mehrprozessorsystemen: Erhöhter Durchsatz
+  + Verbessertes Preis/Leistungsverhältnis
+  + Höhere Zuverlässigkeit
+    + stufenweiserLeistungsverlust(gracefuldegradation) •
+    + Ausfallsicherheit(fail-softsystems)
+*** Varianten
++ Symmetric multiprocessing (SMP) ::
+  + Auf jedem Prozessor läuft das identische Betriebssystem
+  + Mehrere Prozesse können ohne Leistungsverlust ablaufen
+  + Die meisten modernen Betriebssysteme unterstützen SMP
++ Asymmetric multiprocessing ::
+  + Jeder Prozessor hat eine spezielle Aufgabe. Ein Master-Prozessor
+    verteilt Aufgaben an die anderen (möglicherweise spezialisierten)
+     Slave- Prozessoren.
+  + Beispiel: Grafikprozessoren
+*** Architektur bei symmetrischen Mehrprozessorsystemen
+#+attr_html: :width 600px
+[[file:./Abbildungen/mehrprozessorarchitektur.png]]
+
+*Achtung*: Zugriff auf den Hauptspeicher über gemeinsamen Bus kann zum
+Flaschenhals werden.
+
+** Prozesse
+Für die Behandlung der Anforderungen in Mehrprogrammbetriebssystemen
+sind primitive Ad-hoc-Lösungen nicht mehr möglich. Das Verständnis des
+Gesamtsystems ist nicht mehr durch die Beschreibung des Verhaltens der
+CPU zu jedem Zeitpunkt möglich, da das Verhalten der CPU in
+Mehrbenutzersystemen im Mehrprogrammbetrieb stark von nicht
+vorhersagbaren externen Ereignissen (Unterbrechungen) abhängig ist. Das
+Betriebssystem wird als Ansammlung von funktionellen Einheiten
+betrachtet, die zunächst unabhängig voneinander arbeiten aber über
+wohldefinierte Schnittstellen miteinander kommunizieren müssen. Diese
+funktionellen Einheiten bezeichnet man als *Prozesse*.
+*** Prozessbegriff
+  :PROPERTIES:
+  :CUSTOM_ID: prozessbegriff
+  :END:
+
+**** Typische Merkmale von Prozessen:
+     :PROPERTIES:
+     :CUSTOM_ID: typische-merkmale-von-prozessen
+     :END:
+-  brauchen Prozessor
+-  enthalten jeweils ein sequentielles Programm
+-  können grundsätzlich parallel ablaufen
+
+Zur Abgrenzung zum Begriff /Benutzerauftrag/ (/Job/): Zur Abarbeitung
+eines Benutzerauftrags sind in der Regel mehrere Prozesse notwendig.
+
+**** Formen der Parallelität
+     :PROPERTIES:
+     :CUSTOM_ID: formen-der-parallelität
+     :END:
+
+-  mehrere Prozesse laufen auf unterschiedlichen Prozessoren ab --
+   (tatsächlich parallel)
+
+-  ein Prozessor wird "scheibchenweise" den Prozessen zugeordnet, sodass
+   diese „überlappt“ ablaufen --
+   (quasi-parallel)
+
+Die im Zusammenhang mit der Parallelität von Prozessen auftretenden
+Probleme sind davon aber unabhängig.
+** Synchronisation konkurrierender Prozesse
+  :PROPERTIES:
+  :CUSTOM_ID: synchronisation-konkurrierender-und-kooperierender-prozesse
+  :END:
+
+*** Problem des wechselseitigen Ausschlusses
+   :PROPERTIES:
+   :CUSTOM_ID: problem-des-wechselseitigen-ausschlusses
+   :END:
+
+Das Problem des wechselseitigen Ausschlusses (/mutual exclusion/) wurde
+erstmals 1965 von Edsger W. Dijkstra formuliert.
+
+**** Beispiel 1:
+     :PROPERTIES:
+     :CUSTOM_ID: beispiel-1
+     :END:
+Zwei zyklische Prozesse $p_1$ und $p_2$ benutzen von Zeit zu Zeit ein
+Magnetband. Es steht nur ein Gerät zur Verfügung, das nicht von mehr als
+einem Prozess gleichzeitig benutzt werden kann.
+
+*1. Lösungsversuch:* Definition einer booleschen Variable =frei=\\
+#+BEGIN_nebeneinander
+$p_1$:
+#+BEGIN_SRC
+001 wiederhole
+002 wiederhole bis frei;
+003   frei := false;
+004   benutze(magnetband)
+005   frei := true;
+... ...
+FFF ständig\\
+#+END_SRC
+#+END_nebeneinander
+#+BEGIN_nebeneinander
+$p_2$:
+#+BEGIN_SRC 
+001 wiederhole
+002 wiederhole bis frei;
+003   frei := false;
+004   benutze(magnetband)
+005   frei := true;
+... ...
+FFF ständig
+#+END_SRC
+#+END_nebeneinander
+#+begin_clear 
+#+end_clear
+#+Reveal: split
+*Probleme:* 
++ Wenn $p_1$ und $p_2$ parallel ablaufen, können sie auch gleichzeitig
+  das Magnetband als frei erkennen. Das gleiche Problem kann auch bei
+  quasi-parallel ablaufenden Prozessen auftreten, da jeder Prozess
+  zwischen =002= und =003= unterbrochen werden kann.
++ Durch die Warteschleife wird Prozessorzeit beansprucht (/busy
+  waiting/).
+#+Reveal: split
+*2. Lösungsversuch:* Definition einer booleschen Variable =p1anderReihe=\\
+#+BEGIN_nebeneinander
+$p_1$:
+#+BEGIN_SRC
+001 wiederhole
+002   wiederhole bis p1anderReihe;
+003   benutze(magnetband)
+004   p1anderReihe := false;
+... ...
+FFF ständig
+#+END_SRC
+#+END_nebeneinander
+#+BEGIN_nebeneinander
+$p_2$:
+#+BEGIN_SRC 
+001 wiederhole
+002   wiederhole bis nicht p1anderReihe;
+003   benutze(magnetband)
+004   p1anderReihe := true;
+... ...
+FFF ständig
+#+END_SRC
+#+END_nebeneinander
+#+begin_clear 
+#+end_clear
+
+Ein wechselseitiger Ausschluss ist zwar gewährleistet, allerdings müssen
+die Prozesse das Magnetband abwechselnd benutzen. Beide Prozesse müssen
+außerdem „am Leben” bleiben. /Busy waiting/ tritt auch hier auf.
+#+Reveal: split
+*3. Lösungsversuch:* Definition zweier boolesche Variablen =p1istdran= und =p2istdran=
+
+Initialisierung:
+
+#+BEGIN_SRC 
+p1istdran := false
+p2istdran := false
+#+END_SRC
+#+BEGIN_nebeneinander
+$p_1$:
+#+BEGIN_SRC
+wiederhole
+   p1istdran := true
+   wiederhole bis nicht p2istdran
+   benutze(magnetband)
+   p1istdran := false
+...  
+ständig
+#+END_SRC
+#+END_nebeneinander
+#+BEGIN_nebeneinander
+$p_2$:
+#+BEGIN_SRC 
+wiederhole
+   p2istdran := true
+   wiederhole bis nicht p1istdran
+   benutze(magnetband)
+   p2istdran := false
+...
+ständig
+#+END_SRC
+#+END_nebeneinander
+#+begin_clear 
+#+end_clear
+Wechselseitiger Ausschluss ist zwar garantiert, es besteht aber die
+Gefahr der Verklemmung (/deadlock/).
+
+*** Anforderungen an eine Lösung für das Problem des wechselseitigen Ausschlusses:
+
+1. Das Betriebsmittel wird nach endlicher Zeit zugewiesen.
+2. Ein Prozess gibt das Betriebsmittel nach endlicher Zeit wieder frei.
+3. Ein Prozess, der wartet, soll keine Rechenzeit verbrauchen.
+4. Eine Problemlösung soll von den Prozessen in eine gemeinsame Umgebung
+   verlagert werden.
+Das grundsätzliche Problem resultiert aus der „unkontrollierten“
+Benutzung gemeinsamer Betriebsmittel.
+
+*** Weitere Beispiele für das Auftreten des Problems des wechselseitigen
+Ausschlusses:
+
+1. Veränderung von Datensätzen in einer von mehreren Prozessen gemeinsam
+   benutzten Datei
+
+2. gemeinsame Benutzung von Unterprogrammen mit lokalen Variablen für
+   Zwischenergebnisse
+
+*** Definition (kritischer Abschnitt):
+Programmabschnitte, in denen sich zu einem Zeitpunkt nur jeweils ein
+Prozess befinden darf, heißen /kritische Abschnitte/ (/critical
+sections/).
+
+*** Lösung: =P=- und =V=-Operationen nach Edsger W. Dijkstra
+=P= und =V= sind zwei Operationen auf einer gemeinsamen Variablen,
+genannt /Semaphorvariable/. Jedem kritischen Abschnitt wird eine
+Semaphore zugeordnet.
+
+**** Definition von =P= und =V=:
+     :PROPERTIES:
+     :CUSTOM_ID: definition-von-p-und-v
+     :END:
+#+BEGIN_EXAMPLE
+    P(s):
+       wenn s=1
+       dann s:=0
+       sonst blockiere den aufrufenden Prozess
+             und schalte auf anderen Prozess um
+        
+    V(s):
+       wenn ein Prozess auf s wartet
+       dann loese den Prozess aus Wartezustand
+       sonst s:=1
+#+END_EXAMPLE
+
+**** Beispiel für die Sicherung eines kritischen Abschnitts (Benutzung eines Magnetbandgeräts) ...
+... durch eine Semaphore =s=:
+
+#+BEGIN_SRC 
+P(s)
+benutze(magnetband)
+V(s)
+#+END_SRC
+
+**** Eigenschaften von =P= und =V=:
++ sind selbst kritische Abschnitte
++ müssen atomar sein (dürfen nicht selbst unterbrochen werden)
++ Es handelt sich aber um *kurze* kritische Abschnitte, die im
+  Systemkern realisiert werden, wo wechselseitiger Ausschluss einfach zu implementieren ist.
++ Sie werden häufig mithilfe eines Spezialbefehls des Prozessors
+  realisiert, wobei ein aktives Warten in Kauf genommen wird. 
++ Dazu wird eine Sperrvariable =pv= mit folgender Bedeutung eingeführt:
+
+| ~pv=1~ : | =P=- und =V=-Operationen können ausgeführt werden       |
+| ~pv=0~ : | =P=- und =V=-Operationen können nicht ausgeführt werden |
+#+TBLFM: $1=pv=1= :
+
+**** Der Spezialbefehl =teste_und_setze(pv)= 
+... ist eine unteilbare Operation, die folgendermaßen arbeitet:
+
+#+BEGIN_EXAMPLE
+   wiederhole solange pv = 0; (* tue nichts, busy waiting *)
+   pv := 0
+#+END_EXAMPLE
+
+Mithilfe dieses Befehls werden nun zwei modifizierte Operationen =P’=
+und =V’= eingeführt, die dann zur Sicherung eines kritischen Abschnitts
+eingesetzt werden können.
+
+#+BEGIN_nebeneinander
+#+BEGIN_SRC
+P'(s)
+   teste_und_setze(pv)
+   P(s)
+   pv:=1
+#+END_SRC
+#+END_nebeneinander
+#+BEGIN_nebeneinander
+#+BEGIN_SRC 
+V'(s)
+   teste_und_setze(pv)
+   V(s)
+   pv:=1
+#+END_SRC
+#+END_nebeneinander
+#+begin_clear 
+#+end_clear
+*** Alternative Realisierung für Semaphore
++ =S= ist ein Semaphoren-Objekt mit den Methoden =wait()= (möchte
+  passieren) und =signal()= (verlassen).
++ Ein Semaphoren-Objekt ist meist verbunden mit einer zugehörigen
+  Prozess-Warteschlange =W=. 
+#+BEGIN_nebeneinander
+Prozess 1
+#+BEGIN_SRC java
+S.wait();
+i = leseZaehler();
+i = i + 10; 
+schreibeZaehler( i ); 
+S.signal();
+#+END_SRC
+#+END_nebeneinander
+#+BEGIN_nebeneinander
+Prozess 2
+#+BEGIN_SRC java
+S.wait();
+j = leseZaehler();
+j = j - 5; 
+schreibeZaehler( j ); 
+S.signal();
+#+END_SRC
+#+END_nebeneinander
+#+begin_clear 
+#+end_clear
+**** Realisierung eines binären Semaphors
+#+BEGIN_SRC java
+S.wait():
+if ( TestAndSet(belegt) ) {
+   Prozess in Warteschlange W einreihen; 
+   Prozess in Zustand „wartend“ versetzen;
+}
+#+END_SRC
+#+BEGIN_SRC java
+S.signal():
+if ( W.empty() == false ) {
+   Einen Prozess aus Warteschlange W lösen; 
+   Prozess in Zustand „bereit“ versetzen;
+}
+else { belegt = false; }
+#+END_SRC
+**** Realisierung eines Zähl-Semaphors
+#+BEGIN_SRC java
+S.wait():
+if ( FetchAndAdd( zaehler, -1 ) < 1) {
+   Prozess in Warteschlange W einreihen; 
+   Prozess in Zustand „wartend“ versetzen;
+}
+#+END_SRC
+#+BEGIN_SRC java
+S.signal():
+if ( FetchAndAdd( zaehler, 1 ) < 0 ) {
+   Einen Prozess aus Warteschlange W lösen; 
+   Gelösten Prozess in Zustand „bereit“ versetzen;
+}
+#+END_SRC
+** Synchronisation kooperierender Prozesse
+   :PROPERTIES:
+   :CUSTOM_ID: synchronisation-kooperierender-prozesse
+   :END:
++ Bisher wurden nur um gemeinsame Betriebsmittel konkurrierende
+  Prozesse betrachtet, die sonst nichts miteinander zu tun hatten.
++ Kooperation zwischen Prozessen kann z.B. heißen, dass Nachrichten
+  zwischen einem Erzeuger und einem Verbraucher ausgetauscht werden
+  (/producer-consumer-problem/).
++ Nachrichtenaustausch soll gepuffert erfolgen, um Erzeuger und
+  Verbraucher bezüglich ihrer Arbeitsgeschwindigkeit zu entkoppeln.
++ Ringpuffer fester Größe kann nur eine feste Anzahl von Nachrichten
+  speichern.
++ Abbildung zeigt einen teilweise gefüllten Ringpuffer mit zwei
+  Zeigern, =c= für den Verbraucher und =p= für den Erzeuger.  
+  [[file:./Abbildungen/ringpuffer.png]]
+
++ Beide Prozesse bearbeiten den Puffer im Uhrzeigersinn. Durch die
+  Prozesssynchonisation muss verhindert werden, dass sie sich
+  gegenseitig „überholen”.
+
+*** Sychronisation von Erzeuger un Verbraucher durch Semaphore
+
++ Die Prozesse benutzen jeweils eine Kommunikationsprozedur,
+  =SendeNachricht= und =EmpfangeNachricht=, die dafür sorgen, dass
+  derErzeuger wartet, wenn der Puffer voll ist, und der Verbraucher,
+  wenn der Puffer leer ist.
+
+
+#+BEGIN_nebeneinander
+*Konsument*
+#+BEGIN_src java
+EmpfangeNachricht(puffer)
+  while (true) {
+     belegt.wait();
+     mutex.wait();
+     nachricht = holeAusPuffer(); 
+     mutex.signal();
+     frei.signal();
+     konsumiere(nachricht); 
+  }
+#+END_src 
+#+END_nebeneinander
+#+BEGIN_nebeneinander
+*Produzent*
+#+BEGIN_src java
+SendeNachricht(puffer)
+  while (true) {
+     nachricht = erzeuge();
+     frei.wait();
+     mutex.wait();
+     schreibeInPuffer(nachricht); 
+     mutex.signal();
+     belegt.signal();
+  }
+#+END_src 
+#+END_nebeneinander
+#+begin_clear 
+#+end_clear
+
+Initialisierung: =mutex.zaehler = 1; frei.zaehler = max; belegt.zaehler = 0;=
+
+**** Nachteil dieser Lösung 
++ Die Verantwortung für die korrekte Synchronisation bzw. deren
+  korrekte Programmierung liegt bei den Prozessen.
++ Programmierfehler können dabei zu schwer reproduzierbarem
+  Fehlverhalten (z.B. Verklemmungen) führen. 
+
+*** Weitere klassische Synchronisationsprobleme
++ Readers-Writers-Problem ::
+  + Einige Prozesse/Threads wollen einen Datenbereich lesen, einige
+    wollen ihn verändern.
+  + Gleichzeitiger Lesezugriff ist erlaubt.
+  + Schreibzugriffe müssen exklusiv erfolgen.
++ Dining-Philosophers-Problem :: 
+  + Fünf Philosophen sitzen um einen runden Tisch, denken nach und
+    essen Reis mit Stäbchen.  
+  + Zwischen den Tellern liegt jeweils ein Stäbchen, zum Essen braucht man aber zwei.
+
+** Monitore
++ *Programmiersprachliches* Konstrukt, funktional äquivalent zu Semaphoren
++ Kritische Methoden und Daten werden in einer Klasse mit einem
+  zugehörigen Semaphor kombiniert. 
++ Leichter zu handhaben, weniger fehleranfällig
++ Unterstützung der Synchronisation durch /Bedingungsvariablen/
+
+** Synchronisation durch Nachrichtenaustausch
+
++ Die bisher betrachteten Synchronisationsprimitive sind nur
+  einsetzbar, wenn die beteiligten Prozesse Zugriff auf einen
+  gemeinsamen Speicherbereich (shared memory) haben, in dem sich
+  z.B. die Semaphorvariablen befinden.
++ Auf diese Art ist daher die Synchronisation in Verteilten Systemen,
+  wo Prozesse auf unterschiedlichen Maschinen ablaufen können, nicht
+  möglich.
++ Hierfür werden neue Synchronisationsprimitive (Aufrufe des
+  Systemkerns), die auf dem Austausch von Nachrichten (/message
+  passing/) basieren, eingeführt:
+
+  =send(destination,message)= \\
+  =receive(source,message)=
+#+Reveal: split
++ Mit =send= und =receive= können Prozesse synchronisiert werden, die
+  auf Prozessoren ohne gemeinsamen Speicher ablaufen. 
++ Bei einem Aufruf von =send= wird der Prozess blockiert, wenn keine
+  Nachricht übermittelt werden kann. Bei einem Aufruf von =receive=
+  wird der Prozess blockiert, wenn keine Nachricht verfügbar ist.
+
+*** Mögliche Schwierigkeiten bei der Nachrichtenübermittlung:
+
++ Verlust einer Nachricht\\
+  Abhilfe: jede gesendete Nachricht muss quittiert werden
+  (/acknowledgement/), wiederholen der Nachricht beim Ausbleiben der
+  Quittung 
++ Verlust der Quittung
++ doppeltes Eintreffen einer Nachricht beim Empfänger\\
+  Abhilfe: Numerieren der Nachrichten
++ Eindeutige Benennung (Adressierung) von:
+  + Prozessoren
+  + Maschinen
+  + /domains/
++ Sicherheitsprobleme
++ Effizienz, wenn Sender und Empfänger auf der gleichen Maschine laufen
+
+*** Behandlung des /Producer-Consumer-Problems/ mit /message passing/:
+
+Annahmen:
++ Nachrichten haben feste Länge.
++ Gesendete, aber noch nicht empfangene Nachrichten werden vom
+  Betriebssystem automatisch gepuffert. 
++ Maximal =max= Nachrichten können gepuffert werden.
+
+#+BEGIN_src pascal 
+    Consumer:
+        for i := 1 to max do send(producer,emptymessage);
+        while true do begin
+           receive(producer,message);
+           extract_data(message);
+           send(producer,emptymessage);
+           process(data);
+        end
+
+    Producer:
+        while true do begin
+           produce_data(data);
+           receive(consumer,emptymessage);
+           build_message(message,data);
+           send(consumer,message);
+        end
+#+END_src
+
+**** Anmerkungen:
++ Die Zahl der Nachrichten bleibt konstant.
++ Für Pufferung ist ein fester Speicherbereich vorgesehen.
++ Pufferung und Adressierung erfolgt durch sog. /mailboxes/ bei Sender
+  und Empfänger.
++ in UNIX entsprechen sogenannte /pipes/ den /mailboxes/.
+
+** Threads
+*** Prozesse und Threads
++ Prozess ::
+  + ein in Ausführung befindliches Programm
+  + benötigt Ressourcen: Prozessor, Speicher (Programmcode, Daten,
+    Stack), Dateien, E/A-Geräte
+  + bislang betrachtet: sequentiell arbeitende Prozesse (nur ein Ausführungsstrang)
++ Thread ::
+  + ein Ausführungsstrang innerhalb eines Prozesses
+  + benötigt: Prozessor, eigenen Stack
+  + nutzt: Programmcode, Daten, Dateien, E/A-Geräte des Prozesses
+  + Mehrere Threads innerhalb eines Prozesses möglich
+
+#+Reveal: split
+#+attr_html: :width 400px
+[[file:./Abbildungen/prozessthreads.png]]
+***  Beispiele für Multithreading
++ Anwendungen mit graphischer Benutzeroberfläche, z.B. Textverarbeitung:
+  + Texteingabe
+  + Rechtschreibprüfung
+  + Ausdruck
++ Serversoftware, z.B. Webserver, DB-Server:
+  + Administration
+  + Simultane Bearbeitung vieler Anfragen
+*** Vorteile von Multithreading
++ Kürzere Antwortzeiten :: Bei interaktiven Anwendungen kann auch auf
+     Benutzereingaben reagiert werden, während andere, langandauernde
+     Aufgaben durchgeführt werden.
++ Gemeinsame Nutzung von Ressourcen :: Auf gemeinsamen Speicher sowie
+     gemeinsame Dateien und E/A-Geräte kann ohne weiteren Aufwand
+     zugegriffen werden.
++ Wirtschaftlichkeit :: Die Erzeugung eines neuen Threads und der
+     Wechsel zwischen zwei Threads eines Prozesses verursacht
+     erheblich weniger Auf- wand (im Vergleich zur
+     Prozesserzeugung/zum Prozesswechsel).
++ Nutzung von Multiprozessorarchitekturen :: Auch ein einziger
+     multithreading Prozess kann gleichzeitig mehrere Prozessoren
+     nutzen.
+***  Anwender- und Kernel-Threads
++ Anwender-Threads :: Erzeugung, Scheduling und Verwaltung der Threads
+     erfolgt über spezielle Programm-Bibliotheken auf Ebene des
+     Anwendungsprogramms. Für den Kernel besteht das Programm aus
+     einem einzigen, single-threaded Prozess.
+  + Vorteil :: effizient (Kernel muss nicht eingreifen) 
+  + Nachteil :: Muss ein Thread warten, müssen es alle.
++ Kernel-Threads :: Erzeugung, Scheduling und Verwaltung der Threads
+                    werden durch das Betriebssystem unterstützt.
+  + Vorteile :: Verteilung auf mehrere Prozessoren möglich; ein
+                wartender Thread behindert die anderen Threads nicht.
+  + Nachteil :: Etwas langsamer als Anwender-Threads.
+*** Multithreading-Modelle
++ Many-to-One-Modell ::
+  + Mehrere Anwender-Threads werden auf einen Kernel-Thread abgebildet.
+  + Beispiele: Green-Thread-Library bei Solaris 2, POSIX Pthread-
+    Library, Betriebssysteme ohne Thread-Unterstützung
++ One-to-One-Modell ::
+  + Jeder Thread eines Anwendungsprogramms wird auf genau einen
+    Kernel-Thread abgebildet
+  + Beispiele: Windows NT, Windows 2000, OS/2
++ Many-to-Many-Modell ::
+  + Die Threads der Anwendungsprogramme werden auf eine Anzahl von Kernel-Threads gemultiplext.
+  + Beispiele: IRIX, HP-UX, Tru64 UNIX
+*** Multithreading-Modelle: Many-to-One
+#+attr_html: :width 400px
+[[file:./Abbildungen/manytoone.png]]
+
+*** Multithreading-Modelle: One-to-One
+#+attr_html: :width 400px
+[[file:./Abbildungen/onetoone.png]]
+
+*** Multithreading-Modelle: Many-to-Many
+#+attr_html: :width 400px
+[[file:./Abbildungen/manytomany.png]]
+
+* Verklemmungen
+** Definition:
+Eine Verklemmung (/deadlock/) bedeutet, dass zwei oder mehr Prozesse
+auf Ereignisse warten, die niemals eintreten werden
+(„Nach-Ihnen-Nach-Ihnen”-Schleifen, warten im „Kreis”).
+
+*Beispiel:* Verschachtelung von kritischen Abschnitten
+
+| P1 : | P(a) | ... | P(b) | ... | V(b) | ... | V(a) |
+| P2 : | P(b) | ... | P(a) | ... | V(a) | ... | V(b) |
+
+Das Auftreten von Verklemmungen ist zeitabhängig. Ursachen sind im
+laufenden System schwer feststellbar und nicht ohne weiteres
+reproduzierbar.
+
+** Vier notwendige und hinreichende Bedingungen für das Auftreten von Verklemmungen:
+
++ „Wechselseitiger Ausschluss”-Bedingung ::
+   Ein Betriebsmittel, um das Prozesse konkurrieren, ist entweder frei
+   oder genau einem Prozess zugewiesen.
++ „Halte-und-warte”-Bedingung ::
+   Prozesse mit bereits zugewiesenen Betriebsmitteln dürfen weitere
+   Betriebsmittel anfordern (/hold and wait/).
++ „Kein-Entzug”-Bedingung ::
+   Prozesse geben Betriebsmittel nur von sich aus frei. Betriebsmittel
+   können ihnen nicht zwangsweise entzogen werden.
++ „Zirkuläres-Warten”-Bedingung ::
+   Zwei oder mehr Prozessse warten wechselseitig auf Betriebsmittel, die
+   von dem/den jeweils anderen gehalten werden.
+
+#+Reveal: split
+
+Die vierte Bedingung wird, wie in Abbildung gezeigt, zur
+Modellierung von Verklemmungssituationen durch Graphen zum Zwecke der
+Verklemmungserkennung benutzt.
+
+[[file:./Abbildungen/deadlock.png]]
+
+** Vier Strategien mit dem Verklemmungsproblem umzugehen:
++ Verklemmungen unmöglich machen
++ Verklemmungen vermeiden
++ Verklemmungen erkennen und beseitigen
++ Verklemmungen ignorieren
+*** Verklemmungen unmöglich machen
++ Wechselseitigen Ausschluss verhindern (Bedingung 1 ist aufgehoben)
+  + Z. B. Einrichten eines Druckerdaemonen
+  + Probleme: nicht für alle Betriebsmittel geeignet, nur Verlagerung
+    auf andere Betriebsmittel
++ Zusätzliche Betriebsmittelanforderungen verbieten (Bedingung 2 ist
+  aufgehoben)
+  + Z. B. Anforderung aller benötigten Betriebsmittel zu Prozessbeginn
+  + Probleme: Unnötig lange Belegung der Betriebsmittel, schlechte
+    Betriebsmittelauslastung
+#+Reveal: split
++ Vorzeitige Betriebsmittelrückgabe erzwingbar machen (Bedingung 3 ist
+  aufgehoben)
+  + Z.B. Entzug nach einer bestimmten Zeit
+  + Bei CPU selbstverständlich, bei E/A-Geräten meist nicht sinnvoll.
+  + Probleme: muss ggf. auf Programmebene berücksichtigt werden,
+    bereits geleistete Arbeitsleistung geht verloren
++ Zirkularität unterbinden (Bedingung 4 ist aufgehoben)
+  + Z. B. lineare oder hirarchische Ordnung der Betriebsmittel,
+    Anforderungen dann nur gemäß dieser Ordnung
+  + Probleme: keine allgemein brauchbare Ordnung angebbar, deshalb oft
+    schlechte Auslastung 
+*** Verklemmungsvermeidung
+beruht auf der Grundidee, die Betriebsmittelanforderungen der Prozesse
+in eine „verklemmungsfreie” Reihenfolge zu bringen. Die Algorithmen
+(Vgl. Bankiersalgorithmus) hierfür sind teiweise sehr komplex und auch
+nur anwendbar, wenn der gesamte Betriebsmittelbedarf der Prozesse im
+Vorhinein bekannt ist, was in der Praxis häufig nicht der Fall ist.
+Nichtsdestotrotz hat sich um dieses Thema herum eine eigene
+mathematische Theorie entwickelt, auf die hier aber nicht eingegangen
+wird.
+**** Bankiersalgorithmus
++ Betrachtung der Betriebsmittelanforderungen als gleichzeitig
+  auftretende Maximalforderungen
++ Unterscheidung von
+  + /sicheren/ Zuständen (Verklemmung nicht möglich)
+  + /unsicheren/ Zuständen (Verklemmung nicht zwingend, bei
+    ungünstiger Anforderungsreihen- folge aber möglich)
++ Weitere Prozesse werden nur gestartet, wenn kein unsicherer Zustand
+  entsteht.
++ Auf die Darstellung weiterer Details wird hier verzichtet.
+**** Probleme der Verklemmungsvermeidung
++ I. A. Zahl der maximal benötigten Betriebsmittel unbekannt
++ Ständig wechselnde Zahl von Prozessen
++ Zahl der verfügbaren Betriebsmittel ebenfalls veränderlich
++ Algorithmus ist laufzeit- und speicherintensiv
+*** Verklemmungen erkennen
++ Analyse bei verdächtigen Symptomen:
+  + viele Prozesse warten und der Prozessor ist unbeschäftigt
+  + mindestens zwei Prozesse warten zu lange auf Betriebsmittel
++ Bei Verdacht Start eines Erkennungsalgorithmus
+  + B. Zyklen-Erkennung im Betriebsmittelgraphen
+*** Verklemmungen beseitigen
++ Prozesse abbrechen
++ Prozesse zurücksetzen
++ Betriebsmittel entziehen
++ Probleme: 
+  + Prozess-/Betriebsmittelauswahl
+  + Verlust bereits geleisteter Arbeit
+  + Mögliche Inkonsistenzen
+  + U. U. manueller Mehraufwand erforderlich
+*** Verklemmungen ignorieren
++ Erkennung von Verklemmungen aufwendig
++ Beseitigung von Verklemmungen nicht unproblematisch
++ Vermeidung bzw. Unmöglichmachen von Verklemmungen u. U. wenig effizient
++ Verklemmungen sind in der Regel nicht das dringlichste Problem
+* verwendete Literatur
++ cite:Bengel2015
++ cite:CACM2017
++ cite:CACM2016
++ cite:Subramanian2017
+* bibliography:referenzen.bib
+ 

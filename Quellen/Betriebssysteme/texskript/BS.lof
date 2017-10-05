@@ -1,0 +1,24 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Beschreibungsebenen eines informationsverarbeitenden Systems}}{5}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Batch-System, Bild entnommen aus \cite {tanenbaum}}}{7}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Batch-Job als Kartenstapel, Bild entnommen aus \cite {tanenbaum}}}{8}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Prozessorauslastung und Durchsatz bei Online- und Offline-Betrieb}}{9}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Aufteilung der Bearbeitungszeit zwischen Prozessor und Peripherieger\IeC {\"a}ten}}{10}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Mehrfachnutzung der CPU durch zwei Programme}}{10}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Aufteilung des Hauptspeichers bei Mehrprogrammbetrieb}}{11}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Ringpuffer f\IeC {\"u}r den Nachrichtenaustausch}}{19}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Hierarchische Proze\IeC {\ss }struktur mit Monitor}}{21}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Modellierung einer Verklemmungssituation durch einen Graphen}}{24}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces M\IeC {\"o}gliche Zustands\IeC {\"u}berg\IeC {\"a}nge f\IeC {\"u}r einen Proze\IeC {\ss }}}{26}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Aufteilung des Hauptspeichers}}{33}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Speicherhierarchie}}{33}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Varianten von Speichern mit wahlfreiem Zugriff}}{34}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Zusammenwirken zwischen Haupt- und Pufferspeicher}}{35}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Umsetzung einer virtuellen in eine reale Adresse}}{37}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Abbildung logischer Segmente des virtuellen Adre\IeC {\ss }raum auf physische Segmente im Hauptspeicher}}{38}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Abbildung von virtuellen Seiten auf Rahmen im Hauptspeicher}}{40}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Zusammensetzung einer realen Hauptspeicheradresse}}{41}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces \active@dq \dq@prtct {`}Momentaufnahme\active@dq \dq@prtct {'} einer Speicheraufteilung}}{42}
+\addvspace {10\p@ }

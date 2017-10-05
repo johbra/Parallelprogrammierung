@@ -1,0 +1,28 @@
+Von: Uwe Neuhaus <Uwe.Neuhaus@gmx.net>
+Datum: 30. September 2005 21:41:11 MESZ
+An: j.brauer@nordakademie.de
+Betreff: Ergänzung zu BS-Folien
+
+Hallo Johannes,
+
+hier noch weitere Betriebssystemfolien:
+- Zwei Einheiten zur Speicherverwaltung. (Hatte ich im letzten Jahr [und bei 
+den Folien, die ich dir bereits geschickt habe] zu einer Einheit 
+komprimiert.)
+- Eine Einheit zu Dateisystemen (Habe ich nur nach Bedarf eingesetzt.)
+- Eine Einheit zur Ein-/Ausgabe (Hatte ich früher verwendet. Meist blieb dafür 
+keine Zeit mehr. Außerdem ist die Einheit nicht ganz aktuell (das 
+Festplatten-Scheduling ist heutzutage keine Aufgabe des BS mehr, sondern wird 
+(für das BS transparent) vom Controller übernommen.
+
+Viele Grüße
+
+Uwe
+
+--------------------------------------------
+Uwe Neuhaus
+Arnoldstraße 51
+22763 Hamburg
+Tel.: 040-49292817
+E-Mail: Uwe.Neuhaus@gmx.net
+    

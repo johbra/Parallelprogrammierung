@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+<!-- 2017-10-05 Thu 12:16 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parallelprogrammierung &#x2013; Grundlagen</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Johannes Brauer" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/bigblow/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/bigblow/css/bigblow.css"/>
+<link rel="stylesheet" type="text/css" href="styles/bigblow/css/hideshow.css"/>
+<script type="text/javascript" src="styles/bigblow/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery.localscroll-min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/bigblow.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/hideshow.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<link rel="stylesheet" type="text/css" href="mycss/mystyle.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2017 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Parallelprogrammierung &#x2013; Grundlagen</h1>
+
+<div id="outline-container-orgea731d2" class="outline-2">
+<h2 id="orgea731d2">Ein wenig Geschichte &#x2026;</h2>
+<div class="outline-text-2" id="text-orgea731d2">
+</div><div id="outline-container-orgc424368" class="outline-3">
+<h3 id="orgc424368">&#x2026; der Rechensysteme</h3>
+<div class="outline-text-3" id="text-orgc424368">
+<p>
+(vgl. <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>)
+</p>
+<dl class="org-dl">
+<dt>1970 &#x2013; Stapelverarbeitung</dt><dd><ul class="org-ul">
+<li>Einlesen von Aufträgen (jobs) und Bearbeitung durch die Maschine</li>
+<li>Job-Scheduler bestimmt die Abarbeitungsreihenfolge</li>
+<li><i>non-blocking IO</i> kommt zum Einsatz (Nebenläufigkeit)</li>
+</ul></dd>
+<dt>1975 &#x2013; Timesharing-Systeme</dt><dd><ul class="org-ul">
+<li>interaktives Arbeiten mittels Kommandozeilen-Befehlen</li>
+<li>Mehrbenutzerbetrieb</li>
+<li>Zuteilung von Zeitscheiben</li>
+</ul></dd>
+<dt>1980 &#x2013; Personal Computer und Workstation</dt><dd><ul class="org-ul">
+<li>hohe Rechenleistung am Arbeitsplatz</li>
+<li>Rückkehr zum Einbenutzerbetrieb</li>
+<li>Kommandozeile + graphische Benutzungsoberflächen</li>
+<li>Insellösungen &#x2013; kein Zugriff auf gemeinsame Betriebsmittel</li>
+<li>Notlösung: peer-to-peer-Netze</li>
+</ul></dd>
+<dt>1985 &#x2013; Client-Server-Systeme</dt><dd><ul class="org-ul">
+<li>Zentralisierung bestimmter Dienste auf dedizierten Rechnern (server)</li>
+<li>neue Betriebssystemkonzepte für Netzwerknutzung erforderlich</li>
+</ul></dd>
+<dt>1990 &#x2013; Cluster-Systeme</dt><dd><ul class="org-ul">
+<li>auch <i>Verteilte Systeme</i></li>
+<li>mehrere Rechner bzw. Multiprozessorsysteme teilen sich die Dienstserbringung</li>
+<li>zur Erhöhung von Leistung und Ausfallsicherheit</li>
+<li>Load Balancing Cluster / Serverfarmen</li>
+<li>High Performance Computing (HPC) Cluster
+<ul class="org-ul">
+<li>Geschwindigkeitssteigerung durch Parallelisierung von Aufgaben</li>
+<li>bei Ausfall eines Systems übernimmt ein anderes Cluster-Mitglied
+dessen Aufgaben</li>
+</ul></li>
+</ul></dd>
+<dt>1995 &#x2013; Peer-to-Peer-Systeme</dt><dd><ul class="org-ul">
+<li>jede Maschine kann Client und Server sein</li>
+<li>höhere Ausfallsicherheit</li>
+</ul></dd>
+<dt>2005 &#x2013; Cloud-Systeme oder Cloud-Computing</dt><dd><ul class="org-ul">
+<li>Rezentralisierung der Rechenleistung durch Virtualisierung</li>
+<li>Zugriff auf Ressourcen über Internet oder Intranet</li>
+</ul></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org4794fc4" class="outline-3">
+<h3 id="org4794fc4">&#x2026; der Technologie</h3>
+<div class="outline-text-3" id="text-org4794fc4">
+<p>
+&#x2026; der Prozessoren und Speicherchips
+</p>
+<ul class="org-ul">
+<li>Mooresches Gesetz von 1965: Verdoppelung der Anzahl der Transistoren
+auf einem Chip ca. alle 18 Monate &#x2013; gilt noch heute</li>
+<li>Entwicklung der Mikroprozessoren am Beispiel von Intel
+<ul class="org-ul">
+<li>1971: Intel 4004, Transistoren: 2300, Taktrate: 108 kHz</li>
+<li>1999: Pentium III, Transistoren: 9.500.000, Taktrate: bis 1 GHz</li>
+<li>2000 bis 2008: Pentium 4, Transistoren: 42.000.000, Taktrate: bis
+3,8 GHz</li>
+</ul></li>
+<li>Speicherkapazität pro Chip
+<ul class="org-ul">
+<li>1970: 1 Kilobit</li>
+<li>heute: 1 Gigabit</li>
+</ul></li>
+<li>Preisverfall bei MIPS und Kosten pro Bit</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1188458" class="outline-2">
+<h2 id="org1188458">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
+<div class="outline-text-2" id="text-org1188458">
+<p>
+(vgl.  <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>)
+</p>
+</div>
+<div id="outline-container-orgb2ded60" class="outline-3">
+<h3 id="orgb2ded60">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
+<div class="outline-text-3" id="text-orgb2ded60">
+<p>
+(vgl. <a class='org-ref-reference' href="#Flynn1972">Flynn1972</a>)
+</p>
+<ul class="org-ul">
+<li>Anmerkungen:
+<ul class="org-ul">
+<li>Die Taxonomie sagt nichts darüber aus, ob die Architektur ein
+einzelnes oder ein verteiltes System beschreibt.</li>
+<li>TDie Taxonomie ist schon recht alt, wird aber als Referenz nach
+wie vor benutzt.</li>
+</ul></li>
+<li>Abkürzungen:<br />
+D = Daten<br />
+I = Befehle (Instruktionen)<br />
+P = Prozessor<br />
+S steht für <i>single</i>, M für <i>multiple</i>.
+<ul class="org-ul">
+<li>Parallelität im Sinne dieser Taxonomie erfordert immer mehrere
+Prozessoren (P).</li>
+</ul></li>
+</ul>
+<dl class="org-dl">
+<dt>SISD: single instruction, single data</dt><dd><ul class="org-ul">
+<li>keine Form von Parallelität</li>
+</ul></dd>
+</dl>
+<pre class="example">
+   +----------+    +---+    +----------+
+   | D source |---&gt;| P |&lt;---| I source |                 
+   +----------+    +---+    +----------+
+</pre>
+<dl class="org-dl">
+<dt>SIMD: single instruction, multiple data</dt><dd><ul class="org-ul">
+<li>Unterstützung in verschiedenen Programmiersprachen</li>
+<li>heutzutage besonders relevant</li>
+</ul></dd>
+</dl>
+<pre class="example">
+   +----------+    +---+
+   | D source |---&gt;| P |&lt;---+
+   +----------+    +---+    |
+   +----------+    +---+    |  +----------+
+   | D source |---&gt;| P |&lt;---+--| I source |               
+   +----------+    +---+    |  +----------+
+   +----------+    +---+    |
+   | D source |---&gt;| P |&lt;---+
+   +----------+    +---+
+</pre>
+<dl class="org-dl">
+<dt>MISD: multiple instruction, single data</dt><dd><ul class="org-ul">
+<li>kaum praktische Bedeutung</li>
+</ul></dd>
+</dl>
+<pre class="example">
+                      +---+    +----------+
+                 +---&gt;| P |&lt;---| I source |
+                 |    +---+    +----------+
+   +----------+  |    +---+    +----------+
+   | D source |--+---&gt;| P |&lt;---| I source |               
+   +----------+  |    +---+    +----------+ 
+                 |    +---+    +----------+
+                 +---&gt;| P |&lt;---| I source | 
+                      +---+    +----------+
+</pre>
+<dl class="org-dl">
+<dt>MIMD: multiple instruction, multiple data</dt><dd><ul class="org-ul">
+<li>am ehesten in verteilten Systemen anzutreffen</li>
+</ul></dd>
+</dl>
+<pre class="example">
+   +----------+    +---+    +----------+
+   | D source |---&gt;| P |&lt;---| I source |
+   +----------+    +---+    +----------+
+   +----------+    +---+    +----------+
+   | D source |---&gt;| P |&lt;---| I source |                  
+   +----------+    +---+    +----------+
+   +----------+    +---+    +----------+
+   | D source |---&gt;| P |&lt;---| I source |
+   +----------+    +---+    +----------+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org06ad257" class="outline-3">
+<h3 id="org06ad257">Ausprägungen</h3>
+<div class="outline-text-3" id="text-org06ad257">
+</div><div id="outline-container-org9f19ba4" class="outline-4">
+<h4 id="org9f19ba4">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
+<div class="outline-text-4" id="text-org9f19ba4">
+<ul class="org-ul">
+<li>mehrere Prozesse können <i>echt</i> parallel ablaufen (auf
+Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
+<li>gemeinsamer Hauptspeicher</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc71b103" class="outline-4">
+<h4 id="orgc71b103">Vektorrechner</h4>
+<div class="outline-text-4" id="text-orgc71b103">
+<ul class="org-ul">
+<li>Ausführung einer Berechnung gleichzeitig auf vielen Daten</li>
+<li>Anordnung der Daten als Vektor bzw. Matrix</li>
+<li>Beispiel für SIMD-Architektur</li>
+<li>High-Performance-Computing</li>
+<li>bekannt geworden ursprünglich durch Cray-Supercomputer (seit 1978)</li>
+<li>genutzt z. B. für Simulationen (Meteorologie)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org82e2549" class="outline-4">
+<h4 id="org82e2549">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
+<div class="outline-text-4" id="text-org82e2549">
+<ul class="org-ul">
+<li>ursprünglich bestehend aus beschränkt programmierbaren
+Spezialprozessoren für Fließkommaoperationen</li>
+<li>inzwischen frei programmierbare Prozessoren (tausende von Kernen),
+dadurch</li>
+<li>nutzbar nicht nur für Grafikanwendungen</li>
+<li>Verwendbarkeit in höheren Programmiersprachen durch spezielle
+Bibliotheken wie z. B. CUDA von Nvidia</li>
+<li>Beispiel für SIMD-Architektur</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9380d45" class="outline-4">
+<h4 id="org9380d45">Lose gekoppelte Multiprozessoren</h4>
+<div class="outline-text-4" id="text-org9380d45">
+<ul class="org-ul">
+<li>kein gemeinsamer Speicher</li>
+<li>Synchronisation und Kommunikation durch Nachrichtenaustausch</li>
+<li>Ziele: Erhöhung der Leistung, Erhöhung der Verfügbarkeit</li>
+<li>MIMD möglich</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfd77ff8" class="outline-2">
+<h2 id="orgfd77ff8">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
+<div class="outline-text-2" id="text-orgfd77ff8">
+</div>
+<div id="outline-container-org7ea2082" class="outline-3">
+<h3 id="org7ea2082">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
+<div class="outline-text-3" id="text-org7ea2082">
+<ul class="org-ul">
+<li>For now, concurrency is "handling many tasks during the same time span":
+<ul class="org-ul">
+<li>Any app with a GUI (e.g., a game) needs to manage the GUI and perform the underlying logic.</li>
+<li>A typical network app queues up requests, which then need to be handled concurrently.</li>
+</ul></li>
+<li>For now, (true) parallelism is "processing many tasks literally at the same time."
+<ul class="org-ul">
+<li>The tasks in a concurrent app would be farmed out to separate processors for true parallelism.</li>
+<li>True parallelism requires multiple processors.
+<ul class="org-ul">
+<li>Multiprocessor machines now are available at consumer prices.</li>
+</ul></li>
+</ul></li>
+<li>Two 'classic' mechanisms for concurrency: multiprocessing and multithreading.
+<ul class="org-ul">
+<li>Each mechanism supports true parallelism on a multiprocessor machine.</li>
+</ul></li>
+<li>Non-blocking I/O enables quick jumps from one I/O task to another, thereby supporting
+concurrency without parallelism.
+<ul class="org-ul">
+<li>Non-blocking I/O typically is used in conjunction with  a 'classic' approach:
+<ul class="org-ul">
+<li>The nginx web server: multiprocessing + non-blocking I/O</li>
+<li>Node.js: non-blocking I/O at the API level, multithreading under the hood.</li>
+</ul></li>
+</ul></li>
+<li>Summary
+<ul class="org-ul">
+<li>Concurrency is a requirement for many modern apps, and there are various ways to enable it.</li>
+<li>Parallelism boosts performance by increasing throughput: more work done in a given amount of time.
+<ul class="org-ul">
+<li>Concurrent tasks can be executed in parallel on a multiprocessor machine.</li>
+</ul></li>
+<li>Non-blocking I/O is used mostly in combination with multiprocessing or multithreading</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgea12af8" class="outline-3">
+<h3 id="orgea12af8">Concurrency and parallelism: working technical definitions</h3>
+<div class="outline-text-3" id="text-orgea12af8">
+<pre class="example">
+      client requests  +------------+   ## Task1: handle request1
+    ------------------&gt;| web server |   ## Task2: handle request2
+                       +------------+      ...
+</pre>
+
+<dl class="org-dl">
+<dt>1st scenario</dt><dd><p>
+a single-processor machine with time-sliced scheduling 
+</p>
+<ul class="org-ul">
+<li>Assume each task is scheduled for a fixed-length time slice, and
+then is pre-empted and rescheduled if its processing exceeds that
+time slice.</li>
+</ul>
+<pre class="example">
+               Time span (TS) = Start to Finish
+Start time                                         Finish time
+         |                                         |
+         +-----------------------------------------+   ## each star * is one 
+          \             /\         /\             /       system-clock tick
+           ****Task1****  **Task2**  ****Task1****     ## Task1 (16 ticks) and Task2 
+                                                         (4 ticks) share the processor
+</pre>
+
+<ul class="org-ul">
+<li>Task1 and Task2 are processed concurrently during time span TS: their processing overlaps during TS.
+<ul class="org-ul">
+<li>Task1 and Task2 are not processed in parallel, as there's but a single processor that must be shared.</li>
+</ul></li>
+<li>1st scenario exhibits concurrency, but not true parallelism.</li>
+</ul></dd>
+
+<dt>2nd scenario</dt><dd><p>
+a multi-processor machine (assume two for simplicity)
+</p>
+<pre class="example">
+                 Time span 
+Start time                       Finish time
+         |                       |
+         +-----------------------+
+          \                     /
+           ********Task1********      ### Executing on processor1
+		   \         /
+		    **Task2**         ### Executing on processor2
+</pre>
+
+<ul class="org-ul">
+<li>Task1 and Task2 again are processed concurrently (during the same time span TS).</li>
+<li>Task1 and Task2 also are processed in parallel for a while&#x2013;for 4
+ticks (Task2's processing time).</li>
+<li>The machine's throughput is improved: Task1 and Task2 both
+complete within 16 time units, the time taken to process Task1,
+the longer of the two.
+<ul class="org-ul">
+<li>1st scenario requires 20 clock ticks (each 1 time unit) to complete the two tasks.</li>
+<li>2nd scenario requires 16 clock ticks to complete the two tasks, a 20% improvement.</li>
+</ul></li>
+</ul></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org0736a5b" class="outline-3">
+<h3 id="org0736a5b">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
+<div class="outline-text-3" id="text-org0736a5b">
+<ul class="org-ul">
+<li><p>
+The systems context: user-space and kernel-space code
+</p>
+<ul class="org-ul">
+<li>User-space code does not control shared physical resources (processors, memory, I/O devices).
+<ul class="org-ul">
+<li>Ordinary applications execute in user space.</li>
+</ul></li>
+<li>Kernel-space code comprises the core OS routines that control shared physical resources.</li>
+<li>A "system call" originates in user-space, but results in the execution of a kernel-space routine.
+<ul class="org-ul">
+<li>Standard library functions (user-space) mediate between ordinary
+application code and the core OS routines (kernel-space) that
+some library functions call.</li>
+<li>The standard library goes by various names: on Unix-type
+systems, libc or variants thereof (e.g., glibc on Ubuntu); on
+Windows, the Windows API or variants thereof (e.g., Win32 API)</li>
+</ul></li>
+<li>Depiction: Node.js app calls the cluster.fork() function</li>
+</ul>
+<pre class="example">
+                                                            system call
+                                                 user space&lt;----+----&gt;kernel space
+                                                                |
+            calls                 calls                         | calls
+Node.js app-------&gt;cluster.fork()-------&gt;library function fork()|-------&gt;kernel routine 
+                                                                |     ## in Unix: fork
+                                                                |     ## in Linux: clone
+</pre></li>
+<li>Importance of C: The standard libraries and kernel routines are
+written mostly in C, with some assembly language or non-standard
+C extensions covering the rest.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0649218" class="outline-3">
+<h3 id="org0649218">Wrapup of the overview</h3>
+<div class="outline-text-3" id="text-org0649218">
+<ul class="org-ul">
+<li>Concurrency and parallelism are different.
+<ul class="org-ul">
+<li>Concurrency involves handling multiple tasks in the same time span.</li>
+<li>Parallelism involves processing multiple tasks literally at the same time.
+<ul class="org-ul">
+<li>True parallelism requires multiple processors.</li>
+</ul></li>
+<li>Parallelism is a performance-boosting way to manage concurrency.</li>
+</ul></li>
+<li>The classic approaches to concurrency are multiprocessing and multithreading.
+<ul class="org-ul">
+<li>Non-blocking I/O has emerged as an option as well, but one that's
+typically used in conjunction with multiprocessing or
+multithreading.</li>
+<li>Non-blocking I/O sometimes is described as 'concurrency without parallelism'.</li>
+</ul></li>
+<li>Different languages have difference advantages when it comes to
+studying concurrency, parallelism, and non-blocking I/O.
+<ul class="org-ul">
+<li>C is close to the metal: the system libraries and core OS routines at work under the hood.</li>
+<li>Whatever the application language, multiprocessing,
+multithreading, and non-blocking I/O calls in the language hit the
+C libraries and, from there, kernel-space routines.</li>
+<li>Java (C#), Go, Node.js and other languages have particular styles
+and strengths with respect to concurrency in particular.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org0358a37" class="outline-2">
+<h2 id="org0358a37">Parallelität vs. Nebenläufigkeit im Detail</h2>
+<div class="outline-text-2" id="text-org0358a37">
+</div><div id="outline-container-orga16ae13" class="outline-3">
+<h3 id="orga16ae13">Processes and threads</h3>
+<div class="outline-text-3" id="text-orga16ae13">
+<ul class="org-ul">
+<li>A process is a 'program in execution', each with its own address space.
+<ul class="org-ul">
+<li>Executing a program from the command-line is an example:
+<code>% hi.exe</code>  ## <code>%</code> is the command-line prompt, <code>hi.exe</code> is an executable program.</li>
+<li>The address space comprises the memory locations accessible to the process.</li>
+<li>Separate address spaces effectively partition memory among the processes.</li>
+</ul></li>
+<li>A thread is a sequence of executable instructions within a process.
+<ul class="org-ul">
+<li>A 1-instruction thread is trivial, and threads made up of tens of
+instructions are more typical.</li>
+<li>A single-threaded process has one thread, whereas a multithreaded process has multiple ones.</li>
+<li>Although there are different ways to implement threads (more on this later), the
+critical point is this:
+<ul class="org-ul">
+<li>Threads within a process share the same address space&#x2013;they have
+access to exactly the same memory locations. This is the root
+cause of race conditions.</li>
+<li>A 'race condition' arises when two or more threads concurrently
+access the same memory location and at least one of the threads
+tries to update the location. For instance, each thread might be
+executing the instruction:<br />
+   <code>n = random_num()</code>  ## <code>n</code> is a shared memory location among the threads, random<sub>num</sub>() returns a random number<br />
+   The result is unpredictable, except that the last thread to execute this 'wins'.</li>
+</ul></li>
+</ul></li>
+<li>Scheduling on modern systems: to schedule a process on a processor is to schedule one of its threads.</li>
+</ul>
+<pre class="example">
+  Process1    scheduled   +----------+
+    Thread11-------------&gt;|processor3|
+    Thread12              +----------+
+
+  Process2
+    Thread21
+    Thread22  scheduled   +----------+
+    Thread23-------------&gt;|processor7|
+                          +----------+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb22d583" class="outline-3">
+<h3 id="orgb22d583">Multiprocessing</h3>
+<div class="outline-text-3" id="text-orgb22d583">
+<p>
+A first look at multiprocessing: the command-line pipe operator <code>|</code>
+</p>
+<ul class="org-ul">
+<li><p>
+At the command line:
+</p>
+<pre class="example">
+cat file.txt | sort
+
+</pre>
+<ul class="org-ul">
+<li>The 'cat' (short for 'concatenate') on the left is one executing
+process, and the 'sort' on the right is another executing process.</li>
+<li>The 'sort' performs blocking I/O: it waits for all of the bytes
+from 'cat' before doing the sorting.</li>
+<li>If the machine has two processorss, 'cat' could execute on one and 'sort' on the other.</li>
+<li>The unnamed pipe operator | thus performs automatic multiprocessing.
+<ul class="org-ul">
+<li>A pipe is thus a mechanism for inter-process communication (IPC).</li>
+</ul></li>
+</ul></li>
+<li>Conceptual view of the pipe:</li>
+</ul>
+<pre class="example">
+                       pipe
+               +--------|-------+
+    writer----&gt;|WriteEnd|ReadEnd|&lt;----reader
+               +--------+-------+
+</pre>
+<ul class="org-ul">
+<li>The tasks at hand (producing the bytes in the file and then sorting
+the lines) are divided between two proceses, 'cat' and 'sort'.</li>
+<li>Two general approaches in code:
+<ul class="org-ul">
+<li>A parent process 'forks' (clones, spawns) a child process, and both
+execute code from the same program.	  
+<ul class="org-ul">
+<li>An if-else or the equivalent typically separates the parent code from the child code.</li>
+</ul></li>
+<li>A parent process forks a child, which then executes a separate program.</li>
+</ul></li>
+<li><p>
+A final example to underscore the point:
+</p>
+<pre class="example">
+sleep 5 | echo 'Hello, world!'  ## sleep sends no bytes to the pipe, and echo expects none
+
+</pre>
+<ul class="org-ul">
+<li>Hello, world! appears on the screen, and roughly 5 seconds later the prompt returns from the sleep command.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb30edde" class="outline-3">
+<h3 id="orgb30edde">Multithreading</h3>
+<div class="outline-text-3" id="text-orgb30edde">
+<p>
+A first look at multithreading: the Tomcat web server, written in Java
+</p>
+
+<ul class="org-ul">
+<li>Tomcat implements the 'one-thread-per-request' model for handling client requests.</li>
+<li>Tomcat runs as a single process, which is multithreaded.</li>
+<li>Web sites and services are deployed as JAR files (with a .war
+extension) dropped into a particular directory (TOMCAT<sub>HOME</sub>/webapps)
+or subdirectory thereof.
+<ul class="org-ul">
+<li><p>
+The WAR file's name (e.g., 'site1' in 'site1.war') becomes the first part of 'resource path'
+in a request URL:<br />
+</p>
+
+<p>
+<a href="http://somemachine.org:8080/site1/">http://somemachine.org:8080/site1/</a>&#x2026;    ## site1 for the site1.war file<br />
+<a href="http://somemachine.org:8080/site1/hi.jsp">http://somemachine.org:8080/site1/hi.jsp</a> ## a completed URL, with hi.jsp as the requested resourc
+</p></li>
+<li>Tomcat delegates each request for any WAR file to a thread, the 'one-thread-per-request' model
+<ul class="org-ul">
+<li>Code within the WAR file is thus susceptible to race conditions
+because multiple request-handling threads have access to the
+very same memory locations: the burden is on the programmer to
+ensure proper thread coordination.</li>
+</ul></li>
+</ul></li>
+<li>For efficiency, Tomcat creates a thread pool at start-up: indeed, two thread pools&#x2013;one for
+requests over HTTP, another for requests over HTTPS if HTTPS is enabled.</li>
+<li>Other Java-centric web servers, such as Jetty, implement the one-thread-per-request model as well.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga434c11" class="outline-3">
+<h3 id="orga434c11">Non-blocking I/O</h3>
+<div class="outline-text-3" id="text-orga434c11">
+<p>
+A first look at non-blocking I/O non-blocking I/O: two code examples
+</p>
+
+<ul class="org-ul">
+<li>A blocking 'getItem' (read) example</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span style="color: #0000FF;">!doctype</span> html&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span style="color: #006699;">html</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span style="color: #006699;">head</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span style="color: #006699;">title</span>&gt;<span style="color: #000000; font-weight: bold; text-decoration: underline;">Blocking I/O</span>&lt;/<span style="color: #006699;">title</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span style="color: #006699;">script</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.name = 'Flintstone';&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">line 1 </span><span style="color: #8D8D84;">--&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Before blocking call');&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">line 2 </span><span style="color: #8D8D84;">--&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var value = localStorage.getItem('name');&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">line 3 </span><span style="color: #8D8D84;">--&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('After blocking call: ' + value);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">line 4 </span><span style="color: #8D8D84;">--&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span style="color: #006699;">script</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span style="color: #006699;">head</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span style="color: #006699;">body</span>/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span style="color: #006699;">html</span>&gt;</p>
+</pre>
+</div>
+<ul class="org-ul">
+<li>The second alert occurs only after the blocking call to 'getItem' (line 3) returns.</li>
+</ul>
+<ul class="org-ul">
+<li>A non-blocking 'fetch' example in pseudo-code</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-java">    <span style="color: #6434A3;">define</span> <span style="color: #006699;">callbackFunction</span><span style="color: #707183;">(</span>Http-response<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
+       productList = extractProductListFromResponse<span style="color: #7388D6;">(</span>Http-response<span style="color: #7388D6;">)</span>
+       print<span style="color: #7388D6;">(</span>productList<span style="color: #7388D6;">)</span>                            ## print is blocking
+    <span style="color: #707183;">}</span>
+
+    <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">Main code </span>
+    url = <span style="color: #008000;">'http://some-machine.org/some-script-to-get-data'</span>
+    connection = getConnectionToRemoteMachine<span style="color: #707183;">(</span>url<span style="color: #707183;">)</span>
+    connection.fetch<span style="color: #707183;">(</span>callbackFunction<span style="color: #707183;">)</span>                   ## fetch<span style="color: #707183;">(</span>...<span style="color: #707183;">)</span> is non-blocking
+    print<span style="color: #707183;">(</span><span style="color: #008000;">'Hello, world!'</span><span style="color: #707183;">)</span>                               ## print is blocking
+    print<span style="color: #707183;">(</span><span style="color: #008000;">'Goodbye, cruel world!'</span><span style="color: #707183;">)</span>                       ## print is blocking</pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org49b587c" class="outline-3">
+<h3 id="org49b587c">Zusammenfassung</h3>
+<div class="outline-text-3" id="text-org49b587c">
+<p>
+Three approaches to concurrency: multiprocessing, multithreading, non-blocking I/O
+</p>
+
+<pre class="example">
+     client requests  +------------+   ## Task1: handle request1
+   ------------------&gt;| web server |   ## Task2: handle request2
+                      +------------+      ...
+</pre>
+
+<ul class="org-ul">
+<li>Multiprocessing: dispatch each task to a separate process ('program in execution')
+<ul class="org-ul">
+<li>For efficiency, "prefork" the processes by building a pool of these
+at start-up.  Then grab a process from the pool to act as the 'task
+handler'.</li>
+<li>When the task-handling process finishes its work, put it to sleep.</li>
+<li>Apache2, nginx, and IIS are production-grade examples.</li>
+</ul></li>
+
+<li>Multithreading: dispatch each task to a separate thread within a process.
+<ul class="org-ul">
+<li>Again for efficiency, build a thread-pool at start-up, and grab a
+thread from the pool to act as the 'task handler'.
+<ul class="org-ul">
+<li>When the task-handling thread finishes its work, put it to sleep.</li>
+<li>Tomcat and Jetty are production-grade examples.</li>
+</ul></li>
+</ul></li>
+<li>Non-blocking I/O: in its pure form, a single-threaded process that
+jumps quickly from one task to another, perhaps doing only partial
+processing of each task.
+<ul class="org-ul">
+<li>For example, the non-blocking web server might read (and cache)
+some bytes as part of Task1, then do the same for Task2, and so on
+until all of the request bytes for a given task have been read.
+<ul class="org-ul">
+<li>Node.js is the obvious 'pure' example (but even Node.js takes a hybrid approach).</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0699330" class="outline-3">
+<h3 id="org0699330">Hybrid approaches</h3>
+<div class="outline-text-3" id="text-org0699330">
+<ul class="org-ul">
+<li>There's no hard-and-fast rule about how best to support concurrency.
+<ul class="org-ul">
+<li>Multiprocessing, multithreading, and non-blocking I/O can be used in various combinations.</li>
+</ul></li>
+<li><p>
+Sample hybrids
+</p>
+<ul class="org-ul">
+<li>Multiprocessing + multithreading: IIS (Windows web server) and AspNet runtime</li>
+</ul>
+<pre class="example">
+  client side                         server side
++-------------+  HTTP requests    +-----------------+
+| web browser |------------------&gt;| Web server (IIS)|
+|             |&lt;------------------|                 |
++-------------+  HTTP responses   +-------+---------+
+                                          |
+                                    aspnet_isapi.dll     ## Links IIS process with workers
+                                          |
+                                          +--- aspnet_wp.exe    ## worker process 1
+                                          |
+                                          +--- aspnet_wp.exe    ## worker process 2
+                                          ...                   ...
+</pre>
+<ul class="org-ul">
+<li>Each worker process is multithreaded (by default, 10 threads per
+worker process), and each thread handles a single request (the
+'one-thread-per-request' model)</li>
+</ul>
+<ul class="org-ul">
+<li>Multiprocessing + non-blocking I/O: nginx
+<ul class="org-ul">
+<li>Multiprocessing:
+<ul class="org-ul">
+<li>nginx has a 'master process' to read configuration files and
+to watch over worker processes (e.g., start a new worker if
+one happens to die unexpectedly).</li>
+<li>A 'worker process' handles a client request: a given worker
+may handle even thousands of requests concurrently&#x2013;given the
+efficiency of non-blocking I/O.</li>
+<li>Other (optional) processes (e.g., a cache loader and a cache
+manager) also are in play.</li>
+<li>Non-blocking I/O:
+<ul class="org-ul">
+<li>The workers employ non-blocking I/O in handling requests,
+each of which is partitioned into a collection of
+sub-requests. A completed sub-request generates an event,
+which is handled in the course of assembling a full response
+out of pieces.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Non-blocking I/O + multithreading (under the hood): Node.js</li>
+</ul>
+<pre class="example">
+               Node.js server  ## a single-threaded process managing an event loop
+client request  +--------+
+---------------&gt;|        |     ## 'workers' are JavaScript functions that read and
+     ...        | event           otherwise handle a client's request using non-blocking 
+client request  | loop   |        I/O and callbacks to signal task completion
+---------------&gt;|        |
+                +--------+     ## Long-running tasks (e.g., accessing a DB) are delegated 
+			          to under-the-hood threads, with callbacks to signal
+                                  task completion
+</pre></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4d1080c" class="outline-2">
+<h2 id="org4d1080c">weitere verwendete Literatur</h2>
+<div class="outline-text-2" id="text-org4d1080c">
+<ul class="org-ul">
+<li><a class='org-ref-reference' href="#CACM2017">CACM2017</a></li>
+<li><a class='org-ref-reference' href="#CACM2016">CACM2016</a></li>
+<li><a class='org-ref-reference' href="#Subramanian2017">Subramanian2017</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org553302d" class="outline-2">
+<h2 id="org553302d"><h2>Literaturverzeichnis</h2>
+<ul class='org-ref-bib'><li><a id="Bengel2015">[Bengel2015] Günther Bengel, Christian Baun, Marcel Kunze & Karl-Uwe Stucky, Masterkurs Parallele und Verteilte Systeme, Springer Fachmedien Wiesbaden (2015).</a></li>
+<li><a id="Flynn1972">[Flynn1972] Flynn, Some Computer Organizations and Their Effectiveness, <i>IEEE Trans. Comput.</i>, <b>21(9)</b>, 948-960 (1972). <a href="http://dx.doi.org/10.1109/TC.1972.5009071">link</a>. <a href="http://dx.doi.org/10.1109/TC.1972.5009071">doi</a>.</a></li>
+<li><a id="CACM2017">[CACM2017] Practical Parallelism, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/219104-practical-parallelism/fulltext">https://cacm.acm.org/careers/219104-practical-parallelism/fulltext</a> </a></li>
+<li><a id="CACM2016">[CACM2016] Parallel Programming Made Easy, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext">https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext</a> </a></li>
+<li><a id="Subramanian2017">[Subramanian2017] Subramanian, Jeffrey, Abeydeera, Lee, Ying, Emer & Sanchez, Fractal: An Execution Model for Fine-Grain Nested Speculative Parallelism, 587-599, in in: Proceedings of the 44th Annual International Symposium on Computer Architecture, edited by ACM (2017)</a></li>
+</ul></h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Autor: Johannes Brauer</p>
+<p class="date">Created: 2017-10-05 Thu 12:16</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
