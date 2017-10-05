@@ -27,7 +27,7 @@
 
 * Übersicht
 1. [[file:./Vorlesung/ParProg-Einstieg.org][Einstieg]]
-2. [[file:ProPar-FuProGrndlgn.org][Parallelprogrammierung - Grundlagen]]
+2. [[file:./Vorlesung/ParProg-Grundlagen.org][Parallelprogrammierung - Grundlagen]]
 * Metadaten
 ** Umfang/Semester
 + 60 Uh / 5
