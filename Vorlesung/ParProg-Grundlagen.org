@@ -508,7 +508,7 @@ client request  | loop   |        I/O and callbacks to signal task completion
     + fork() effectively 'clones' one process (child) from another (parent).
     + An if-else or equivalent construct is used to ensure that the
       parent does one thing and the child does something else.
-      #+BEGIN_SRC c
+      #+BEGIN_SRC C
 pid_t pid = fork();   /** pid_t is a signed integer data type **/
 if (-1 == pid) {      /** error: couldn't clone a new process **/
     ...                
@@ -526,7 +526,7 @@ else {                /** parent code follows **/
       parent is already terminated, it cannot be notified--and the
       child becomes an 'zombie', dead but still around.
 *** using the shell...
-#+BEGIN_SRC 
+#+BEGIN_SRC sh
 bash-3.2$ ls pipeExample.c 
 pipeExample.c
 bash-3.2$ gcc -o pipeExample pipeExample.c 
@@ -535,7 +535,7 @@ This is the winter of our discontent
 bash-3.2$ 
 #+END_SRC
 *** Source code
-#+BEGIN_SRC c
+#+BEGIN_SRC C
 /** A first multiprocessing example: pipes in C 
     To compile (Unix-like system): gcc -o pipeExample pipeExample.c
     For Windows, the GNU compiler: https://gcc.gnu.org/
@@ -612,7 +612,7 @@ writer---->| named pipe |<----reader
   + In the C code, the FIFO is 'written' and 'read' as if it were a
     regular disk file: the I/O API is the same.
 *** using the shell
-#+BEGIN_SRC 
+#+BEGIN_SRC sh
 bash-3.2$ ./fifoWriter &
 [1] 7316
 bash-3.2$ ./fifoReader
@@ -624,7 +624,7 @@ bash-3.2$ ./fifoReader
 bash-3.2$ 
 #+END_SRC
 *** Source Code =fifoWriter.c=
-#+BEGIN_SRC c
+#+BEGIN_SRC C
 #include <fcntl.h> 
 #include <stdio.h>
 #include <time.h>
@@ -653,7 +653,7 @@ int main() {
 }
 #+END_SRC
 *** Source Code =fifoReader.c=
-#+BEGIN_SRC c
+#+BEGIN_SRC C
 #include <fcntl.h> 
 #include <stdio.h>
 #include <time.h>
@@ -733,7 +733,7 @@ process1----------->process2  ## process2 replaces process1, which terminates
 + In a successful call to fork(), the new child process executes the
   'same' image as the parent that spawned it: the forked process is a
   clone. So the standard code idiom is this:
-  #+BEGIN_SRC c
+  #+BEGIN_SRC C
 pid_t pid = fork();  /* parent executes this */
 ...                  /* check for success */
 if (0 == pid) {      /* 0 returned to the child */
@@ -755,6 +755,139 @@ if (-1 == flag) perror("Couldn't exec...");
     execution.
   + The new process retains the pid (and ppid) of the one it replaces
     + The user and group properties are likewise unchanged.
+*** Using the Shell
+#+BEGIN_SRC sh
+bash-3.2$ ./fileStatus tmp
+File name: tmp
+
+Information about file tmp:
+
+Owner ID:    503
+Group ID:    20
+Byte size:   68
+Last access: Fri Oct  6 11:10:23 2017
+File type:   directory
+Owner read:  Owner readable
+Owner write: Owner writable
+
+bash-3.2$ ./fileStatus fileStatus
+File name: fileStatus
+
+Information about file fileStatus:
+
+Owner ID:    503
+Group ID:    20
+Byte size:   8808
+Last access: Fri Oct  6 11:12:05 2017
+File type:   regular
+Owner read:  Owner readable
+Owner write: Owner writable
+
+bash-3.2$ ./execing
+File name: tmp
+
+Information about file tmp:
+
+Owner ID:    503
+Group ID:    20
+Byte size:   68
+Last access: Fri Oct  6 11:10:23 2017
+File type:   directory
+Owner read:  Owner readable
+Owner write: Owner writable
+#+END_SRC
+*** Source Code
+#+BEGIN_SRC C
+/* To run: 
+
+   -- compile this program (gcc -o execing execing.c) and fileStatus.c 
+   --                      (gcc -o fileStatus fileStatus.c)
+   -- create a subdirectory named tmp: mkdir tmp
+   -- from the command line: ./execing
+
+   This program 'execs' the fileStatus program, which outputs metadata about the tmp dir..
+   Here's a depiction:
+
+                   execv
+   execing program------->fileStatus program
+*/
+
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+  char* const args[] = {"./fileStatus", "tmp", 0};  /* fileStatus program, tmp directory */
+  int ret = execv("./fileStatus", args);            /* "v" for "vector" */
+  if (-1 == ret) {                                  /* check for failure */
+    perror("execv(...) error");
+    exit(-1);
+  }
+  else 
+    printf("I'm here\n");                           /* never executes */
+  return 0;
+}
+
+#+END_SRC
+** Process Tracking and Management
+# chapter 3 processTracking.txt
+ Process tracking and context switching
+
++ Each process has a unique ID (pid), a non-negative integer.
+  + A process's pid is recorded in the system's process table.
+  + Library functions getpid() and getppid() get the pid and the
+    parent's pid, respectively.
+  + The pid of 0 is typically reserved for the 'idle process', the one
+    that 'runs' when there's nothing else to run.
+  + The 'init process' has a pid of 1: the first user-space process
+    that the OS kernel spawns in the boot-up.
+    + On shutdown, the init process is the last process to terminate:
+      it waits for all of its children.
+    + The init process starts other processes: system services such as
+      the login service, etc.
++ Key data structures in a process 'context':
+  + process table: tracks information per process, in particular
+    information that allows a pre-empted process to restart later.
+  + page table(s): translate virtual into physical addresses. Each
+    process has its own, which effectively partitions virtual address
+    spaces among processes.
+  + file table: tracks, per process, files that a process has opened.
++ Every process has a user and group 'owner', which determines the
+  process's access rights to resources.
+  + Every process likewise belongs to a 'process group', which
+    facilitates sending signals to every process in a group, to
+    getting information about related processes, and so on.
+  + In the default case, a child process belongs to the same as its
+    parent.
++ Most modern systems use pre-emptive scheduling, with either
+  fixed-length or variable-length time-slices: a process that exceeds
+  the time-slice on a given run is pre-empted and sent back to a
+  scheduling queue.
+  + A process and a thread 'context' consists of key information about
+    it.
+    + For a process, key data structures such as the process table,
+      the file table, and its page tables define the 'context'.
++ Context switches, which occur during pre-emption, come in two
+  flavors:
+  + From one thread to another within the same process: 'intraprocess
+    switching'
+  + From one process to another: 'interprocess switching'
+    + The big cost is the swapping out of one (virtual) address space
+      for another: page tables
+  + A process-level context switch is signficantly more expensive than
+    a thread-level context switch.
+    + The cost of thread-level switching is near zero on modern systems.
+    + Depiction:
+      #+begin_example
+Process1      Process2        processor7
+  Thread11      Thread21
+  Thread12
+
+1st scenario: Thread12 replaces Thread11 on processor7  + virtually no overhead
+
+2nd scenario: Thread21 replaces Thread11 on processor7  + high overhead--
+                                                          process context switch
+      #+end_example
 
 * weitere verwendete Literatur
 + cite:CACM2017
