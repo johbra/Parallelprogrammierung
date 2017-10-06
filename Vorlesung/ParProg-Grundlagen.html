@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-10-06 Fri 11:36 -->
+<!-- 2017-10-06 Fri 11:48 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung &#x2013; Grundlagen</title>
@@ -242,12 +242,12 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Parallelprogrammierung &#x2013; Grundlagen</h1>
 
-<div id="outline-container-orga78922d" class="outline-2">
-<h2 id="orga78922d">Ein wenig Geschichte &#x2026;</h2>
-<div class="outline-text-2" id="text-orga78922d">
-</div><div id="outline-container-org42b5629" class="outline-3">
-<h3 id="org42b5629">&#x2026; der Rechensysteme</h3>
-<div class="outline-text-3" id="text-org42b5629">
+<div id="outline-container-org03aacff" class="outline-2">
+<h2 id="org03aacff">Ein wenig Geschichte &#x2026;</h2>
+<div class="outline-text-2" id="text-org03aacff">
+</div><div id="outline-container-org55bfa54" class="outline-3">
+<h3 id="org55bfa54">&#x2026; der Rechensysteme</h3>
+<div class="outline-text-3" id="text-org55bfa54">
 <p>
 (vgl. <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>)
 </p>
@@ -296,9 +296,9 @@ dessen Aufgaben</li>
 </dl>
 </div>
 </div>
-<div id="outline-container-org529b4e9" class="outline-3">
-<h3 id="org529b4e9">&#x2026; der Technologie</h3>
-<div class="outline-text-3" id="text-org529b4e9">
+<div id="outline-container-org87c748c" class="outline-3">
+<h3 id="org87c748c">&#x2026; der Technologie</h3>
+<div class="outline-text-3" id="text-org87c748c">
 <p>
 &#x2026; der Prozessoren und Speicherchips
 </p>
@@ -323,16 +323,16 @@ auf einem Chip ca. alle 18 Monate &#x2013; gilt noch heute</li>
 </div>
 </div>
 
-<div id="outline-container-orgb88d4a1" class="outline-2">
-<h2 id="orgb88d4a1">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
-<div class="outline-text-2" id="text-orgb88d4a1">
+<div id="outline-container-org910a9f5" class="outline-2">
+<h2 id="org910a9f5">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
+<div class="outline-text-2" id="text-org910a9f5">
 <p>
 (vgl.  <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>)
 </p>
 </div>
-<div id="outline-container-orga6895d9" class="outline-3">
-<h3 id="orga6895d9">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
-<div class="outline-text-3" id="text-orga6895d9">
+<div id="outline-container-orgd393a4e" class="outline-3">
+<h3 id="orgd393a4e">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
+<div class="outline-text-3" id="text-orgd393a4e">
 <p>
 (vgl. <a class='org-ref-reference' href="#Flynn1972">Flynn1972</a>)
 </p>
@@ -416,12 +416,12 @@ Prozessoren (P).</li>
 </div>
 </div>
 
-<div id="outline-container-org6194c80" class="outline-3">
-<h3 id="org6194c80">Ausprägungen</h3>
-<div class="outline-text-3" id="text-org6194c80">
-</div><div id="outline-container-org738d7fa" class="outline-4">
-<h4 id="org738d7fa">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
-<div class="outline-text-4" id="text-org738d7fa">
+<div id="outline-container-orgeb9f409" class="outline-3">
+<h3 id="orgeb9f409">Ausprägungen</h3>
+<div class="outline-text-3" id="text-orgeb9f409">
+</div><div id="outline-container-org0da9496" class="outline-4">
+<h4 id="org0da9496">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
+<div class="outline-text-4" id="text-org0da9496">
 <ul class="org-ul">
 <li>mehrere Prozesse können <i>echt</i> parallel ablaufen (auf
 Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
@@ -429,9 +429,9 @@ Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org17a543a" class="outline-4">
-<h4 id="org17a543a">Vektorrechner</h4>
-<div class="outline-text-4" id="text-org17a543a">
+<div id="outline-container-org0d7fbfa" class="outline-4">
+<h4 id="org0d7fbfa">Vektorrechner</h4>
+<div class="outline-text-4" id="text-org0d7fbfa">
 <ul class="org-ul">
 <li>Ausführung einer Berechnung gleichzeitig auf vielen Daten</li>
 <li>Anordnung der Daten als Vektor bzw. Matrix</li>
@@ -442,9 +442,9 @@ Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb1ff66c" class="outline-4">
-<h4 id="orgb1ff66c">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
-<div class="outline-text-4" id="text-orgb1ff66c">
+<div id="outline-container-orgf2f3cf6" class="outline-4">
+<h4 id="orgf2f3cf6">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
+<div class="outline-text-4" id="text-orgf2f3cf6">
 <ul class="org-ul">
 <li>ursprünglich bestehend aus beschränkt programmierbaren
 Spezialprozessoren für Fließkommaoperationen</li>
@@ -457,9 +457,9 @@ Bibliotheken wie z. B. CUDA von Nvidia</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0cea333" class="outline-4">
-<h4 id="org0cea333">Lose gekoppelte Multiprozessoren</h4>
-<div class="outline-text-4" id="text-org0cea333">
+<div id="outline-container-org4033e3e" class="outline-4">
+<h4 id="org4033e3e">Lose gekoppelte Multiprozessoren</h4>
+<div class="outline-text-4" id="text-org4033e3e">
 <ul class="org-ul">
 <li>kein gemeinsamer Speicher</li>
 <li>Synchronisation und Kommunikation durch Nachrichtenaustausch</li>
@@ -472,13 +472,13 @@ Bibliotheken wie z. B. CUDA von Nvidia</li>
 </div>
 
 
-<div id="outline-container-org98578e6" class="outline-2">
-<h2 id="org98578e6">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
-<div class="outline-text-2" id="text-org98578e6">
+<div id="outline-container-orgd5f1ca1" class="outline-2">
+<h2 id="orgd5f1ca1">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
+<div class="outline-text-2" id="text-orgd5f1ca1">
 </div>
-<div id="outline-container-org6ba03d7" class="outline-3">
-<h3 id="org6ba03d7">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
-<div class="outline-text-3" id="text-org6ba03d7">
+<div id="outline-container-org09dca41" class="outline-3">
+<h3 id="org09dca41">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
+<div class="outline-text-3" id="text-org09dca41">
 <ul class="org-ul">
 <li>For now, concurrency is "handling many tasks during the same time span":
 <ul class="org-ul">
@@ -518,9 +518,9 @@ concurrency without parallelism.
 </ul>
 </div>
 </div>
-<div id="outline-container-orge05358a" class="outline-3">
-<h3 id="orge05358a">Concurrency and parallelism: working technical definitions</h3>
-<div class="outline-text-3" id="text-orge05358a">
+<div id="outline-container-org4bb3934" class="outline-3">
+<h3 id="org4bb3934">Concurrency and parallelism: working technical definitions</h3>
+<div class="outline-text-3" id="text-org4bb3934">
 <pre class="example">
       client requests  +------------+   ## Task1: handle request1
     ------------------&gt;| web server |   ## Task2: handle request2
@@ -583,9 +583,9 @@ the longer of the two.
 </dl>
 </div>
 </div>
-<div id="outline-container-orgab817ae" class="outline-3">
-<h3 id="orgab817ae">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
-<div class="outline-text-3" id="text-orgab817ae">
+<div id="outline-container-org8caaaac" class="outline-3">
+<h3 id="org8caaaac">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
+<div class="outline-text-3" id="text-org8caaaac">
 <ul class="org-ul">
 <li><p>
 The systems context: user-space and kernel-space code
@@ -622,9 +622,9 @@ C extensions covering the rest.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2a81d24" class="outline-3">
-<h3 id="org2a81d24">Wrapup of the overview</h3>
-<div class="outline-text-3" id="text-org2a81d24">
+<div id="outline-container-org8711473" class="outline-3">
+<h3 id="org8711473">Wrapup of the overview</h3>
+<div class="outline-text-3" id="text-org8711473">
 <ul class="org-ul">
 <li>Concurrency and parallelism are different.
 <ul class="org-ul">
@@ -656,12 +656,12 @@ and strengths with respect to concurrency in particular.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org1e22ad0" class="outline-2">
-<h2 id="org1e22ad0">Parallelität vs. Nebenläufigkeit im Detail</h2>
-<div class="outline-text-2" id="text-org1e22ad0">
-</div><div id="outline-container-org4b5eb8a" class="outline-3">
-<h3 id="org4b5eb8a">Processes and threads</h3>
-<div class="outline-text-3" id="text-org4b5eb8a">
+<div id="outline-container-orgfc1e203" class="outline-2">
+<h2 id="orgfc1e203">Parallelität vs. Nebenläufigkeit im Detail</h2>
+<div class="outline-text-2" id="text-orgfc1e203">
+</div><div id="outline-container-orgd77a915" class="outline-3">
+<h3 id="orgd77a915">Processes and threads</h3>
+<div class="outline-text-3" id="text-orgd77a915">
 <ul class="org-ul">
 <li>A process is a 'program in execution', each with its own address space.
 <ul class="org-ul">
@@ -704,9 +704,9 @@ executing the instruction:<br />
 </pre>
 </div>
 </div>
-<div id="outline-container-org3d75540" class="outline-3">
-<h3 id="org3d75540">Multiprocessing</h3>
-<div class="outline-text-3" id="text-org3d75540">
+<div id="outline-container-org7344a41" class="outline-3">
+<h3 id="org7344a41">Multiprocessing</h3>
+<div class="outline-text-3" id="text-org7344a41">
 <p>
 A first look at multiprocessing: the command-line pipe operator <code>|</code>
 </p>
@@ -762,9 +762,9 @@ sleep 5 | echo 'Hello, world!'  ## sleep sends no bytes to the pipe, and echo ex
 </ul>
 </div>
 </div>
-<div id="outline-container-org01b16aa" class="outline-3">
-<h3 id="org01b16aa">Multithreading</h3>
-<div class="outline-text-3" id="text-org01b16aa">
+<div id="outline-container-orge32c29b" class="outline-3">
+<h3 id="orge32c29b">Multithreading</h3>
+<div class="outline-text-3" id="text-orge32c29b">
 <p>
 A first look at multithreading: the Tomcat web server, written in Java
 </p>
@@ -799,9 +799,9 @@ requests over HTTP, another for requests over HTTPS if HTTPS is enabled.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8d9b5fd" class="outline-3">
-<h3 id="org8d9b5fd">Non-blocking I/O</h3>
-<div class="outline-text-3" id="text-org8d9b5fd">
+<div id="outline-container-org09b947b" class="outline-3">
+<h3 id="org09b947b">Non-blocking I/O</h3>
+<div class="outline-text-3" id="text-org09b947b">
 <p>
 A first look at non-blocking I/O non-blocking I/O: two code examples
 </p>
@@ -847,9 +847,9 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
 </div>
 </div>
 </div>
-<div id="outline-container-org29b4aa7" class="outline-3">
-<h3 id="org29b4aa7">Zusammenfassung</h3>
-<div class="outline-text-3" id="text-org29b4aa7">
+<div id="outline-container-org5f145c2" class="outline-3">
+<h3 id="org5f145c2">Zusammenfassung</h3>
+<div class="outline-text-3" id="text-org5f145c2">
 <p>
 Three approaches to concurrency: multiprocessing, multithreading, non-blocking I/O
 </p>
@@ -893,9 +893,9 @@ until all of the request bytes for a given task have been read.
 </ul>
 </div>
 </div>
-<div id="outline-container-org7bd47ea" class="outline-3">
-<h3 id="org7bd47ea">Hybrid approaches</h3>
-<div class="outline-text-3" id="text-org7bd47ea">
+<div id="outline-container-org12cfd6e" class="outline-3">
+<h3 id="org12cfd6e">Hybrid approaches</h3>
+<div class="outline-text-3" id="text-org12cfd6e">
 <ul class="org-ul">
 <li>There's no hard-and-fast rule about how best to support concurrency.
 <ul class="org-ul">
@@ -969,15 +969,15 @@ client request  | loop   |        I/O and callbacks to signal task completion
 </div>
 </div>
 
-<div id="outline-container-org317e28e" class="outline-2">
-<h2 id="org317e28e">Multiprocessing &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-org317e28e">
-</div><div id="outline-container-orged49fb4" class="outline-3">
-<h3 id="orged49fb4">A first multiprocessing example in C</h3>
-<div class="outline-text-3" id="text-orged49fb4">
-</div><div id="outline-container-org9fab7a5" class="outline-4">
-<h4 id="org9fab7a5">Overview</h4>
-<div class="outline-text-4" id="text-org9fab7a5">
+<div id="outline-container-orgfcadfac" class="outline-2">
+<h2 id="orgfcadfac">Multiprocessing &#x2013; Grundlagen</h2>
+<div class="outline-text-2" id="text-orgfcadfac">
+</div><div id="outline-container-org54805ec" class="outline-3">
+<h3 id="org54805ec">A first multiprocessing example in C</h3>
+<div class="outline-text-3" id="text-org54805ec">
+</div><div id="outline-container-org4bd6b18" class="outline-4">
+<h4 id="org4bd6b18">Overview</h4>
+<div class="outline-text-4" id="text-org4bd6b18">
 <p>
 &#x2026; key points of the 'unnamed pipe example'
 </p>
@@ -1038,9 +1038,9 @@ child becomes an 'zombie', dead but still around.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbce78a1" class="outline-4">
-<h4 id="orgbce78a1">using the shell&#x2026;</h4>
-<div class="outline-text-4" id="text-orgbce78a1">
+<div id="outline-container-orgc66b696" class="outline-4">
+<h4 id="orgc66b696">using the shell&#x2026;</h4>
+<div class="outline-text-4" id="text-orgc66b696">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ls pipeExample.c 
 pipeExample.c
@@ -1052,9 +1052,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd3bd3fb" class="outline-4">
-<h4 id="orgd3bd3fb">Source code</h4>
-<div class="outline-text-4" id="text-orgd3bd3fb">
+<div id="outline-container-orgfb1406c" class="outline-4">
+<h4 id="orgfb1406c">Source code</h4>
+<div class="outline-text-4" id="text-orgfb1406c">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A first multiprocessing example: pipes in C </span>
 <span style="color: #8D8D84; font-style: italic;">    To compile (Unix-like system): gcc -o pipeExample pipeExample.c</span>
@@ -1107,12 +1107,12 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org633e23d" class="outline-3">
-<h3 id="org633e23d">Second Example &#x2013; Named Pipes</h3>
-<div class="outline-text-3" id="text-org633e23d">
-</div><div id="outline-container-orgcc027da" class="outline-4">
-<h4 id="orgcc027da">Overview</h4>
-<div class="outline-text-4" id="text-orgcc027da">
+<div id="outline-container-org3e0c94d" class="outline-3">
+<h3 id="org3e0c94d">Second Example &#x2013; Named Pipes</h3>
+<div class="outline-text-3" id="text-org3e0c94d">
+</div><div id="outline-container-org0913d16" class="outline-4">
+<h4 id="org0913d16">Overview</h4>
+<div class="outline-text-4" id="text-org0913d16">
 <p>
 A second multiprocessing example in C: key points of the 'named pipe' example
 </p>
@@ -1159,9 +1159,9 @@ regular disk file: the I/O API is the same.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdb6542c" class="outline-4">
-<h4 id="orgdb6542c">using the shell</h4>
-<div class="outline-text-4" id="text-orgdb6542c">
+<div id="outline-container-orgc865d14" class="outline-4">
+<h4 id="orgc865d14">using the shell</h4>
+<div class="outline-text-4" id="text-orgc865d14">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ./fifoWriter &amp;
 <span style="color: #707183;">[</span>1<span style="color: #707183;">]</span> 7316
@@ -1176,9 +1176,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1c21d24" class="outline-4">
-<h4 id="org1c21d24">Source Code <code>fifoWriter.c</code></h4>
-<div class="outline-text-4" id="text-org1c21d24">
+<div id="outline-container-orgbcd98a1" class="outline-4">
+<h4 id="orgbcd98a1">Source Code <code>fifoWriter.c</code></h4>
+<div class="outline-text-4" id="text-orgbcd98a1">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
 <span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
@@ -1210,9 +1210,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org6119aaf" class="outline-4">
-<h4 id="org6119aaf">Source Code <code>fifoReader.c</code></h4>
-<div class="outline-text-4" id="text-org6119aaf">
+<div id="outline-container-org206e4d6" class="outline-4">
+<h4 id="org206e4d6">Source Code <code>fifoReader.c</code></h4>
+<div class="outline-text-4" id="text-org206e4d6">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
 <span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
@@ -1238,9 +1238,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge397734" class="outline-3">
-<h3 id="orge397734">The Nginx Web Server</h3>
-<div class="outline-text-3" id="text-orge397734">
+<div id="outline-container-org5a3f7f2" class="outline-3">
+<h3 id="org5a3f7f2">The Nginx Web Server</h3>
+<div class="outline-text-3" id="text-org5a3f7f2">
 <p>
 Multiprocessing in production-grade software: the nginx web server
 </p>
@@ -1288,9 +1288,9 @@ www-data  1808  1803   worker process
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdd3f605" class="outline-3">
-<h3 id="orgdd3f605">Execing and Forking Options in Multiprocessing</h3>
-<div class="outline-text-3" id="text-orgdd3f605">
+<div id="outline-container-org47318cb" class="outline-3">
+<h3 id="org47318cb">Execing and Forking Options in Multiprocessing</h3>
+<div class="outline-text-3" id="text-org47318cb">
 <p>
 A second way for one executing program to start another
 </p>
@@ -1357,9 +1357,9 @@ execution.</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org50ddabb" class="outline-4">
-<h4 id="org50ddabb">Using the Shell</h4>
-<div class="outline-text-4" id="text-org50ddabb">
+<div id="outline-container-org542e8b3" class="outline-4">
+<h4 id="org542e8b3">Using the Shell</h4>
+<div class="outline-text-4" id="text-org542e8b3">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ./fileStatus tmp
 File name: tmp
@@ -1403,9 +1403,9 @@ Owner write: Owner writable</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf939800" class="outline-4">
-<h4 id="orgf939800">Source Code</h4>
-<div class="outline-text-4" id="text-orgf939800">
+<div id="outline-container-org0d287b2" class="outline-4">
+<h4 id="org0d287b2">Source Code</h4>
+<div class="outline-text-4" id="text-org0d287b2">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">To run: </span>
 
@@ -1442,9 +1442,9 @@ Owner write: Owner writable</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9bae681" class="outline-3">
-<h3 id="org9bae681">Process Tracking and Management</h3>
-<div class="outline-text-3" id="text-org9bae681">
+<div id="outline-container-org06b6aa6" class="outline-3">
+<h3 id="org06b6aa6">Process Tracking and Management</h3>
+<div class="outline-text-3" id="text-org06b6aa6">
 <p>
 Process tracking and context switching
 </p>
@@ -1520,7 +1520,8 @@ Process1      Process2        processor7
 
 1st scenario: Thread12 replaces Thread11 on processor7  + virtually no overhead
 
-2nd scenario: Thread21 replaces Thread11 on processor7  + high overhead--process context switch
+2nd scenario: Thread21 replaces Thread11 on processor7  + high overhead--
+                                                          process context switch
 </pre></li>
 </ul></li>
 </ul></li>
@@ -1529,9 +1530,9 @@ Process1      Process2        processor7
 </div>
 </div>
 
-<div id="outline-container-org5f5589b" class="outline-2">
-<h2 id="org5f5589b">weitere verwendete Literatur</h2>
-<div class="outline-text-2" id="text-org5f5589b">
+<div id="outline-container-org156e065" class="outline-2">
+<h2 id="org156e065">weitere verwendete Literatur</h2>
+<div class="outline-text-2" id="text-org156e065">
 <ul class="org-ul">
 <li><a class='org-ref-reference' href="#CACM2017">CACM2017</a></li>
 <li><a class='org-ref-reference' href="#CACM2016">CACM2016</a></li>
@@ -1539,8 +1540,8 @@ Process1      Process2        processor7
 </ul>
 </div>
 </div>
-<div id="outline-container-org13e030a" class="outline-2">
-<h2 id="org13e030a"><h2>Literaturverzeichnis</h2>
+<div id="outline-container-org996ce36" class="outline-2">
+<h2 id="org996ce36"><h2>Literaturverzeichnis</h2>
 <ul class='org-ref-bib'><li><a id="Bengel2015">[Bengel2015] Günther Bengel, Christian Baun, Marcel Kunze & Karl-Uwe Stucky, Masterkurs Parallele und Verteilte Systeme, Springer Fachmedien Wiesbaden (2015).</a></li>
 <li><a id="Flynn1972">[Flynn1972] Flynn, Some Computer Organizations and Their Effectiveness, <i>IEEE Trans. Comput.</i>, <b>21(9)</b>, 948-960 (1972). <a href="http://dx.doi.org/10.1109/TC.1972.5009071">link</a>. <a href="http://dx.doi.org/10.1109/TC.1972.5009071">doi</a>.</a></li>
 <li><a id="CACM2017">[CACM2017] Practical Parallelism, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/219104-practical-parallelism/fulltext">https://cacm.acm.org/careers/219104-practical-parallelism/fulltext</a> </a></li>
@@ -1551,7 +1552,7 @@ Process1      Process2        processor7
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-10-06 Fri 11:36</p>
+<p class="date">Created: 2017-10-06 Fri 11:48</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
