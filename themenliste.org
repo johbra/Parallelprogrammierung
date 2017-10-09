@@ -1,8 +1,8 @@
 #+TITLE: Themenliste
 #+SUBTITLE: Wahlpflichfach Parallelprogrammierung
 #+AUTOR: Johannes Brauer
-#+OPTIONS:   H:4, notoc
-
+#+OPTIONS:   H:4, toc:nil
+* Themen
 1. Nutzung von JVM Threads in Java
 2. Ansätze der Parallelprogrammierung in funktionalen Sprachen
    a. [[http://clojure-doc.org/articles/language/concurrency_and_parallelism.html][Clojure]] ([[https://www.youtube.com/watch?v=dGVqrGmwOAw][Clojure Concurrency - Rich Hickey]])
@@ -24,3 +24,7 @@
    b. [[https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext][Parallel Programming Made Easy]] ([[http://ieeexplore.ieee.org/document/7436649/?arnumber=7436649][Unlocking Ordered Parallelism with the Swarm Architecture]])
 6. Weitere?
 
+* Themenwahl
+| Thema | Bearbeiter | Termin |
+|-------+------------+--------|
+|       |            |        |
