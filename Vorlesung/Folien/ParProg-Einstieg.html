@@ -29,16 +29,16 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Parallelprogrammierung &#x2013; Einstieg</h1><h2 class="author">Johannes Brauer</h2><p class="date">Created: 2017-10-01 Sun 19:53</p>
+<section id="sec-title-slide"><h1 class="title">Parallelprogrammierung &#x2013; Einstieg</h1><h2 class="author">Johannes Brauer</h2><p class="date">Created: 2017-10-09 Mon 15:07</p>
 </section>
 
 <section>
-<section id="slide-orga6fe816">
-<h2 id="orga6fe816">Warum Parallelprogrammierung?</h2>
-<div class="outline-text-2" id="text-orga6fe816">
+<section id="slide-orgd518bad">
+<h2 id="orgd518bad">Warum Parallelprogrammierung?</h2>
+<div class="outline-text-2" id="text-orgd518bad">
 </div></section>
-<section id="slide-org6933be4">
-<h3 id="org6933be4">Technische Gründe</h3>
+<section id="slide-org83b7e6e">
+<h3 id="org83b7e6e">Technische Gründe</h3>
 <ul>
 <li>Erhöhung der Rechenleistung durch Erhöhung der Taktfrequenzen stösst
 technisch an Grenzen</li>
@@ -54,16 +54,47 @@ technisch an Grenzen</li>
 
 </ul>
 </section>
-<section id="slide-orgb3fde71">
-<h3 id="orgb3fde71">Enwicklung der Mikroprozessortechnik</h3>
+<section id="slide-org1f56ef2">
+<h3 id="org1f56ef2">Computer im Wandel der Jahrzehnte</h3>
+
+<div class="figure">
+<p><img src="./Abbildungen/computervon60Jahrenundjetzt.jpg" alt="computervon60Jahrenundjetzt.jpg" width="400px" />
+</p>
+</div>
+</section>
+<section >
+<ul>
+<li>Ein iPhone enthält ca. 1 Milliarde Transistoren.</li>
+<li>Um diese Rechenleistung mit der Technologie der 1950er Jahre zu
+bauen, bräuchte es:
+<ul>
+<li>1 Milliarde Elektronenröhren</li>
+<li>170 vehicle assembly buildings, um sie unterzubringen</li>
+<li>1 Terawatt Leistung, um sie zu betreiben</li>
+<li>das entspräche 500 2-Gigawatt-Kernkraftwerken für ca. 50 Milliarden Euro</li>
+<li>das entspräche dem Weltbruttosozialprodukt von 60 Jahren</li>
+
+</ul></li>
+<li>Smartphones realisieren eine Steigerung der Rechenleistung um den
+Faktor \(10^{22}\) verglichen mit der Technologie vor 60 Jahren.</li>
+
+</ul>
+
+<p>
+Welche Fortschritte gibt es in dieser Zeit in der Software?
+</p>
+
+</section>
+<section id="slide-org39a2ee1">
+<h3 id="org39a2ee1">Enwicklung der Mikroprozessortechnik</h3>
 
 <div class="figure">
 <p><img src="./Abbildungen/CPU-Moore.png" alt="CPU-Moore.png" width="400px" />
 </p>
 </div>
 </section>
-<section id="slide-org88b8c4f">
-<h3 id="org88b8c4f">Robert C. Martin: The failure of state</h3>
+<section id="slide-orgb161a1a">
+<h3 id="orgb161a1a">Robert C. Martin: The failure of state</h3>
 <p>
 <a href="https://www.youtube.com/watch?v=7Zlp9rKHGD4">Functional Programming &#x2013; The Failure of State</a>
 </p>
@@ -82,15 +113,15 @@ Ausschnitte:
 </section>
 </section>
 <section>
-<section id="slide-orgc2addb4">
-<h2 id="orgc2addb4">Prozesse, Threads, Synchronisation</h2>
+<section id="slide-org94c70ce">
+<h2 id="org94c70ce">Prozesse, Threads, Synchronisation</h2>
 <p>
 (Die Ausführungen in diesem lehnen sich an ein Vorlesungsskript von
 Uwe Neuhaus an)
 </p>
 </section>
-<section id="slide-org4d17bf9">
-<h3 id="org4d17bf9">Bestandteile von Computersystemen</h3>
+<section id="slide-orgabb8017">
+<h3 id="orgabb8017">Bestandteile von Computersystemen</h3>
 <ol>
 <li>Hardware – Bereitstellung grundlegender Betriebsmittel (Prozessor,
 Speicher, Ein-/Ausgabegeräte)</li>
@@ -104,28 +135,28 @@ Datenbanksysteme, Textverarbeitung, Spiele usw.)</li>
 
 </ol>
 </section>
-<section id="slide-orgb70f7be">
-<h3 id="orgb70f7be">Abstrakte Sicht der Bestandteile</h3>
+<section id="slide-org450e8b8">
+<h3 id="org450e8b8">Abstrakte Sicht der Bestandteile</h3>
 
 <div class="figure">
 <p><img src="./Abbildungen/computersystem.png" alt="computersystem.png" />
 </p>
 </div>
 </section>
-<section id="slide-org74c23fc">
-<h3 id="org74c23fc">Mehrprogrammbetrieb</h3>
-<div class="outline-text-3" id="text-org74c23fc">
+<section id="slide-orgab54af2">
+<h3 id="orgab54af2">Mehrprogrammbetrieb</h3>
+<div class="outline-text-3" id="text-orgab54af2">
 </div></section>
-<section id="slide-org28d7e7e">
-<h4 id="org28d7e7e">Stapelverarbeitung</h4>
+<section id="slide-org896b43b">
+<h4 id="org896b43b">Stapelverarbeitung</h4>
 <p style="float:right" width="200px">
 <img src="./Abbildungen/mehrprogrammbetrieb.png" alt="mehrprogrammbetrieb.png" style="float:right" width="200px" /> Mehrere Aufträge werden im
 Speicher gehalten. Der Prozessor wechselt zwischen diesen Aufträgen
 hin und her.
 </p>
 </section>
-<section id="slide-org49f3c93">
-<h4 id="org49f3c93">CPU-Aufteilung</h4>
+<section id="slide-org92f8b97">
+<h4 id="org92f8b97">CPU-Aufteilung</h4>
 <div class="nebeneinander">
 <p>
 Ablauf eines Programms:
@@ -156,8 +187,8 @@ quasi-paralleler Ablauf zweier Programme:
 
 
 </section>
-<section id="slide-org8ecf9d4">
-<h4 id="org8ecf9d4">Benötigte Betriebssystemfähigkeiten beim Mehrprogrammbetrieb</h4>
+<section id="slide-orgf9733cc">
+<h4 id="orgf9733cc">Benötigte Betriebssystemfähigkeiten beim Mehrprogrammbetrieb</h4>
 <ul>
 <li>Bereitstellung von Ein-/Ausgabe-Routinen</li>
 <li>Zuordnung von Geräten zu   Aufträgen</li>
@@ -170,8 +201,8 @@ einen anderen, Endlosschleifen usw.)</li>
 
 </ul>
 </section>
-<section id="slide-org51d5b6d">
-<h3 id="org51d5b6d">Mehrbenutzersystem (Time-Sharing Systems) – Interaktive Benutzung</h3>
+<section id="slide-org30190de">
+<h3 id="org30190de">Mehrbenutzersystem (Time-Sharing Systems) – Interaktive Benutzung</h3>
 <ul>
 <li>Eine interaktive Kommunikationsmöglichkeit zwischen dem Anwender und
 der Computersystem wird bereitgestellt, die den Zugriff auf
@@ -185,8 +216,8 @@ ausgelagert.</li>
 
 </ul>
 </section>
-<section id="slide-org197b114">
-<h3 id="org197b114">Arbeitsplatzrechnersysteme / Personal-Computer</h3>
+<section id="slide-orge623c72">
+<h3 id="orge623c72">Arbeitsplatzrechnersysteme / Personal-Computer</h3>
 <ul>
 <li>Personal-Computer – Computersysteme, die ausschließlich einem
 einzigen Benutzer zur Verfügung stehen</li>
@@ -199,12 +230,12 @@ Betriebssysteme möglich (Windows, MacOS, UNIX, Linux)</li>
 
 </ul>
 </section>
-<section id="slide-orga582555">
-<h3 id="orga582555">Mehrprozessorsysteme</h3>
-<div class="outline-text-3" id="text-orga582555">
+<section id="slide-orge91f687">
+<h3 id="orge91f687">Mehrprozessorsysteme</h3>
+<div class="outline-text-3" id="text-orge91f687">
 </div></section>
-<section id="slide-orgddc58d4">
-<h4 id="orgddc58d4">Prinzip</h4>
+<section id="slide-org8cef0db">
+<h4 id="org8cef0db">Prinzip</h4>
 <ul>
 <li>Mehrprozessorsysteme besitzen mehrere, eng gekoppelte Prozessoren</li>
 <li>Eng gekoppelt &#x2013; Prozessoren nutzen gemeinsam Hauptspeicher und
@@ -224,8 +255,8 @@ üblicherweise über den gemeinsam genutzten Speicher statt.</li>
 
 </ul>
 </section>
-<section id="slide-orgc8d433d">
-<h4 id="orgc8d433d">Varianten</h4>
+<section id="slide-orgd751a0b">
+<h4 id="orgd751a0b">Varianten</h4>
 <dl>
 <dt>Symmetric multiprocessing (SMP)</dt><dd><ul>
 <li>Auf jedem Prozessor läuft das identische Betriebssystem</li>
@@ -243,8 +274,8 @@ verteilt Aufgaben an die anderen (möglicherweise spezialisierten)
 
 </dl>
 </section>
-<section id="slide-orgb987c74">
-<h4 id="orgb987c74">Architektur bei symmetrischen Mehrprozessorsystemen</h4>
+<section id="slide-org25b9b8a">
+<h4 id="org25b9b8a">Architektur bei symmetrischen Mehrprozessorsystemen</h4>
 
 <div class="figure">
 <p><img src="./Abbildungen/mehrprozessorarchitektur.png" alt="mehrprozessorarchitektur.png" width="600px" />
@@ -257,8 +288,8 @@ Flaschenhals werden.
 </p>
 
 </section>
-<section id="slide-orgb3053cc">
-<h3 id="orgb3053cc">Prozesse</h3>
+<section id="slide-org781cbd2">
+<h3 id="org781cbd2">Prozesse</h3>
 <p>
 Für die Behandlung der Anforderungen in Mehrprogrammbetriebssystemen
 sind primitive Ad-hoc-Lösungen nicht mehr möglich. Das Verständnis des
@@ -273,10 +304,10 @@ funktionellen Einheiten bezeichnet man als <b>Prozesse</b>.
 </p>
 </section>
 <section id="slide-prozessbegriff">
-<h4 id="prozessbegriff"><a id="org45df1d7"></a>Prozessbegriff</h4>
+<h4 id="prozessbegriff"><a id="org848201c"></a>Prozessbegriff</h4>
 </section>
 <section id="slide-typische-merkmale-von-prozessen">
-<h5 id="typische-merkmale-von-prozessen"><a id="org2162716"></a>Typische Merkmale von Prozessen:</h5>
+<h5 id="typische-merkmale-von-prozessen"><a id="org51aeb0e"></a>Typische Merkmale von Prozessen:</h5>
 <ul>
 <li>brauchen Prozessor</li>
 <li>enthalten jeweils ein sequentielles Programm</li>
@@ -291,7 +322,7 @@ eines Benutzerauftrags sind in der Regel mehrere Prozesse notwendig.
 
 </section>
 <section id="slide-formen-der-parallelität">
-<h5 id="formen-der-parallelität"><a id="org2986821"></a>Formen der Parallelität</h5>
+<h5 id="formen-der-parallelität"><a id="orgaa530d7"></a>Formen der Parallelität</h5>
 <ul>
 <li>mehrere Prozesse laufen auf unterschiedlichen Prozessoren ab &#x2013;
 (tatsächlich parallel)</li>
@@ -308,10 +339,10 @@ Probleme sind davon aber unabhängig.
 </p>
 </section>
 <section id="slide-synchronisation-konkurrierender-und-kooperierender-prozesse">
-<h3 id="synchronisation-konkurrierender-und-kooperierender-prozesse"><a id="org028eca3"></a>Synchronisation konkurrierender Prozesse</h3>
+<h3 id="synchronisation-konkurrierender-und-kooperierender-prozesse"><a id="orga2a5c09"></a>Synchronisation konkurrierender Prozesse</h3>
 </section>
 <section id="slide-problem-des-wechselseitigen-ausschlusses">
-<h4 id="problem-des-wechselseitigen-ausschlusses"><a id="orgd87a2a8"></a>Problem des wechselseitigen Ausschlusses</h4>
+<h4 id="problem-des-wechselseitigen-ausschlusses"><a id="org6c2d7d0"></a>Problem des wechselseitigen Ausschlusses</h4>
 <p>
 Das Problem des wechselseitigen Ausschlusses (<i>mutual exclusion</i>) wurde
 erstmals 1965 von Edsger W. Dijkstra formuliert.
@@ -319,7 +350,7 @@ erstmals 1965 von Edsger W. Dijkstra formuliert.
 
 </section>
 <section id="slide-beispiel-1">
-<h5 id="beispiel-1"><a id="org259cc5a"></a>Beispiel 1:</h5>
+<h5 id="beispiel-1"><a id="org430fdf8"></a>Beispiel 1:</h5>
 <p>
 Zwei zyklische Prozesse \(p_1\) und \(p_2\) benutzen von Zeit zu Zeit ein
 Magnetband. Es steht nur ein Gerät zur Verfügung, das nicht von mehr als
@@ -471,8 +502,8 @@ Gefahr der Verklemmung (<i>deadlock</i>).
 </p>
 
 </section>
-<section id="slide-orgbaa2572">
-<h4 id="orgbaa2572">Anforderungen an eine Lösung für das Problem des wechselseitigen Ausschlusses:</h4>
+<section id="slide-orga5b1fc6">
+<h4 id="orga5b1fc6">Anforderungen an eine Lösung für das Problem des wechselseitigen Ausschlusses:</h4>
 <ol>
 <li>Das Betriebsmittel wird nach endlicher Zeit zugewiesen.</li>
 <li>Ein Prozess gibt das Betriebsmittel nach endlicher Zeit wieder frei.</li>
@@ -487,8 +518,8 @@ Benutzung gemeinsamer Betriebsmittel.
 </p>
 
 </section>
-<section id="slide-org4680ae9">
-<h4 id="org4680ae9">Weitere Beispiele für das Auftreten des Problems des wechselseitigen</h4>
+<section id="slide-org650d378">
+<h4 id="org650d378">Weitere Beispiele für das Auftreten des Problems des wechselseitigen</h4>
 <p>
 Ausschlusses:
 </p>
@@ -503,8 +534,8 @@ Zwischenergebnisse</li>
 </ol>
 
 </section>
-<section id="slide-orgffd9cbf">
-<h4 id="orgffd9cbf">Definition (kritischer Abschnitt):</h4>
+<section id="slide-org67a11fd">
+<h4 id="org67a11fd">Definition (kritischer Abschnitt):</h4>
 <p>
 Programmabschnitte, in denen sich zu einem Zeitpunkt nur jeweils ein
 Prozess befinden darf, heißen <i>kritische Abschnitte</i> (<i>critical
@@ -512,8 +543,8 @@ sections</i>).
 </p>
 
 </section>
-<section id="slide-org7b8adc5">
-<h4 id="org7b8adc5">Lösung: <code>P</code>- und <code>V</code>-Operationen nach Edsger W. Dijkstra</h4>
+<section id="slide-orga190f6e">
+<h4 id="orga190f6e">Lösung: <code>P</code>- und <code>V</code>-Operationen nach Edsger W. Dijkstra</h4>
 <p>
 <code>P</code> und <code>V</code> sind zwei Operationen auf einer gemeinsamen Variablen,
 genannt <i>Semaphorvariable</i>. Jedem kritischen Abschnitt wird eine
@@ -522,7 +553,7 @@ Semaphore zugeordnet.
 
 </section>
 <section id="slide-definition-von-p-und-v">
-<h5 id="definition-von-p-und-v"><a id="org51cd927"></a>Definition von <code>P</code> und <code>V</code>:</h5>
+<h5 id="definition-von-p-und-v"><a id="orgd3eeae7"></a>Definition von <code>P</code> und <code>V</code>:</h5>
 <pre class="example">
     P(s):
        wenn s=1
@@ -537,8 +568,8 @@ Semaphore zugeordnet.
 </pre>
 
 </section>
-<section id="slide-orgfb89ac6">
-<h5 id="orgfb89ac6">Beispiel für die Sicherung eines kritischen Abschnitts (Benutzung eines Magnetbandgeräts) &#x2026;</h5>
+<section id="slide-orgc26b57f">
+<h5 id="orgc26b57f">Beispiel für die Sicherung eines kritischen Abschnitts (Benutzung eines Magnetbandgeräts) &#x2026;</h5>
 <p>
 &#x2026; durch eine Semaphore <code>s</code>:
 </p>
@@ -550,8 +581,8 @@ V(s)
 </pre>
 
 </section>
-<section id="slide-orgb881bad">
-<h5 id="orgb881bad">Eigenschaften von <code>P</code> und <code>V</code>:</h5>
+<section id="slide-org9194246">
+<h5 id="org9194246">Eigenschaften von <code>P</code> und <code>V</code>:</h5>
 <ul>
 <li>sind selbst kritische Abschnitte</li>
 <li>müssen atomar sein (dürfen nicht selbst unterbrochen werden)</li>
@@ -585,8 +616,8 @@ realisiert, wobei ein aktives Warten in Kauf genommen wird.</li>
 </table>
 
 </section>
-<section id="slide-org81aa2c5">
-<h5 id="org81aa2c5">Der Spezialbefehl <code>teste_und_setze(pv)</code></h5>
+<section id="slide-orgf0ae1e9">
+<h5 id="orgf0ae1e9">Der Spezialbefehl <code>teste_und_setze(pv)</code></h5>
 <p>
 &#x2026; ist eine unteilbare Operation, die folgendermaßen arbeitet:
 </p>
@@ -624,8 +655,8 @@ V'(s)
 
 </div>
 </section>
-<section id="slide-org0228494">
-<h4 id="org0228494">Alternative Realisierung für Semaphore</h4>
+<section id="slide-org18e0c5b">
+<h4 id="org18e0c5b">Alternative Realisierung für Semaphore</h4>
 <ul>
 <li><code>S</code> ist ein Semaphoren-Objekt mit den Methoden <code>wait()</code> (möchte
 passieren) und <code>signal()</code> (verlassen).</li>
@@ -667,8 +698,8 @@ S.signal<span style="color: #707183;">()</span>;</pre>
 
 </div>
 </section>
-<section id="slide-orgc7dea02">
-<h5 id="orgc7dea02">Realisierung eines binären Semaphors</h5>
+<section id="slide-orgbc8086f">
+<h5 id="orgbc8086f">Realisierung eines binären Semaphors</h5>
 <div class="org-src-container">
 
 <pre  class="src src-java">S.<span style="color: #D0372D;">wait</span><span style="color: #707183;">()</span>:
@@ -689,8 +720,8 @@ S.signal<span style="color: #707183;">()</span>;</pre>
 </pre>
 </div>
 </section>
-<section id="slide-org179619f">
-<h5 id="org179619f">Realisierung eines Zähl-Semaphors</h5>
+<section id="slide-org8cc5a8e">
+<h5 id="org8cc5a8e">Realisierung eines Zähl-Semaphors</h5>
 <div class="org-src-container">
 
 <pre  class="src src-java">S.<span style="color: #D0372D;">wait</span><span style="color: #707183;">()</span>:
@@ -711,7 +742,7 @@ S.signal<span style="color: #707183;">()</span>;</pre>
 </div>
 </section>
 <section id="slide-synchronisation-kooperierender-prozesse">
-<h3 id="synchronisation-kooperierender-prozesse"><a id="org158efd0"></a>Synchronisation kooperierender Prozesse</h3>
+<h3 id="synchronisation-kooperierender-prozesse"><a id="org1713a4b"></a>Synchronisation kooperierender Prozesse</h3>
 <ul>
 <li>Bisher wurden nur um gemeinsame Betriebsmittel konkurrierende
 Prozesse betrachtet, die sonst nichts miteinander zu tun hatten.</li>
@@ -733,8 +764,8 @@ gegenseitig „überholen”.</li>
 </ul>
 
 </section>
-<section id="slide-org5887abf">
-<h4 id="org5887abf">Sychronisation von Erzeuger un Verbraucher durch Semaphore</h4>
+<section id="slide-orgba74c71">
+<h4 id="orgba74c71">Sychronisation von Erzeuger un Verbraucher durch Semaphore</h4>
 <ul>
 <li>Die Prozesse benutzen jeweils eine Kommunikationsprozedur,
 <code>SendeNachricht</code> und <code>EmpfangeNachricht</code>, die dafür sorgen, dass
@@ -791,8 +822,8 @@ Initialisierung: <code>mutex.zaehler = 1; frei.zaehler = max; belegt.zaehler = 0
 </p>
 
 </section>
-<section id="slide-org61aa975">
-<h5 id="org61aa975">Nachteil dieser Lösung</h5>
+<section id="slide-org0dd13f3">
+<h5 id="org0dd13f3">Nachteil dieser Lösung</h5>
 <ul>
 <li>Die Verantwortung für die korrekte Synchronisation bzw. deren
 korrekte Programmierung liegt bei den Prozessen.</li>
@@ -802,8 +833,8 @@ Fehlverhalten (z.B. Verklemmungen) führen.</li>
 </ul>
 
 </section>
-<section id="slide-orgbd82faa">
-<h4 id="orgbd82faa">Weitere klassische Synchronisationsprobleme</h4>
+<section id="slide-orgdd63704">
+<h4 id="orgdd63704">Weitere klassische Synchronisationsprobleme</h4>
 <dl>
 <dt>Readers-Writers-Problem</dt><dd><ul>
 <li>Einige Prozesse/Threads wollen einen Datenbereich lesen, einige
@@ -822,8 +853,8 @@ essen Reis mit Stäbchen.</li>
 </dl>
 
 </section>
-<section id="slide-org0376d04">
-<h3 id="org0376d04">Monitore</h3>
+<section id="slide-orge4ccf82">
+<h3 id="orge4ccf82">Monitore</h3>
 <ul>
 <li><b>Programmiersprachliches</b> Konstrukt, funktional äquivalent zu Semaphoren</li>
 <li>Kritische Methoden und Daten werden in einer Klasse mit einem
@@ -834,8 +865,8 @@ zugehörigen Semaphor kombiniert.</li>
 </ul>
 
 </section>
-<section id="slide-orged88fdf">
-<h3 id="orged88fdf">Synchronisation durch Nachrichtenaustausch</h3>
+<section id="slide-orgc1255c6">
+<h3 id="orgc1255c6">Synchronisation durch Nachrichtenaustausch</h3>
 <ul>
 <li>Die bisher betrachteten Synchronisationsprimitive sind nur
 einsetzbar, wenn die beteiligten Prozesse Zugriff auf einen
@@ -868,8 +899,8 @@ wird der Prozess blockiert, wenn keine Nachricht verfügbar ist.</li>
 </ul>
 
 </section>
-<section id="slide-org361e985">
-<h4 id="org361e985">Mögliche Schwierigkeiten bei der Nachrichtenübermittlung:</h4>
+<section id="slide-org0773b45">
+<h4 id="org0773b45">Mögliche Schwierigkeiten bei der Nachrichtenübermittlung:</h4>
 <ul>
 <li>Verlust einer Nachricht<br />
 Abhilfe: jede gesendete Nachricht muss quittiert werden
@@ -891,8 +922,8 @@ Abhilfe: Numerieren der Nachrichten</li>
 </ul>
 
 </section>
-<section id="slide-orgad7b2a0">
-<h4 id="orgad7b2a0">Behandlung des <i>Producer-Consumer-Problems</i> mit <i>message passing</i>:</h4>
+<section id="slide-orgb18eae7">
+<h4 id="orgb18eae7">Behandlung des <i>Producer-Consumer-Problems</i> mit <i>message passing</i>:</h4>
 <p>
 Annahmen:
 </p>
@@ -926,8 +957,8 @@ Betriebssystem automatisch gepuffert.</li>
 </div>
 
 </section>
-<section id="slide-orgddfda53">
-<h5 id="orgddfda53">Anmerkungen:</h5>
+<section id="slide-orgb1d771e">
+<h5 id="orgb1d771e">Anmerkungen:</h5>
 <ul>
 <li>Die Zahl der Nachrichten bleibt konstant.</li>
 <li>Für Pufferung ist ein fester Speicherbereich vorgesehen.</li>
@@ -938,12 +969,12 @@ und Empfänger.</li>
 </ul>
 
 </section>
-<section id="slide-org741b7ae">
-<h3 id="org741b7ae">Threads</h3>
-<div class="outline-text-3" id="text-org741b7ae">
+<section id="slide-orgb296c88">
+<h3 id="orgb296c88">Threads</h3>
+<div class="outline-text-3" id="text-orgb296c88">
 </div></section>
-<section id="slide-orgf703dac">
-<h4 id="orgf703dac">Prozesse und Threads</h4>
+<section id="slide-orga9a1c7b">
+<h4 id="orga9a1c7b">Prozesse und Threads</h4>
 <dl>
 <dt>Prozess</dt><dd><ul>
 <li>ein in Ausführung befindliches Programm</li>
@@ -970,8 +1001,8 @@ Stack), Dateien, E/A-Geräte</li>
 </p>
 </div>
 </section>
-<section id="slide-orgf207eef">
-<h4 id="orgf207eef">Beispiele für Multithreading</h4>
+<section id="slide-orga754729">
+<h4 id="orga754729">Beispiele für Multithreading</h4>
 <ul>
 <li>Anwendungen mit graphischer Benutzeroberfläche, z.B. Textverarbeitung:
 <ul>
@@ -989,8 +1020,8 @@ Stack), Dateien, E/A-Geräte</li>
 
 </ul>
 </section>
-<section id="slide-org00f65f5">
-<h4 id="org00f65f5">Vorteile von Multithreading</h4>
+<section id="slide-org4590d8f">
+<h4 id="org4590d8f">Vorteile von Multithreading</h4>
 <dl>
 <dt>Kürzere Antwortzeiten</dt><dd>Bei interaktiven Anwendungen kann auch auf
 Benutzereingaben reagiert werden, während andere, langandauernde
@@ -1008,8 +1039,8 @@ nutzen.</dd>
 
 </dl>
 </section>
-<section id="slide-org5abb342">
-<h4 id="org5abb342">Anwender- und Kernel-Threads</h4>
+<section id="slide-org83db74c">
+<h4 id="org83db74c">Anwender- und Kernel-Threads</h4>
 <dl>
 <dt>Anwender-Threads</dt><dd>Erzeugung, Scheduling und Verwaltung der Threads
 erfolgt über spezielle Programm-Bibliotheken auf Ebene des
@@ -1031,8 +1062,8 @@ wartender Thread behindert die anderen Threads nicht.</dd>
 
 </dl>
 </section>
-<section id="slide-org447995d">
-<h4 id="org447995d">Multithreading-Modelle</h4>
+<section id="slide-org749b662">
+<h4 id="org749b662">Multithreading-Modelle</h4>
 <dl>
 <dt>Many-to-One-Modell</dt><dd><ul>
 <li>Mehrere Anwender-Threads werden auf einen Kernel-Thread abgebildet.</li>
@@ -1054,8 +1085,8 @@ Kernel-Thread abgebildet</li>
 
 </dl>
 </section>
-<section id="slide-org5050427">
-<h4 id="org5050427">Multithreading-Modelle: Many-to-One</h4>
+<section id="slide-orgfd59574">
+<h4 id="orgfd59574">Multithreading-Modelle: Many-to-One</h4>
 
 <div class="figure">
 <p><img src="./Abbildungen/manytoone.png" alt="manytoone.png" width="400px" />
@@ -1063,8 +1094,8 @@ Kernel-Thread abgebildet</li>
 </div>
 
 </section>
-<section id="slide-org0da6f62">
-<h4 id="org0da6f62">Multithreading-Modelle: One-to-One</h4>
+<section id="slide-org2c8be46">
+<h4 id="org2c8be46">Multithreading-Modelle: One-to-One</h4>
 
 <div class="figure">
 <p><img src="./Abbildungen/onetoone.png" alt="onetoone.png" width="400px" />
@@ -1072,8 +1103,8 @@ Kernel-Thread abgebildet</li>
 </div>
 
 </section>
-<section id="slide-org6e093f8">
-<h4 id="org6e093f8">Multithreading-Modelle: Many-to-Many</h4>
+<section id="slide-org7068ac5">
+<h4 id="org7068ac5">Multithreading-Modelle: Many-to-Many</h4>
 
 <div class="figure">
 <p><img src="./Abbildungen/manytomany.png" alt="manytomany.png" width="400px" />
@@ -1083,12 +1114,12 @@ Kernel-Thread abgebildet</li>
 </section>
 </section>
 <section>
-<section id="slide-org1136375">
-<h2 id="org1136375">Verklemmungen</h2>
-<div class="outline-text-2" id="text-org1136375">
+<section id="slide-org0d53926">
+<h2 id="org0d53926">Verklemmungen</h2>
+<div class="outline-text-2" id="text-org0d53926">
 </div></section>
-<section id="slide-org49a61d7">
-<h3 id="org49a61d7">Definition:</h3>
+<section id="slide-orgcdfc597">
+<h3 id="orgcdfc597">Definition:</h3>
 <p>
 Eine Verklemmung (<i>deadlock</i>) bedeutet, dass zwei oder mehr Prozesse
 auf Ereignisse warten, die niemals eintreten werden
@@ -1151,8 +1182,8 @@ reproduzierbar.
 </p>
 
 </section>
-<section id="slide-org0ca3221">
-<h3 id="org0ca3221">Vier notwendige und hinreichende Bedingungen für das Auftreten von Verklemmungen:</h3>
+<section id="slide-org717c251">
+<h3 id="org717c251">Vier notwendige und hinreichende Bedingungen für das Auftreten von Verklemmungen:</h3>
 <dl>
 <dt>„Wechselseitiger Ausschluss”-Bedingung</dt><dd>Ein Betriebsmittel, um das Prozesse konkurrieren, ist entweder frei
 oder genau einem Prozess zugewiesen.</dd>
@@ -1181,8 +1212,8 @@ Verklemmungserkennung benutzt.
 </div>
 
 </section>
-<section id="slide-orgcbd10a5">
-<h3 id="orgcbd10a5">Vier Strategien mit dem Verklemmungsproblem umzugehen:</h3>
+<section id="slide-org77c448d">
+<h3 id="org77c448d">Vier Strategien mit dem Verklemmungsproblem umzugehen:</h3>
 <ul>
 <li>Verklemmungen unmöglich machen</li>
 <li>Verklemmungen vermeiden</li>
@@ -1191,8 +1222,8 @@ Verklemmungserkennung benutzt.
 
 </ul>
 </section>
-<section id="slide-org6a4193f">
-<h4 id="org6a4193f">Verklemmungen unmöglich machen</h4>
+<section id="slide-org910d4d5">
+<h4 id="org910d4d5">Verklemmungen unmöglich machen</h4>
 <ul>
 <li>Wechselseitigen Ausschluss verhindern (Bedingung 1 ist aufgehoben)
 <ul>
@@ -1234,8 +1265,8 @@ schlechte Auslastung</li>
 
 </ul>
 </section>
-<section id="slide-orgd439b65">
-<h4 id="orgd439b65">Verklemmungsvermeidung</h4>
+<section id="slide-orge09eced">
+<h4 id="orge09eced">Verklemmungsvermeidung</h4>
 <p>
 beruht auf der Grundidee, die Betriebsmittelanforderungen der Prozesse
 in eine „verklemmungsfreie” Reihenfolge zu bringen. Die Algorithmen
@@ -1247,8 +1278,8 @@ mathematische Theorie entwickelt, auf die hier aber nicht eingegangen
 wird.
 </p>
 </section>
-<section id="slide-org65698f5">
-<h5 id="org65698f5">Bankiersalgorithmus</h5>
+<section id="slide-org91103fd">
+<h5 id="org91103fd">Bankiersalgorithmus</h5>
 <ul>
 <li>Betrachtung der Betriebsmittelanforderungen als gleichzeitig
 auftretende Maximalforderungen</li>
@@ -1265,8 +1296,8 @@ entsteht.</li>
 
 </ul>
 </section>
-<section id="slide-orgdadec9a">
-<h5 id="orgdadec9a">Probleme der Verklemmungsvermeidung</h5>
+<section id="slide-org315c3eb">
+<h5 id="org315c3eb">Probleme der Verklemmungsvermeidung</h5>
 <ul>
 <li>I. A. Zahl der maximal benötigten Betriebsmittel unbekannt</li>
 <li>Ständig wechselnde Zahl von Prozessen</li>
@@ -1275,8 +1306,8 @@ entsteht.</li>
 
 </ul>
 </section>
-<section id="slide-orgdea7a84">
-<h4 id="orgdea7a84">Verklemmungen erkennen</h4>
+<section id="slide-org20a863f">
+<h4 id="org20a863f">Verklemmungen erkennen</h4>
 <ul>
 <li>Analyse bei verdächtigen Symptomen:
 <ul>
@@ -1292,8 +1323,8 @@ entsteht.</li>
 
 </ul>
 </section>
-<section id="slide-org64e8164">
-<h4 id="org64e8164">Verklemmungen beseitigen</h4>
+<section id="slide-org07e3e65">
+<h4 id="org07e3e65">Verklemmungen beseitigen</h4>
 <ul>
 <li>Prozesse abbrechen</li>
 <li>Prozesse zurücksetzen</li>
@@ -1309,8 +1340,8 @@ entsteht.</li>
 
 </ul>
 </section>
-<section id="slide-org25ae491">
-<h4 id="org25ae491">Verklemmungen ignorieren</h4>
+<section id="slide-orgb2a2a87">
+<h4 id="orgb2a2a87">Verklemmungen ignorieren</h4>
 <ul>
 <li>Erkennung von Verklemmungen aufwendig</li>
 <li>Beseitigung von Verklemmungen nicht unproblematisch</li>
@@ -1318,28 +1349,6 @@ entsteht.</li>
 <li>Verklemmungen sind in der Regel nicht das dringlichste Problem</li>
 
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgb5452df">
-<h2 id="orgb5452df">verwendete Literatur</h2>
-<ul>
-<li><a class='org-ref-reference' href="#Bengel2015">Bengel2015</a></li>
-<li><a class='org-ref-reference' href="#CACM2017">CACM2017</a></li>
-<li><a class='org-ref-reference' href="#CACM2016">CACM2016</a></li>
-<li><a class='org-ref-reference' href="#Subramanian2017">Subramanian2017</a></li>
-
-</ul>
-</section>
-</section>
-<section>
-<section id="slide-org0ab707e">
-<h2 id="org0ab707e"><h2>Literaturverzeichnis</h2>
-<ul class='org-ref-bib'><li><a id="Bengel2015">[Bengel2015] Günther Bengel, Christian Baun, Marcel Kunze & Karl-Uwe Stucky, Masterkurs Parallele und Verteilte Systeme, Springer Fachmedien Wiesbaden (2015).</a></li>
-<li><a id="CACM2017">[CACM2017] Practical Parallelism, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/219104-practical-parallelism/fulltext">https://cacm.acm.org/careers/219104-practical-parallelism/fulltext</a> </a></li>
-<li><a id="CACM2016">[CACM2016] Parallel Programming Made Easy, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext">https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext</a> </a></li>
-<li><a id="Subramanian2017">[Subramanian2017] Subramanian, Jeffrey, Abeydeera, Lee, Ying, Emer & Sanchez, Fractal: An Execution Model for Fine-Grain Nested Speculative Parallelism, 587-599, in in: Proceedings of the 44th Annual International Symposium on Computer Architecture, edited by ACM (2017)</a></li>
-</ul></h2>
 </section>
 </section>
 </div>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-10-02 Mon 10:24 -->
+<!-- 2017-10-09 Mon 15:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung &#x2013; Einstieg</title>
@@ -264,12 +264,12 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Parallelprogrammierung &#x2013; Einstieg</h1>
 
-<div id="outline-container-org34268a8" class="outline-2">
-<h2 id="org34268a8">Warum Parallelprogrammierung?</h2>
-<div class="outline-text-2" id="text-org34268a8">
-</div><div id="outline-container-orgd9a8809" class="outline-3">
-<h3 id="orgd9a8809">Technische Gründe</h3>
-<div class="outline-text-3" id="text-orgd9a8809">
+<div id="outline-container-org9b26eac" class="outline-2">
+<h2 id="org9b26eac">Warum Parallelprogrammierung?</h2>
+<div class="outline-text-2" id="text-org9b26eac">
+</div><div id="outline-container-org1561aad" class="outline-3">
+<h3 id="org1561aad">Technische Gründe</h3>
+<div class="outline-text-3" id="text-org1561aad">
 <ul class="org-ul">
 <li>Erhöhung der Rechenleistung durch Erhöhung der Taktfrequenzen stösst
 technisch an Grenzen</li>
@@ -284,9 +284,38 @@ technisch an Grenzen</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd48ea94" class="outline-3">
-<h3 id="orgd48ea94">Enwicklung der Mikroprozessortechnik</h3>
-<div class="outline-text-3" id="text-orgd48ea94">
+<div id="outline-container-org4d1fc3c" class="outline-3">
+<h3 id="org4d1fc3c">Computer im Wandel der Jahrzehnte</h3>
+<div class="outline-text-3" id="text-org4d1fc3c">
+
+<div class="figure">
+<p><img src="./Abbildungen/computervon60Jahrenundjetzt.jpg" alt="computervon60Jahrenundjetzt.jpg" width="400px" />
+</p>
+</div>
+<ul class="org-ul">
+<li>Ein iPhone enthält ca. 1 Milliarde Transistoren.</li>
+<li>Um diese Rechenleistung mit der Technologie der 1950er Jahre zu
+bauen, bräuchte es:
+<ul class="org-ul">
+<li>1 Milliarde Elektronenröhren</li>
+<li>170 vehicle assembly buildings, um sie unterzubringen</li>
+<li>1 Terawatt Leistung, um sie zu betreiben</li>
+<li>das entspräche 500 2-Gigawatt-Kernkraftwerken für ca. 50 Milliarden Euro</li>
+<li>das entspräche dem Weltbruttosozialprodukt von 60 Jahren</li>
+</ul></li>
+<li>Smartphones realisieren eine Steigerung der Rechenleistung um den
+Faktor \(10^{22}\) verglichen mit der Technologie vor 60 Jahren.</li>
+</ul>
+
+<p>
+Welche Fortschritte gibt es in dieser Zeit in der Software?
+</p>
+</div>
+</div>
+
+<div id="outline-container-org28866c1" class="outline-3">
+<h3 id="org28866c1">Enwicklung der Mikroprozessortechnik</h3>
+<div class="outline-text-3" id="text-org28866c1">
 
 <div class="figure">
 <p><img src="./Abbildungen/CPU-Moore.png" alt="CPU-Moore.png" width="400px" />
@@ -294,9 +323,9 @@ technisch an Grenzen</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcd1b761" class="outline-3">
-<h3 id="orgcd1b761">Robert C. Martin: The failure of state</h3>
-<div class="outline-text-3" id="text-orgcd1b761">
+<div id="outline-container-org06bdcf4" class="outline-3">
+<h3 id="org06bdcf4">Robert C. Martin: The failure of state</h3>
+<div class="outline-text-3" id="text-org06bdcf4">
 <p>
 <a href="https://www.youtube.com/watch?v=7Zlp9rKHGD4">Functional Programming &#x2013; The Failure of State</a>
 </p>
@@ -314,17 +343,17 @@ Ausschnitte:
 </div>
 </div>
 
-<div id="outline-container-org1f654e7" class="outline-2">
-<h2 id="org1f654e7">Prozesse, Threads, Synchronisation</h2>
-<div class="outline-text-2" id="text-org1f654e7">
+<div id="outline-container-orgf424d8c" class="outline-2">
+<h2 id="orgf424d8c">Prozesse, Threads, Synchronisation</h2>
+<div class="outline-text-2" id="text-orgf424d8c">
 <p>
 (Die Ausführungen in diesem lehnen sich an ein Vorlesungsskript von
 Uwe Neuhaus an)
 </p>
 </div>
-<div id="outline-container-org5c501be" class="outline-3">
-<h3 id="org5c501be">Bestandteile von Computersystemen</h3>
-<div class="outline-text-3" id="text-org5c501be">
+<div id="outline-container-org82ae258" class="outline-3">
+<h3 id="org82ae258">Bestandteile von Computersystemen</h3>
+<div class="outline-text-3" id="text-org82ae258">
 <ol class="org-ol">
 <li>Hardware – Bereitstellung grundlegender Betriebsmittel (Prozessor,
 Speicher, Ein-/Ausgabegeräte)</li>
@@ -338,9 +367,9 @@ Datenbanksysteme, Textverarbeitung, Spiele usw.)</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf31b1bb" class="outline-3">
-<h3 id="orgf31b1bb">Abstrakte Sicht der Bestandteile</h3>
-<div class="outline-text-3" id="text-orgf31b1bb">
+<div id="outline-container-org2586d1a" class="outline-3">
+<h3 id="org2586d1a">Abstrakte Sicht der Bestandteile</h3>
+<div class="outline-text-3" id="text-org2586d1a">
 
 <div class="figure">
 <p><img src="./Abbildungen/computersystem.png" alt="computersystem.png" />
@@ -348,12 +377,12 @@ Datenbanksysteme, Textverarbeitung, Spiele usw.)</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org4ed6391" class="outline-3">
-<h3 id="org4ed6391">Mehrprogrammbetrieb</h3>
-<div class="outline-text-3" id="text-org4ed6391">
-</div><div id="outline-container-orgc0eecbe" class="outline-4">
-<h4 id="orgc0eecbe">Stapelverarbeitung</h4>
-<div class="outline-text-4" id="text-orgc0eecbe">
+<div id="outline-container-org4849e89" class="outline-3">
+<h3 id="org4849e89">Mehrprogrammbetrieb</h3>
+<div class="outline-text-3" id="text-org4849e89">
+</div><div id="outline-container-orge8c31b2" class="outline-4">
+<h4 id="orge8c31b2">Stapelverarbeitung</h4>
+<div class="outline-text-4" id="text-orge8c31b2">
 <p style="float:right" width="200px">
 <img src="./Abbildungen/mehrprogrammbetrieb.png" alt="mehrprogrammbetrieb.png" style="float:right" width="200px" /> Mehrere Aufträge werden im
 Speicher gehalten. Der Prozessor wechselt zwischen diesen Aufträgen
@@ -361,9 +390,9 @@ hin und her.
 </p>
 </div>
 </div>
-<div id="outline-container-org24df602" class="outline-4">
-<h4 id="org24df602">CPU-Aufteilung</h4>
-<div class="outline-text-4" id="text-org24df602">
+<div id="outline-container-org74b966f" class="outline-4">
+<h4 id="org74b966f">CPU-Aufteilung</h4>
+<div class="outline-text-4" id="text-org74b966f">
 <div class="nebeneinander">
 <p>
 Ablauf eines Programms:
@@ -395,9 +424,9 @@ quasi-paralleler Ablauf zweier Programme:
 </div>
 
 
-<div id="outline-container-orgc2891d1" class="outline-4">
-<h4 id="orgc2891d1">Benötigte Betriebssystemfähigkeiten beim Mehrprogrammbetrieb</h4>
-<div class="outline-text-4" id="text-orgc2891d1">
+<div id="outline-container-org567fec1" class="outline-4">
+<h4 id="org567fec1">Benötigte Betriebssystemfähigkeiten beim Mehrprogrammbetrieb</h4>
+<div class="outline-text-4" id="text-org567fec1">
 <ul class="org-ul">
 <li>Bereitstellung von Ein-/Ausgabe-Routinen</li>
 <li>Zuordnung von Geräten zu   Aufträgen</li>
@@ -411,9 +440,9 @@ einen anderen, Endlosschleifen usw.)</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org40a44e3" class="outline-3">
-<h3 id="org40a44e3">Mehrbenutzersystem (Time-Sharing Systems) – Interaktive Benutzung</h3>
-<div class="outline-text-3" id="text-org40a44e3">
+<div id="outline-container-org3ce815c" class="outline-3">
+<h3 id="org3ce815c">Mehrbenutzersystem (Time-Sharing Systems) – Interaktive Benutzung</h3>
+<div class="outline-text-3" id="text-org3ce815c">
 <ul class="org-ul">
 <li>Eine interaktive Kommunikationsmöglichkeit zwischen dem Anwender und
 der Computersystem wird bereitgestellt, die den Zugriff auf
@@ -427,9 +456,9 @@ ausgelagert.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbac1bdc" class="outline-3">
-<h3 id="orgbac1bdc">Arbeitsplatzrechnersysteme / Personal-Computer</h3>
-<div class="outline-text-3" id="text-orgbac1bdc">
+<div id="outline-container-org6a75dff" class="outline-3">
+<h3 id="org6a75dff">Arbeitsplatzrechnersysteme / Personal-Computer</h3>
+<div class="outline-text-3" id="text-org6a75dff">
 <ul class="org-ul">
 <li>Personal-Computer – Computersysteme, die ausschließlich einem
 einzigen Benutzer zur Verfügung stehen</li>
@@ -442,12 +471,12 @@ Betriebssysteme möglich (Windows, MacOS, UNIX, Linux)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1ff3b1f" class="outline-3">
-<h3 id="org1ff3b1f">Mehrprozessorsysteme</h3>
-<div class="outline-text-3" id="text-org1ff3b1f">
-</div><div id="outline-container-org3c60e0c" class="outline-4">
-<h4 id="org3c60e0c">Prinzip</h4>
-<div class="outline-text-4" id="text-org3c60e0c">
+<div id="outline-container-org8b411ae" class="outline-3">
+<h3 id="org8b411ae">Mehrprozessorsysteme</h3>
+<div class="outline-text-3" id="text-org8b411ae">
+</div><div id="outline-container-org47de2f9" class="outline-4">
+<h4 id="org47de2f9">Prinzip</h4>
+<div class="outline-text-4" id="text-org47de2f9">
 <ul class="org-ul">
 <li>Mehrprozessorsysteme besitzen mehrere, eng gekoppelte Prozessoren</li>
 <li>Eng gekoppelt &#x2013; Prozessoren nutzen gemeinsam Hauptspeicher und
@@ -465,9 +494,9 @@ üblicherweise über den gemeinsam genutzten Speicher statt.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5e1e684" class="outline-4">
-<h4 id="org5e1e684">Varianten</h4>
-<div class="outline-text-4" id="text-org5e1e684">
+<div id="outline-container-org1a02c32" class="outline-4">
+<h4 id="org1a02c32">Varianten</h4>
+<div class="outline-text-4" id="text-org1a02c32">
 <dl class="org-dl">
 <dt>Symmetric multiprocessing (SMP)</dt><dd><ul class="org-ul">
 <li>Auf jedem Prozessor läuft das identische Betriebssystem</li>
@@ -483,9 +512,9 @@ verteilt Aufgaben an die anderen (möglicherweise spezialisierten)
 </dl>
 </div>
 </div>
-<div id="outline-container-orge51581c" class="outline-4">
-<h4 id="orge51581c">Architektur bei symmetrischen Mehrprozessorsystemen</h4>
-<div class="outline-text-4" id="text-orge51581c">
+<div id="outline-container-orgca3e24d" class="outline-4">
+<h4 id="orgca3e24d">Architektur bei symmetrischen Mehrprozessorsystemen</h4>
+<div class="outline-text-4" id="text-orgca3e24d">
 
 <div class="figure">
 <p><img src="./Abbildungen/mehrprozessorarchitektur.png" alt="mehrprozessorarchitektur.png" width="600px" />
@@ -500,9 +529,9 @@ Flaschenhals werden.
 </div>
 </div>
 
-<div id="outline-container-org626f722" class="outline-3">
-<h3 id="org626f722">Prozesse</h3>
-<div class="outline-text-3" id="text-org626f722">
+<div id="outline-container-org55b4ba5" class="outline-3">
+<h3 id="org55b4ba5">Prozesse</h3>
+<div class="outline-text-3" id="text-org55b4ba5">
 <p>
 Für die Behandlung der Anforderungen in Mehrprogrammbetriebssystemen
 sind primitive Ad-hoc-Lösungen nicht mehr möglich. Das Verständnis des
@@ -516,13 +545,13 @@ wohldefinierte Schnittstellen miteinander kommunizieren müssen. Diese
 funktionellen Einheiten bezeichnet man als <b>Prozesse</b>.
 </p>
 </div>
-<div id="outline-container-orgf2bf34d" class="outline-4">
-<h4 id="prozessbegriff"><a id="orgf2bf34d"></a>Prozessbegriff</h4>
+<div id="outline-container-org1473ed2" class="outline-4">
+<h4 id="prozessbegriff"><a id="org1473ed2"></a>Prozessbegriff</h4>
 <div class="outline-text-4" id="text-prozessbegriff">
 </div>
 
-<div id="outline-container-orgf0ba08a" class="outline-5">
-<h5 id="typische-merkmale-von-prozessen"><a id="orgf0ba08a"></a>Typische Merkmale von Prozessen:</h5>
+<div id="outline-container-org9683e90" class="outline-5">
+<h5 id="typische-merkmale-von-prozessen"><a id="org9683e90"></a>Typische Merkmale von Prozessen:</h5>
 <div class="outline-text-5" id="text-typische-merkmale-von-prozessen">
 <ul class="org-ul">
 <li>brauchen Prozessor</li>
@@ -537,8 +566,8 @@ eines Benutzerauftrags sind in der Regel mehrere Prozesse notwendig.
 </div>
 </div>
 
-<div id="outline-container-org3b91735" class="outline-5">
-<h5 id="formen-der-parallelität"><a id="org3b91735"></a>Formen der Parallelität</h5>
+<div id="outline-container-org9a36623" class="outline-5">
+<h5 id="formen-der-parallelität"><a id="org9a36623"></a>Formen der Parallelität</h5>
 <div class="outline-text-5" id="text-formen-der-parallelität">
 <ul class="org-ul">
 <li>mehrere Prozesse laufen auf unterschiedlichen Prozessoren ab &#x2013;
@@ -557,13 +586,13 @@ Probleme sind davon aber unabhängig.
 </div>
 </div>
 </div>
-<div id="outline-container-org45b9ec5" class="outline-3">
-<h3 id="synchronisation-konkurrierender-und-kooperierender-prozesse"><a id="org45b9ec5"></a>Synchronisation konkurrierender Prozesse</h3>
+<div id="outline-container-org1adf9f7" class="outline-3">
+<h3 id="synchronisation-konkurrierender-und-kooperierender-prozesse"><a id="org1adf9f7"></a>Synchronisation konkurrierender Prozesse</h3>
 <div class="outline-text-3" id="text-synchronisation-konkurrierender-und-kooperierender-prozesse">
 </div>
 
-<div id="outline-container-org03fcd03" class="outline-4">
-<h4 id="problem-des-wechselseitigen-ausschlusses"><a id="org03fcd03"></a>Problem des wechselseitigen Ausschlusses</h4>
+<div id="outline-container-org8dae8bb" class="outline-4">
+<h4 id="problem-des-wechselseitigen-ausschlusses"><a id="org8dae8bb"></a>Problem des wechselseitigen Ausschlusses</h4>
 <div class="outline-text-4" id="text-problem-des-wechselseitigen-ausschlusses">
 <p>
 Das Problem des wechselseitigen Ausschlusses (<i>mutual exclusion</i>) wurde
@@ -571,8 +600,8 @@ erstmals 1965 von Edsger W. Dijkstra formuliert.
 </p>
 </div>
 
-<div id="outline-container-org84dfeb5" class="outline-5">
-<h5 id="beispiel-1"><a id="org84dfeb5"></a>Beispiel 1:</h5>
+<div id="outline-container-org4b95e04" class="outline-5">
+<h5 id="beispiel-1"><a id="org4b95e04"></a>Beispiel 1:</h5>
 <div class="outline-text-5" id="text-beispiel-1">
 <p>
 Zwei zyklische Prozesse \(p_1\) und \(p_2\) benutzen von Zeit zu Zeit ein
@@ -720,9 +749,9 @@ Gefahr der Verklemmung (<i>deadlock</i>).
 </div>
 </div>
 
-<div id="outline-container-org9b86660" class="outline-4">
-<h4 id="org9b86660">Anforderungen an eine Lösung für das Problem des wechselseitigen Ausschlusses:</h4>
-<div class="outline-text-4" id="text-org9b86660">
+<div id="outline-container-org7718c82" class="outline-4">
+<h4 id="org7718c82">Anforderungen an eine Lösung für das Problem des wechselseitigen Ausschlusses:</h4>
+<div class="outline-text-4" id="text-org7718c82">
 <ol class="org-ol">
 <li>Das Betriebsmittel wird nach endlicher Zeit zugewiesen.</li>
 <li>Ein Prozess gibt das Betriebsmittel nach endlicher Zeit wieder frei.</li>
@@ -737,9 +766,9 @@ Benutzung gemeinsamer Betriebsmittel.
 </div>
 </div>
 
-<div id="outline-container-org639f2bb" class="outline-4">
-<h4 id="org639f2bb">Weitere Beispiele für das Auftreten des Problems des wechselseitigen</h4>
-<div class="outline-text-4" id="text-org639f2bb">
+<div id="outline-container-orgc1dc483" class="outline-4">
+<h4 id="orgc1dc483">Weitere Beispiele für das Auftreten des Problems des wechselseitigen</h4>
+<div class="outline-text-4" id="text-orgc1dc483">
 <p>
 Ausschlusses:
 </p>
@@ -754,9 +783,9 @@ Zwischenergebnisse</li>
 </div>
 </div>
 
-<div id="outline-container-org29342fb" class="outline-4">
-<h4 id="org29342fb">Definition (kritischer Abschnitt):</h4>
-<div class="outline-text-4" id="text-org29342fb">
+<div id="outline-container-org4d6cd46" class="outline-4">
+<h4 id="org4d6cd46">Definition (kritischer Abschnitt):</h4>
+<div class="outline-text-4" id="text-org4d6cd46">
 <p>
 Programmabschnitte, in denen sich zu einem Zeitpunkt nur jeweils ein
 Prozess befinden darf, heißen <i>kritische Abschnitte</i> (<i>critical
@@ -765,9 +794,9 @@ sections</i>).
 </div>
 </div>
 
-<div id="outline-container-orgdf2d481" class="outline-4">
-<h4 id="orgdf2d481">Lösung: <code>P</code>- und <code>V</code>-Operationen nach Edsger W. Dijkstra</h4>
-<div class="outline-text-4" id="text-orgdf2d481">
+<div id="outline-container-orgca65c46" class="outline-4">
+<h4 id="orgca65c46">Lösung: <code>P</code>- und <code>V</code>-Operationen nach Edsger W. Dijkstra</h4>
+<div class="outline-text-4" id="text-orgca65c46">
 <p>
 <code>P</code> und <code>V</code> sind zwei Operationen auf einer gemeinsamen Variablen,
 genannt <i>Semaphorvariable</i>. Jedem kritischen Abschnitt wird eine
@@ -775,8 +804,8 @@ Semaphore zugeordnet.
 </p>
 </div>
 
-<div id="outline-container-org7de0169" class="outline-5">
-<h5 id="definition-von-p-und-v"><a id="org7de0169"></a>Definition von <code>P</code> und <code>V</code>:</h5>
+<div id="outline-container-org1639afb" class="outline-5">
+<h5 id="definition-von-p-und-v"><a id="org1639afb"></a>Definition von <code>P</code> und <code>V</code>:</h5>
 <div class="outline-text-5" id="text-definition-von-p-und-v">
 <pre class="example">
     P(s):
@@ -793,9 +822,9 @@ Semaphore zugeordnet.
 </div>
 </div>
 
-<div id="outline-container-orgb987351" class="outline-5">
-<h5 id="orgb987351">Beispiel für die Sicherung eines kritischen Abschnitts (Benutzung eines Magnetbandgeräts) &#x2026;</h5>
-<div class="outline-text-5" id="text-orgb987351">
+<div id="outline-container-org0de7252" class="outline-5">
+<h5 id="org0de7252">Beispiel für die Sicherung eines kritischen Abschnitts (Benutzung eines Magnetbandgeräts) &#x2026;</h5>
+<div class="outline-text-5" id="text-org0de7252">
 <p>
 &#x2026; durch eine Semaphore <code>s</code>:
 </p>
@@ -808,9 +837,9 @@ V(s)
 </div>
 </div>
 
-<div id="outline-container-org37b438e" class="outline-5">
-<h5 id="org37b438e">Eigenschaften von <code>P</code> und <code>V</code>:</h5>
-<div class="outline-text-5" id="text-org37b438e">
+<div id="outline-container-orgb207633" class="outline-5">
+<h5 id="orgb207633">Eigenschaften von <code>P</code> und <code>V</code>:</h5>
+<div class="outline-text-5" id="text-orgb207633">
 <ul class="org-ul">
 <li>sind selbst kritische Abschnitte</li>
 <li>müssen atomar sein (dürfen nicht selbst unterbrochen werden)</li>
@@ -844,9 +873,9 @@ realisiert, wobei ein aktives Warten in Kauf genommen wird.</li>
 </div>
 </div>
 
-<div id="outline-container-orgd09c240" class="outline-5">
-<h5 id="orgd09c240">Der Spezialbefehl <code>teste_und_setze(pv)</code></h5>
-<div class="outline-text-5" id="text-orgd09c240">
+<div id="outline-container-org9f9f1be" class="outline-5">
+<h5 id="org9f9f1be">Der Spezialbefehl <code>teste_und_setze(pv)</code></h5>
+<div class="outline-text-5" id="text-org9f9f1be">
 <p>
 &#x2026; ist eine unteilbare Operation, die folgendermaßen arbeitet:
 </p>
@@ -886,9 +915,9 @@ V'(s)
 </div>
 </div>
 </div>
-<div id="outline-container-orge511912" class="outline-4">
-<h4 id="orge511912">Alternative Realisierung für Semaphore</h4>
-<div class="outline-text-4" id="text-orge511912">
+<div id="outline-container-org15b9eb5" class="outline-4">
+<h4 id="org15b9eb5">Alternative Realisierung für Semaphore</h4>
+<div class="outline-text-4" id="text-org15b9eb5">
 <ul class="org-ul">
 <li><code>S</code> ist ein Semaphoren-Objekt mit den Methoden <code>wait()</code> (möchte
 passieren) und <code>signal()</code> (verlassen).</li>
@@ -927,9 +956,9 @@ S.signal<span style="color: #707183;">()</span>;</pre>
 
 </div>
 </div>
-<div id="outline-container-org36ce2b7" class="outline-5">
-<h5 id="org36ce2b7">Realisierung eines binären Semaphors</h5>
-<div class="outline-text-5" id="text-org36ce2b7">
+<div id="outline-container-org07e98a7" class="outline-5">
+<h5 id="org07e98a7">Realisierung eines binären Semaphors</h5>
+<div class="outline-text-5" id="text-org07e98a7">
 <div class="org-src-container">
 <pre class="src src-java">S.<span style="color: #D0372D;">wait</span><span style="color: #707183;">()</span>:
 <span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span> <span style="color: #6434A3;">TestAndSet</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">belegt</span><span style="color: #7388D6;">)</span> <span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
@@ -949,9 +978,9 @@ S.signal<span style="color: #707183;">()</span>;</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5c78bcb" class="outline-5">
-<h5 id="org5c78bcb">Realisierung eines Zähl-Semaphors</h5>
-<div class="outline-text-5" id="text-org5c78bcb">
+<div id="outline-container-orgefda497" class="outline-5">
+<h5 id="orgefda497">Realisierung eines Zähl-Semaphors</h5>
+<div class="outline-text-5" id="text-orgefda497">
 <div class="org-src-container">
 <pre class="src src-java">S.<span style="color: #D0372D;">wait</span><span style="color: #707183;">()</span>:
 <span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span> FetchAndAdd<span style="color: #7388D6;">(</span> zaehler, -1 <span style="color: #7388D6;">)</span> &lt; 1<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
@@ -972,8 +1001,8 @@ S.signal<span style="color: #707183;">()</span>;</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8531f66" class="outline-3">
-<h3 id="synchronisation-kooperierender-prozesse"><a id="org8531f66"></a>Synchronisation kooperierender Prozesse</h3>
+<div id="outline-container-org917a681" class="outline-3">
+<h3 id="synchronisation-kooperierender-prozesse"><a id="org917a681"></a>Synchronisation kooperierender Prozesse</h3>
 <div class="outline-text-3" id="text-synchronisation-kooperierender-prozesse">
 <ul class="org-ul">
 <li>Bisher wurden nur um gemeinsame Betriebsmittel konkurrierende
@@ -995,9 +1024,9 @@ gegenseitig „überholen”.</li>
 </ul>
 </div>
 
-<div id="outline-container-orga310b62" class="outline-4">
-<h4 id="orga310b62">Sychronisation von Erzeuger un Verbraucher durch Semaphore</h4>
-<div class="outline-text-4" id="text-orga310b62">
+<div id="outline-container-org6b948fb" class="outline-4">
+<h4 id="org6b948fb">Sychronisation von Erzeuger un Verbraucher durch Semaphore</h4>
+<div class="outline-text-4" id="text-org6b948fb">
 <ul class="org-ul">
 <li>Die Prozesse benutzen jeweils eine Kommunikationsprozedur,
 <code>SendeNachricht</code> und <code>EmpfangeNachricht</code>, die dafür sorgen, dass
@@ -1051,9 +1080,9 @@ Initialisierung: <code>mutex.zaehler = 1; frei.zaehler = max; belegt.zaehler = 0
 </p>
 </div>
 
-<div id="outline-container-orgb012ceb" class="outline-5">
-<h5 id="orgb012ceb">Nachteil dieser Lösung</h5>
-<div class="outline-text-5" id="text-orgb012ceb">
+<div id="outline-container-org56d9617" class="outline-5">
+<h5 id="org56d9617">Nachteil dieser Lösung</h5>
+<div class="outline-text-5" id="text-org56d9617">
 <ul class="org-ul">
 <li>Die Verantwortung für die korrekte Synchronisation bzw. deren
 korrekte Programmierung liegt bei den Prozessen.</li>
@@ -1064,9 +1093,9 @@ Fehlverhalten (z.B. Verklemmungen) führen.</li>
 </div>
 </div>
 
-<div id="outline-container-org8cecb12" class="outline-4">
-<h4 id="org8cecb12">Weitere klassische Synchronisationsprobleme</h4>
-<div class="outline-text-4" id="text-org8cecb12">
+<div id="outline-container-org013f5c2" class="outline-4">
+<h4 id="org013f5c2">Weitere klassische Synchronisationsprobleme</h4>
+<div class="outline-text-4" id="text-org013f5c2">
 <dl class="org-dl">
 <dt>Readers-Writers-Problem</dt><dd><ul class="org-ul">
 <li>Einige Prozesse/Threads wollen einen Datenbereich lesen, einige
@@ -1084,9 +1113,9 @@ essen Reis mit Stäbchen.</li>
 </div>
 </div>
 
-<div id="outline-container-orge5a1b2b" class="outline-3">
-<h3 id="orge5a1b2b">Monitore</h3>
-<div class="outline-text-3" id="text-orge5a1b2b">
+<div id="outline-container-org807d15c" class="outline-3">
+<h3 id="org807d15c">Monitore</h3>
+<div class="outline-text-3" id="text-org807d15c">
 <ul class="org-ul">
 <li><b>Programmiersprachliches</b> Konstrukt, funktional äquivalent zu Semaphoren</li>
 <li>Kritische Methoden und Daten werden in einer Klasse mit einem
@@ -1097,9 +1126,9 @@ zugehörigen Semaphor kombiniert.</li>
 </div>
 </div>
 
-<div id="outline-container-org0004572" class="outline-3">
-<h3 id="org0004572">Synchronisation durch Nachrichtenaustausch</h3>
-<div class="outline-text-3" id="text-org0004572">
+<div id="outline-container-org16f6b09" class="outline-3">
+<h3 id="org16f6b09">Synchronisation durch Nachrichtenaustausch</h3>
+<div class="outline-text-3" id="text-org16f6b09">
 <ul class="org-ul">
 <li>Die bisher betrachteten Synchronisationsprimitive sind nur
 einsetzbar, wenn die beteiligten Prozesse Zugriff auf einen
@@ -1128,9 +1157,9 @@ wird der Prozess blockiert, wenn keine Nachricht verfügbar ist.</li>
 </ul>
 </div>
 
-<div id="outline-container-org1695e79" class="outline-4">
-<h4 id="org1695e79">Mögliche Schwierigkeiten bei der Nachrichtenübermittlung:</h4>
-<div class="outline-text-4" id="text-org1695e79">
+<div id="outline-container-org4afac1d" class="outline-4">
+<h4 id="org4afac1d">Mögliche Schwierigkeiten bei der Nachrichtenübermittlung:</h4>
+<div class="outline-text-4" id="text-org4afac1d">
 <ul class="org-ul">
 <li>Verlust einer Nachricht<br />
 Abhilfe: jede gesendete Nachricht muss quittiert werden
@@ -1151,9 +1180,9 @@ Abhilfe: Numerieren der Nachrichten</li>
 </div>
 </div>
 
-<div id="outline-container-orgf3ba9f5" class="outline-4">
-<h4 id="orgf3ba9f5">Behandlung des <i>Producer-Consumer-Problems</i> mit <i>message passing</i>:</h4>
-<div class="outline-text-4" id="text-orgf3ba9f5">
+<div id="outline-container-org1b55f8c" class="outline-4">
+<h4 id="org1b55f8c">Behandlung des <i>Producer-Consumer-Problems</i> mit <i>message passing</i>:</h4>
+<div class="outline-text-4" id="text-org1b55f8c">
 <p>
 Annahmen:
 </p>
@@ -1185,9 +1214,9 @@ Betriebssystem automatisch gepuffert.</li>
 </div>
 </div>
 
-<div id="outline-container-orgc7ec915" class="outline-5">
-<h5 id="orgc7ec915">Anmerkungen:</h5>
-<div class="outline-text-5" id="text-orgc7ec915">
+<div id="outline-container-org97a2cc7" class="outline-5">
+<h5 id="org97a2cc7">Anmerkungen:</h5>
+<div class="outline-text-5" id="text-org97a2cc7">
 <ul class="org-ul">
 <li>Die Zahl der Nachrichten bleibt konstant.</li>
 <li>Für Pufferung ist ein fester Speicherbereich vorgesehen.</li>
@@ -1200,12 +1229,12 @@ und Empfänger.</li>
 </div>
 </div>
 
-<div id="outline-container-orgeaa65d4" class="outline-3">
-<h3 id="orgeaa65d4">Threads</h3>
-<div class="outline-text-3" id="text-orgeaa65d4">
-</div><div id="outline-container-org5290345" class="outline-4">
-<h4 id="org5290345">Prozesse und Threads</h4>
-<div class="outline-text-4" id="text-org5290345">
+<div id="outline-container-org3536684" class="outline-3">
+<h3 id="org3536684">Threads</h3>
+<div class="outline-text-3" id="text-org3536684">
+</div><div id="outline-container-orga95950c" class="outline-4">
+<h4 id="orga95950c">Prozesse und Threads</h4>
+<div class="outline-text-4" id="text-orga95950c">
 <dl class="org-dl">
 <dt>Prozess</dt><dd><ul class="org-ul">
 <li>ein in Ausführung befindliches Programm</li>
@@ -1228,9 +1257,9 @@ Stack), Dateien, E/A-Geräte</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org1567cec" class="outline-4">
-<h4 id="org1567cec">Beispiele für Multithreading</h4>
-<div class="outline-text-4" id="text-org1567cec">
+<div id="outline-container-org1817ab6" class="outline-4">
+<h4 id="org1817ab6">Beispiele für Multithreading</h4>
+<div class="outline-text-4" id="text-org1817ab6">
 <ul class="org-ul">
 <li>Anwendungen mit graphischer Benutzeroberfläche, z.B. Textverarbeitung:
 <ul class="org-ul">
@@ -1246,9 +1275,9 @@ Stack), Dateien, E/A-Geräte</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfea6289" class="outline-4">
-<h4 id="orgfea6289">Vorteile von Multithreading</h4>
-<div class="outline-text-4" id="text-orgfea6289">
+<div id="outline-container-org90cfeb8" class="outline-4">
+<h4 id="org90cfeb8">Vorteile von Multithreading</h4>
+<div class="outline-text-4" id="text-org90cfeb8">
 <dl class="org-dl">
 <dt>Kürzere Antwortzeiten</dt><dd>Bei interaktiven Anwendungen kann auch auf
 Benutzereingaben reagiert werden, während andere, langandauernde
@@ -1266,9 +1295,9 @@ nutzen.</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-org0795424" class="outline-4">
-<h4 id="org0795424">Anwender- und Kernel-Threads</h4>
-<div class="outline-text-4" id="text-org0795424">
+<div id="outline-container-org4a96c82" class="outline-4">
+<h4 id="org4a96c82">Anwender- und Kernel-Threads</h4>
+<div class="outline-text-4" id="text-org4a96c82">
 <dl class="org-dl">
 <dt>Anwender-Threads</dt><dd>Erzeugung, Scheduling und Verwaltung der Threads
 erfolgt über spezielle Programm-Bibliotheken auf Ebene des
@@ -1288,9 +1317,9 @@ wartender Thread behindert die anderen Threads nicht.</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-org4e10a37" class="outline-4">
-<h4 id="org4e10a37">Multithreading-Modelle</h4>
-<div class="outline-text-4" id="text-org4e10a37">
+<div id="outline-container-orgda364a0" class="outline-4">
+<h4 id="orgda364a0">Multithreading-Modelle</h4>
+<div class="outline-text-4" id="text-orgda364a0">
 <dl class="org-dl">
 <dt>Many-to-One-Modell</dt><dd><ul class="org-ul">
 <li>Mehrere Anwender-Threads werden auf einen Kernel-Thread abgebildet.</li>
@@ -1309,9 +1338,9 @@ Kernel-Thread abgebildet</li>
 </dl>
 </div>
 </div>
-<div id="outline-container-orgac91f1d" class="outline-4">
-<h4 id="orgac91f1d">Multithreading-Modelle: Many-to-One</h4>
-<div class="outline-text-4" id="text-orgac91f1d">
+<div id="outline-container-org1a84c23" class="outline-4">
+<h4 id="org1a84c23">Multithreading-Modelle: Many-to-One</h4>
+<div class="outline-text-4" id="text-org1a84c23">
 
 <div class="figure">
 <p><img src="./Abbildungen/manytoone.png" alt="manytoone.png" width="400px" />
@@ -1320,9 +1349,9 @@ Kernel-Thread abgebildet</li>
 </div>
 </div>
 
-<div id="outline-container-org3e63713" class="outline-4">
-<h4 id="org3e63713">Multithreading-Modelle: One-to-One</h4>
-<div class="outline-text-4" id="text-org3e63713">
+<div id="outline-container-org7b6d7c5" class="outline-4">
+<h4 id="org7b6d7c5">Multithreading-Modelle: One-to-One</h4>
+<div class="outline-text-4" id="text-org7b6d7c5">
 
 <div class="figure">
 <p><img src="./Abbildungen/onetoone.png" alt="onetoone.png" width="400px" />
@@ -1331,9 +1360,9 @@ Kernel-Thread abgebildet</li>
 </div>
 </div>
 
-<div id="outline-container-orgc80c435" class="outline-4">
-<h4 id="orgc80c435">Multithreading-Modelle: Many-to-Many</h4>
-<div class="outline-text-4" id="text-orgc80c435">
+<div id="outline-container-org97fb07d" class="outline-4">
+<h4 id="org97fb07d">Multithreading-Modelle: Many-to-Many</h4>
+<div class="outline-text-4" id="text-org97fb07d">
 
 <div class="figure">
 <p><img src="./Abbildungen/manytomany.png" alt="manytomany.png" width="400px" />
@@ -1344,12 +1373,12 @@ Kernel-Thread abgebildet</li>
 </div>
 </div>
 
-<div id="outline-container-orgc34ff27" class="outline-2">
-<h2 id="orgc34ff27">Verklemmungen</h2>
-<div class="outline-text-2" id="text-orgc34ff27">
-</div><div id="outline-container-orgcfc7f05" class="outline-3">
-<h3 id="orgcfc7f05">Definition:</h3>
-<div class="outline-text-3" id="text-orgcfc7f05">
+<div id="outline-container-org376b0a7" class="outline-2">
+<h2 id="org376b0a7">Verklemmungen</h2>
+<div class="outline-text-2" id="text-org376b0a7">
+</div><div id="outline-container-org050c051" class="outline-3">
+<h3 id="org050c051">Definition:</h3>
+<div class="outline-text-3" id="text-org050c051">
 <p>
 Eine Verklemmung (<i>deadlock</i>) bedeutet, dass zwei oder mehr Prozesse
 auf Ereignisse warten, die niemals eintreten werden
@@ -1413,9 +1442,9 @@ reproduzierbar.
 </div>
 </div>
 
-<div id="outline-container-orgb1160b5" class="outline-3">
-<h3 id="orgb1160b5">Vier notwendige und hinreichende Bedingungen für das Auftreten von Verklemmungen:</h3>
-<div class="outline-text-3" id="text-orgb1160b5">
+<div id="outline-container-org63d8ad2" class="outline-3">
+<h3 id="org63d8ad2">Vier notwendige und hinreichende Bedingungen für das Auftreten von Verklemmungen:</h3>
+<div class="outline-text-3" id="text-org63d8ad2">
 <dl class="org-dl">
 <dt>„Wechselseitiger Ausschluss”-Bedingung</dt><dd>Ein Betriebsmittel, um das Prozesse konkurrieren, ist entweder frei
 oder genau einem Prozess zugewiesen.</dd>
@@ -1441,9 +1470,9 @@ Verklemmungserkennung benutzt.
 </div>
 </div>
 
-<div id="outline-container-orgcb775e6" class="outline-3">
-<h3 id="orgcb775e6">Vier Strategien mit dem Verklemmungsproblem umzugehen:</h3>
-<div class="outline-text-3" id="text-orgcb775e6">
+<div id="outline-container-org0db2e00" class="outline-3">
+<h3 id="org0db2e00">Vier Strategien mit dem Verklemmungsproblem umzugehen:</h3>
+<div class="outline-text-3" id="text-org0db2e00">
 <ul class="org-ul">
 <li>Verklemmungen unmöglich machen</li>
 <li>Verklemmungen vermeiden</li>
@@ -1451,9 +1480,9 @@ Verklemmungserkennung benutzt.
 <li>Verklemmungen ignorieren</li>
 </ul>
 </div>
-<div id="outline-container-orgf2fdd76" class="outline-4">
-<h4 id="orgf2fdd76">Verklemmungen unmöglich machen</h4>
-<div class="outline-text-4" id="text-orgf2fdd76">
+<div id="outline-container-org431b4d1" class="outline-4">
+<h4 id="org431b4d1">Verklemmungen unmöglich machen</h4>
+<div class="outline-text-4" id="text-org431b4d1">
 <ul class="org-ul">
 <li>Wechselseitigen Ausschluss verhindern (Bedingung 1 ist aufgehoben)
 <ul class="org-ul">
@@ -1488,9 +1517,9 @@ schlechte Auslastung</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9c6e825" class="outline-4">
-<h4 id="org9c6e825">Verklemmungsvermeidung</h4>
-<div class="outline-text-4" id="text-org9c6e825">
+<div id="outline-container-orgcb50fe2" class="outline-4">
+<h4 id="orgcb50fe2">Verklemmungsvermeidung</h4>
+<div class="outline-text-4" id="text-orgcb50fe2">
 <p>
 beruht auf der Grundidee, die Betriebsmittelanforderungen der Prozesse
 in eine „verklemmungsfreie” Reihenfolge zu bringen. Die Algorithmen
@@ -1502,9 +1531,9 @@ mathematische Theorie entwickelt, auf die hier aber nicht eingegangen
 wird.
 </p>
 </div>
-<div id="outline-container-org5fd4bac" class="outline-5">
-<h5 id="org5fd4bac">Bankiersalgorithmus</h5>
-<div class="outline-text-5" id="text-org5fd4bac">
+<div id="outline-container-org61c63a7" class="outline-5">
+<h5 id="org61c63a7">Bankiersalgorithmus</h5>
+<div class="outline-text-5" id="text-org61c63a7">
 <ul class="org-ul">
 <li>Betrachtung der Betriebsmittelanforderungen als gleichzeitig
 auftretende Maximalforderungen</li>
@@ -1520,9 +1549,9 @@ entsteht.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org23c2d3b" class="outline-5">
-<h5 id="org23c2d3b">Probleme der Verklemmungsvermeidung</h5>
-<div class="outline-text-5" id="text-org23c2d3b">
+<div id="outline-container-org90f7997" class="outline-5">
+<h5 id="org90f7997">Probleme der Verklemmungsvermeidung</h5>
+<div class="outline-text-5" id="text-org90f7997">
 <ul class="org-ul">
 <li>I. A. Zahl der maximal benötigten Betriebsmittel unbekannt</li>
 <li>Ständig wechselnde Zahl von Prozessen</li>
@@ -1532,9 +1561,9 @@ entsteht.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orga2cb84e" class="outline-4">
-<h4 id="orga2cb84e">Verklemmungen erkennen</h4>
-<div class="outline-text-4" id="text-orga2cb84e">
+<div id="outline-container-org3e12577" class="outline-4">
+<h4 id="org3e12577">Verklemmungen erkennen</h4>
+<div class="outline-text-4" id="text-org3e12577">
 <ul class="org-ul">
 <li>Analyse bei verdächtigen Symptomen:
 <ul class="org-ul">
@@ -1548,9 +1577,9 @@ entsteht.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc5d54c4" class="outline-4">
-<h4 id="orgc5d54c4">Verklemmungen beseitigen</h4>
-<div class="outline-text-4" id="text-orgc5d54c4">
+<div id="outline-container-orgaaa5969" class="outline-4">
+<h4 id="orgaaa5969">Verklemmungen beseitigen</h4>
+<div class="outline-text-4" id="text-orgaaa5969">
 <ul class="org-ul">
 <li>Prozesse abbrechen</li>
 <li>Prozesse zurücksetzen</li>
@@ -1565,9 +1594,9 @@ entsteht.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge884bb1" class="outline-4">
-<h4 id="orge884bb1">Verklemmungen ignorieren</h4>
-<div class="outline-text-4" id="text-orge884bb1">
+<div id="outline-container-orgbf7518e" class="outline-4">
+<h4 id="orgbf7518e">Verklemmungen ignorieren</h4>
+<div class="outline-text-4" id="text-orgbf7518e">
 <ul class="org-ul">
 <li>Erkennung von Verklemmungen aufwendig</li>
 <li>Beseitigung von Verklemmungen nicht unproblematisch</li>
@@ -1578,29 +1607,10 @@ entsteht.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org8884b73" class="outline-2">
-<h2 id="org8884b73">verwendete Literatur</h2>
-<div class="outline-text-2" id="text-org8884b73">
-<ul class="org-ul">
-<li><a class='org-ref-reference' href="#Bengel2015">Bengel2015</a></li>
-<li><a class='org-ref-reference' href="#CACM2017">CACM2017</a></li>
-<li><a class='org-ref-reference' href="#CACM2016">CACM2016</a></li>
-<li><a class='org-ref-reference' href="#Subramanian2017">Subramanian2017</a></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org0bc588e" class="outline-2">
-<h2 id="org0bc588e"><h2>Literaturverzeichnis</h2>
-<ul class='org-ref-bib'><li><a id="Bengel2015">[Bengel2015] Günther Bengel, Christian Baun, Marcel Kunze & Karl-Uwe Stucky, Masterkurs Parallele und Verteilte Systeme, Springer Fachmedien Wiesbaden (2015).</a></li>
-<li><a id="CACM2017">[CACM2017] Practical Parallelism, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/219104-practical-parallelism/fulltext">https://cacm.acm.org/careers/219104-practical-parallelism/fulltext</a> </a></li>
-<li><a id="CACM2016">[CACM2016] Parallel Programming Made Easy, (2017), zuletzt aufgerufen am 26.09.2017: <a href="https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext">https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext</a> </a></li>
-<li><a id="Subramanian2017">[Subramanian2017] Subramanian, Jeffrey, Abeydeera, Lee, Ying, Emer & Sanchez, Fractal: An Execution Model for Fine-Grain Nested Speculative Parallelism, 587-599, in in: Proceedings of the 44th Annual International Symposium on Computer Architecture, edited by ACM (2017)</a></li>
-</ul></h2>
-</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-10-02 Mon 10:24</p>
+<p class="date">Created: 2017-10-09 Mon 15:09</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

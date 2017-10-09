@@ -1,4 +1,4 @@
-#+SETUPFILE: ./theme-bigblow-local.setup
+#+Setupfile: ./theme-bigblow-local.setup
 #+TITLE: Parallelprogrammierung -- Einstieg
 #+AUTHOR: Johannes Brauer
 #+OPTIONS:   H:4
@@ -33,6 +33,23 @@
   + praktisch nicht erreichbar
   + Anwendungsentwicklung auf Parallelprogrammierung nicht vorbereitet
 # Thesen von Bo Martin berücksichtigen
+** Computer im Wandel der Jahrzehnte
+#+attr_html: :width 400px
+[[./Abbildungen/computervon60Jahrenundjetzt.jpg]]
+#+Reveal: split
++ Ein iPhone enthält ca. 1 Milliarde Transistoren.
++ Um diese Rechenleistung mit der Technologie der 1950er Jahre zu
+  bauen, bräuchte es:
+  + 1 Milliarde Elektronenröhren
+  + 170 vehicle assembly buildings, um sie unterzubringen
+  + 1 Terawatt Leistung, um sie zu betreiben
+  + das entspräche 500 2-Gigawatt-Kernkraftwerken für ca. 50 Milliarden Euro
+  + das entspräche dem Weltbruttosozialprodukt von 60 Jahren
++ Smartphones realisieren eine Steigerung der Rechenleistung um den
+  Faktor $10^{22}$ verglichen mit der Technologie vor 60 Jahren.
+
+Welche Fortschritte gibt es in dieser Zeit in der Software?
+
 ** Enwicklung der Mikroprozessortechnik
 #+attr_html: :width 400px
 [[file:./Abbildungen/CPU-Moore.png]]
@@ -803,10 +820,5 @@ wird.
 + Beseitigung von Verklemmungen nicht unproblematisch
 + Vermeidung bzw. Unmöglichmachen von Verklemmungen u. U. wenig effizient
 + Verklemmungen sind in der Regel nicht das dringlichste Problem
-* verwendete Literatur
-+ cite:Bengel2015
-+ cite:CACM2017
-+ cite:CACM2016
-+ cite:Subramanian2017
-* bibliography:referenzen.bib
+# * bibliography:referenzen.bib
  
