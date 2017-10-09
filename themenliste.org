@@ -1,0 +1,26 @@
+#+TITLE: Themenliste
+#+SUBTITLE: Wahlpflichfach Parallelprogrammierung
+#+AUTOR: Johannes Brauer
+#+OPTIONS:   H:4, notoc
+
+1. Nutzung von JVM Threads in Java
+2. Ansätze der Parallelprogrammierung in funktionalen Sprachen
+   a. [[http://clojure-doc.org/articles/language/concurrency_and_parallelism.html][Clojure]] ([[https://www.youtube.com/watch?v=dGVqrGmwOAw][Clojure Concurrency - Rich Hickey]])
+   b. Scala ([[https://www.coursera.org/learn/parprog1][Coursera Parallel programming]])
+   c. [[http://erlang.org/doc/getting_started/conc_prog.html][Erlang]] / [[https://ijoshsmith.com/2015/03/14/functional-parallel-programming-in-elixir/][Elixir]]
+   d. [[http://tomasp.net/blog/fsharp-parallel-samples.aspx/][F#]]
+   e. [[https://doc.rust-lang.org/book/first-edition/concurrency.html][Rust]]
+   f. [[https://downloads.haskell.org/~ghc/7.0.3/docs/html/users_guide/lang-parallel.html][Haskell]]
+   g. ...
+3. [[http://blog.paralleluniverse.co/2014/02/20/reactive/][Funktional-reaktive Programmierung]] mit
+   a. Java ([[https://github.com/puniverse/quasar][Quasar]])
+   b. Clojure ([[https://github.com/puniverse/pulsar][Pulsar]])
+4. Bibliotheken/APIs
+   a. [[https://de.wikipedia.org/wiki/OpenMP][OpenMP]]
+   b. [[https://www.open-mpi.org][Open MPI]]
+   c. [[http://www.nvidia.de/object/cuda-parallel-computing-de.html][CUDA]]
+5. Neuere Ansätze
+   a. [[https://cacm.acm.org/careers/219104-practical-parallelism/fulltext][Practical Parallelism]] ([[http://people.csail.mit.edu/sanchez/papers/2017.fractal.isca.pdf][Fractal]])
+   b. [[https://cacm.acm.org/careers/203794-parallel-programming-made-easy/fulltext][Parallel Programming Made Easy]] ([[http://ieeexplore.ieee.org/document/7436649/?arnumber=7436649][Unlocking Ordered Parallelism with the Swarm Architecture]])
+6. Weitere?
+
