@@ -71,7 +71,7 @@
 + Preisverfall bei MIPS und Kosten pro Bit
 
 * Rechnerarchitekturen für parallele und verteilte Systeme
-(vgl.  cite:Bengel2015)
+(vgl.  cite:Bengel2015, cite:Kalin2015)
 ** Taxonomie von parallelen Rechnerarchitekturen nach Flynn 
 # chapter 10 flynnTax.txt
 (vgl. cite:Flynn1972)
@@ -163,12 +163,9 @@
 + Synchronisation und Kommunikation durch Nachrichtenaustausch
 + Ziele: Erhöhung der Leistung, Erhöhung der Verfügbarkeit
 + MIMD möglich
-
-
 * Parallelität vs. Nebenläufigkeit -- Überblick
 # chapter 1 introducton
 ** Concurrency, parallelism, and non-blocking I/O: an overview
-
 + For now, concurrency is "handling many tasks during the same time span":
   + Any app with a GUI (e.g., a game) needs to manage the GUI and perform the underlying logic.
   + A typical network app queues up requests, which then need to be handled concurrently.
@@ -335,11 +332,11 @@ A first look at multiprocessing: the command-line pipe operator =|=
                +--------+-------+
 #+end_example
 + The tasks at hand (producing the bytes in the file and then sorting
-  the lines) are divided between two proceses, 'cat' and 'sort'.
+  the lines) are divided between two processes, 'cat' and 'sort'.
 + Two general approaches in code:
   + A parent process 'forks' (clones, spawns) a child process, and both
       execute code from the same program.	  
-      * An if-else or the equivalent typically separates the parent code from the child code.
+      + An if-else or the equivalent typically separates the parent code from the child code.
   + A parent process forks a child, which then executes a separate program.
 + A final example to underscore the point:
   : sleep 5 | echo 'Hello, world!'  ## sleep sends no bytes to the pipe, and echo expects none
@@ -367,6 +364,7 @@ A first look at multithreading: the Tomcat web server, written in Java
    requests over HTTP, another for requests over HTTPS if HTTPS is enabled.
 + Other Java-centric web servers, such as Jetty, implement the one-thread-per-request model as well.
 ** Non-blocking I/O
+# chapter 2: nonblocking.txt
 A first look at non-blocking I/O non-blocking I/O: two code examples
 
 + A blocking 'getItem' (read) example
@@ -385,7 +383,7 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
       <body/>
     </html>
 #+END_SRC 
-  * The second alert occurs only after the blocking call to 'getItem' (line 3) returns.
+  + The second alert occurs only after the blocking call to 'getItem' (line 3) returns.
 
 + A non-blocking 'fetch' example in pseudo-code
 #+BEGIN_SRC java
@@ -410,13 +408,13 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
                       +------------+      ...
 #+end_example
 
-+ Multiprocessing: dispatch each task to a separate process ('program in execution')
++ Multiprocessing: dispatch each task to a separate process ('program
+  in execution')
   + For efficiency, "prefork" the processes by building a pool of these
    at start-up.  Then grab a process from the pool to act as the 'task
    handler'.
   + When the task-handling process finishes its work, put it to sleep.
   + Apache2, nginx, and IIS are production-grade examples.
-
 + Multithreading: dispatch each task to a separate thread within a process.
   + Again for efficiency, build a thread-pool at start-up, and grab a
     thread from the pool to act as the 'task handler'.
@@ -525,7 +523,7 @@ else {                /** parent code follows **/
     + When a child terminates, the OS notifies the parent. If the
       parent is already terminated, it cannot be notified--and the
       child becomes an 'zombie', dead but still around.
-*** using the shell...
+*** using the shell
 #+BEGIN_SRC sh
 bash-3.2$ ls pipeExample.c 
 pipeExample.c
@@ -675,6 +673,7 @@ int main() {
 }
 #+END_SRC
 ** The Nginx Web Server
+# chapter 3: nginx.txt
  Multiprocessing in production-grade software: the nginx web server
 
 + www.nginx.com
@@ -827,7 +826,6 @@ int main() {
     printf("I'm here\n");                           /* never executes */
   return 0;
 }
-
 #+END_SRC
 ** Process Tracking and Management
 # chapter 3 processTracking.txt
@@ -896,13 +894,406 @@ Chapter 4 :
 + nginx
 + exercise 
 + upsides and downsides of multiprocessing
-** Multithreading Basics
-   Chapter 5 : WICHTIG !!! (Java)
+*** Overview
+* Multithreading -- Grundlagen
+#   Chapter 5 : WICHTIG !!! (Java)
+** Overview
+# chapter 5: multithreadingOverview.txt
+ Multithreading overview
+
++ The chief advantage of multithreading over multiprocessing is that
+  threads are 'lighter' than processes:
+  + A process consists of one or more threads of execution.
+  + A process-level context switch is significantly more expensive, in the millisecond range.
+  + A thread-level context switch has a near-zero cost for threads in
+    the same process.
++ The chief disadvantage is that threads in the same process share the
+  same address space:
+  + The programmer, rather than the OS, must ensure that two threads
+    in the same process don't inappropriately access the same memory
+    location (e.g., by trying to update the location).
+  + The programmer must coordinate threads in the same process to
+    avoid 'race conditions'.  
+    + If the coordination is overdone, /deadlock/ may result.
+  + Thread coordination must be just right:
+    + Too little brings the threat of race conditions and, therefore,
+      unpredictable results.
+    + Too much hurts efficiency and may result in deadlock.
++ Some systems (e.g., Linux) implement threads as processes that
+  happen to share an address space; other systems (e.g., Windows) have
+  distinct kernel-level support for threads.
+  + Under any implementation, the standard behavior is that distinct
+    processes have distinct address spaces, whereas threads in the
+    same process share an address space.
++ Examples in C, Java, and Go
+  + C# and Java have very similar support for threading, although both
+    sides might disagree with this characterization. :)
+*** A Sample Race Condition in Java
+**** source code
+#+BEGIN_SRC java
+/** To compile: javac RaceC.java
+    To run:     java Main
+
+    Flow of control for Threads referenced by t1 and t2 (for convenience,
+    call the Threads referenced by t1 and t2 simply 't1' and 't2'):
+
+    The 'main thread' is the thread that executes the method 'main', in
+    this case in class Main (see below).
+
+                 creates
+    main thread----------->t1 and t2
+
+                  starts
+    main thread----------->t1 and t2
+
+                 calls run()
+    Java runtime------------->on started Threads t1 and t2
+
+    At this point, three threads in the app are executing: main, t1, and t2.
+
+    An instance of a Java Thread represents the sequence of instructions in the
+    body of the encapsulated 'run' method (and any other instructions in methods
+    that 'run' invokes).
+
+    A thread that exits run() terminates, and cannot be restarted.
+*/
+public class RaceC {
+    static int n;                            // a single instance on n
+    static void race() {
+	n = 0;                               // initialize to zero before threads alter its value
+	long limit = Integer.MAX_VALUE * 2L; // four billion and change
+	Thread t1 = new Thread() {           // incrementing thread
+		public void run() { 
+		    for (long i = 0; i < limit; i++) n = n + 1; // increment limit times
+		}
+	    };
+	Thread t2 = new Thread() {           // decrementing thread
+		public void run() {
+		    for (long i = 0; i < limit; i++) n = n - 1; // decrement limit times
+		}
+	    };
+	t1.start();  // start t1's execution
+	t2.start();  // start t2's execution
+	try {
+	    t1.join();  // wait here until t1 terminates
+	    t2.join();  // wait here until t2 terminates
+	} catch(Exception e) { }
+	System.out.println("n's value is: " + n);
+    }
+}
+
+class Main {
+    public static void main(String[ ] args) {         //*** main thread executes method main
+	for (int i = 0; i < 8; i++) RaceC.race(); 
+    }
+}
+/** Output from a sample run:
+
+    n's value is: -265936
+    n's value is: -7317
+    n's value is: 47128
+    n's value is: -219153
+    n's value is: 82805
+    n's value is: -7944
+    n's value is: 87322
+    n's value is: -2
+*/
+#+END_SRC
+**** using the shell
+#+BEGIN_SRC sh
+bash-3.2$ javac RaceC.java
+bash-3.2$ java Main
+n's value is: -332920
+n's value is: 237836
+n's value is: 73816
+n's value is: 61941
+n's value is: 59569
+n's value is: -2
+n's value is: -2
+n's value is: 80561
+#+END_SRC
+
+*** Analysis of the Race Condition Code
+# chapter 5: raceConditionanalysis.txt
+ A detailed look at how a race condition occurs
+
++ T1 and T2 are threads in process P: T1 and T2 have access the same
+  memory locations.
++ N is memory location within the address space that T1 and T2 share
++ T1 tries to increment n at the same time that T2 tries to
+  decrement N.
+  #+begin_example
+      N = N + 1  +---+  N = N - 1        ## Are these statements 'atomic'?
+   T1----------->| 5 |<-----------T2
+	         +---+
+	           N
+  #+end_example
++ Each pseudo-code instruction involves two operations: an addition or
+  subtraction, then an assignment
+  + Assume that the result of the addition/subtraction is stored in a
+    CPU register or on the stack: in either case, in a temporary
+    location. Here's a depiction:
+    #+begin_example
+ Temp1 = N + 1  ### increment N and save the incremented value (N is unchanged so far)
+ N = Temp1      ### assign the incremented value to N
+    #+end_example
+    + Temp1 is T1's temporary location, Temp2 is T2's temporary location
++ The machine has multiple CPUs: T1 executes on one of these as T2
+  executes on another
++ The following depicts one possible outcome of a race condition:
+  #+begin_example
+     Clock ticks:
+  
+   C1: Temp1 = 5 + 1 = 6   ## T1's addition
+   C2: Temp2 = 5 - 1 = 4   ## T2's subtraction (T1's assignment has not occurred yet.)
+   C3: N = Temp2           ## T2's assignment operation (N is decremented to 4)
+   C4: N = Temp1           ## T1's assignment operation (N is incremented to 6).
+  #+end_example
++ After a single increment by 1 and a single decrement by 1, N winds up as 6--not 5.
+  + Improper interleaving of the operations is at fault.
+  + Whichever thread starts its arithmetic operation
+    (addition/subtraction) must be allow to complete the assignment
+    without interruption.
+    + This is precisely what 'thread synchronization' through locking
+      of N ensures: single-threaded execution of the arithmetic
+      operation and the subsequent assignment.
+*** Overview of Explicit Thread Locking
+**** code examples
+#+BEGIN_SRC java
+/* Thread synchronization mechanisms: code examples */
+
+/** C example **/
+static pthread_mutex_t lock;  /* declare a lock */              /** line 1 **/
+void increment_n() {                                            /** line 2 **/
+    pthread_mutex_lock(&lock);                                  /** line 3 **/
+    n = n + 1;  /* critical section code */                     /** line 4 **/
+    pthread_mutex_unlock(&lock);                                /** line 5 **/
+}
+
+/** Java example **/
+class Test {
+    static int n; // a single, shared storage location          /** line 6 **/
+    static Object lock = new Object(); // can't be null         /** line 7 **/
+    void incrementN() {
+	synchronized(lock) {                                    /** line 8 **/
+	    n = n + 1; /* critical section code */              /** line 9 **/
+	}                                                       /** line 10 **/
+    }
+}
+#+END_SRC
+****  Mechanisms for thread coordination
+# chapter 5: threadSync.txt
++ The terms below are associated with processes and threads, but the
+  focus now is on threads given the assumption that a process executes
+  in that one of its threads executes.
++ A 'critical section' of code must be executed in single-threaded fashion because
+   otherwise a race condition could arise.
+  + For example, if threads T1 and T2 can both execute 
+    : N = N + 1  ## the same storage N is accessible to T1 and T2
+    this statement is a critical section of code. T1 and T2 should not
+    execute this section at the same time.
++ A locking mechanism should provide the following services:
+  + The mechanism should ensure 'mutual exclusion': if T1 manages to
+    grab the lock, then T2 is excluded from the critical section that
+    the lock protects while T1 holds the lock; and vice versa.
+  + The mechanism should ensure 'progress': if no thread holds the
+    lock, then some thread should be able to grab it and thereby enter
+    the critical section that the lock protects.
++ Various locking mechanisms:
+  + A 'semaphore' restricts the number of threads allowed to access a
+    shared resource (e.g., a shared function). For example, 'semahore'
+    might allow two threads to access a chunk of code simultaneously,
+    but no more than two. A semaphore is thus a set of permission
+    tickets, which enable a thread to access a resource.
+    + Semaphores as 'tickets': a semaphore is like a ticket that
+      grants access to a resource.  A semaphore with a value of three
+      would grant access to three threads at most at a time.
+  + A 'mutex' is a semaphore with a value of 1: whichever thread holds
+    the mutex has access to the protected resource, whereas all others
+    are excluded.
+    + A mutex enforces mutual exclusion, but a semaphore with a value
+      > 1 would not.
+  + A 'monitor' (which the Java 'synchronized' block provides) is a
+    mechanism that enforces mutual exclusion, supports progress, and
+    has addition mechanisms for thread cooperation: in Java's case,
+    the 'wait' mechanism supports quiet waiting for a lock to be
+    released, and the 'notify' mechanism notifies waiters that a lock
+    has been released.
+
+*** A Sample Deadlock in Java
+**** using the shell
+#+BEGIN_SRC sh
+bash-3.2$ javac Deadlock.java 
+bash-3.2$ java Deadlock
+thread2 holds lock2
+thread1 holds lock1
+thread2 waiting for lock1
+	(thread2 needs lock1 to release lock2...)
+thread1 waiting for lock2
+	(thread1 needs lock2 to release lock1...)
+  ^C ^Cbash-3.2$ 
+bash-3.2$ java Deadlock
+thread1 holds lock1
+thread2 holds lock2
+thread2 waiting for lock1
+thread1 waiting for lock2
+	(thread2 needs lock1 to release lock2...)
+	(thread1 needs lock2 to release lock1...)
+  ^C ^Cbash-3.2$ 
+#+END_SRC
+**** source code
+#+BEGIN_SRC java
+/** To compile and run from the command-line:
+      javac Deadlock.java
+      java Deadlock
+*/
+public class Deadlock {
+    static Object lock1 = new Object(); // a single lock1                   /** line 1 **/
+    static Object lock2 = new Object(); // a single lock2
+    
+    /** Each thread executes its run() method. **/
+    public static void main(String args[]) {
+	Thread thread1 = new Thread() {
+		public void run() {                            
+		    synchronized(lock1) {                                   /** line 2 **/
+			print("thread1 holds lock1");
+			try { Thread.sleep(2); } catch(Exception e) { }     /** line 3 **/
+			print("thread1 waiting for lock2");
+			print("\t(thread1 needs lock2 to release lock1...)");
+			synchronized(lock2) {                               /** line 4 **/
+			    print("thread1 holds lock1 and lock2");
+			} // lock2 released here                            /** line 5 **/
+		    } // lock1 released here                                /** line 6 **/
+		} 
+	    };
+	Thread thread2 = new Thread() {
+		public void run() {
+		    synchronized(lock2) {                                   /** line 7 **/
+			print("thread2 holds lock2");
+			try { Thread.sleep(2); } catch(Exception e) { }
+			print("thread2 waiting for lock1");
+			print("\t(thread2 needs lock1 to release lock2...)");
+			synchronized(lock1) {                               /** line 8 **/
+			    print("thread2 holds lock2 and lock1");
+			} // lock1 released here                            /** line 9 **/
+		    } // lock2 released here                                /** line 10 **/
+		}
+	    };
+	thread1.start();                                                    /** line 11 **/
+	thread2.start();                                                    /** line 12 **/
+    }
+    private static void print(Object obj) { System.out.println(obj); }
+}
+#+END_SRC
+
+*** High-level Concurrency Management in Multithreading
+# chapter 5: highlevelcm.txt
++ Belaboring the obvious: multithreading is far trickier to manage than multiprocessing
+  + The OS keeps the processes in multiprocessing from stepping on one another's storge.
+  + The programmer must do the same for threads within a process: thread coordination
++ How to support to thread-safety (i.e., safety from race conditions)?
+  + Consider an in-memory mutable list and an 'add' operation.
+  #+begin_example
+       ADD 3  +---+---+
+thread------->| 1 | 2 |        ## list L before the ADD
+              +---+---+
+              +---+---+---+
+              | 1 | 2 | 3 |    ## list L after the ADD, which changes the original list
+              +---+---+---+
+  #+end_example
++ Basic Java approach: Ensure mutual exclusion on shared storage through locking.
+  + Locking allows only single-threaded access to the list L during an ADD operation.
+
++ Basic Clojure approach: make in-memory objects immutable by default, with a few exceptions
+  + The ADD operation first makes a copy of the original list, and then changes the copy.
+  #+begin_example
+       ADD 3  +---+---+
+thread------->| 1 | 2 |        ## list L 
+              +---+---+
+                  L
+
+              +---+---+
+              | 1 | 2 |        ## copy of list L
+              +---+---+
+                  Lc
+
+              +---+---+---+
+              | 1 | 2 | 3 |    ## copy after the ADD (original is unchanged)
+              +---+---+---+
+                  Lc
+  #+end_example
++ The preferred Go approach: have a single thread control access to
+  list L, with other threads sending messages such as ADD to this
+  controlling thread.
+  + The messages are sent through a thread-safe channel.
+  #+begin_example
+             +---+---+
+             | 1 | 2 |      ## a single thread T controls access to L
+             +---+---+
+
+        ADD 3                ADD 33
+thread1------->channel to T<--------thread2  ## the channel has built-in synchronization
+  #+end_example
+*** Wrapup of multithreading basics and miscellany
+# chapter 5: wrapup5.txt
+**** Wrapup
+
++ Multithreading can be a highly efficient way to do concurrent
+  programming, as thread-level context switches are very cheap.
+  + It's the preferred approach to concurrency in languages such as
+    Java and C#.
++ Multithreading has twin challenges for the programmer:
+  + Avoid race conditions by ensuring that multiple threads don't
+    access shared memory locations in inappropriate ways.
+    + Ensure that critical sections are executed in single-threaded
+      mode.
+  + Avoid 'over synchronization' that degrades performance and may
+    result in deadlock.
++ Languages now offer programmers high-level constructs and types to
+  ease the challenges of multithreaded programming.
+  + But sometimes a simple mutex is still the way to go.
+ 
+**** Native versus green threads, and the Global Interpreter Lock (GIL)
+
++ A 'native thread' is under kernel OS control when it comes to
+  scheduling.
+  + Since roughly 2000, Java Thread instances map to 'native'
+    threads. (Same for C#.)
+  + C's 'pthreads' (the 'p' for POSIX API standardization) are
+    'native' threads.
++ A 'green thread' (aka 'microthread', 'tasklet') is under a particular language's runtime control.
+  + In effect, 'green threads' emulate native threads, and may provide
+    better performance for operations such as thread creation and
+    synchronization.
+  + Prior to version 1.9, for example, Ruby's standard implementation (CRuby) had only green threads.
++ A GIL is a mechanism (in implementation, a mutex) that a runtime
+  uses to allow only one thread to execute at a time, even in a
+  multithreaded environment: no thread-level parallelism.
+  + The standard implementations of Ruby (CRuby) and Python (CPython) have a GIL.
+
+*** Exercise for basic multithreading
+# chapter 5: exerciseMT.txt
+
++ Fix the RaceC program (RaceC.java) by providing explicit locking.
+  + Use synchronized blocks and a shared lock to ensure that threads
+    t1 and t2 do the increment and decrement operations 'atomically'
+    (that is, without interruption).'
+  + *Hint:* use a static field as the lock to ensure there's a single instance of the lock.
++ To get a sense of what thread syncrhonization costs, time the RaceC
+  program with and without thread synchronization.
+  + The program's execution can be timed in various ways, including the way sketched below:
+  #+BEGIN_SRC java
+final long startTime = System.currentTimeMillis();
+/*** code to be timed ***/
+final long stopTime = System.currentTimeMillis();
+final long latency = stopTime - startTime;
+  #+END_SRC
+
 ** Multithreading Through Richer Code Examples 
-# ev. überspringen
+# ev. überspringen / Studi-Thema
 Chapter 6
 ** Thread-Safety And High-Level Concurrent Types In Java
-Chapter 7
+Chapter 7 
 # ev. Studi-Thema
 ** Options For Thread Synchronization And Cooperation
 Chapter 8

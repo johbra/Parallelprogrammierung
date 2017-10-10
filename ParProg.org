@@ -55,6 +55,7 @@
 |---+--------+-------------------------------+-----+------+----------------------------------|
 | 1 | 16.10. | Warum Parallelprogrammierung? |     |      | Kennenlernen, Interessen sammeln |
 |   |        | Prozesse, Synchronisation ... |     |      |                                  |
+|   |        | Themenvorstellung/-sammlung   |     |      |                                  |
 |---+--------+-------------------------------+-----+------+----------------------------------|
 | 2 | 23.10. | ParProg Grundlagen            |     |      |                                  |
 |   |        | Themenvergabe                 |     |      |                                  |
