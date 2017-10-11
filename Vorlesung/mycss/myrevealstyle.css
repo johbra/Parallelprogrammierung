@@ -60,7 +60,7 @@
 .reveal .slides > section > section {padding: 2px 0px;}
 
 
-.slide-number:before{content:"Prof. Dr.-Ing. Johannes Brauer: Programmierparadigmen";
+.slide-number:before{content:"Prof. Dr.-Ing. Johannes Brauer: Parallelprogrammierung";
 		     position: fixed; left: 3%;
 		     color: #657b83;}
 .reveal .nebeneinander {display:block; width:450px; float: left;}
