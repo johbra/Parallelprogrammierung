@@ -89,7 +89,7 @@ hin und her.
 #+begin_nebeneinander
 Ablauf eines Programms:
 #+attr_html: :width 250px
-[[./Abbildungen/EinProgrammbetrieb.png]]
+[[./Abbildungen/EinProgrammBetrieb.png]]
 #+end_nebeneinander
 
 #+begin_nebeneinander
