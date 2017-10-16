@@ -491,6 +491,7 @@ if ( FetchAndAdd( zaehler, 1 ) < 0 ) {
   Verbraucher bezüglich ihrer Arbeitsgeschwindigkeit zu entkoppeln.
 + Ringpuffer fester Größe kann nur eine feste Anzahl von Nachrichten
   speichern.
+#+Reveal: split
 + Abbildung zeigt einen teilweise gefüllten Ringpuffer mit zwei
   Zeigern, =c= für den Verbraucher und =p= für den Erzeuger.  
   [[file:./Abbildungen/ringpuffer.png]]
