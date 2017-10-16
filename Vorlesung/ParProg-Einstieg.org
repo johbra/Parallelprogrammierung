@@ -60,7 +60,7 @@ Ausschnitte:
 + 34:34 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=2074s][fewer concurrency issues]]
 + 36:12 - Moore's law bis 43:47
 + 49:44 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=2984s][OO = procedure + state]] bis 50:56
-+ 53:57 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=3237s][impose  discipine on the change of state]] bis 55:12 
++ 53:57 - [[https://www.youtube.com/watch?v=7Zlp9rKHGD4&t=3237s][impose discipline on the change of state]] bis 55:12 
 
 * Prozesse, Threads, Synchronisation
 (Die Ausführungen in diesem lehnen sich an ein Vorlesungsskript von
@@ -139,7 +139,7 @@ quasi-paralleler Ablauf zweier Programme:
 + Vorteile von Mehrprozessorsystemen: Erhöhter Durchsatz
   + Verbessertes Preis/Leistungsverhältnis
   + Höhere Zuverlässigkeit
-    + stufenweiserLeistungsverlust(gracefuldegradation) •
+    + stufenweiser Leistungsverlust(gracefuldegradation)
     + Ausfallsicherheit(fail-softsystems)
 *** Varianten
 + Symmetric multiprocessing (SMP) ::
@@ -230,7 +230,7 @@ $p_1$:
 004   benutze(magnetband)
 005   frei := true;
 ... ...
-FFF ständig\\
+FFF ständig
 #+END_SRC
 #+END_nebeneinander
 #+BEGIN_nebeneinander
@@ -333,8 +333,7 @@ Gefahr der Verklemmung (/deadlock/).
 Das grundsätzliche Problem resultiert aus der „unkontrollierten“
 Benutzung gemeinsamer Betriebsmittel.
 
-*** Weitere Beispiele für das Auftreten des Problems des wechselseitigen
-Ausschlusses:
+*** Weitere Beispiele für das Auftreten des Problems des wechselseitigen Ausschlusses
 
 1. Veränderung von Datensätzen in einer von mehreren Prozessen gemeinsam
    benutzten Datei
@@ -772,7 +771,7 @@ Verklemmungserkennung benutzt.
   + Probleme: muss ggf. auf Programmebene berücksichtigt werden,
     bereits geleistete Arbeitsleistung geht verloren
 + Zirkularität unterbinden (Bedingung 4 ist aufgehoben)
-  + Z. B. lineare oder hirarchische Ordnung der Betriebsmittel,
+  + Z. B. lineare oder hierarchische Ordnung der Betriebsmittel,
     Anforderungen dann nur gemäß dieser Ordnung
   + Probleme: keine allgemein brauchbare Ordnung angebbar, deshalb oft
     schlechte Auslastung 
