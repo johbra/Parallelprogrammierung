@@ -173,11 +173,11 @@
   + The tasks in a concurrent app would be farmed out to separate processors for true parallelism.
   + True parallelism requires multiple processors.
     + Multiprocessor machines now are available at consumer prices.
-+ Two 'classic' mechanisms for concurrency: multiprocessing and multithreading.
++ Two /classic/ mechanisms for concurrency: multiprocessing and multithreading.
   + Each mechanism supports true parallelism on a multiprocessor machine.
 + Non-blocking I/O enables quick jumps from one I/O task to another, thereby supporting
    concurrency without parallelism.
-  + Non-blocking I/O typically is used in conjunction with  a 'classic' approach:
+  + Non-blocking I/O typically is used in conjunction with  a /classic/ approach:
     + The nginx web server: multiprocessing + non-blocking I/O
     + Node.js: non-blocking I/O at the API level, multithreading under the hood.
 + Summary
@@ -268,7 +268,7 @@ Node.js app------->cluster.fork()------->library function fork()|------->kernel 
   + Non-blocking I/O has emerged as an option as well, but one that's
     typically used in conjunction with multiprocessing or
     multithreading.
-  + Non-blocking I/O sometimes is described as 'concurrency without parallelism'.
+  + Non-blocking I/O sometimes is described as /concurrency without parallelism/.
 + Different languages have difference advantages when it comes to
   studying concurrency, parallelism, and non-blocking I/O.
   + C is close to the metal: the system libraries and core OS routines at work under the hood.
@@ -280,9 +280,10 @@ Node.js app------->cluster.fork()------->library function fork()|------->kernel 
 * Parallelität vs. Nebenläufigkeit im Detail
 ** Processes and threads 
 # chapter 2: processThread.txt
-+ A process is a 'program in execution', each with its own address space.
++ A process is a /program in execution/, each with its own address space.
   + Executing a program from the command-line is an example:
-      =% hi.exe=  ## =%= is the command-line prompt, =hi.exe= is an executable program.
+      =% hi.exe=
+    + =%= is the command-line prompt, =hi.exe= is an executable program.
   + The address space comprises the memory locations accessible to the process.
   + Separate address spaces effectively partition memory among the processes.
 + A thread is a sequence of executable instructions within a process.
@@ -294,12 +295,14 @@ Node.js app------->cluster.fork()------->library function fork()|------->kernel 
     + Threads within a process share the same address space--they have
       access to exactly the same memory locations. This is the root
       cause of race conditions.
-    + A 'race condition' arises when two or more threads concurrently
+    + A /race condition/ arises when two or more threads concurrently
       access the same memory location and at least one of the threads
       tries to update the location. For instance, each thread might be
       executing the instruction:\\
-         =n = random_num()=  ## =n= is a shared memory location among the threads, random_num() returns a random number\\
-         The result is unpredictable, except that the last thread to execute this 'wins'.
+         =n = random_num()=
+      + =n= is a shared memory location among the threads,
+      + =random_num()= returns a random number
+      + The result is unpredictable, except that the last thread to execute this „wins“.
 + Scheduling on modern systems: to schedule a process on a processor is to schedule one of its threads.
 #+begin_example
   Process1    scheduled   +----------+
@@ -317,11 +320,11 @@ Node.js app------->cluster.fork()------->library function fork()|------->kernel 
 A first look at multiprocessing: the command-line pipe operator =|=
 + At the command line:
   : cat file.txt | sort
-  + The 'cat' (short for 'concatenate') on the left is one executing
-    process, and the 'sort' on the right is another executing process.
-  + The 'sort' performs blocking I/O: it waits for all of the bytes
-    from 'cat' before doing the sorting.
-  + If the machine has two processorss, 'cat' could execute on one and 'sort' on the other.
+  + The =cat= (short for =concatenate=) on the left is one executing
+    process, and the =sort= on the right is another executing process.
+  + The =sort= performs blocking I/O: it waits for all of the bytes
+    from =cat= before doing the sorting.
+  + If the machine has two processorss, =cat= could execute on one and =sort= on the other.
   + The unnamed pipe operator | thus performs automatic multiprocessing.
     + A pipe is thus a mechanism for inter-process communication (IPC).
 + Conceptual view of the pipe:
@@ -332,9 +335,9 @@ A first look at multiprocessing: the command-line pipe operator =|=
                +--------+-------+
 #+end_example
 + The tasks at hand (producing the bytes in the file and then sorting
-  the lines) are divided between two processes, 'cat' and 'sort'.
+  the lines) are divided between two processes, =cat= and =sort=.
 + Two general approaches in code:
-  + A parent process 'forks' (clones, spawns) a child process, and both
+  + A parent process „forks” (clones, spawns) a child process, and both
       execute code from the same program.	  
       + An if-else or the equivalent typically separates the parent code from the child code.
   + A parent process forks a child, which then executes a separate program.
@@ -345,17 +348,16 @@ A first look at multiprocessing: the command-line pipe operator =|=
 # chapter 2: multithreading.txt
 A first look at multithreading: the Tomcat web server, written in Java
 
-+ Tomcat implements the 'one-thread-per-request' model for handling client requests.
++ Tomcat implements the /one-thread-per-request/ model for handling client requests.
 + Tomcat runs as a single process, which is multithreaded.
 + Web sites and services are deployed as JAR files (with a .war
-  extension) dropped into a particular directory (TOMCAT_HOME/webapps)
+  extension) dropped into a particular directory (=TOMCAT_HOME/webapps=)
   or subdirectory thereof.
-  + The WAR file's name (e.g., 'site1' in 'site1.war') becomes the first part of 'resource path'
+  + The WAR file's name (e.g., =site1= in =site1.war=) becomes the first part of /resource path(
       in a request URL:\\
-
       http://somemachine.org:8080/site1/...    ## site1 for the site1.war file\\
       http://somemachine.org:8080/site1/hi.jsp ## a completed URL, with hi.jsp as the requested resourc
-  + Tomcat delegates each request for any WAR file to a thread, the 'one-thread-per-request' model
+  + Tomcat delegates each request for any WAR file to a thread, the /one-thread-per-request/ model
     + Code within the WAR file is thus susceptible to race conditions
       because multiple request-handling threads have access to the
       very same memory locations: the burden is on the programmer to
@@ -367,7 +369,7 @@ A first look at multithreading: the Tomcat web server, written in Java
 # chapter 2: nonblocking.txt
 A first look at non-blocking I/O non-blocking I/O: two code examples
 
-+ A blocking 'getItem' (read) example
++ A blocking =getItem= (read) example
 #+BEGIN_SRC html
     <!doctype html>
     <html>
@@ -408,16 +410,16 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
                       +------------+      ...
 #+end_example
 
-+ Multiprocessing: dispatch each task to a separate process ('program
-  in execution')
++ Multiprocessing: dispatch each task to a separate process (/program
+  in execution/)
   + For efficiency, "prefork" the processes by building a pool of these
-   at start-up.  Then grab a process from the pool to act as the 'task
-   handler'.
+   at start-up.  Then grab a process from the pool to act as the /task
+   handler/.
   + When the task-handling process finishes its work, put it to sleep.
   + Apache2, nginx, and IIS are production-grade examples.
 + Multithreading: dispatch each task to a separate thread within a process.
   + Again for efficiency, build a thread-pool at start-up, and grab a
-    thread from the pool to act as the 'task handler'.
+    thread from the pool to act as the /task handler/.
    + When the task-handling thread finishes its work, put it to sleep.
    + Tomcat and Jetty are production-grade examples.
 + Non-blocking I/O: in its pure form, a single-threaded process that
@@ -426,7 +428,7 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
   + For example, the non-blocking web server might read (and cache)
     some bytes as part of Task1, then do the same for Task2, and so on
     until all of the request bytes for a given task have been read.
-   + Node.js is the obvious 'pure' example (but even Node.js takes a hybrid approach).
+   + Node.js is the obvious /pure/ example (but even Node.js takes a hybrid approach).
 ** Hybrid approaches
 # chapter 2: hybrid.txt
 + There's no hard-and-fast rule about how best to support concurrency.
@@ -451,13 +453,13 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
   #+end_example
     + Each worker process is multithreaded (by default, 10 threads per
       worker process), and each thread handles a single request (the
-      'one-thread-per-request' model)
+      /one-thread-per-request/ model)
   + Multiprocessing + non-blocking I/O: nginx
     + Multiprocessing:
-      + nginx has a 'master process' to read configuration files and
+      + nginx has a /master process/ to read configuration files and
         to watch over worker processes (e.g., start a new worker if
         one happens to die unexpectedly).
-      + A 'worker process' handles a client request: a given worker
+      + A /worker process/ handles a client request: a given worker
         may handle even thousands of requests concurrently--given the
         efficiency of non-blocking I/O.
       + Other (optional) processes (e.g., a cache loader and a cache
@@ -485,25 +487,25 @@ client request  | loop   |        I/O and callbacks to signal task completion
 ** A first multiprocessing example in C
 *** Overview
 # chapter 3 firstExample.txt
-... key points of the 'unnamed pipe example'
+... key points of the /unnamed pipe example/
 
 + When the program pipeExample.c is compiled and then executed from
   the command-line, it executes as a process. Here's the command to
   execute:
   : % ./pipeExample   ## On Windows: % pipeExample
-+ The executing pipeExample is the 'parent' process.
++ The executing pipeExample is the /parent/ process.
 + The parent process calls the library function fork() to spawn a
-  'child' process, a clone of the parent.
+  /child/ process, a clone of the parent.
   + The library function fork() makes a system call to the OS routine that spawns the child.
   + The library function fork() returns one of three values:
     + -1 :: to signal failure (e.g., the system already has too
             many processes)
     + 0 ::  to the child process
-    + > 0 :: to the parent process; in particular, the 'process id'
+    + > 0 :: to the parent process; in particular, the /process id/
              (pid) of the child is returned to the parent, and a pid
              is always a positive integer
   + The parent and child process both execute the code that follows the call to fork().
-    + fork() effectively 'clones' one process (child) from another (parent).
+    + fork() effectively /clones/ one process (child) from another (parent).
     + An if-else or equivalent construct is used to ensure that the
       parent does one thing and the child does something else.
       #+BEGIN_SRC C
@@ -519,10 +521,10 @@ else {                /** parent code follows **/
 }
       #+END_SRC
   + The parent waits for the child to exit so that the child does not
-    become a 'zombie'.
+    become a „zombie“.
     + When a child terminates, the OS notifies the parent. If the
       parent is already terminated, it cannot be notified--and the
-      child becomes an 'zombie', dead but still around.
+      child becomes an „zombie“, dead but still around.
 *** using the shell
 #+BEGIN_SRC sh
 bash-3.2$ ls pipeExample.c 
@@ -584,10 +586,10 @@ int main() {
 ** Second Example -- Named Pipes
 *** Overview
 # chapter 3 secondExample.txt
- A second multiprocessing example in C: key points of the 'named pipe' example
+ A second multiprocessing example in C: key points of the /named pipe/ example
 
 + Two separate processes, but no parent/child relationship between them.
-  + The processes communicate through a 'named pipe' (aka 'FIFO').
+  + The processes communicate through a /named pipe/ (aka /FIFO/).
     + A named pipe is a mechanism designed to support IPC among processes on the same host.
       #+begin_example
            +------------+
@@ -596,7 +598,7 @@ writer---->| named pipe |<----reader
       #+end_example
 + The system implements an FIFO as a temporary file.
 + Named pipes are quite similar in functionality to Unix Domain
-  Sockets, also called 'local sockets'.
+  Sockets, also called /local sockets/.
   + Network sockets support communcation between processes running on
     different hosts, whereas named pipes and local sockets do the same
     for processes running on the same host.
@@ -607,7 +609,7 @@ writer---->| named pipe |<----reader
   + There are now two processes executing: fifoWriter and fifoReader
   + The fifoWriter writes randomly generated integers to the FIFO.
   + The fifoReader reads these integers from the FIFO until end-of-file.
-  + In the C code, the FIFO is 'written' and 'read' as if it were a
+  + In the C code, the FIFO is /written/ and /read/ as if it were a
     regular disk file: the I/O API is the same.
 *** using the shell
 #+BEGIN_SRC sh
@@ -682,7 +684,7 @@ int main() {
 
 + nginx, like any modern web server that relies on multiprocessing for concurrency,
    is a "pre-forking" server.
-  + nginx can be started as a 'system service' (at boot time), and is platform-neutral.
+  + nginx can be started as a /system service/ (at boot time), and is platform-neutral.
 
 + =nginx.conf=  ()configuration entries are key/value pairs: no XML!)
   #+begin_example 
@@ -719,18 +721,18 @@ parent---------->child        ## Both parent and child continue to execute...
          exec...()
 process1----------->process2  ## process2 replaces process1, which terminates
   #+end_example
-+ In systems speak, an 'image' is an executable program. For instance,
++ In systems speak, an /image/ is an executable program. For instance,
   copying the system from one machine to another is called
-  're-imaging'.
-  + In the multiprocessing 'pipeExample' code, the image is the
-    compiled, executable program named 'pipeExample'
-+ A new process can be 'spawned' (created) under one of two distinct
+  /re-imaging/.
+  + In the multiprocessing /pipeExample/ code, the image is the
+    compiled, executable program named /pipeExample/
++ A new process can be /spawned/ (created) under one of two distinct
   scenarios, which the difference between the fork() function and the
   exec-family of functions illustrates.
   + The exec-family consists of library functions that, under the
     hood, make the same system call.
 + In a successful call to fork(), the new child process executes the
-  'same' image as the parent that spawned it: the forked process is a
+  /same/ image as the parent that spawned it: the forked process is a
   clone. So the standard code idiom is this:
   #+BEGIN_SRC C
 pid_t pid = fork();  /* parent executes this */
@@ -835,24 +837,24 @@ int main() {
   + A process's pid is recorded in the system's process table.
   + Library functions getpid() and getppid() get the pid and the
     parent's pid, respectively.
-  + The pid of 0 is typically reserved for the 'idle process', the one
-    that 'runs' when there's nothing else to run.
-  + The 'init process' has a pid of 1: the first user-space process
+  + The pid of 0 is typically reserved for the /idle process/, the one
+    that /runs/ when there's nothing else to run.
+  + The /init process/ has a pid of 1: the first user-space process
     that the OS kernel spawns in the boot-up.
     + On shutdown, the init process is the last process to terminate:
       it waits for all of its children.
     + The init process starts other processes: system services such as
       the login service, etc.
-+ Key data structures in a process 'context':
++ Key data structures in a process /context/:
   + process table: tracks information per process, in particular
     information that allows a pre-empted process to restart later.
   + page table(s): translate virtual into physical addresses. Each
     process has its own, which effectively partitions virtual address
     spaces among processes.
   + file table: tracks, per process, files that a process has opened.
-+ Every process has a user and group 'owner', which determines the
++ Every process has a user and group /owner/, which determines the
   process's access rights to resources.
-  + Every process likewise belongs to a 'process group', which
+  + Every process likewise belongs to a /process group/, which
     facilitates sending signals to every process in a group, to
     getting information about related processes, and so on.
   + In the default case, a child process belongs to the same as its
@@ -861,15 +863,15 @@ int main() {
   fixed-length or variable-length time-slices: a process that exceeds
   the time-slice on a given run is pre-empted and sent back to a
   scheduling queue.
-  + A process and a thread 'context' consists of key information about
+  + A process and a thread /context/ consists of key information about
     it.
     + For a process, key data structures such as the process table,
-      the file table, and its page tables define the 'context'.
+      the file table, and its page tables define the /context/.
 + Context switches, which occur during pre-emption, come in two
   flavors:
-  + From one thread to another within the same process: 'intraprocess
-    switching'
-  + From one process to another: 'interprocess switching'
+  + From one thread to another within the same process: /intraprocess
+    switching/
+  + From one process to another: /interprocess switching/
     + The big cost is the swapping out of one (virtual) address space
       for another: page tables
   + A process-level context switch is signficantly more expensive than
@@ -902,7 +904,7 @@ Chapter 4 :
  Multithreading overview
 
 + The chief advantage of multithreading over multiprocessing is that
-  threads are 'lighter' than processes:
+  threads are /lighter/ than processes:
   + A process consists of one or more threads of execution.
   + A process-level context switch is significantly more expensive, in the millisecond range.
   + A thread-level context switch has a near-zero cost for threads in
@@ -913,7 +915,7 @@ Chapter 4 :
     in the same process don't inappropriately access the same memory
     location (e.g., by trying to update the location).
   + The programmer must coordinate threads in the same process to
-    avoid 'race conditions'.  
+    avoid /race conditions/.  
     + If the coordination is overdone, /deadlock/ may result.
   + Thread coordination must be just right:
     + Too little brings the threat of race conditions and, therefore,
@@ -1054,7 +1056,7 @@ n's value is: 80561
   + Whichever thread starts its arithmetic operation
     (addition/subtraction) must be allow to complete the assignment
     without interruption.
-    + This is precisely what 'thread synchronization' through locking
+    + This is precisely what /thread synchronization/ through locking
       of N ensures: single-threaded execution of the arithmetic
       operation and the subsequent assignment.
 *** Overview of Explicit Thread Locking
@@ -1086,38 +1088,38 @@ class Test {
 + The terms below are associated with processes and threads, but the
   focus now is on threads given the assumption that a process executes
   in that one of its threads executes.
-+ A 'critical section' of code must be executed in single-threaded fashion because
++ A /critical section/ of code must be executed in single-threaded fashion because
    otherwise a race condition could arise.
   + For example, if threads T1 and T2 can both execute 
     : N = N + 1  ## the same storage N is accessible to T1 and T2
     this statement is a critical section of code. T1 and T2 should not
     execute this section at the same time.
 + A locking mechanism should provide the following services:
-  + The mechanism should ensure 'mutual exclusion': if T1 manages to
+  + The mechanism should ensure /mutual exclusion/: if T1 manages to
     grab the lock, then T2 is excluded from the critical section that
     the lock protects while T1 holds the lock; and vice versa.
-  + The mechanism should ensure 'progress': if no thread holds the
+  + The mechanism should ensure /progress/: if no thread holds the
     lock, then some thread should be able to grab it and thereby enter
     the critical section that the lock protects.
 + Various locking mechanisms:
-  + A 'semaphore' restricts the number of threads allowed to access a
-    shared resource (e.g., a shared function). For example, 'semahore'
+  + A /semaphore/ restricts the number of threads allowed to access a
+    shared resource (e.g., a shared function). For example, /semahore/
     might allow two threads to access a chunk of code simultaneously,
     but no more than two. A semaphore is thus a set of permission
     tickets, which enable a thread to access a resource.
-    + Semaphores as 'tickets': a semaphore is like a ticket that
+    + Semaphores as /tickets/: a semaphore is like a ticket that
       grants access to a resource.  A semaphore with a value of three
       would grant access to three threads at most at a time.
-  + A 'mutex' is a semaphore with a value of 1: whichever thread holds
+  + A /mutex/ is a semaphore with a value of 1: whichever thread holds
     the mutex has access to the protected resource, whereas all others
     are excluded.
     + A mutex enforces mutual exclusion, but a semaphore with a value
       > 1 would not.
-  + A 'monitor' (which the Java 'synchronized' block provides) is a
+  + A /monitor/ (which the Java /synchronized/ block provides) is a
     mechanism that enforces mutual exclusion, supports progress, and
     has addition mechanisms for thread cooperation: in Java's case,
-    the 'wait' mechanism supports quiet waiting for a lock to be
-    released, and the 'notify' mechanism notifies waiters that a lock
+    the /wait/ mechanism supports quiet waiting for a lock to be
+    released, and the /notify/ mechanism notifies waiters that a lock
     has been released.
 
 *** A Sample Deadlock in Java
@@ -1192,7 +1194,7 @@ public class Deadlock {
   + The OS keeps the processes in multiprocessing from stepping on one another's storge.
   + The programmer must do the same for threads within a process: thread coordination
 + How to support to thread-safety (i.e., safety from race conditions)?
-  + Consider an in-memory mutable list and an 'add' operation.
+  + Consider an in-memory mutable list and an /add/ operation.
   #+begin_example
        ADD 3  +---+---+
 thread------->| 1 | 2 |        ## list L before the ADD
@@ -1247,7 +1249,7 @@ thread1------->channel to T<--------thread2  ## the channel has built-in synchro
     access shared memory locations in inappropriate ways.
     + Ensure that critical sections are executed in single-threaded
       mode.
-  + Avoid 'over synchronization' that degrades performance and may
+  + Avoid /over synchronization/ that degrades performance and may
     result in deadlock.
 + Languages now offer programmers high-level constructs and types to
   ease the challenges of multithreaded programming.
@@ -1255,14 +1257,14 @@ thread1------->channel to T<--------thread2  ## the channel has built-in synchro
  
 **** Native versus green threads, and the Global Interpreter Lock (GIL)
 
-+ A 'native thread' is under kernel OS control when it comes to
++ A /native thread/ is under kernel OS control when it comes to
   scheduling.
-  + Since roughly 2000, Java Thread instances map to 'native'
+  + Since roughly 2000, Java Thread instances map to /native/
     threads. (Same for C#.)
-  + C's 'pthreads' (the 'p' for POSIX API standardization) are
-    'native' threads.
-+ A 'green thread' (aka 'microthread', 'tasklet') is under a particular language's runtime control.
-  + In effect, 'green threads' emulate native threads, and may provide
+  + C's /pthreads/ (the 'p' for POSIX API standardization) are
+    /native/ threads.
++ A /green thread/ (aka /microthread/, /tasklet/) is under a particular language's runtime control.
+  + In effect, /green threads/ emulate native threads, and may provide
     better performance for operations such as thread creation and
     synchronization.
   + Prior to version 1.9, for example, Ruby's standard implementation (CRuby) had only green threads.
@@ -1276,8 +1278,8 @@ thread1------->channel to T<--------thread2  ## the channel has built-in synchro
 
 + Fix the RaceC program (RaceC.java) by providing explicit locking.
   + Use synchronized blocks and a shared lock to ensure that threads
-    t1 and t2 do the increment and decrement operations 'atomically'
-    (that is, without interruption).'
+    t1 and t2 do the increment and decrement operations /atomically/
+    (that is, without interruption).
   + *Hint:* use a static field as the lock to ensure there's a single instance of the lock.
 + To get a sense of what thread syncrhonization costs, time the RaceC
   program with and without thread synchronization.
@@ -1318,7 +1320,7 @@ Chapter 9
   execute on multiple processors.
   + The OS handles the scheduling.
 + In a multithreading approach to concurrency, multiple threads within a process execute on multiple processors.
-  + If API threads map to 'native' threads, then the OS handles the scheduling. (Assuming no GIL.)
+  + If API threads map to /native/ threads, then the OS handles the scheduling. (Assuming no GIL.)
 + In hybrid approaches (e.g., Asp.Net's multithreaded worker
   processes), there's still the distribution of task processing among
   multiple processors.
@@ -1328,19 +1330,19 @@ The goal now is to focus on broader uses of parallel computation.
 + Some reasons why parallelism is now so attractive:
   + Consumer desktop, laptop, and even handheld machines are now
     multi-core, with one or more processors per core.
-    + In fact (even if not in reputation), these machines are 'parallel computers'.
+    + In fact (even if not in reputation), these machines are /parallel computers/.
     + At issue is how to exploit this possibily for parallel computations.
   + Consumer-level machines may come with GPUs (graphics-processing
-    units) and FPUs (floating-point unit or 'math coproccessor') as
-    well as CPUs (central or 'generic' processing units).
+    units) and FPUs (floating-point unit or /math coproccessor/) as
+    well as CPUs (central or /generic/ processing units).
     + GPUs and FPUs are designed for parallelism.
-    + 'gpgpu' (general-purpose computing on a GPU) refers to the use
-      of a GPU for 'general purposes', that is, purposes beyond just
+    + /gpgpu/ (general-purpose computing on a GPU) refers to the use
+      of a GPU for /general purposes/, that is, purposes beyond just
       graphics. So gpgpu approaches a GPU as if it were a
       (specialized) CPU.
   + Distributed software systems such as email and the WWW have code
     modules that execute on physically distinct devices.
-    + The 'network as the computer' describes networked hosts, each
+    + The /network as the computer/ describes networked hosts, each
       with its own collection of processors, as a resource for
       distributed parallel computation.
     + The key challenge is how to coordinate such computations and to share information among them.
@@ -1473,10 +1475,10 @@ C source code--->|preprocessor|--->|compiler|--->|assembler|--->|linker|--->exec
 main:
    ## The identifiers that start with $ are constants.
 	
-   ## %rsp is the 'stack pointer', which points to the TOP position on the stack.
+   ## %rsp is the /stack pointer/, which points to the TOP position on the stack.
 	
    ## An expression such as 96(%rsp) is an address or pointer expression: %rsp is the base 
-      address, 96 is of the offset therefrom. The offset is in bytes, so in this case it's 
+      address, 96 is of the offset therefrom. The offset is in bytes, so in this case it/s 
       96 bytes. (The Intel stack grows downwards, from high to low addresses.)
 
    ## The full expression 'movl $1, 96(%rsp)' copies (not literally moves) the 32-bit value 
@@ -1646,8 +1648,8 @@ in_parallel(): 10957
 *** How Can Performance Gains Through Parallelism Be Measured
  Parallelism and performance
 
-+ Revised 'sseTimings' program, now in 3 versions: 'timings2048',
-  'timings8192', and 'timings32768':
++ Revised /sseTimings/ program, now in 3 versions: /timings2048/,
+  /timings8192/, and /timings32768/:
   + Average speedup of 'serial' version from 20 test runs:\\
        'timings2048':  average speedup of 2.17    ## 2048 is vector size\\
        'timings8192':  average speedup of 1.72    ##  8192 == 2048 x 4\\
