@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-10-20 Fri 14:19 -->
+<!-- 2017-10-23 Mo 20:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung &#x2013; Grundlagen</title>
@@ -264,12 +264,12 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Parallelprogrammierung &#x2013; Grundlagen</h1>
 
-<div id="outline-container-org039884e" class="outline-2">
-<h2 id="org039884e">Ein wenig Geschichte &#x2026;</h2>
-<div class="outline-text-2" id="text-org039884e">
-</div><div id="outline-container-org93f2037" class="outline-3">
-<h3 id="org93f2037">&#x2026; der Rechensysteme</h3>
-<div class="outline-text-3" id="text-org93f2037">
+<div id="outline-container-org575fd04" class="outline-2">
+<h2 id="org575fd04">Ein wenig Geschichte &#x2026;</h2>
+<div class="outline-text-2" id="text-org575fd04">
+</div><div id="outline-container-orgfe61569" class="outline-3">
+<h3 id="orgfe61569">&#x2026; der Rechensysteme</h3>
+<div class="outline-text-3" id="text-orgfe61569">
 <p>
 (vgl. <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>)
 </p>
@@ -318,9 +318,9 @@ dessen Aufgaben</li>
 </dl>
 </div>
 </div>
-<div id="outline-container-orgb560547" class="outline-3">
-<h3 id="orgb560547">&#x2026; der Technologie</h3>
-<div class="outline-text-3" id="text-orgb560547">
+<div id="outline-container-org5f08b5d" class="outline-3">
+<h3 id="org5f08b5d">&#x2026; der Technologie</h3>
+<div class="outline-text-3" id="text-org5f08b5d">
 <p>
 &#x2026; der Prozessoren und Speicherchips
 </p>
@@ -345,16 +345,16 @@ auf einem Chip ca. alle 18 Monate &#x2013; gilt noch heute</li>
 </div>
 </div>
 
-<div id="outline-container-org06052ee" class="outline-2">
-<h2 id="org06052ee">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
-<div class="outline-text-2" id="text-org06052ee">
+<div id="outline-container-org4056c8b" class="outline-2">
+<h2 id="org4056c8b">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
+<div class="outline-text-2" id="text-org4056c8b">
 <p>
 (vgl.  <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>, <a class='org-ref-reference' href="#Kalin2015">Kalin2015</a>)
 </p>
 </div>
-<div id="outline-container-org34ede22" class="outline-3">
-<h3 id="org34ede22">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
-<div class="outline-text-3" id="text-org34ede22">
+<div id="outline-container-org9e9a77d" class="outline-3">
+<h3 id="org9e9a77d">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
+<div class="outline-text-3" id="text-org9e9a77d">
 <p>
 (vgl. <a class='org-ref-reference' href="#Flynn1972">Flynn1972</a>)
 </p>
@@ -438,12 +438,12 @@ Prozessoren (P).</li>
 </div>
 </div>
 
-<div id="outline-container-org1b10c61" class="outline-3">
-<h3 id="org1b10c61">Ausprägungen</h3>
-<div class="outline-text-3" id="text-org1b10c61">
-</div><div id="outline-container-orgcbddc7f" class="outline-4">
-<h4 id="orgcbddc7f">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
-<div class="outline-text-4" id="text-orgcbddc7f">
+<div id="outline-container-org7a1bb1e" class="outline-3">
+<h3 id="org7a1bb1e">Ausprägungen</h3>
+<div class="outline-text-3" id="text-org7a1bb1e">
+</div><div id="outline-container-org2042c0a" class="outline-4">
+<h4 id="org2042c0a">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
+<div class="outline-text-4" id="text-org2042c0a">
 <ul class="org-ul">
 <li>mehrere Prozesse können <i>echt</i> parallel ablaufen (auf
 Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
@@ -451,9 +451,9 @@ Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd6848de" class="outline-4">
-<h4 id="orgd6848de">Vektorrechner</h4>
-<div class="outline-text-4" id="text-orgd6848de">
+<div id="outline-container-org709d8c5" class="outline-4">
+<h4 id="org709d8c5">Vektorrechner</h4>
+<div class="outline-text-4" id="text-org709d8c5">
 <ul class="org-ul">
 <li>Ausführung einer Berechnung gleichzeitig auf vielen Daten</li>
 <li>Anordnung der Daten als Vektor bzw. Matrix</li>
@@ -464,9 +464,9 @@ Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8152565" class="outline-4">
-<h4 id="org8152565">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
-<div class="outline-text-4" id="text-org8152565">
+<div id="outline-container-orgda05974" class="outline-4">
+<h4 id="orgda05974">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
+<div class="outline-text-4" id="text-orgda05974">
 <ul class="org-ul">
 <li>ursprünglich bestehend aus beschränkt programmierbaren
 Spezialprozessoren für Fließkommaoperationen</li>
@@ -479,9 +479,9 @@ Bibliotheken wie z. B. CUDA von Nvidia</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org510cb40" class="outline-4">
-<h4 id="org510cb40">Lose gekoppelte Multiprozessoren</h4>
-<div class="outline-text-4" id="text-org510cb40">
+<div id="outline-container-orgd6455e6" class="outline-4">
+<h4 id="orgd6455e6">Lose gekoppelte Multiprozessoren</h4>
+<div class="outline-text-4" id="text-orgd6455e6">
 <ul class="org-ul">
 <li>kein gemeinsamer Speicher</li>
 <li>Synchronisation und Kommunikation durch Nachrichtenaustausch</li>
@@ -492,13 +492,13 @@ Bibliotheken wie z. B. CUDA von Nvidia</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc9e289a" class="outline-2">
-<h2 id="orgc9e289a">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
-<div class="outline-text-2" id="text-orgc9e289a">
+<div id="outline-container-org84468b4" class="outline-2">
+<h2 id="org84468b4">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
+<div class="outline-text-2" id="text-org84468b4">
 </div>
-<div id="outline-container-org18f8be6" class="outline-3">
-<h3 id="org18f8be6">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
-<div class="outline-text-3" id="text-org18f8be6">
+<div id="outline-container-org94529f4" class="outline-3">
+<h3 id="org94529f4">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
+<div class="outline-text-3" id="text-org94529f4">
 <ul class="org-ul">
 <li>For now, concurrency is "handling many tasks during the same time span":
 <ul class="org-ul">
@@ -538,9 +538,9 @@ concurrency without parallelism.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf2526f2" class="outline-3">
-<h3 id="orgf2526f2">Concurrency and parallelism: working technical definitions</h3>
-<div class="outline-text-3" id="text-orgf2526f2">
+<div id="outline-container-org762f4e4" class="outline-3">
+<h3 id="org762f4e4">Concurrency and parallelism: working technical definitions</h3>
+<div class="outline-text-3" id="text-org762f4e4">
 <pre class="example">
       client requests  +------------+   ## Task1: handle request1
     ------------------&gt;| web server |   ## Task2: handle request2
@@ -603,9 +603,9 @@ the longer of the two.
 </dl>
 </div>
 </div>
-<div id="outline-container-org6ee6bad" class="outline-3">
-<h3 id="org6ee6bad">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
-<div class="outline-text-3" id="text-org6ee6bad">
+<div id="outline-container-org86a96bf" class="outline-3">
+<h3 id="org86a96bf">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
+<div class="outline-text-3" id="text-org86a96bf">
 <ul class="org-ul">
 <li><p>
 The systems context: user-space and kernel-space code
@@ -642,9 +642,9 @@ C extensions covering the rest.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0191344" class="outline-3">
-<h3 id="org0191344">Wrapup of the overview</h3>
-<div class="outline-text-3" id="text-org0191344">
+<div id="outline-container-orgbfe79e2" class="outline-3">
+<h3 id="orgbfe79e2">Wrapup of the overview</h3>
+<div class="outline-text-3" id="text-orgbfe79e2">
 <ul class="org-ul">
 <li>Concurrency and parallelism are different.
 <ul class="org-ul">
@@ -676,12 +676,12 @@ and strengths with respect to concurrency in particular.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org416eb10" class="outline-2">
-<h2 id="org416eb10">Parallelität vs. Nebenläufigkeit im Detail</h2>
-<div class="outline-text-2" id="text-org416eb10">
-</div><div id="outline-container-orga7b8571" class="outline-3">
-<h3 id="orga7b8571">Processes and threads</h3>
-<div class="outline-text-3" id="text-orga7b8571">
+<div id="outline-container-org34c1814" class="outline-2">
+<h2 id="org34c1814">Parallelität vs. Nebenläufigkeit im Detail</h2>
+<div class="outline-text-2" id="text-org34c1814">
+</div><div id="outline-container-orgde68a64" class="outline-3">
+<h3 id="orgde68a64">Processes and threads</h3>
+<div class="outline-text-3" id="text-orgde68a64">
 <ul class="org-ul">
 <li>A process is a <i>program in execution</i>, each with its own address space.
 <ul class="org-ul">
@@ -731,9 +731,9 @@ executing the instruction:<br />
 </pre>
 </div>
 </div>
-<div id="outline-container-org05724bf" class="outline-3">
-<h3 id="org05724bf">Multiprocessing</h3>
-<div class="outline-text-3" id="text-org05724bf">
+<div id="outline-container-org0d42e89" class="outline-3">
+<h3 id="org0d42e89">Multiprocessing</h3>
+<div class="outline-text-3" id="text-org0d42e89">
 <p>
 A first look at multiprocessing: the command-line pipe operator <code>|</code>
 </p>
@@ -789,9 +789,9 @@ sleep 5 | echo 'Hello, world!'  ## sleep sends no bytes to the pipe, and echo ex
 </ul>
 </div>
 </div>
-<div id="outline-container-orgba040de" class="outline-3">
-<h3 id="orgba040de">Multithreading</h3>
-<div class="outline-text-3" id="text-orgba040de">
+<div id="outline-container-org227ed63" class="outline-3">
+<h3 id="org227ed63">Multithreading</h3>
+<div class="outline-text-3" id="text-org227ed63">
 <p>
 A first look at multithreading: the Tomcat web server, written in Java
 </p>
@@ -821,9 +821,9 @@ requests over HTTP, another for requests over HTTPS if HTTPS is enabled.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4c81c28" class="outline-3">
-<h3 id="org4c81c28">Non-blocking I/O</h3>
-<div class="outline-text-3" id="text-org4c81c28">
+<div id="outline-container-org5663c86" class="outline-3">
+<h3 id="org5663c86">Non-blocking I/O</h3>
+<div class="outline-text-3" id="text-org5663c86">
 <p>
 A first look at non-blocking I/O non-blocking I/O: two code examples
 </p>
@@ -869,9 +869,9 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
 </div>
 </div>
 </div>
-<div id="outline-container-orga9fac74" class="outline-3">
-<h3 id="orga9fac74">Zusammenfassung</h3>
-<div class="outline-text-3" id="text-orga9fac74">
+<div id="outline-container-orga4bfae2" class="outline-3">
+<h3 id="orga4bfae2">Zusammenfassung</h3>
+<div class="outline-text-3" id="text-orga4bfae2">
 <p>
 Three approaches to concurrency: multiprocessing, multithreading, non-blocking I/O
 </p>
@@ -915,9 +915,9 @@ until all of the request bytes for a given task have been read.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc0da73a" class="outline-3">
-<h3 id="orgc0da73a">Hybrid approaches</h3>
-<div class="outline-text-3" id="text-orgc0da73a">
+<div id="outline-container-org324a462" class="outline-3">
+<h3 id="org324a462">Hybrid approaches</h3>
+<div class="outline-text-3" id="text-org324a462">
 <ul class="org-ul">
 <li>There's no hard-and-fast rule about how best to support concurrency.
 <ul class="org-ul">
@@ -991,15 +991,15 @@ client request  | loop   |        I/O and callbacks to signal task completion
 </div>
 </div>
 
-<div id="outline-container-org53e1540" class="outline-2">
-<h2 id="org53e1540">Multiprocessing &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-org53e1540">
-</div><div id="outline-container-org7a44bab" class="outline-3">
-<h3 id="org7a44bab">A first multiprocessing example in C</h3>
-<div class="outline-text-3" id="text-org7a44bab">
-</div><div id="outline-container-orgd73d477" class="outline-4">
-<h4 id="orgd73d477">Overview</h4>
-<div class="outline-text-4" id="text-orgd73d477">
+<div id="outline-container-orgfc6b8fe" class="outline-2">
+<h2 id="orgfc6b8fe">Multiprocessing &#x2013; Grundlagen</h2>
+<div class="outline-text-2" id="text-orgfc6b8fe">
+</div><div id="outline-container-orgd2a5034" class="outline-3">
+<h3 id="orgd2a5034">A first multiprocessing example in C</h3>
+<div class="outline-text-3" id="text-orgd2a5034">
+</div><div id="outline-container-orged42d90" class="outline-4">
+<h4 id="orged42d90">Overview</h4>
+<div class="outline-text-4" id="text-orged42d90">
 <p>
 &#x2026; key points of the <i>unnamed pipe example</i>
 </p>
@@ -1060,9 +1060,9 @@ child becomes an „zombie“, dead but still around.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9413355" class="outline-4">
-<h4 id="org9413355">using the shell</h4>
-<div class="outline-text-4" id="text-org9413355">
+<div id="outline-container-orgda4c5c3" class="outline-4">
+<h4 id="orgda4c5c3">using the shell</h4>
+<div class="outline-text-4" id="text-orgda4c5c3">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ls pipeExample.c 
 pipeExample.c
@@ -1074,9 +1074,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org019288f" class="outline-4">
-<h4 id="org019288f">Source code</h4>
-<div class="outline-text-4" id="text-org019288f">
+<div id="outline-container-orgd44f2a9" class="outline-4">
+<h4 id="orgd44f2a9">Source code</h4>
+<div class="outline-text-4" id="text-orgd44f2a9">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A first multiprocessing example: pipes in C </span>
 <span style="color: #8D8D84; font-style: italic;">    To compile (Unix-like system): gcc -o pipeExample pipeExample.c</span>
@@ -1129,12 +1129,12 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcd7137f" class="outline-3">
-<h3 id="orgcd7137f">Second Example &#x2013; Named Pipes</h3>
-<div class="outline-text-3" id="text-orgcd7137f">
-</div><div id="outline-container-org44cb4fa" class="outline-4">
-<h4 id="org44cb4fa">Overview</h4>
-<div class="outline-text-4" id="text-org44cb4fa">
+<div id="outline-container-org9cdef49" class="outline-3">
+<h3 id="org9cdef49">Second Example &#x2013; Named Pipes</h3>
+<div class="outline-text-3" id="text-org9cdef49">
+</div><div id="outline-container-orgefdd7e1" class="outline-4">
+<h4 id="orgefdd7e1">Overview</h4>
+<div class="outline-text-4" id="text-orgefdd7e1">
 <p>
 A second multiprocessing example in C: key points of the <i>named pipe</i> example
 </p>
@@ -1181,9 +1181,9 @@ regular disk file: the I/O API is the same.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4be9feb" class="outline-4">
-<h4 id="org4be9feb">using the shell</h4>
-<div class="outline-text-4" id="text-org4be9feb">
+<div id="outline-container-org4b4f846" class="outline-4">
+<h4 id="org4b4f846">using the shell</h4>
+<div class="outline-text-4" id="text-org4b4f846">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ./fifoWriter &amp;
 <span style="color: #707183;">[</span>1<span style="color: #707183;">]</span> 7316
@@ -1198,9 +1198,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8f8b7af" class="outline-4">
-<h4 id="org8f8b7af">Source Code <code>fifoWriter.c</code></h4>
-<div class="outline-text-4" id="text-org8f8b7af">
+<div id="outline-container-org71183c5" class="outline-4">
+<h4 id="org71183c5">Source Code <code>fifoWriter.c</code></h4>
+<div class="outline-text-4" id="text-org71183c5">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
 <span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
@@ -1232,9 +1232,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga860af1" class="outline-4">
-<h4 id="orga860af1">Source Code <code>fifoReader.c</code></h4>
-<div class="outline-text-4" id="text-orga860af1">
+<div id="outline-container-org9f1400c" class="outline-4">
+<h4 id="org9f1400c">Source Code <code>fifoReader.c</code></h4>
+<div class="outline-text-4" id="text-org9f1400c">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
 <span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
@@ -1260,9 +1260,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org16bfdc8" class="outline-3">
-<h3 id="org16bfdc8">The Nginx Web Server</h3>
-<div class="outline-text-3" id="text-org16bfdc8">
+<div id="outline-container-org0fac2b5" class="outline-3">
+<h3 id="org0fac2b5">The Nginx Web Server</h3>
+<div class="outline-text-3" id="text-org0fac2b5">
 <p>
 Multiprocessing in production-grade software: the nginx web server
 </p>
@@ -1310,9 +1310,9 @@ www-data  1808  1803   worker process
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf653012" class="outline-3">
-<h3 id="orgf653012">Execing and Forking Options in Multiprocessing</h3>
-<div class="outline-text-3" id="text-orgf653012">
+<div id="outline-container-orgfcb59b3" class="outline-3">
+<h3 id="orgfcb59b3">Execing and Forking Options in Multiprocessing</h3>
+<div class="outline-text-3" id="text-orgfcb59b3">
 <p>
 A second way for one executing program to start another
 </p>
@@ -1379,9 +1379,9 @@ execution.</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orgfe4546f" class="outline-4">
-<h4 id="orgfe4546f">Using the Shell</h4>
-<div class="outline-text-4" id="text-orgfe4546f">
+<div id="outline-container-orgd837333" class="outline-4">
+<h4 id="orgd837333">Using the Shell</h4>
+<div class="outline-text-4" id="text-orgd837333">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ./fileStatus tmp
 File name: tmp
@@ -1425,9 +1425,9 @@ Owner write: Owner writable</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga09877e" class="outline-4">
-<h4 id="orga09877e">Source Code</h4>
-<div class="outline-text-4" id="text-orga09877e">
+<div id="outline-container-org96eec2c" class="outline-4">
+<h4 id="org96eec2c">Source Code</h4>
+<div class="outline-text-4" id="text-org96eec2c">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">To run: </span>
 
@@ -1463,9 +1463,9 @@ Owner write: Owner writable</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5f02642" class="outline-3">
-<h3 id="org5f02642">Process Tracking and Management</h3>
-<div class="outline-text-3" id="text-org5f02642">
+<div id="outline-container-org72ed04b" class="outline-3">
+<h3 id="org72ed04b">Process Tracking and Management</h3>
+<div class="outline-text-3" id="text-org72ed04b">
 <p>
 Process tracking and context switching
 </p>
@@ -1549,11 +1549,15 @@ Process1      Process2        processor7
 </ul>
 </div>
 </div>
-<div id="outline-container-org5d84020" class="outline-3">
-<h3 id="org5d84020">Multiprocessing Through Richer Code Examples</h3>
-<div class="outline-text-3" id="text-org5d84020">
+<div id="outline-container-org338647d" class="outline-3">
+<h3 id="org338647d">Multiprocessing Through Richer Code Examples</h3>
+<div class="outline-text-3" id="text-org338647d">
 <p>
-Chapter 4 : 
+<i>to be continued</i> &#x2026; 
+</p>
+
+<p>
+Examples from 
 </p>
 <ul class="org-ul">
 <li>node.js</li>
@@ -1563,18 +1567,19 @@ Chapter 4 :
 <li>upsides and downsides of multiprocessing</li>
 </ul>
 </div>
-<div id="outline-container-orgb49bce6" class="outline-4">
-<h4 id="orgb49bce6">Overview</h4>
+
+<div id="outline-container-org82e24fd" class="outline-4">
+<h4 id="org82e24fd">Overview</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-org36e610d" class="outline-2">
-<h2 id="org36e610d">Multithreading &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-org36e610d">
+<div id="outline-container-org055d837" class="outline-2">
+<h2 id="org055d837">Multithreading &#x2013; Grundlagen</h2>
+<div class="outline-text-2" id="text-org055d837">
 </div>
-<div id="outline-container-orgafb95b7" class="outline-3">
-<h3 id="orgafb95b7">Overview</h3>
-<div class="outline-text-3" id="text-orgafb95b7">
+<div id="outline-container-org4051524" class="outline-3">
+<h3 id="org4051524">Overview</h3>
+<div class="outline-text-3" id="text-org4051524">
 <p>
 Multithreading overview
 </p>
@@ -1621,12 +1626,12 @@ sides might disagree with this characterization. :)</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orgee3aaae" class="outline-4">
-<h4 id="orgee3aaae">A Sample Race Condition in Java</h4>
-<div class="outline-text-4" id="text-orgee3aaae">
-</div><div id="outline-container-org192457a" class="outline-5">
-<h5 id="org192457a">source code</h5>
-<div class="outline-text-5" id="text-org192457a">
+<div id="outline-container-org68b1c82" class="outline-4">
+<h4 id="org68b1c82">A Sample Race Condition in Java</h4>
+<div class="outline-text-4" id="text-org68b1c82">
+</div><div id="outline-container-org81bc6dc" class="outline-5">
+<h5 id="org81bc6dc">source code</h5>
+<div class="outline-text-5" id="text-org81bc6dc">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** To compile: javac RaceC.java</span>
 <span style="color: #036A07;">    To run:     java Main</span>
@@ -1699,9 +1704,9 @@ sides might disagree with this characterization. :)</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd721b7c" class="outline-5">
-<h5 id="orgd721b7c">using the shell</h5>
-<div class="outline-text-5" id="text-orgd721b7c">
+<div id="outline-container-org55a5040" class="outline-5">
+<h5 id="org55a5040">using the shell</h5>
+<div class="outline-text-5" id="text-org55a5040">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ javac RaceC.java
 bash-3.2$ java Main
@@ -1719,9 +1724,9 @@ n<span style="color: #008000;">'s value is: -2</span>
 </div>
 </div>
 
-<div id="outline-container-orgd711102" class="outline-4">
-<h4 id="orgd711102">Analysis of the Race Condition Code</h4>
-<div class="outline-text-4" id="text-orgd711102">
+<div id="outline-container-org91f396f" class="outline-4">
+<h4 id="org91f396f">Analysis of the Race Condition Code</h4>
+<div class="outline-text-4" id="text-org91f396f">
 <p>
 A detailed look at how a race condition occurs
 </p>
@@ -1784,12 +1789,12 @@ operation and the subsequent assignment.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc2dc6c1" class="outline-4">
-<h4 id="orgc2dc6c1">Overview of Explicit Thread Locking</h4>
-<div class="outline-text-4" id="text-orgc2dc6c1">
-</div><div id="outline-container-org4a85f37" class="outline-5">
-<h5 id="org4a85f37">code examples</h5>
-<div class="outline-text-5" id="text-org4a85f37">
+<div id="outline-container-org94ecc42" class="outline-4">
+<h4 id="org94ecc42">Overview of Explicit Thread Locking</h4>
+<div class="outline-text-4" id="text-org94ecc42">
+</div><div id="outline-container-org7977a79" class="outline-5">
+<h5 id="org7977a79">code examples</h5>
+<div class="outline-text-5" id="text-org7977a79">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">Thread synchronization mechanisms: code examples */</span>
 
@@ -1815,9 +1820,9 @@ operation and the subsequent assignment.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org3113ac4" class="outline-5">
-<h5 id="org3113ac4">Mechanisms for thread coordination</h5>
-<div class="outline-text-5" id="text-org3113ac4">
+<div id="outline-container-orge0f025d" class="outline-5">
+<h5 id="orge0f025d">Mechanisms for thread coordination</h5>
+<div class="outline-text-5" id="text-orge0f025d">
 <ul class="org-ul">
 <li>The terms below are associated with processes and threads, but the
 focus now is on threads given the assumption that a process executes
@@ -1877,12 +1882,12 @@ has been released.</li>
 </div>
 </div>
 
-<div id="outline-container-org8f99e6a" class="outline-4">
-<h4 id="org8f99e6a">A Sample Deadlock in Java</h4>
-<div class="outline-text-4" id="text-org8f99e6a">
-</div><div id="outline-container-org06e3123" class="outline-5">
-<h5 id="org06e3123">using the shell</h5>
-<div class="outline-text-5" id="text-org06e3123">
+<div id="outline-container-org8120808" class="outline-4">
+<h4 id="org8120808">A Sample Deadlock in Java</h4>
+<div class="outline-text-4" id="text-org8120808">
+</div><div id="outline-container-orgb41f7ae" class="outline-5">
+<h5 id="orgb41f7ae">using the shell</h5>
+<div class="outline-text-5" id="text-orgb41f7ae">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ javac Deadlock.java 
 bash-3.2$ java Deadlock
@@ -1905,9 +1910,9 @@ thread1 waiting for lock2
 </div>
 </div>
 </div>
-<div id="outline-container-orgc82eec8" class="outline-5">
-<h5 id="orgc82eec8">source code</h5>
-<div class="outline-text-5" id="text-orgc82eec8">
+<div id="outline-container-org4af8c5c" class="outline-5">
+<h5 id="org4af8c5c">source code</h5>
+<div class="outline-text-5" id="text-org4af8c5c">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** To compile and run from the command-line:</span>
 <span style="color: #036A07;">      javac Deadlock.java</span>
@@ -1956,9 +1961,9 @@ thread1 waiting for lock2
 </div>
 </div>
 
-<div id="outline-container-org8a89dec" class="outline-4">
-<h4 id="org8a89dec">High-level Concurrency Management in Multithreading</h4>
-<div class="outline-text-4" id="text-org8a89dec">
+<div id="outline-container-orgaa2c075" class="outline-4">
+<h4 id="orgaa2c075">High-level Concurrency Management in Multithreading</h4>
+<div class="outline-text-4" id="text-orgaa2c075">
 <ul class="org-ul">
 <li>Belaboring the obvious: multithreading is far trickier to manage than multiprocessing
 <ul class="org-ul">
@@ -2025,13 +2030,13 @@ thread1-------&gt;channel to T&lt;--------thread2  ## the channel has built-in s
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf5c56ec" class="outline-4">
-<h4 id="orgf5c56ec">Wrapup of multithreading basics and miscellany</h4>
-<div class="outline-text-4" id="text-orgf5c56ec">
+<div id="outline-container-org51b34b3" class="outline-4">
+<h4 id="org51b34b3">Wrapup of multithreading basics and miscellany</h4>
+<div class="outline-text-4" id="text-org51b34b3">
 </div>
-<div id="outline-container-orge08de8b" class="outline-5">
-<h5 id="orge08de8b">Wrapup</h5>
-<div class="outline-text-5" id="text-orge08de8b">
+<div id="outline-container-org93af7b5" class="outline-5">
+<h5 id="org93af7b5">Wrapup</h5>
+<div class="outline-text-5" id="text-org93af7b5">
 <ul class="org-ul">
 <li>Multithreading can be a highly efficient way to do concurrent
 programming, as thread-level context switches are very cheap.
@@ -2059,9 +2064,9 @@ ease the challenges of multithreaded programming.
 </div>
 </div>
 
-<div id="outline-container-org4a9976f" class="outline-5">
-<h5 id="org4a9976f">Native versus green threads, and the Global Interpreter Lock (GIL)</h5>
-<div class="outline-text-5" id="text-org4a9976f">
+<div id="outline-container-orgc8e4fa0" class="outline-5">
+<h5 id="orgc8e4fa0">Native versus green threads, and the Global Interpreter Lock (GIL)</h5>
+<div class="outline-text-5" id="text-orgc8e4fa0">
 <ul class="org-ul">
 <li>A <i>native thread</i> is under kernel OS control when it comes to
 scheduling.
@@ -2089,9 +2094,9 @@ multithreaded environment: no thread-level parallelism.
 </div>
 </div>
 
-<div id="outline-container-org53f51e1" class="outline-4">
-<h4 id="org53f51e1">Exercise for basic multithreading</h4>
-<div class="outline-text-4" id="text-org53f51e1">
+<div id="outline-container-org4acb7d8" class="outline-4">
+<h4 id="org4acb7d8">Exercise for basic multithreading</h4>
+<div class="outline-text-4" id="text-org4acb7d8">
 <ul class="org-ul">
 <li>Fix the RaceC program (RaceC.java) by providing explicit locking.
 <ul class="org-ul">
@@ -2119,33 +2124,33 @@ program with and without thread synchronization.
 </div>
 </div>
 
-<div id="outline-container-orgfd05b5d" class="outline-3">
-<h3 id="orgfd05b5d">Multithreading Through Richer Code Examples</h3>
-<div class="outline-text-3" id="text-orgfd05b5d">
+<div id="outline-container-orgfb69782" class="outline-3">
+<h3 id="orgfb69782">Multithreading Through Richer Code Examples</h3>
+<div class="outline-text-3" id="text-orgfb69782">
 <p>
 Chapter 6
 </p>
 </div>
 </div>
-<div id="outline-container-orga4c5911" class="outline-3">
-<h3 id="orga4c5911">Thread-Safety And High-Level Concurrent Types In Java</h3>
-<div class="outline-text-3" id="text-orga4c5911">
+<div id="outline-container-org3d19889" class="outline-3">
+<h3 id="org3d19889">Thread-Safety And High-Level Concurrent Types In Java</h3>
+<div class="outline-text-3" id="text-org3d19889">
 <p>
 Chapter 7 
 </p>
 </div>
 </div>
-<div id="outline-container-orge2818f9" class="outline-3">
-<h3 id="orge2818f9">Options For Thread Synchronization And Cooperation</h3>
-<div class="outline-text-3" id="text-orge2818f9">
+<div id="outline-container-org0e1710f" class="outline-3">
+<h3 id="org0e1710f">Options For Thread Synchronization And Cooperation</h3>
+<div class="outline-text-3" id="text-org0e1710f">
 <p>
 Chapter 8
 </p>
 </div>
 </div>
-<div id="outline-container-org7ddb54c" class="outline-3">
-<h3 id="org7ddb54c">Concurrency And Non-Blocking I-O</h3>
-<div class="outline-text-3" id="text-org7ddb54c">
+<div id="outline-container-org2139fdd" class="outline-3">
+<h3 id="org2139fdd">Concurrency And Non-Blocking I-O</h3>
+<div class="outline-text-3" id="text-org2139fdd">
 <p>
 Chapter 9
 </p>
@@ -2153,17 +2158,17 @@ Chapter 9
 </div>
 </div>
 
-<div id="outline-container-org70dbe7d" class="outline-2">
-<h2 id="org70dbe7d">Parallele Algorithmen</h2>
-<div class="outline-text-2" id="text-org70dbe7d">
+<div id="outline-container-org733d283" class="outline-2">
+<h2 id="org733d283">Parallele Algorithmen</h2>
+<div class="outline-text-2" id="text-org733d283">
 </div>
-<div id="outline-container-org71d747b" class="outline-3">
-<h3 id="org71d747b">Parallelism Basics</h3>
-<div class="outline-text-3" id="text-org71d747b">
+<div id="outline-container-org9aec578" class="outline-3">
+<h3 id="org9aec578">Parallelism Basics</h3>
+<div class="outline-text-3" id="text-org9aec578">
 </div>
-<div id="outline-container-org8fd6de6" class="outline-4">
-<h4 id="org8fd6de6">Overview of Parallelism Beyond Concurrency</h4>
-<div class="outline-text-4" id="text-org8fd6de6">
+<div id="outline-container-orgfa943c0" class="outline-4">
+<h4 id="orgfa943c0">Overview of Parallelism Beyond Concurrency</h4>
+<div class="outline-text-4" id="text-orgfa943c0">
 <p>
 Parallelism in computing
 </p>
@@ -2235,12 +2240,12 @@ parallel computing.</li>
 </div>
 </div>
 
-<div id="outline-container-org28e488f" class="outline-4">
-<h4 id="org28e488f">A SIMD Auto Vectorization Code Example in C</h4>
-<div class="outline-text-4" id="text-org28e488f">
-</div><div id="outline-container-orgcf9ed67" class="outline-5">
-<h5 id="orgcf9ed67">the non parallel version</h5>
-<div class="outline-text-5" id="text-orgcf9ed67">
+<div id="outline-container-org84b127e" class="outline-4">
+<h4 id="org84b127e">A SIMD Auto Vectorization Code Example in C</h4>
+<div class="outline-text-4" id="text-org84b127e">
+</div><div id="outline-container-org8b79f8b" class="outline-5">
+<h5 id="org8b79f8b">the non parallel version</h5>
+<div class="outline-text-5" id="text-org8b79f8b">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile and run:</span>
 
@@ -2287,9 +2292,9 @@ parallel computing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orge2b9b47" class="outline-5">
-<h5 id="orge2b9b47">the parallel version</h5>
-<div class="outline-text-5" id="text-orge2b9b47">
+<div id="outline-container-org58053b5" class="outline-5">
+<h5 id="org58053b5">the parallel version</h5>
+<div class="outline-text-5" id="text-org58053b5">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile and run:</span>
 
@@ -2339,9 +2344,9 @@ parallel computing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orge1a9750" class="outline-4">
-<h4 id="orge1a9750">using the shell</h4>
-<div class="outline-text-4" id="text-orge1a9750">
+<div id="outline-container-org14952aa" class="outline-4">
+<h4 id="org14952aa">using the shell</h4>
+<div class="outline-text-4" id="text-org14952aa">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ gcc -o nonsimd nonsimd.c
 bash-3.2$ gcc -o simd simd.c
@@ -2355,9 +2360,9 @@ bash-3.2$ ./simd
 </div>
 </div>
 </div>
-<div id="outline-container-org490226e" class="outline-4">
-<h4 id="org490226e">in Assembly-Code</h4>
-<div class="outline-text-4" id="text-org490226e">
+<div id="outline-container-org5742a9a" class="outline-4">
+<h4 id="org5742a9a">in Assembly-Code</h4>
+<div class="outline-text-4" id="text-org5742a9a">
 <p>
 Some compiler-generated assembly code from the simd.c program
 </p>
@@ -2436,13 +2441,13 @@ main:
 </div>
 </div>
 </div>
-<div id="outline-container-org89c6d32" class="outline-3">
-<h3 id="org89c6d32">Time the Performance Boost From Parallelism &#x2013; a Code Example</h3>
-<div class="outline-text-3" id="text-org89c6d32">
+<div id="outline-container-orgfe3d611" class="outline-3">
+<h3 id="orgfe3d611">Time the Performance Boost From Parallelism &#x2013; a Code Example</h3>
+<div class="outline-text-3" id="text-orgfe3d611">
 </div>
-<div id="outline-container-org4df23f9" class="outline-4">
-<h4 id="org4df23f9">Source Code</h4>
-<div class="outline-text-4" id="text-org4df23f9">
+<div id="outline-container-orgf58d792" class="outline-4">
+<h4 id="orgf58d792">Source Code</h4>
+<div class="outline-text-4" id="text-orgf58d792">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A timing example to contrast serial and parallel execution on typical matrix/vector </span>
 <span style="color: #8D8D84; font-style: italic;">    operations. The program uses 'SSE intrinsics', the interface for which is the header </span>
@@ -2533,9 +2538,9 @@ main:
 </div>
 </div>
 </div>
-<div id="outline-container-orge0cebdb" class="outline-4">
-<h4 id="orge0cebdb">using the shell</h4>
-<div class="outline-text-4" id="text-orge0cebdb">
+<div id="outline-container-org66bfdcc" class="outline-4">
+<h4 id="org66bfdcc">using the shell</h4>
+<div class="outline-text-4" id="text-org66bfdcc">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ gcc -o sseTimings sseTimings.c
 bash-3.2$ ./sseTimings
@@ -2552,27 +2557,27 @@ bash-3.2$ ./sseTimings
 </div>
 </div>
 </div>
-<div id="outline-container-orgb7c0823" class="outline-3">
-<h3 id="orgb7c0823">OpenMp</h3>
-<div class="outline-text-3" id="text-orgb7c0823">
+<div id="outline-container-org863ecac" class="outline-3">
+<h3 id="org863ecac">OpenMp</h3>
+<div class="outline-text-3" id="text-org863ecac">
 </div>
-<div id="outline-container-orgf3281a3" class="outline-4">
-<h4 id="orgf3281a3">Overview</h4>
+<div id="outline-container-org2195eeb" class="outline-4">
+<h4 id="org2195eeb">Overview</h4>
 </div>
-<div id="outline-container-org0bfc125" class="outline-4">
-<h4 id="org0bfc125">Basics</h4>
+<div id="outline-container-org26a7488" class="outline-4">
+<h4 id="org26a7488">Basics</h4>
 </div>
-<div id="outline-container-org8b905f5" class="outline-4">
-<h4 id="org8b905f5">Miser-Spendthrift Problem</h4>
+<div id="outline-container-org14b2e69" class="outline-4">
+<h4 id="org14b2e69">Miser-Spendthrift Problem</h4>
 </div>
 </div>
-<div id="outline-container-orga75a732" class="outline-3">
-<h3 id="orga75a732">Parallelism and Performance</h3>
-<div class="outline-text-3" id="text-orga75a732">
+<div id="outline-container-org6c1859c" class="outline-3">
+<h3 id="org6c1859c">Parallelism and Performance</h3>
+<div class="outline-text-3" id="text-org6c1859c">
 </div>
-<div id="outline-container-org19b7420" class="outline-4">
-<h4 id="org19b7420">How Can Performance Gains Through Parallelism Be Measured</h4>
-<div class="outline-text-4" id="text-org19b7420">
+<div id="outline-container-org6ba300b" class="outline-4">
+<h4 id="org6ba300b">How Can Performance Gains Through Parallelism Be Measured</h4>
+<div class="outline-text-4" id="text-org6ba300b">
 <p>
 Parallelism and performance
 </p>
@@ -2632,9 +2637,9 @@ T2-----&gt;| processor | ## T2 takes the same amount of time on M1 and M2
 </div>
 </div>
 
-<div id="outline-container-org77537b6" class="outline-4">
-<h4 id="org77537b6">The ParallelSort Program in Java</h4>
-<div class="outline-text-4" id="text-org77537b6">
+<div id="outline-container-orgf6bbd1b" class="outline-4">
+<h4 id="orgf6bbd1b">The ParallelSort Program in Java</h4>
+<div class="outline-text-4" id="text-orgf6bbd1b">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** A Java program to illustrate the potential speedup of parallelism, in this</span>
 <span style="color: #036A07;">    case for sorting: the program uses the new (as of Java 8) Arrays.parallelSort</span>
@@ -2700,9 +2705,9 @@ T2-----&gt;| processor | ## T2 takes the same amount of time on M1 and M2
 </pre>
 </div>
 </div>
-<div id="outline-container-org488fc64" class="outline-5">
-<h5 id="org488fc64">using the shell</h5>
-<div class="outline-text-5" id="text-org488fc64">
+<div id="outline-container-org560429f" class="outline-5">
+<h5 id="org560429f">using the shell</h5>
+<div class="outline-text-5" id="text-org560429f">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ java ParallelSort
 Serial sort of array of size:   4194304
@@ -2733,9 +2738,9 @@ Speedup:  2.7355932203389832</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2d8c6ba" class="outline-4">
-<h4 id="org2d8c6ba">Amdahls Law by Example</h4>
-<div class="outline-text-4" id="text-org2d8c6ba">
+<div id="outline-container-orgd44de76" class="outline-4">
+<h4 id="orgd44de76">Amdahls Law by Example</h4>
+<div class="outline-text-4" id="text-orgd44de76">
 <p>
 A quick look at Amdahl's Law
 </p>
@@ -2872,9 +2877,9 @@ mode: M4 is in 'parallel mode' 80% of the time&#x2013;not 100% of time.</li>
 </div>
 
 
-<div id="outline-container-org5ac2888" class="outline-4">
-<h4 id="org5ac2888">Programming exercise for parallelism/performance</h4>
-<div class="outline-text-4" id="text-org5ac2888">
+<div id="outline-container-org2ab340d" class="outline-4">
+<h4 id="org2ab340d">Programming exercise for parallelism/performance</h4>
+<div class="outline-text-4" id="text-org2ab340d">
 <ul class="org-ul">
 <li>More data gathering and reflecting on the data than coding</li>
 <li>The current version calls Arrays.sort(&#x2026;) and Arrays.parallelSort(&#x2026;) on an array.
@@ -2904,9 +2909,9 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </div>
 </div>
 </div>
-<div id="outline-container-org01327c1" class="outline-3">
-<h3 id="org01327c1">Parallelism And Distributed Computing</h3>
-<div class="outline-text-3" id="text-org01327c1">
+<div id="outline-container-org012f772" class="outline-3">
+<h3 id="org012f772">Parallelism And Distributed Computing</h3>
+<div class="outline-text-3" id="text-org012f772">
 <ul class="org-ul">
 <li>Map/Reduce in Java</li>
 <li>OpenMPI</li>
@@ -2914,9 +2919,9 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </div>
 </div>
 </div>
-<div id="outline-container-orgac67b21" class="outline-2">
-<h2 id="orgac67b21">weitere verwendete Literatur</h2>
-<div class="outline-text-2" id="text-orgac67b21">
+<div id="outline-container-orgdf8a6fd" class="outline-2">
+<h2 id="orgdf8a6fd">weitere verwendete Literatur</h2>
+<div class="outline-text-2" id="text-orgdf8a6fd">
 <ul class="org-ul">
 <li><a class='org-ref-reference' href="#CACM2017">CACM2017</a></li>
 <li><a class='org-ref-reference' href="#CACM2016">CACM2016</a></li>
@@ -2924,8 +2929,8 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </ul>
 </div>
 </div>
-<div id="outline-container-org4e753b4" class="outline-2">
-<h2 id="org4e753b4"><h2>Literaturverzeichnis</h2>
+<div id="outline-container-orge61c777" class="outline-2">
+<h2 id="orge61c777"><h2>Literaturverzeichnis</h2>
 <ul class='org-ref-bib'><li><a id="Bengel2015">[Bengel2015] Günther Bengel, Christian Baun, Marcel Kunze & Karl-Uwe Stucky, Masterkurs Parallele und Verteilte Systeme, Springer Fachmedien Wiesbaden (2015).</a></li>
 <li><a id="Kalin2015">[Kalin2015] Martin Kalin, Concurrent and Parallel Programming Concepts, (2015), zuletzt aufgerufen am 10.10.2017: <a href="https://www.safaribooksonline.com/library/view/concurrent-and-parallel/9781771375313/">https://www.safaribooksonline.com/library/view/concurrent-and-parallel/9781771375313/</a> </a></li>
 <li><a id="Flynn1972">[Flynn1972] Flynn, Some Computer Organizations and Their Effectiveness, <i>IEEE Trans. Comput.</i>, <b>21(9)</b>, 948-960 (1972). <a href="http://dx.doi.org/10.1109/TC.1972.5009071">link</a>. <a href="http://dx.doi.org/10.1109/TC.1972.5009071">doi</a>.</a></li>
@@ -2937,7 +2942,7 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-10-20 Fri 14:19</p>
+<p class="date">Created: 2017-10-23 Mo 20:54</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

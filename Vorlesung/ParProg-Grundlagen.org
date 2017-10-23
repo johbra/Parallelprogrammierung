@@ -889,13 +889,16 @@ Process1      Process2        processor7
                                                           process context switch
       #+end_example
 ** Multiprocessing Through Richer Code Examples
-# eventuell überspringen
-Chapter 4 : 
+# eventuell überspringen: Chapter 4
+/to be continued/ ... 
+
+Examples from 
 + node.js
 + ipc
 + nginx
 + exercise 
 + upsides and downsides of multiprocessing
+
 *** Overview
 * Multithreading -- Grundlagen
 #   Chapter 5 : WICHTIG !!! (Java)
