@@ -25,6 +25,9 @@
 6. Weitere?
 
 * Themenwahl
-| Thema | Bearbeiter | Termin |
-|-------+------------+--------|
-|       |            |        |
+| Thema   | Bearbeiter | Termin |
+|---------+------------+--------|
+| F#      | Koltsov    |  4.12. |
+| CUDA    | Hennig     |  4.12. |
+| Clojure | Frank      | 27.11. |
+| Quasar  | Thomsen    | 27.11  |
