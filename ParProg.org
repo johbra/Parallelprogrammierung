@@ -81,4 +81,4 @@
 | 9 | 11.12. | Hausaufgaben-VB               |        |      |                                  |
 |   |        |                               |        |      |                                  |
 |---+--------+-------------------------------+--------+------+----------------------------------|
-* [[file:themenliste.org::*Themenliste][Themenliste]]
+* [[file:themenliste.org::*Themenliste][Vortragsthemen]]
