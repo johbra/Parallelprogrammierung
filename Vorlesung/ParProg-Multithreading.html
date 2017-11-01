@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-01 Wed 15:45 -->
+<!-- 2017-11-01 Wed 19:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Parallelprogrammierung &#x2013; Multithreading</title>
+<title>Multithreading</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Johannes Brauer" />
 <style type="text/css">
@@ -240,15 +240,18 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Parallelprogrammierung &#x2013; Multithreading</h1>
+<h1 class="title">Multithreading
+<br />
+<span class="subtitle">Parallelprogrammierung</span>
+</h1>
 
-<div id="outline-container-orgdfda124" class="outline-2">
-<h2 id="orgdfda124">Multithreading &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-orgdfda124">
+<div id="outline-container-org76cd844" class="outline-2">
+<h2 id="org76cd844">Multithreading &#x2013; Grundlagen</h2>
+<div class="outline-text-2" id="text-org76cd844">
 </div>
-<div id="outline-container-org98dba53" class="outline-3">
-<h3 id="org98dba53">Overview</h3>
-<div class="outline-text-3" id="text-org98dba53">
+<div id="outline-container-org6ac4d43" class="outline-3">
+<h3 id="org6ac4d43">Overview</h3>
+<div class="outline-text-3" id="text-org6ac4d43">
 <ul class="org-ul">
 <li>The chief advantage of multithreading over multiprocessing is that
 threads are <i>lighter</i> than processes:
@@ -292,12 +295,12 @@ sides might disagree with this characterization.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcdaeeb3" class="outline-3">
-<h3 id="orgcdaeeb3">A Sample Race Condition in Java</h3>
-<div class="outline-text-3" id="text-orgcdaeeb3">
-</div><div id="outline-container-org19f89db" class="outline-4">
-<h4 id="org19f89db">source code</h4>
-<div class="outline-text-4" id="text-org19f89db">
+<div id="outline-container-org46236cd" class="outline-3">
+<h3 id="org46236cd">A Sample Race Condition in Java</h3>
+<div class="outline-text-3" id="text-org46236cd">
+</div><div id="outline-container-org7285ad3" class="outline-4">
+<h4 id="org7285ad3">source code</h4>
+<div class="outline-text-4" id="text-org7285ad3">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** To compile: javac RaceC.java</span>
 <span style="color: #036A07;">    To run:     java Main</span>
@@ -370,9 +373,9 @@ sides might disagree with this characterization.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org2e5c5c1" class="outline-4">
-<h4 id="org2e5c5c1">using the shell</h4>
-<div class="outline-text-4" id="text-org2e5c5c1">
+<div id="outline-container-orgb418bf9" class="outline-4">
+<h4 id="orgb418bf9">using the shell</h4>
+<div class="outline-text-4" id="text-orgb418bf9">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ javac RaceC.java
 bash-3.2$ java Main
@@ -390,9 +393,9 @@ n<span style="color: #008000;">'s value is: -2</span>
 </div>
 </div>
 
-<div id="outline-container-org58039ae" class="outline-3">
-<h3 id="org58039ae">Analysis of the Race Condition Code</h3>
-<div class="outline-text-3" id="text-org58039ae">
+<div id="outline-container-orgd08b9ce" class="outline-3">
+<h3 id="orgd08b9ce">Analysis of the Race Condition Code</h3>
+<div class="outline-text-3" id="text-orgd08b9ce">
 <p>
 A detailed look at how a race condition occurs
 </p>
@@ -455,12 +458,12 @@ operation and the subsequent assignment.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5f0aa13" class="outline-3">
-<h3 id="org5f0aa13">Overview of Explicit Thread Locking</h3>
-<div class="outline-text-3" id="text-org5f0aa13">
-</div><div id="outline-container-org8a8db45" class="outline-4">
-<h4 id="org8a8db45">code examples</h4>
-<div class="outline-text-4" id="text-org8a8db45">
+<div id="outline-container-orgfafa4cd" class="outline-3">
+<h3 id="orgfafa4cd">Overview of Explicit Thread Locking</h3>
+<div class="outline-text-3" id="text-orgfafa4cd">
+</div><div id="outline-container-org58f3aa6" class="outline-4">
+<h4 id="org58f3aa6">code examples</h4>
+<div class="outline-text-4" id="text-org58f3aa6">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">Thread synchronization mechanisms: code examples */</span>
 
@@ -486,9 +489,9 @@ operation and the subsequent assignment.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbc5c223" class="outline-4">
-<h4 id="orgbc5c223">Mechanisms for thread coordination</h4>
-<div class="outline-text-4" id="text-orgbc5c223">
+<div id="outline-container-org79222bc" class="outline-4">
+<h4 id="org79222bc">Mechanisms for thread coordination</h4>
+<div class="outline-text-4" id="text-org79222bc">
 <ul class="org-ul">
 <li>The terms below are associated with processes and threads, but the
 focus now is on threads given the assumption that a process executes
@@ -548,12 +551,12 @@ has been released.</li>
 </div>
 </div>
 
-<div id="outline-container-orgccd8270" class="outline-3">
-<h3 id="orgccd8270">A Sample Deadlock in Java</h3>
-<div class="outline-text-3" id="text-orgccd8270">
-</div><div id="outline-container-orgf161b72" class="outline-4">
-<h4 id="orgf161b72">using the shell</h4>
-<div class="outline-text-4" id="text-orgf161b72">
+<div id="outline-container-org1255b62" class="outline-3">
+<h3 id="org1255b62">A Sample Deadlock in Java</h3>
+<div class="outline-text-3" id="text-org1255b62">
+</div><div id="outline-container-orge64cf5d" class="outline-4">
+<h4 id="orge64cf5d">using the shell</h4>
+<div class="outline-text-4" id="text-orge64cf5d">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ javac Deadlock.java 
 bash-3.2$ java Deadlock
@@ -576,9 +579,9 @@ thread1 waiting for lock2
 </div>
 </div>
 </div>
-<div id="outline-container-org6534a0c" class="outline-4">
-<h4 id="org6534a0c">source code</h4>
-<div class="outline-text-4" id="text-org6534a0c">
+<div id="outline-container-orgb3db812" class="outline-4">
+<h4 id="orgb3db812">source code</h4>
+<div class="outline-text-4" id="text-orgb3db812">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** To compile and run from the command-line:</span>
 <span style="color: #036A07;">      javac Deadlock.java</span>
@@ -627,9 +630,9 @@ thread1 waiting for lock2
 </div>
 </div>
 
-<div id="outline-container-orgf4b3ea8" class="outline-3">
-<h3 id="orgf4b3ea8">High-level Concurrency Management in Multithreading</h3>
-<div class="outline-text-3" id="text-orgf4b3ea8">
+<div id="outline-container-org83e8dc1" class="outline-3">
+<h3 id="org83e8dc1">High-level Concurrency Management in Multithreading</h3>
+<div class="outline-text-3" id="text-org83e8dc1">
 <ul class="org-ul">
 <li>Belaboring the obvious: multithreading is far trickier to manage than multiprocessing
 <ul class="org-ul">
@@ -696,13 +699,13 @@ thread1-------&gt;channel to T&lt;--------thread2  ## the channel has built-in s
 </ul>
 </div>
 </div>
-<div id="outline-container-org7b8704d" class="outline-3">
-<h3 id="org7b8704d">Wrapup of multithreading basics and miscellany</h3>
-<div class="outline-text-3" id="text-org7b8704d">
+<div id="outline-container-orgfe4cebe" class="outline-3">
+<h3 id="orgfe4cebe">Wrapup of multithreading basics and miscellany</h3>
+<div class="outline-text-3" id="text-orgfe4cebe">
 </div>
-<div id="outline-container-org4b2b690" class="outline-5">
-<h5 id="org4b2b690">Wrapup</h5>
-<div class="outline-text-5" id="text-org4b2b690">
+<div id="outline-container-org0c6744b" class="outline-5">
+<h5 id="org0c6744b">Wrapup</h5>
+<div class="outline-text-5" id="text-org0c6744b">
 <ul class="org-ul">
 <li>Multithreading can be a highly efficient way to do concurrent
 programming, as thread-level context switches are very cheap.
@@ -730,9 +733,9 @@ ease the challenges of multithreaded programming.
 </div>
 </div>
 
-<div id="outline-container-orga074df1" class="outline-5">
-<h5 id="orga074df1">Native versus green threads, and the Global Interpreter Lock (GIL)</h5>
-<div class="outline-text-5" id="text-orga074df1">
+<div id="outline-container-orgb6c1480" class="outline-5">
+<h5 id="orgb6c1480">Native versus green threads, and the Global Interpreter Lock (GIL)</h5>
+<div class="outline-text-5" id="text-orgb6c1480">
 <ul class="org-ul">
 <li>A <i>native thread</i> is under kernel OS control when it comes to
 scheduling.
@@ -760,9 +763,9 @@ multithreaded environment: no thread-level parallelism.
 </div>
 </div>
 
-<div id="outline-container-org3816d20" class="outline-3">
-<h3 id="org3816d20">Exercise for basic multithreading</h3>
-<div class="outline-text-3" id="text-org3816d20">
+<div id="outline-container-org24ae388" class="outline-3">
+<h3 id="org24ae388">Exercise for basic multithreading</h3>
+<div class="outline-text-3" id="text-org24ae388">
 <ul class="org-ul">
 <li>Fix the RaceC program (RaceC.java) by providing explicit locking.
 <ul class="org-ul">
@@ -790,9 +793,9 @@ program with and without thread synchronization.
 </div>
 </div>
 
-<div id="outline-container-orgc374869" class="outline-2">
-<h2 id="orgc374869">Multithreading &#x2013; Vertiefung</h2>
-<div class="outline-text-2" id="text-orgc374869">
+<div id="outline-container-orgacb5b68" class="outline-2">
+<h2 id="orgacb5b68">Multithreading &#x2013; Vertiefung</h2>
+<div class="outline-text-2" id="text-orgacb5b68">
 <p>
 Three questions:
 </p>
@@ -803,9 +806,9 @@ multiple answers from low level to high leven</li>
 <li>How can threads cooperate to boost performance?</li>
 </ol>
 </div>
-<div id="outline-container-orgf89443a" class="outline-3">
-<h3 id="orgf89443a">The Miser-Spendthrift Problem In C</h3>
-<div class="outline-text-3" id="text-orgf89443a">
+<div id="outline-container-org56aea82" class="outline-3">
+<h3 id="org56aea82">The Miser-Spendthrift Problem In C</h3>
+<div class="outline-text-3" id="text-org56aea82">
 <ul class="org-ul">
 <li>Look at the system (close to the metal)</li>
 <li>miser increments an account by one</li>
@@ -813,9 +816,9 @@ multiple answers from low level to high leven</li>
 <li>number of times to increment/decrement given by an command line argument</li>
 </ul>
 </div>
-<div id="outline-container-org785b500" class="outline-4">
-<h4 id="org785b500">source code</h4>
-<div class="outline-text-4" id="text-org785b500">
+<div id="outline-container-org92bc98d" class="outline-4">
+<h4 id="org92bc98d">source code</h4>
+<div class="outline-text-4" id="text-org92bc98d">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile: gcc -o miserSpendthrift miserSpendthrift.c -lpthread *</span><span style="color: #8D8D84;">*/</span>
 
@@ -882,9 +885,9 @@ multiple answers from low level to high leven</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org5307009" class="outline-4">
-<h4 id="org5307009">using the shell</h4>
-<div class="outline-text-4" id="text-org5307009">
+<div id="outline-container-org730b50d" class="outline-4">
+<h4 id="org730b50d">using the shell</h4>
+<div class="outline-text-4" id="text-org730b50d">
 <div class="org-src-container">
 <pre class="src src-shell">bash-3.2$ gcc -o miserSpendthrift miserSpendthrift.c -lpthread
 bash-3.2$ ./miserSpendthrift 50000000
@@ -904,12 +907,12 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0e866ac" class="outline-4">
-<h4 id="org0e866ac">Fixing The Miser-Spendthrift Problem In C</h4>
-<div class="outline-text-4" id="text-org0e866ac">
-</div><div id="outline-container-org04c3195" class="outline-5">
-<h5 id="org04c3195">source code</h5>
-<div class="outline-text-5" id="text-org04c3195">
+<div id="outline-container-org1f17010" class="outline-4">
+<h4 id="org1f17010">Fixing The Miser-Spendthrift Problem In C</h4>
+<div class="outline-text-4" id="text-org1f17010">
+</div><div id="outline-container-orgd71fe79" class="outline-5">
+<h5 id="orgd71fe79">source code</h5>
+<div class="outline-text-5" id="text-orgd71fe79">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile: gcc -o miserSpendthriftFix miserSpendthriftFix.c -lpthread *</span><span style="color: #8D8D84;">*/</span>
 
@@ -983,9 +986,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org45c132b" class="outline-5">
-<h5 id="org45c132b">using the shell</h5>
-<div class="outline-text-5" id="text-org45c132b">
+<div id="outline-container-org4759580" class="outline-5">
+<h5 id="org4759580">using the shell</h5>
+<div class="outline-text-5" id="text-org4759580">
 <div class="org-src-container">
 <pre class="src src-shell">bash-3.2$ gcc -o miserSpendthriftFix miserSpendthriftFix.c -lpthread
 bash-3.2$ ./miserSpendthrift 500000
@@ -1003,12 +1006,12 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org80e0e3c" class="outline-3">
-<h3 id="org80e0e3c">The Miser-Spendthrift Problem In Java</h3>
-<div class="outline-text-3" id="text-org80e0e3c">
-</div><div id="outline-container-orgd2957e2" class="outline-4">
-<h4 id="orgd2957e2">Overview</h4>
-<div class="outline-text-4" id="text-orgd2957e2">
+<div id="outline-container-orgb8a1b6e" class="outline-3">
+<h3 id="orgb8a1b6e">The Miser-Spendthrift Problem In Java</h3>
+<div class="outline-text-3" id="text-orgb8a1b6e">
+</div><div id="outline-container-org7c489b6" class="outline-4">
+<h4 id="org7c489b6">Overview</h4>
+<div class="outline-text-4" id="text-org7c489b6">
 <pre class="example">
                            code
                             |
@@ -1058,9 +1061,9 @@ To compile and run from the <i>code</i> directory at the command-line prompt:
 </div>
 </div>
 
-<div id="outline-container-orgf287508" class="outline-4">
-<h4 id="orgf287508">Demo</h4>
-<div class="outline-text-4" id="text-orgf287508">
+<div id="outline-container-orgdd84710" class="outline-4">
+<h4 id="orgdd84710">Demo</h4>
+<div class="outline-text-4" id="text-orgdd84710">
 <div class="org-src-container">
 <pre class="src src-shell">bash-3.2$ cd code
 bash-3.2$ javac acct/*.java
@@ -1090,12 +1093,12 @@ Final balance: 0</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2e133c9" class="outline-4">
-<h4 id="org2e133c9">Source Code</h4>
-<div class="outline-text-4" id="text-org2e133c9">
-</div><div id="outline-container-orgb289a6e" class="outline-5">
-<h5 id="orgb289a6e">Version Without Synchronization</h5>
-<div class="outline-text-5" id="text-orgb289a6e">
+<div id="outline-container-org734d10b" class="outline-4">
+<h4 id="org734d10b">Source Code</h4>
+<div class="outline-text-4" id="text-org734d10b">
+</div><div id="outline-container-orgb79425d" class="outline-5">
+<h5 id="orgb79425d">Version Without Synchronization</h5>
+<div class="outline-text-5" id="text-orgb79425d">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #0000FF;">package</span> <span style="color: #D0372D;">acct</span>;
 
@@ -1150,9 +1153,9 @@ Final balance: 0</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org18d2176" class="outline-5">
-<h5 id="org18d2176">Version With <code>synchronized blocks</code></h5>
-<div class="outline-text-5" id="text-org18d2176">
+<div id="outline-container-org6c35632" class="outline-5">
+<h5 id="org6c35632">Version With <code>synchronized blocks</code></h5>
+<div class="outline-text-5" id="text-org6c35632">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/*** Fixing the miser/spendthrift problem with explicit thread synchronization. ***/</span>
 
@@ -1192,9 +1195,9 @@ Final balance: 0</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdfdd1c9" class="outline-5">
-<h5 id="orgdfdd1c9">Version With <code>AtomicInteger</code></h5>
-<div class="outline-text-5" id="text-orgdfdd1c9">
+<div id="outline-container-orge5b381c" class="outline-5">
+<h5 id="orge5b381c">Version With <code>AtomicInteger</code></h5>
+<div class="outline-text-5" id="text-orge5b381c">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/*** Fixing the miser/spendthrift problem with a thread-safe data type **/</span>
 
@@ -1230,9 +1233,9 @@ Final balance: 0</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org192050e" class="outline-3">
-<h3 id="org192050e">Thread Synchronization As Cooperation</h3>
-<div class="outline-text-3" id="text-org192050e">
+<div id="outline-container-org39e48a2" class="outline-3">
+<h3 id="org39e48a2">Thread Synchronization As Cooperation</h3>
+<div class="outline-text-3" id="text-org39e48a2">
 <p>
 Cooperation &#x2013; the flip side of locking in thread synchronization
 </p>
@@ -1290,9 +1293,9 @@ For simplicity, a stack instead of a queue:
 </pre></li>
 </ul>
 </div>
-<div id="outline-container-orgc671279" class="outline-4">
-<h4 id="orgc671279">The Thread-Safe Stack Example In Java (Source Code)</h4>
-<div class="outline-text-4" id="text-orgc671279">
+<div id="outline-container-org8592778" class="outline-4">
+<h4 id="org8592778">The Thread-Safe Stack Example In Java (Source Code)</h4>
+<div class="outline-text-4" id="text-org8592778">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** javac StackTS.java</span>
 <span style="color: #036A07;">    java MainTS</span>
@@ -1388,9 +1391,9 @@ For simplicity, a stack instead of a queue:
 </div>
 </div>
 </div>
-<div id="outline-container-org2a1f090" class="outline-4">
-<h4 id="org2a1f090">Using the Shell</h4>
-<div class="outline-text-4" id="text-org2a1f090">
+<div id="outline-container-orgb07a2a0" class="outline-4">
+<h4 id="orgb07a2a0">Using the Shell</h4>
+<div class="outline-text-4" id="text-orgb07a2a0">
 <div class="org-src-container">
 <pre class="src src-shell">bash-3.2$ java MainTS
 82 pushed at 0
@@ -1426,9 +1429,9 @@ For simplicity, a stack instead of a queue:
 </div>
 </div>
 </div>
-<div id="outline-container-orgb14d1e5" class="outline-3">
-<h3 id="orgb14d1e5">The Multithreading Web Server</h3>
-<div class="outline-text-3" id="text-orgb14d1e5">
+<div id="outline-container-orge208879" class="outline-3">
+<h3 id="orge208879">The Multithreading Web Server</h3>
+<div class="outline-text-3" id="text-orge208879">
 <p>
 &#x2026; in C
 </p>
@@ -1438,9 +1441,9 @@ For simplicity, a stack instead of a queue:
 </ul>
 </div>
 </div>
-<div id="outline-container-orge9b4446" class="outline-3">
-<h3 id="orge9b4446">Wrapup of thread synchronization as coordination and coooperation</h3>
-<div class="outline-text-3" id="text-orge9b4446">
+<div id="outline-container-org232ab0d" class="outline-3">
+<h3 id="org232ab0d">Wrapup of thread synchronization as coordination and coooperation</h3>
+<div class="outline-text-3" id="text-org232ab0d">
 <ul class="org-ul">
 <li>Thread coordination constructs range from explicit mutexs in the
 source code to thread-safe types such as Java's <code>AtomicInteger</code>.
@@ -1480,28 +1483,28 @@ and params by default.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org73c5317" class="outline-3">
-<h3 id="org73c5317">Exercises</h3>
-<div class="outline-text-3" id="text-org73c5317">
+<div id="outline-container-org238d714" class="outline-3">
+<h3 id="org238d714">Exercises</h3>
+<div class="outline-text-3" id="text-org238d714">
 <p>
 vgl. Datei <code>exercise6.txt</code>
 </p>
 </div>
-<div id="outline-container-org4dc26be" class="outline-4">
-<h4 id="org4dc26be">A thread pool exercise in C</h4>
+<div id="outline-container-org23b9cbd" class="outline-4">
+<h4 id="org23b9cbd">A thread pool exercise in C</h4>
 </div>
-<div id="outline-container-org654bd4c" class="outline-4">
-<h4 id="org654bd4c">A synchronization with cooperation exercise in Java</h4>
+<div id="outline-container-orgc826402" class="outline-4">
+<h4 id="orgc826402">A synchronization with cooperation exercise in Java</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-orga74d36e" class="outline-2">
-<h2 id="orga74d36e">Thread-Sicherheit &#x2013; Höherwertige Concurrent Types in Java</h2>
-<div class="outline-text-2" id="text-orga74d36e">
+<div id="outline-container-org47e4c4b" class="outline-2">
+<h2 id="org47e4c4b">Thread-Sicherheit &#x2013; Höherwertige Concurrent Types in Java</h2>
+<div class="outline-text-2" id="text-org47e4c4b">
 </div>
-<div id="outline-container-orgfd25aef" class="outline-3">
-<h3 id="orgfd25aef">Moving beyond explicit thread management: high-level concurrent data types in Java</h3>
-<div class="outline-text-3" id="text-orgfd25aef">
+<div id="outline-container-org215b936" class="outline-3">
+<h3 id="org215b936">Moving beyond explicit thread management: high-level concurrent data types in Java</h3>
+<div class="outline-text-3" id="text-org215b936">
 <ul class="org-ul">
 <li><code>java.util.concurrent.atomic</code> toolkit to support thread-safe,
 lock-free programming for counters and the like. The types include:
@@ -1609,12 +1612,12 @@ some other thread: highly cooperative task management.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc7d75dc" class="outline-3">
-<h3 id="orgc7d75dc">The Blocking Queue Example in Java</h3>
-<div class="outline-text-3" id="text-orgc7d75dc">
-</div><div id="outline-container-orga55463d" class="outline-4">
-<h4 id="orga55463d">Overview</h4>
-<div class="outline-text-4" id="text-orga55463d">
+<div id="outline-container-org18821c7" class="outline-3">
+<h3 id="org18821c7">The Blocking Queue Example in Java</h3>
+<div class="outline-text-3" id="text-org18821c7">
+</div><div id="outline-container-org3f782fd" class="outline-4">
+<h4 id="org3f782fd">Overview</h4>
+<div class="outline-text-4" id="text-org3f782fd">
 <p>
 A <code>BlockingQueue</code> example: a thread-safe data structure
 </p>
@@ -1676,9 +1679,9 @@ printing.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5ab6b6d" class="outline-4">
-<h4 id="org5ab6b6d">Java Code</h4>
-<div class="outline-text-4" id="text-org5ab6b6d">
+<div id="outline-container-org3f91909" class="outline-4">
+<h4 id="org3f91909">Java Code</h4>
+<div class="outline-text-4" id="text-org3f91909">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** javac ProducerConsumerQueue.java</span>
 <span style="color: #036A07;">    java ProducerConsumerQueue</span>
@@ -1746,9 +1749,9 @@ printing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org85f9d5a" class="outline-4">
-<h4 id="org85f9d5a">Using the Shell</h4>
-<div class="outline-text-4" id="text-org85f9d5a">
+<div id="outline-container-org851b13b" class="outline-4">
+<h4 id="org851b13b">Using the Shell</h4>
+<div class="outline-text-4" id="text-org851b13b">
 <div class="org-src-container">
 <pre class="src src-shell">bash-3.2$ javac ProducerConsumerQueue.java 
 bash-3.2$ java ProducerConsumerQueue
@@ -1770,12 +1773,12 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8eec7f3" class="outline-3">
-<h3 id="org8eec7f3">The Semaphore/Executor Example in Java</h3>
-<div class="outline-text-3" id="text-org8eec7f3">
-</div><div id="outline-container-orga7bb595" class="outline-4">
-<h4 id="orga7bb595">Overview</h4>
-<div class="outline-text-4" id="text-orga7bb595">
+<div id="outline-container-orgb6743e2" class="outline-3">
+<h3 id="orgb6743e2">The Semaphore/Executor Example in Java</h3>
+<div class="outline-text-3" id="text-orgb6743e2">
+</div><div id="outline-container-org77fbd95" class="outline-4">
+<h4 id="org77fbd95">Overview</h4>
+<div class="outline-text-4" id="text-org77fbd95">
 <ul class="org-ul">
 <li>Semaphores versus mutexes:
 <ul class="org-ul">
@@ -1833,9 +1836,9 @@ represents the amount of time spent skiing.
 </ul>
 </div>
 </div>
-<div id="outline-container-org7831bbd" class="outline-4">
-<h4 id="org7831bbd">Java Code</h4>
-<div class="outline-text-4" id="text-org7831bbd">
+<div id="outline-container-orgb840baa" class="outline-4">
+<h4 id="orgb840baa">Java Code</h4>
+<div class="outline-text-4" id="text-orgb840baa">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** javac Semaphores.java</span>
 <span style="color: #036A07;">    java Semaphores</span>
@@ -1932,9 +1935,9 @@ represents the amount of time spent skiing.
 </div>
 </div>
 </div>
-<div id="outline-container-org98aa785" class="outline-4">
-<h4 id="org98aa785">Using the Shell</h4>
-<div class="outline-text-4" id="text-org98aa785">
+<div id="outline-container-org4ebf207" class="outline-4">
+<h4 id="org4ebf207">Using the Shell</h4>
+<div class="outline-text-4" id="text-org4ebf207">
 <div class="org-src-container">
 <pre class="src src-shell">bash-3.2$ javac Semaphores.java 
 bash-3.2$ java Semaphores
@@ -2006,12 +2009,12 @@ pool-43-thread-1 returning skiPair-42
 </div>
 </div>
 
-<div id="outline-container-org70d9f04" class="outline-3">
-<h3 id="org70d9f04">The Fork-Join Framework in Java</h3>
-<div class="outline-text-3" id="text-org70d9f04">
-</div><div id="outline-container-orgbc25e03" class="outline-4">
-<h4 id="orgbc25e03">Overview of the FileSearcher program</h4>
-<div class="outline-text-4" id="text-orgbc25e03">
+<div id="outline-container-orgf3d482f" class="outline-3">
+<h3 id="orgf3d482f">The Fork-Join Framework in Java</h3>
+<div class="outline-text-3" id="text-orgf3d482f">
+</div><div id="outline-container-org650a5da" class="outline-4">
+<h4 id="org650a5da">Overview of the FileSearcher program</h4>
+<div class="outline-text-4" id="text-org650a5da">
 <ul class="org-ul">
 <li>An example that uses the fork/join framework meant to encourage the
 partititioning of a problem into subproblems, which threads
@@ -2048,9 +2051,9 @@ suitable for separate processing.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2ca28ac" class="outline-4">
-<h4 id="org2ca28ac">Java Code of <code>FileSearcher</code></h4>
-<div class="outline-text-4" id="text-org2ca28ac">
+<div id="outline-container-org1f78a44" class="outline-4">
+<h4 id="org1f78a44">Java Code of <code>FileSearcher</code></h4>
+<div class="outline-text-4" id="text-org1f78a44">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** javac FileSearcher.java</span>
 <span style="color: #036A07;">    java MainFS</span>
@@ -2114,18 +2117,18 @@ suitable for separate processing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org4a99b97" class="outline-4">
-<h4 id="org4a99b97">Demo</h4>
-<div class="outline-text-4" id="text-org4a99b97">
+<div id="outline-container-orgcd02c16" class="outline-4">
+<h4 id="orgcd02c16">Demo</h4>
+<div class="outline-text-4" id="text-orgcd02c16">
 <p>
 !!! live demo !!!
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org4d240af" class="outline-3">
-<h3 id="org4d240af">Futures And Callables In Java - A Code Example</h3>
-<div class="outline-text-3" id="text-org4d240af">
+<div id="outline-container-org1fa8e33" class="outline-3">
+<h3 id="org1fa8e33">Futures And Callables In Java - A Code Example</h3>
+<div class="outline-text-3" id="text-org1fa8e33">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** javac AsyncJob.java</span>
 <span style="color: #036A07;">    java MainAJ</span>
@@ -2192,18 +2195,18 @@ suitable for separate processing.</li>
 </pre>
 </div>
 </div>
-<div id="outline-container-org7fa82c6" class="outline-4">
-<h4 id="org7fa82c6">Demo</h4>
-<div class="outline-text-4" id="text-org7fa82c6">
+<div id="outline-container-org33de564" class="outline-4">
+<h4 id="org33de564">Demo</h4>
+<div class="outline-text-4" id="text-org33de564">
 <p>
 !!! live demo !!!
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd86024c" class="outline-3">
-<h3 id="orgd86024c">Thread Safety Through Immutable Types And Pure Functions</h3>
-<div class="outline-text-3" id="text-orgd86024c">
+<div id="outline-container-org79f8af8" class="outline-3">
+<h3 id="org79f8af8">Thread Safety Through Immutable Types And Pure Functions</h3>
+<div class="outline-text-3" id="text-org79f8af8">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** </span>
 <span style="color: #036A07;">    String example:</span>
@@ -2265,9 +2268,9 @@ suitable for separate processing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org2a21971" class="outline-3">
-<h3 id="org2a21971">Zusammenfassung</h3>
-<div class="outline-text-3" id="text-org2a21971">
+<div id="outline-container-org4db6cf3" class="outline-3">
+<h3 id="org4db6cf3">Zusammenfassung</h3>
+<div class="outline-text-3" id="text-org4db6cf3">
 <p>
 Summary of the main themes in the recent code examples
 </p>
@@ -2327,7 +2330,7 @@ vorerst auslassen
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-01 Wed 15:45</p>
+<p class="date">Created: 2017-11-01 Wed 19:24</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

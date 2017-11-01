@@ -1,5 +1,5 @@
 #+SETUPFILE: ./theme-bigblow-local.setup
-#+TITLE: Non-Blocking I-O
+#+TITLE: Deklarative Nebenläufigkeit 
 #+SUBTITLE: Parallelprogrammierung
 #+AUTHOR: Johannes Brauer
 #+OPTIONS:   H:4
@@ -22,7 +22,4 @@
 # um Folien mit reveal.js erzeugen zu können:ml
 # M-x load-library und dann ox-reveal
 
-* Concurrency And Non-Blocking I-O
-Chapter 9
-# ev. überspringen aber durchaus interessant
- 
+* Notizen

@@ -1,5 +1,6 @@
 #+Setupfile: ./theme-bigblow-local.setup
-#+TITLE: Parallelprogrammierung -- Einstieg
+#+TITLE: Einstieg
+#+SUBTITLE: Parallelprogrammierung
 #+AUTHOR: Johannes Brauer
 #+OPTIONS:   H:4
 #+OPTIONS: num:nil d:true

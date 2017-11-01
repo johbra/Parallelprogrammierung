@@ -1,5 +1,6 @@
 #+SETUPFILE: ./theme-bigblow-local.setup
-#+TITLE: Parallelprogrammierung -- Parallele Algorithmen
+#+TITLE: Parallele Algorithmen
+#+SUBTITLE: Parallelprogrammierung
 # Titel fraglich
 #+AUTHOR: Johannes Brauer
 #+OPTIONS:   H:4

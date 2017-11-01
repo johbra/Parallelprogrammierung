@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-01 Wed 15:02 -->
+<!-- 2017-11-01 Wed 19:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Parallelprogrammierung &#x2013; Multiprocessing</title>
+<title>Multiprocessing</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Johannes Brauer" />
 <style type="text/css">
@@ -240,17 +240,20 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Parallelprogrammierung &#x2013; Multiprocessing</h1>
+<h1 class="title">Multiprocessing
+<br />
+<span class="subtitle">Parallelprogrammierung</span>
+</h1>
 
-<div id="outline-container-org29937c2" class="outline-2">
-<h2 id="org29937c2">Multiprocessing &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-org29937c2">
-</div><div id="outline-container-org2d95dba" class="outline-3">
-<h3 id="org2d95dba">A first multiprocessing example in C</h3>
-<div class="outline-text-3" id="text-org2d95dba">
-</div><div id="outline-container-orgf3b3d60" class="outline-4">
-<h4 id="orgf3b3d60">Overview</h4>
-<div class="outline-text-4" id="text-orgf3b3d60">
+<div id="outline-container-org3639faa" class="outline-2">
+<h2 id="org3639faa">Multiprocessing &#x2013; Grundlagen</h2>
+<div class="outline-text-2" id="text-org3639faa">
+</div><div id="outline-container-orga972854" class="outline-3">
+<h3 id="orga972854">A first multiprocessing example in C</h3>
+<div class="outline-text-3" id="text-orga972854">
+</div><div id="outline-container-org46ad3b5" class="outline-4">
+<h4 id="org46ad3b5">Overview</h4>
+<div class="outline-text-4" id="text-org46ad3b5">
 <p>
 &#x2026; key points of the <i>unnamed pipe example</i>
 </p>
@@ -311,9 +314,9 @@ child becomes an „zombie“, dead but still around.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfbd2ea8" class="outline-4">
-<h4 id="orgfbd2ea8">using the shell</h4>
-<div class="outline-text-4" id="text-orgfbd2ea8">
+<div id="outline-container-org3823c24" class="outline-4">
+<h4 id="org3823c24">using the shell</h4>
+<div class="outline-text-4" id="text-org3823c24">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ls pipeExample.c 
 pipeExample.c
@@ -325,9 +328,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org22233e0" class="outline-4">
-<h4 id="org22233e0">Source code</h4>
-<div class="outline-text-4" id="text-org22233e0">
+<div id="outline-container-org90d16d8" class="outline-4">
+<h4 id="org90d16d8">Source code</h4>
+<div class="outline-text-4" id="text-org90d16d8">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A first multiprocessing example: pipes in C </span>
 <span style="color: #8D8D84; font-style: italic;">    To compile (Unix-like system): gcc -o pipeExample pipeExample.c</span>
@@ -380,12 +383,12 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8ed68a1" class="outline-3">
-<h3 id="org8ed68a1">Second Example &#x2013; Named Pipes</h3>
-<div class="outline-text-3" id="text-org8ed68a1">
-</div><div id="outline-container-orgde41b95" class="outline-4">
-<h4 id="orgde41b95">Overview</h4>
-<div class="outline-text-4" id="text-orgde41b95">
+<div id="outline-container-org44cae19" class="outline-3">
+<h3 id="org44cae19">Second Example &#x2013; Named Pipes</h3>
+<div class="outline-text-3" id="text-org44cae19">
+</div><div id="outline-container-org315d92d" class="outline-4">
+<h4 id="org315d92d">Overview</h4>
+<div class="outline-text-4" id="text-org315d92d">
 <p>
 A second multiprocessing example in C: key points of the <i>named pipe</i> example
 </p>
@@ -432,9 +435,9 @@ regular disk file: the I/O API is the same.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org7cb1dec" class="outline-4">
-<h4 id="org7cb1dec">using the shell</h4>
-<div class="outline-text-4" id="text-org7cb1dec">
+<div id="outline-container-org7db4417" class="outline-4">
+<h4 id="org7db4417">using the shell</h4>
+<div class="outline-text-4" id="text-org7db4417">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ./fifoWriter &amp;
 <span style="color: #707183;">[</span>1<span style="color: #707183;">]</span> 7316
@@ -449,9 +452,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5579eab" class="outline-4">
-<h4 id="org5579eab">Source Code <code>fifoWriter.c</code></h4>
-<div class="outline-text-4" id="text-org5579eab">
+<div id="outline-container-org5f16a24" class="outline-4">
+<h4 id="org5f16a24">Source Code <code>fifoWriter.c</code></h4>
+<div class="outline-text-4" id="text-org5f16a24">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
 <span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
@@ -483,9 +486,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc7aecbd" class="outline-4">
-<h4 id="orgc7aecbd">Source Code <code>fifoReader.c</code></h4>
-<div class="outline-text-4" id="text-orgc7aecbd">
+<div id="outline-container-org50aa5e6" class="outline-4">
+<h4 id="org50aa5e6">Source Code <code>fifoReader.c</code></h4>
+<div class="outline-text-4" id="text-org50aa5e6">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
 <span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
@@ -511,9 +514,9 @@ bash-3.2$ </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1981a38" class="outline-3">
-<h3 id="org1981a38">The Nginx Web Server</h3>
-<div class="outline-text-3" id="text-org1981a38">
+<div id="outline-container-orga65573d" class="outline-3">
+<h3 id="orga65573d">The Nginx Web Server</h3>
+<div class="outline-text-3" id="text-orga65573d">
 <p>
 Multiprocessing in production-grade software: the nginx web server
 </p>
@@ -561,9 +564,9 @@ www-data  1808  1803   worker process
 </ul>
 </div>
 </div>
-<div id="outline-container-org17ccc73" class="outline-3">
-<h3 id="org17ccc73">Execing and Forking Options in Multiprocessing</h3>
-<div class="outline-text-3" id="text-org17ccc73">
+<div id="outline-container-org75b6485" class="outline-3">
+<h3 id="org75b6485">Execing and Forking Options in Multiprocessing</h3>
+<div class="outline-text-3" id="text-org75b6485">
 <p>
 A second way for one executing program to start another
 </p>
@@ -630,9 +633,9 @@ execution.</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org05803bd" class="outline-4">
-<h4 id="org05803bd">Using the Shell</h4>
-<div class="outline-text-4" id="text-org05803bd">
+<div id="outline-container-org0856cf8" class="outline-4">
+<h4 id="org0856cf8">Using the Shell</h4>
+<div class="outline-text-4" id="text-org0856cf8">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ ./fileStatus tmp
 File name: tmp
@@ -676,9 +679,9 @@ Owner write: Owner writable</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1a6cef6" class="outline-4">
-<h4 id="org1a6cef6">Source Code</h4>
-<div class="outline-text-4" id="text-org1a6cef6">
+<div id="outline-container-org038959d" class="outline-4">
+<h4 id="org038959d">Source Code</h4>
+<div class="outline-text-4" id="text-org038959d">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">To run: </span>
 
@@ -714,9 +717,9 @@ Owner write: Owner writable</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaef55a6" class="outline-3">
-<h3 id="orgaef55a6">Process Tracking and Management</h3>
-<div class="outline-text-3" id="text-orgaef55a6">
+<div id="outline-container-org0f77aa0" class="outline-3">
+<h3 id="org0f77aa0">Process Tracking and Management</h3>
+<div class="outline-text-3" id="text-org0f77aa0">
 <p>
 Process tracking and context switching
 </p>
@@ -801,9 +804,9 @@ Process1      Process2        processor7
 </div>
 </div>
 </div>
-<div id="outline-container-org93c2a7c" class="outline-2">
-<h2 id="org93c2a7c">Multiprocessing &#x2013; Vertiefung</h2>
-<div class="outline-text-2" id="text-org93c2a7c">
+<div id="outline-container-org5d5b0ee" class="outline-2">
+<h2 id="org5d5b0ee">Multiprocessing &#x2013; Vertiefung</h2>
+<div class="outline-text-2" id="text-org5d5b0ee">
 <p>
 <i>to be continued</i> &#x2026; 
 </p>
@@ -823,7 +826,7 @@ Examples from
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-01 Wed 15:02</p>
+<p class="date">Created: 2017-11-01 Wed 19:22</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
