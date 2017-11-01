@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-01 Wed 15:58 -->
+<!-- 2017-11-01 Wed 18:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung &#x2013; Parallele Algorithmen</title>
@@ -264,13 +264,13 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Parallelprogrammierung &#x2013; Parallele Algorithmen</h1>
 
-<div id="outline-container-org1a14e95" class="outline-2">
-<h2 id="org1a14e95">Parallelism Basics</h2>
-<div class="outline-text-2" id="text-org1a14e95">
+<div id="outline-container-org2c98f09" class="outline-2">
+<h2 id="org2c98f09">Grundlagen</h2>
+<div class="outline-text-2" id="text-org2c98f09">
 </div>
-<div id="outline-container-org0d9cdc4" class="outline-3">
-<h3 id="org0d9cdc4">Overview of Parallelism Beyond Concurrency</h3>
-<div class="outline-text-3" id="text-org0d9cdc4">
+<div id="outline-container-org41952d3" class="outline-3">
+<h3 id="org41952d3">Overview of Parallelism Beyond Concurrency</h3>
+<div class="outline-text-3" id="text-org41952d3">
 <p>
 Parallelism in computing
 </p>
@@ -342,12 +342,12 @@ parallel computing.</li>
 </div>
 </div>
 
-<div id="outline-container-org27b90cb" class="outline-3">
-<h3 id="org27b90cb">A SIMD Auto Vectorization Code Example in C</h3>
-<div class="outline-text-3" id="text-org27b90cb">
-</div><div id="outline-container-orgac58cdf" class="outline-4">
-<h4 id="orgac58cdf">the non parallel version</h4>
-<div class="outline-text-4" id="text-orgac58cdf">
+<div id="outline-container-orge0e9b79" class="outline-3">
+<h3 id="orge0e9b79">A SIMD Auto Vectorization Code Example in C</h3>
+<div class="outline-text-3" id="text-orge0e9b79">
+</div><div id="outline-container-orge16cc30" class="outline-4">
+<h4 id="orge16cc30">the non parallel version</h4>
+<div class="outline-text-4" id="text-orge16cc30">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile and run:</span>
 
@@ -394,9 +394,9 @@ parallel computing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org068dd28" class="outline-4">
-<h4 id="org068dd28">the parallel version</h4>
-<div class="outline-text-4" id="text-org068dd28">
+<div id="outline-container-org4338bf5" class="outline-4">
+<h4 id="org4338bf5">the parallel version</h4>
+<div class="outline-text-4" id="text-org4338bf5">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile and run:</span>
 
@@ -446,9 +446,9 @@ parallel computing.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org6a04d99" class="outline-3">
-<h3 id="org6a04d99">using the shell</h3>
-<div class="outline-text-3" id="text-org6a04d99">
+<div id="outline-container-org2d572f9" class="outline-3">
+<h3 id="org2d572f9">using the shell</h3>
+<div class="outline-text-3" id="text-org2d572f9">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ gcc -o nonsimd nonsimd.c
 bash-3.2$ gcc -o simd simd.c
@@ -462,9 +462,9 @@ bash-3.2$ ./simd
 </div>
 </div>
 </div>
-<div id="outline-container-org68ded37" class="outline-3">
-<h3 id="org68ded37">in Assembly-Code</h3>
-<div class="outline-text-3" id="text-org68ded37">
+<div id="outline-container-org3568f78" class="outline-3">
+<h3 id="org3568f78">in Assembly-Code</h3>
+<div class="outline-text-3" id="text-org3568f78">
 <p>
 Some compiler-generated assembly code from the simd.c program
 </p>
@@ -543,13 +543,13 @@ main:
 </div>
 </div>
 </div>
-<div id="outline-container-org070262f" class="outline-2">
-<h2 id="org070262f">Time the Performance Boost From Parallelism &#x2013; a Code Example</h2>
-<div class="outline-text-2" id="text-org070262f">
+<div id="outline-container-orgbda40f5" class="outline-2">
+<h2 id="orgbda40f5">Zeitmessungen &#x2013; ein Code-Beispiel</h2>
+<div class="outline-text-2" id="text-orgbda40f5">
 </div>
-<div id="outline-container-org357d91e" class="outline-3">
-<h3 id="org357d91e">Source Code</h3>
-<div class="outline-text-3" id="text-org357d91e">
+<div id="outline-container-org6f0b1a6" class="outline-3">
+<h3 id="org6f0b1a6">Source Code</h3>
+<div class="outline-text-3" id="text-org6f0b1a6">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A timing example to contrast serial and parallel execution on typical matrix/vector </span>
 <span style="color: #8D8D84; font-style: italic;">    operations. The program uses 'SSE intrinsics', the interface for which is the header </span>
@@ -640,9 +640,9 @@ main:
 </div>
 </div>
 </div>
-<div id="outline-container-orga1825a7" class="outline-3">
-<h3 id="orga1825a7">using the shell</h3>
-<div class="outline-text-3" id="text-orga1825a7">
+<div id="outline-container-orga61bf92" class="outline-3">
+<h3 id="orga61bf92">using the shell</h3>
+<div class="outline-text-3" id="text-orga61bf92">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ gcc -o sseTimings sseTimings.c
 bash-3.2$ ./sseTimings
@@ -659,13 +659,13 @@ bash-3.2$ ./sseTimings
 </div>
 </div>
 </div>
-<div id="outline-container-orga9c20ca" class="outline-2">
-<h2 id="orga9c20ca">Parallelism and Performance</h2>
-<div class="outline-text-2" id="text-orga9c20ca">
+<div id="outline-container-org2456114" class="outline-2">
+<h2 id="org2456114">Parallelität und Performance</h2>
+<div class="outline-text-2" id="text-org2456114">
 </div>
-<div id="outline-container-org28d5548" class="outline-3">
-<h3 id="org28d5548">How Can Performance Gains Through Parallelism Be Measured</h3>
-<div class="outline-text-3" id="text-org28d5548">
+<div id="outline-container-orge4668bf" class="outline-3">
+<h3 id="orge4668bf">How Can Performance Gains Through Parallelism Be Measured</h3>
+<div class="outline-text-3" id="text-orge4668bf">
 <p>
 Parallelism and performance
 </p>
@@ -725,9 +725,9 @@ T2-----&gt;| processor | ## T2 takes the same amount of time on M1 and M2
 </div>
 </div>
 
-<div id="outline-container-org64219c5" class="outline-3">
-<h3 id="org64219c5">The ParallelSort Program in Java</h3>
-<div class="outline-text-3" id="text-org64219c5">
+<div id="outline-container-orgacc6f89" class="outline-3">
+<h3 id="orgacc6f89">The ParallelSort Program in Java</h3>
+<div class="outline-text-3" id="text-orgacc6f89">
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #036A07;">/** A Java program to illustrate the potential speedup of parallelism, in this</span>
 <span style="color: #036A07;">    case for sorting: the program uses the new (as of Java 8) Arrays.parallelSort</span>
@@ -793,9 +793,9 @@ T2-----&gt;| processor | ## T2 takes the same amount of time on M1 and M2
 </pre>
 </div>
 </div>
-<div id="outline-container-org17d1a9e" class="outline-4">
-<h4 id="org17d1a9e">using the shell</h4>
-<div class="outline-text-4" id="text-org17d1a9e">
+<div id="outline-container-org5a42e04" class="outline-4">
+<h4 id="org5a42e04">using the shell</h4>
+<div class="outline-text-4" id="text-org5a42e04">
 <div class="org-src-container">
 <pre class="src src-sh">bash-3.2$ java ParallelSort
 Serial sort of array of size:   4194304
@@ -826,9 +826,9 @@ Speedup:  2.7355932203389832</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4a7f016" class="outline-3">
-<h3 id="org4a7f016">Amdahls Law by Example</h3>
-<div class="outline-text-3" id="text-org4a7f016">
+<div id="outline-container-org2d4fde1" class="outline-3">
+<h3 id="org2d4fde1">Amdahls Law by Example</h3>
+<div class="outline-text-3" id="text-org2d4fde1">
 <p>
 A quick look at Amdahl's Law
 </p>
@@ -964,9 +964,9 @@ mode: M4 is in 'parallel mode' 80% of the time&#x2013;not 100% of time.</li>
 </div>
 </div>
 
-<div id="outline-container-org0572121" class="outline-3">
-<h3 id="org0572121">Programming exercise for parallelism/performance</h3>
-<div class="outline-text-3" id="text-org0572121">
+<div id="outline-container-org5c23af3" class="outline-3">
+<h3 id="org5c23af3">Programming exercise for parallelism/performance</h3>
+<div class="outline-text-3" id="text-org5c23af3">
 <ul class="org-ul">
 <li>More data gathering and reflecting on the data than coding</li>
 <li>The current version calls Arrays.sort(&#x2026;) and Arrays.parallelSort(&#x2026;) on an array.
@@ -999,7 +999,7 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-01 Wed 15:58</p>
+<p class="date">Created: 2017-11-01 Wed 18:49</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

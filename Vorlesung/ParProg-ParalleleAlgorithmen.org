@@ -22,7 +22,7 @@
 # um Folien mit reveal.js erzeugen zu können:ml
 # M-x load-library und dann ox-reveal
 
-* Parallelism Basics
+* Grundlagen 
 # Chapter 10
 ** Overview of Parallelism Beyond Concurrency
 # Chapter 10 parallelismOverview.txt
@@ -249,7 +249,7 @@ main:
    ...
 
 #+END_SRC
-* Time the Performance Boost From Parallelism -- a Code Example
+* Zeitmessungen -- ein Code-Beispiel
 # chapter 10
 ** Source Code
 # ssETimings.c
@@ -359,7 +359,7 @@ in_parallel(): 10957
 # ** Overview
 # ** Basics
 # ** Miser-Spendthrift Problem
-* Parallelism and Performance
+* Parallelität und Performance
 # chapter 11
 ** How Can Performance Gains Through Parallelism Be Measured
  Parallelism and performance
