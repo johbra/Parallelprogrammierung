@@ -1,0 +1,1629 @@
+#+SETUPFILE: ./theme-bigblow-local.setup
+#+TITLE: Parallelprogrammierung -- Multithreading
+#+AUTHOR: Johannes Brauer
+#+OPTIONS:   H:4
+#+OPTIONS: num:nil d:true
+#+OPTIONS: toc:nil
+#+OPTIONS: reveal_single_file:nil
+#+Language:  de
+#+STARTUP: latexpreview
+#+STARTUP: inlineimages
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="mycss/mystyle.css" />
+# +REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: slide
+#+REVEAL_HLEVEL: 1
+#+REVEAL_INIT_SCRIPT: dependencies: [ { src: 'plugin/menu/menu.js', async: true },
+#+REVEAL_INIT_SCRIPT:                 { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true } ]
+#+REVEAL_MARGIN: 0.05
+#+REVEAL_EXTRA_CSS: ./mycss/myrevealstyle.css
+#+OPTIONS: reveal_control:t
+# um Folien mit reveal.js erzeugen zu können:ml
+# M-x load-library und dann ox-reveal
+
+* Multithreading -- Grundlagen
+#   Chapter 5 : WICHTIG !!! (Java)
+** Overview
+# chapter 5: multithreadingOverview.txt
++ The chief advantage of multithreading over multiprocessing is that
+  threads are /lighter/ than processes:
+  + A process consists of one or more threads of execution.
+  + A process-level context switch is significantly more expensive, in the millisecond range.
+  + A thread-level context switch has a near-zero cost for threads in
+    the same process.
++ The chief disadvantage is that threads in the same process share the
+  same address space:
+  + The programmer, rather than the OS, must ensure that two threads
+    in the same process don't inappropriately access the same memory
+    location (e.g., by trying to update the location).
+  + The programmer must coordinate threads in the same process to
+    avoid /race conditions/.  
+    + If the coordination is overdone, /deadlock/ may result.
+  + Thread coordination must be just right:
+    + Too little brings the threat of race conditions and, therefore,
+      unpredictable results.
+    + Too much hurts efficiency and may result in deadlock.
++ Some systems (e.g., Linux) implement threads as processes that
+  happen to share an address space; other systems (e.g., Windows) have
+  distinct kernel-level support for threads.
+  + Under any implementation, the standard behavior is that distinct
+    processes have distinct address spaces, whereas threads in the
+    same process share an address space.
++ Examples in C, Java, and Go
+  + C# and Java have very similar support for threading, although both
+    sides might disagree with this characterization.
+** A Sample Race Condition in Java
+*** source code
+#+BEGIN_SRC java
+/** To compile: javac RaceC.java
+    To run:     java Main
+
+    Flow of control for Threads referenced by t1 and t2 (for convenience,
+    call the Threads referenced by t1 and t2 simply 't1' and 't2'):
+
+    The 'main thread' is the thread that executes the method 'main', in
+    this case in class Main (see below).
+
+                 creates
+    main thread----------->t1 and t2
+
+                  starts
+    main thread----------->t1 and t2
+
+                 calls run()
+    Java runtime------------->on started Threads t1 and t2
+
+    At this point, three threads in the app are executing: main, t1, and t2.
+
+    An instance of a Java Thread represents the sequence of instructions in the
+    body of the encapsulated 'run' method (and any other instructions in methods
+    that 'run' invokes).
+
+    A thread that exits run() terminates, and cannot be restarted.
+*/
+public class RaceC {
+    static int n;                            // a single instance on n
+    static void race() {
+	n = 0;                               // initialize to zero before threads alter its value
+	long limit = Integer.MAX_VALUE * 2L; // four billion and change
+	Thread t1 = new Thread() {           // incrementing thread
+		public void run() { 
+		    for (long i = 0; i < limit; i++) n = n + 1; // increment limit times
+		}
+	    };
+	Thread t2 = new Thread() {           // decrementing thread
+		public void run() {
+		    for (long i = 0; i < limit; i++) n = n - 1; // decrement limit times
+		}
+	    };
+	t1.start();  // start t1's execution
+	t2.start();  // start t2's execution
+	try {
+	    t1.join();  // wait here until t1 terminates
+	    t2.join();  // wait here until t2 terminates
+	} catch(Exception e) { }
+	System.out.println("n's value is: " + n);
+    }
+}
+
+class Main {
+    public static void main(String[ ] args) {         //*** main thread executes method main
+	for (int i = 0; i < 8; i++) RaceC.race(); 
+    }
+}
+/** Output from a sample run:
+
+    n's value is: -265936
+    n's value is: -7317
+    n's value is: 47128
+    n's value is: -219153
+    n's value is: 82805
+    n's value is: -7944
+    n's value is: 87322
+    n's value is: -2
+*/
+#+END_SRC
+*** using the shell
+#+BEGIN_SRC sh
+bash-3.2$ javac RaceC.java
+bash-3.2$ java Main
+n's value is: -332920
+n's value is: 237836
+n's value is: 73816
+n's value is: 61941
+n's value is: 59569
+n's value is: -2
+n's value is: -2
+n's value is: 80561
+#+END_SRC
+
+** Analysis of the Race Condition Code
+# chapter 5: raceConditionanalysis.txt
+ A detailed look at how a race condition occurs
+
++ T1 and T2 are threads in process P: T1 and T2 have access the same
+  memory locations.
++ N is memory location within the address space that T1 and T2 share
++ T1 tries to increment n at the same time that T2 tries to
+  decrement N.
+  #+begin_example
+      N = N + 1  +---+  N = N - 1        ## Are these statements 'atomic'?
+   T1----------->| 5 |<-----------T2
+	         +---+
+	           N
+  #+end_example
++ Each pseudo-code instruction involves two operations: an addition or
+  subtraction, then an assignment
+  + Assume that the result of the addition/subtraction is stored in a
+    CPU register or on the stack: in either case, in a temporary
+    location. Here's a depiction:
+    #+begin_example
+ Temp1 = N + 1  ### increment N and save the incremented value (N is unchanged so far)
+ N = Temp1      ### assign the incremented value to N
+    #+end_example
+    + Temp1 is T1's temporary location, Temp2 is T2's temporary location
++ The machine has multiple CPUs: T1 executes on one of these as T2
+  executes on another
++ The following depicts one possible outcome of a race condition:
+  #+begin_example
+     Clock ticks:
+  
+   C1: Temp1 = 5 + 1 = 6   ## T1's addition
+   C2: Temp2 = 5 - 1 = 4   ## T2's subtraction (T1's assignment has not occurred yet.)
+   C3: N = Temp2           ## T2's assignment operation (N is decremented to 4)
+   C4: N = Temp1           ## T1's assignment operation (N is incremented to 6).
+  #+end_example
++ After a single increment by 1 and a single decrement by 1, N winds up as 6--not 5.
+  + Improper interleaving of the operations is at fault.
+  + Whichever thread starts its arithmetic operation
+    (addition/subtraction) must be allow to complete the assignment
+    without interruption.
+    + This is precisely what /thread synchronization/ through locking
+      of N ensures: single-threaded execution of the arithmetic
+      operation and the subsequent assignment.
+** Overview of Explicit Thread Locking
+*** code examples
+#+BEGIN_SRC java
+/* Thread synchronization mechanisms: code examples */
+
+/** C example **/
+static pthread_mutex_t lock;  /* declare a lock */              /** line 1 **/
+void increment_n() {                                            /** line 2 **/
+    pthread_mutex_lock(&lock);                                  /** line 3 **/
+    n = n + 1;  /* critical section code */                     /** line 4 **/
+    pthread_mutex_unlock(&lock);                                /** line 5 **/
+}
+
+/** Java example **/
+class Test {
+    static int n; // a single, shared storage location          /** line 6 **/
+    static Object lock = new Object(); // can't be null         /** line 7 **/
+    void incrementN() {
+	synchronized(lock) {                                    /** line 8 **/
+	    n = n + 1; /* critical section code */              /** line 9 **/
+	}                                                       /** line 10 **/
+    }
+}
+#+END_SRC
+***  Mechanisms for thread coordination
+# chapter 5: threadSync.txt
++ The terms below are associated with processes and threads, but the
+  focus now is on threads given the assumption that a process executes
+  in that one of its threads executes.
++ A /critical section/ of code must be executed in single-threaded fashion because
+   otherwise a race condition could arise.
+  + For example, if threads T1 and T2 can both execute 
+    : N = N + 1  ## the same storage N is accessible to T1 and T2
+    this statement is a critical section of code. T1 and T2 should not
+    execute this section at the same time.
++ A locking mechanism should provide the following services:
+  + The mechanism should ensure /mutual exclusion/: if T1 manages to
+    grab the lock, then T2 is excluded from the critical section that
+    the lock protects while T1 holds the lock; and vice versa.
+  + The mechanism should ensure /progress/: if no thread holds the
+    lock, then some thread should be able to grab it and thereby enter
+    the critical section that the lock protects.
++ Various locking mechanisms:
+  + A /semaphore/ restricts the number of threads allowed to access a
+    shared resource (e.g., a shared function). For example, /semahore/
+    might allow two threads to access a chunk of code simultaneously,
+    but no more than two. A semaphore is thus a set of permission
+    tickets, which enable a thread to access a resource.
+    + Semaphores as /tickets/: a semaphore is like a ticket that
+      grants access to a resource.  A semaphore with a value of three
+      would grant access to three threads at most at a time.
+  + A /mutex/ is a semaphore with a value of 1: whichever thread holds
+    the mutex has access to the protected resource, whereas all others
+    are excluded.
+    + A mutex enforces mutual exclusion, but a semaphore with a value
+      > 1 would not.
+  + A /monitor/ (which the Java /synchronized/ block provides) is a
+    mechanism that enforces mutual exclusion, supports progress, and
+    has addition mechanisms for thread cooperation: in Java's case,
+    the /wait/ mechanism supports quiet waiting for a lock to be
+    released, and the /notify/ mechanism notifies waiters that a lock
+    has been released.
+
+** A Sample Deadlock in Java
+*** using the shell
+#+BEGIN_SRC sh
+bash-3.2$ javac Deadlock.java 
+bash-3.2$ java Deadlock
+thread2 holds lock2
+thread1 holds lock1
+thread2 waiting for lock1
+	(thread2 needs lock1 to release lock2...)
+thread1 waiting for lock2
+	(thread1 needs lock2 to release lock1...)
+  ^C ^Cbash-3.2$ 
+bash-3.2$ java Deadlock
+thread1 holds lock1
+thread2 holds lock2
+thread2 waiting for lock1
+thread1 waiting for lock2
+	(thread2 needs lock1 to release lock2...)
+	(thread1 needs lock2 to release lock1...)
+  ^C ^Cbash-3.2$ 
+#+END_SRC
+*** source code
+#+BEGIN_SRC java
+/** To compile and run from the command-line:
+      javac Deadlock.java
+      java Deadlock
+*/
+public class Deadlock {
+    static Object lock1 = new Object(); // a single lock1                   /** line 1 **/
+    static Object lock2 = new Object(); // a single lock2
+    
+    /** Each thread executes its run() method. **/
+    public static void main(String args[]) {
+	Thread thread1 = new Thread() {  
+		public void run() {                            
+		    synchronized(lock1) {                                   /** line 2 **/
+			print("thread1 holds lock1");
+			try { Thread.sleep(2); } catch(Exception e) { }     /** line 3 **/
+			print("thread1 waiting for lock2");
+			print("\t(thread1 needs lock2 to release lock1...)");
+			synchronized(lock2) {                               /** line 4 **/
+			    print("thread1 holds lock1 and lock2");
+			} // lock2 released here                            /** line 5 **/
+		    } // lock1 released here                                /** line 6 **/
+		} 
+	    };
+	Thread thread2 = new Thread() {
+		public void run() {
+		    synchronized(lock2) {                                   /** line 7 **/
+			print("thread2 holds lock2");
+			try { Thread.sleep(2); } catch(Exception e) { }
+			print("thread2 waiting for lock1");
+			print("\t(thread2 needs lock1 to release lock2...)");
+			synchronized(lock1) {                               /** line 8 **/
+			    print("thread2 holds lock2 and lock1");
+			} // lock1 released here                            /** line 9 **/
+		    } // lock2 released here                                /** line 10 **/
+		}
+	    };
+	thread1.start();                                                    /** line 11 **/
+	thread2.start();                                                    /** line 12 **/
+    }
+    private static void print(Object obj) { System.out.println(obj); }
+}
+#+END_SRC
+
+** High-level Concurrency Management in Multithreading
+# chapter 5: highlevelcm.txt
++ Belaboring the obvious: multithreading is far trickier to manage than multiprocessing
+  + The OS keeps the processes in multiprocessing from stepping on one another's storge.
+  + The programmer must do the same for threads within a process: thread coordination
++ How to support to thread-safety (i.e., safety from race conditions)?
+  + Consider an in-memory mutable list and an /add/ operation.
+  #+begin_example
+       ADD 3  +---+---+
+thread------->| 1 | 2 |        ## list L before the ADD
+              +---+---+
+              +---+---+---+
+              | 1 | 2 | 3 |    ## list L after the ADD, which changes the original list
+              +---+---+---+
+  #+end_example
++ Basic Java approach: Ensure mutual exclusion on shared storage through locking.
+  + Locking allows only single-threaded access to the list L during an ADD operation.
+
++ Basic Clojure approach: make in-memory objects immutable by default, with a few exceptions
+  + The ADD operation first makes a copy of the original list, and then changes the copy.
+  #+begin_example
+       ADD 3  +---+---+
+thread------->| 1 | 2 |        ## list L 
+              +---+---+
+                  L
+
+              +---+---+
+              | 1 | 2 |        ## copy of list L
+              +---+---+
+                  Lc
+
+              +---+---+---+
+              | 1 | 2 | 3 |    ## copy after the ADD (original is unchanged)
+              +---+---+---+
+                  Lc
+  #+end_example
++ The preferred Go approach: have a single thread control access to
+  list L, with other threads sending messages such as ADD to this
+  controlling thread.
+  + The messages are sent through a thread-safe channel.
+  #+begin_example
+             +---+---+
+             | 1 | 2 |      ## a single thread T controls access to L
+             +---+---+
+
+        ADD 3                ADD 33
+thread1------->channel to T<--------thread2  ## the channel has built-in synchronization
+  #+end_example
+** Wrapup of multithreading basics and miscellany
+# chapter 5: wrapup5.txt
+**** Wrapup
+
++ Multithreading can be a highly efficient way to do concurrent
+  programming, as thread-level context switches are very cheap.
+  + It's the preferred approach to concurrency in languages such as
+    Java and C#.
++ Multithreading has twin challenges for the programmer:
+  + Avoid race conditions by ensuring that multiple threads don't
+    access shared memory locations in inappropriate ways.
+    + Ensure that critical sections are executed in single-threaded
+      mode.
+  + Avoid /over synchronization/ that degrades performance and may
+    result in deadlock.
++ Languages now offer programmers high-level constructs and types to
+  ease the challenges of multithreaded programming.
+  + But sometimes a simple mutex is still the way to go.
+ 
+**** Native versus green threads, and the Global Interpreter Lock (GIL)
+
++ A /native thread/ is under kernel OS control when it comes to
+  scheduling.
+  + Since roughly 2000, Java Thread instances map to /native/
+    threads. (Same for C#.)
+  + C's /pthreads/ (the 'p' for POSIX API standardization) are
+    /native/ threads.
++ A /green thread/ (aka /microthread/, /tasklet/) is under a particular language's runtime control.
+  + In effect, /green threads/ emulate native threads, and may provide
+    better performance for operations such as thread creation and
+    synchronization.
+  + Prior to version 1.9, for example, Ruby's standard implementation (CRuby) had only green threads.
++ A GIL is a mechanism (in implementation, a mutex) that a runtime
+  uses to allow only one thread to execute at a time, even in a
+  multithreaded environment: no thread-level parallelism.
+  + The standard implementations of Ruby (CRuby) and Python (CPython) have a GIL.
+
+** Exercise for basic multithreading
+# chapter 5: exerciseMT.txt
+
++ Fix the RaceC program (RaceC.java) by providing explicit locking.
+  + Use synchronized blocks and a shared lock to ensure that threads
+    t1 and t2 do the increment and decrement operations /atomically/
+    (that is, without interruption).
+  + *Hint:* use a static field as the lock to ensure there's a single instance of the lock.
++ To get a sense of what thread syncrhonization costs, time the RaceC
+  program with and without thread synchronization.
+  + The program's execution can be timed in various ways, including the way sketched below:
+  #+BEGIN_SRC java
+final long startTime = System.currentTimeMillis();
+/*** code to be timed ***/
+final long stopTime = System.currentTimeMillis();
+final long latency = stopTime - startTime;
+  #+END_SRC
+
+* Multithreading -- Vertiefung
+#  Multithreading Through Richer Code Examples 
+# ev. überspringen / Studi-Thema
+# Chapter 6
+ Three questions:
+1. What is the basic behavior of *uncoordinated* threads?
+2. What are the possible ways for coordinating threads?
+   multiple answers from low level to high leven
+3. How can threads cooperate to boost performance?
+** The Miser-Spendthrift Problem In C
+# Geizhals-Verschwender-Problem
+# chapter 6
++ Look at the system (close to the metal)
++ miser increments an account by one
++ spendthrift decrements the same account by one
++ number of times to increment/decrement given by an command line argument
+*** source code
+#+BEGIN_SRC C
+/** To compile: gcc -o miserSpendthrift miserSpendthrift.c -lpthread **/
+
+/** The problem:
+
+         increment  +---------+  decrement
+   miser----------->| account |<-----------spendthrift
+                    +---------+
+ */
+
+#include<stdio.h>
+#include<string.h>
+#include<pthread.h>
+#include<stdlib.h>
+#include<unistd.h>
+
+static int balance = 0;  /** shared storage across the threads **/            /** line 1 **/
+
+void report_and_die(const char* msg) { /** utility function **/
+   perror(msg);
+   exit(0);
+}
+
+void* deposit(void* n) {  /** miser code **/                                  /** line 2 **/
+   int* ptr = (int*) n;
+   int limit = *ptr, i;
+   for (i = 0; i < limit; i++) balance++; /* add 1 to balance */              /** line 3 **/
+   return 0; /** nothing to return: NULL **/
+} /** thread terminates when exiting deposit **/
+
+void* withdraw(void* n) { /** spendthrift code **/                            /** line 4 **/
+   int* ptr = (int*) n;
+   int limit = *ptr, i;
+   for (i = 0; i < limit; i++) balance--; /* subtract 1 from balance */       /** line 5 **/
+   return 0; /** nothing to return: NULL **/
+} /** thread terminates when exiting withdraw **/
+
+int main(int argc, char* argv[]) {
+  if (argc < 2) {                                                             /** line 6 **/
+      fprintf(stderr, "Usage: miserSpendthrift <number of operations apiece>\n");
+      return 0;
+   }
+   int n = atoi(argv[1]); /** command-line argument conversion to integer **/
+   
+   pthread_t miser, spendthrift; /* miser increments, spendthrift decrements */   /** line 7 **/
+   if (pthread_create(&miser,    /** address of identifier **/                    /** line 8 **/
+		      0,         /** attributes? none in this case **/            /** line 9 **/
+		      deposit,   /** function for thread to execute: deposit **/  /** line 10 **/
+		      &n) < 0)            
+      report_and_die("pthread_create: miser");
+   
+   if (pthread_create(&spendthrift, 0, withdraw, &n) < 0) /* spendthrift: withdraw */ 
+      report_and_die("pthread_create: spendthrift");
+
+   /* Force main thread to wait for the other two to die. */
+   pthread_join(miser,  0);                                                   /** line 11 **/
+   pthread_join(spendthrift, 0);                                              /** line 12 **/
+   
+   /* Print final balance. */
+   printf("The final balance is: %16i\n", balance);                           /** line 13 **/
+   return 0;
+}
+#+END_SRC
+*** using the shell
+#+BEGIN_SRC shell
+bash-3.2$ gcc -o miserSpendthrift miserSpendthrift.c -lpthread
+bash-3.2$ ./miserSpendthrift 50000000
+The final balance is:           495282
+bash-3.2$ ./miserSpendthrift 50000000
+The final balance is:         -3024755
+bash-3.2$ ./miserSpendthrift 50000000
+The final balance is:          2239143
+bash-3.2$ ./miserSpendthrift 50000000
+The final balance is:            33244
+bash-3.2$ ./miserSpendthrift 50000000
+The final balance is:          3018297
+bash-3.2$ ./miserSpendthrift 50000000
+The final balance is:         -1482667
+bash-3.2$ 
+#+END_SRC
+*** Fixing The Miser-Spendthrift Problem In C
+**** source code
+#+BEGIN_SRC C
+/** To compile: gcc -o miserSpendthriftFix miserSpendthriftFix.c -lpthread **/
+
+#include<stdio.h>
+#include<string.h>
+#include<pthread.h>
+#include<stdlib.h>
+#include<unistd.h>
+
+static int balance = 0; /** shared storage across the threads **/              /** line 1 **/
+static pthread_mutex_t lock; /* named lock for clarity; any name would do */   /** line 2 **/
+
+void report_and_die(const char* msg) {
+   perror(msg);
+   exit(0);
+}
+
+void* deposit(void* n) {  /** miser code **/                                          
+   int* ptr = (int*) n;
+   int limit = *ptr, i;
+   for (i = 0; i < limit; i++) {
+     if (pthread_mutex_lock(&lock) == 0) {                                     /** line 3 **/
+       balance++; /* add 1 to balance */                                       /** line 4 **/
+       pthread_mutex_unlock(&lock);                                            /** line 5 **/
+     }
+     else
+       report_and_die("pthread_mutex_lock (deposit)");
+   }
+   return 0; /** nothing to return: NULL **/
+}
+
+void* withdraw(void* n) { /** spendthrift code **/
+   int* ptr = (int*) n;
+   int limit = *ptr, i;
+   for (i = 0; i < limit; i++) {
+     if (pthread_mutex_lock(&lock) == 0) {
+       balance--; /* subtract 1 from balance */
+       pthread_mutex_unlock(&lock);
+     }
+     else
+       report_and_die("pthread_mute_lock (withdraw)");
+   }
+   return 0; /** nothing to return: NULL **/
+}
+
+int main(int argc, char* argv[]) {
+   if (argc < 2) {
+      fprintf(stderr, "Usage: miserSpendthriftFix <number of operations apiece>\n");
+      return 0;
+   }
+   int n = atoi(argv[1]); /** command-line argument conversion to integer **/
+   
+   pthread_t miser, spendthrift; /* miser increments, spendthrift decrements */ /** line 6 **/
+   pthread_mutex_init(&lock, 0); /** initialize the lock **/ /** !!!!!!! **/
+   
+   if (pthread_create(&miser,  0, deposit,  &n) < 0)      /* miser: deposit */  /** line 7 **/
+      report_and_die("pthread_create: miser");
+   if (pthread_create(&spendthrift, 0, withdraw, &n) < 0) /* spendthrift: withdraw */ 
+      report_and_die("pthread_create: spendthrift");
+
+   /* Force main thread to wait for the other two to die. */
+   pthread_join(miser,  0);                                                     /** line 8 **/
+   pthread_join(spendthrift, 0);                                                /** line 9 **/
+   pthread_mutex_destroy(&lock); /* destroy the lock, no longer needed */       /** line 10 **/
+
+   /* Print final balance. */
+   printf("The final balance is: %i\n", balance);                               /** line 11 **/
+   return 0;
+}
+#+END_SRC
+**** using the shell
+#+BEGIN_SRC shell
+bash-3.2$ gcc -o miserSpendthriftFix miserSpendthriftFix.c -lpthread
+bash-3.2$ ./miserSpendthrift 500000
+The final balance is:           382629
+bash-3.2$ ./miserSpendthrift 500000
+The final balance is:           223321
+bash-3.2$ ./miserSpendthriftFix 500000
+The final balance is: 0
+bash-3.2$ ./miserSpendthriftFix 500000
+The final balance is: 0
+bash-3.2$ 
+#+END_SRC
+** The Miser-Spendthrift Problem In Java
+*** Overview
+#+BEGIN_EXAMPLE
+                           code
+                            |
+       +--------------------+--------------------+
+       |                    |                    |
+     acct                 acct2                acct3           ## Java package names
+Account.java         Account.java         Account.java         ## Different implementations (see below)
+RaceCondition.java   RaceCondition.java   RaceCondition.java   ## application, encapsulates main(...)
+
+  acct implementation:  deliberate race condition, no thread coordination
+  acct2 implementation: explicit, low-level thread coordination with synchronized blocks
+  acct3 implementation: AtomicInteger, which bakes in the thread synchronization
+#+END_EXAMPLE
++ All of the source code is included in the ZIP file
+  miserSpendthriftJava.zip. \\
+  Here are the contexts:
+  #+BEGIN_EXAMPLE
+      code/
+      code/acct/
+      code/acct/Account.java
+      code/acct/RaceCondition.java
+      code/acct2/
+      code/acct2/Account.java
+      code/acct2/RaceCondition.java
+      code/acct3/
+      code/acct3/Account.java
+      code/acct3/RaceCondition.java
+  #+END_EXAMPLE    
++ To compile and run from the /code/ directory at the command-line prompt:
+  #+BEGIN_SRC shell
+     javac acct/*.java
+     java acct.RaceCondition 50000000
+
+     javac acct2/*.java
+     java acct2.RaceCondition 600000
+
+     javac acct3/*.java
+     java acct3.RaceCondition 7700000
+  #+END_SRC
+
+*** Demo
+#+BEGIN_SRC shell
+bash-3.2$ cd code
+bash-3.2$ javac acct/*.java
+bash-3.2$  java acct.RaceCondition 500000
+Final balance: -48910
+bash-3.2$  java acct.RaceCondition 500000
+Final balance: 237043
+bash-3.2$  java acct.RaceCondition 500000
+Final balance: -30470
+bash-3.2$  java acct.RaceCondition 500000
+Final balance: -26171
+bash-3.2$ javac acct2/*.java
+bash-3.2$ java acct2.RaceCondition 500000
+Final balance: 0
+bash-3.2$ java acct2.RaceCondition 500000
+Final balance: 0
+bash-3.2$ java acct2.RaceCondition 500000
+Final balance: 0
+bash-3.2$ javac acct3/*.java
+bash-3.2$ java acct3.RaceCondition 500000
+Final balance: 0
+bash-3.2$ java acct3.RaceCondition 500000
+Final balance: 0
+bash-3.2$ java acct3.RaceCondition 500000
+Final balance: 0
+#+END_SRC
+*** Source Code
+**** Version Without Synchronization
+#+BEGIN_SRC java
+package acct;
+
+public class Account {
+    public static int balance = 0;                                             /** line 1 **/
+}
+
+class Miser extends Thread {       // deposit                                  /** line 2 **/
+    Miser(int howMany) { this.howMany = howMany; }
+
+    @Override
+    public void run() {
+	for (int i = 0; i < howMany; i++) 
+	    Account.balance++;
+    }
+    private int howMany; // how many times to increment
+}
+
+class Spendthrift extends Thread { // withdraw                                 /** line 3 **/
+    Spendthrift(int howMany) { this.howMany = howMany; }
+
+    @Override
+    public void run() {
+	for (int i = 0; i < howMany; i++) 
+	    Account.balance--;
+    }
+    private int howMany; // how many times to decrement
+}
+
+/************************************************************************/
+
+package acct;
+public class RaceCondition {                                                   /** line 4 **/
+    public static void main(String[ ] args) {
+	if (args.length < 1) {
+	    System.err.println("RunCondition <times to iterate>");
+	    return;
+	}
+	int n = Integer.parseInt(args[0]);
+	Miser miser = new Miser(n);                                            /** line 5 **/
+	Spendthrift spendthrift = new Spendthrift(n);                          /** line 6 **/
+	miser.start();       // start Miser                                    /** line 7 **/
+	spendthrift.start(); // start Spendthrift */                           /** line 8 **/
+	try {                                                          
+	    miser.join();       // wait for Miser to terminate                 /** line 9 **/
+	    spendthrift.join(); // wait for Spendthrift to terminate           /** 1ine 10 **/
+	} catch(Exception e) { System.err.println(e); }
+	System.out.println("Final balance: " + Account.balance);     
+    }
+}
+#+END_SRC
+**** Version With =synchronized blocks=
+#+BEGIN_SRC java
+/*** Fixing the miser/spendthrift problem with explicit thread synchronization. ***/
+
+package acct2;
+
+public class Account {
+    public static int balance = 0;                            /** line 1 **/
+    public static final Object lock = new Object();           /** line 2 **/
+}
+
+class Miser extends Thread {       // deposit                 /** line 3 **/
+    Miser(int howMany) { this.howMany = howMany; }
+
+    @Override
+    public void run() {
+	for (int i = 0; i < howMany; i++) 
+	    synchronized(Account.lock) {                      /** line 4 **/        
+		Account.balance++;                            /** line 5 **/
+	    }
+    }
+    private int howMany;    
+}
+
+class Spendthrift extends Thread { // withdraw                /** line 6 **/
+    Spendthrift(int howMany) { this.howMany = howMany; }
+
+    @Override
+    public void run() {
+	for (int i = 0; i < howMany; i++) 
+	    synchronized(Account.lock) {                      /** line 7 **/
+		Account.balance--;                            /** line 8 **/
+	    }
+    }
+    private int howMany;
+}
+#+END_SRC
+**** Version With =AtomicInteger=
+#+BEGIN_SRC java
+/*** Fixing the miser/spendthrift problem with a thread-safe data type **/
+
+package acct3;
+import java.util.concurrent.atomic.AtomicInteger;                     /** line 1 **/
+
+public class Account {
+    public static AtomicInteger balance = new AtomicInteger();        /** line 2 **/
+}
+
+class Miser extends Thread {       // deposit
+    Miser(int howMany) { this.howMany = howMany; }
+    @Override
+    public void run() {
+	for (int i = 0; i < howMany; i++)                  
+	    Account.balance.incrementAndGet();                        /** line 3 **/
+    }
+    private int howMany;
+}
+
+class Spendthrift extends Thread { // withdraw
+    Spendthrift(int howMany) { this.howMany = howMany; }
+    @Override
+    public void run() {
+	for (int i = 0; i < howMany; i++) 
+	    Account.balance.decrementAndGet();                        /** line 4 **/
+    }
+    private int howMany;
+}
+#+END_SRC
+** Thread Synchronization As Cooperation
+ Cooperation -- the flip side of locking in thread synchronization
+
++ Java/s synchronized block implements a /monitor/, a programming mechanism that supports
+   mutual exclusion for thread coordination, but also supports thread cooperation.
+  + In Java, some of the cooperative mechanisms (e.g., one thread explicitly yielding others)
+    have been deprecated.
++ Depiction of a queue with multiple /producers/ and /consumers/:
+  #+BEGIN_EXAMPLE
+                    back                   front
+                      \                     /
+            insert   +---+---+---+---+---+---+  remove
+   producer--------->| 6 | 8 | 4 | 9 | 3 | 7 |---------->consumer
+   ...		     +---+---+---+---+---+---+           ...  ## any number of producers/consumers
+		       A queue of six items
+
+  #+END_EXAMPLE
+  + Consider the classic example of two threads that manipulate a
+    shared data structure: \\
+    one thread (/producer/) inserts items into the shared structure
+    (for example, a queue), whereas another thread (/consumer/)
+    removes items from this structure.
+    + If the queue is empty, a consumer should wait until a producer inserts an item.
+      + A producer thread awakens waiting consuming threads after the insertion of an item.
+    + If the queue is full, a producer should wait until a consumer
+      removes an item, thereby freeing up room.
+      + A consumer thread awakens waiting producing threads after the removal of an item.
++ For simplicity, a stack instead of a queue:
+  #+BEGIN_EXAMPLE
+      +---+
+      | 7 |<-------top    ## insertions and removals occur here
+      +---+
+      | 3 |
+      +---+
+      | 9 |
+      +---+
+       ...
+
+  #+END_EXAMPLE
+*** The Thread-Safe Stack Example In Java (Source Code)
+#+BEGIN_SRC java
+/** javac StackTS.java
+    java MainTS
+
+    Kill at the command-line with Control-C.
+*/
+
+/** A thread-safe producer/consumer application with thread
+    coordination and cooperation.
+*/
+
+import java.util.Random;
+
+public class StackTS {
+    private static final int capacity = 8;                      
+    private int top = -1; // empty stack when top == -1
+    private int[ ] stack = new int[capacity];
+
+    // When an entire method is synchronized, the implicit lock is the current object
+    // --'this' in Java.
+    // Hence, methods push and pop are effectively locked together: only one may be
+    // accessed at a time.
+    public synchronized void push(Integer n) {             /** line 1 **/
+	while ((top + 1) == capacity) { // full?           /** line 2 **/
+	    try {
+		wait(); // if so, wait for a pop           /** line 3 **/
+	    } catch(InterruptedException e) { }
+	}
+	log(n + " pushed at " + (top + 1));                /** line 4 **/
+	stack[++top] = n;                                  /** line 5 **/
+	notifyAll();                                       /** line 6 **/
+    }
+
+    public synchronized void pop() {                       /** line 7 **/
+	while (top < 0) { // empty?                        /** line 8 **/
+	    try {
+		wait();                                    /** line 9 **/
+	    } catch(InterruptedException e) { }
+	}
+	log(stack[top] + " popped at " + top);             /** line 10 **/
+	top--;                                             /** line 11 **/
+	notifyAll();                                       /** line 12 **/
+    }
+
+    private void log(String msg) {
+	System.out.println(msg);
+    }
+}
+
+class Pusher extends Thread {
+    private Random rand = new Random();
+    private StackTS stack;
+
+    Pusher(StackTS stack) { this.stack = stack; }           /** line 12 **/
+    
+    @Override 
+    public void run() {
+	while (true) {                                      /** line 13 **/
+	    stack.push(rand.nextInt(100)); // 0 through 99
+	    try {
+		Thread.sleep(rand.nextInt(200)); // sleep 0 to 199 milliseconds
+	    }  catch(InterruptedException e) { }
+	}
+    }
+}
+
+class Popper extends Thread {
+    private Random rand = new Random();
+    private StackTS stack;
+    
+    Popper(StackTS stack) { this.stack = stack; }            /** line 14 **/
+    
+    @Override
+    public void run() {
+	while (true) {
+	    stack.pop();                                     /** line 15 **/
+	    try {
+		Thread.sleep(rand.nextInt(100));
+	    } catch(InterruptedException e) { }
+	}
+    }
+}
+
+class MainTS {
+    public static void main(String[ ] args) {
+	StackTS stack = new StackTS();                       /** line 16 **/
+	new Popper(stack).start();                           /** line 17 **/
+	new Pusher(stack).start();                           /** line 18 **/
+	new Pusher(stack).start();                           /** line 19 **/
+    }
+}
+#+END_SRC
+*** Using the Shell
+#+BEGIN_SRC shell
+bash-3.2$ java MainTS
+82 pushed at 0
+82 popped at 0
+68 pushed at 0
+15 pushed at 1
+15 popped at 1
+31 pushed at 1
+31 popped at 1
+68 popped at 0
+46 pushed at 0
+31 pushed at 1
+31 popped at 1
+61 pushed at 1
+75 pushed at 2
+75 popped at 2
+82 pushed at 2
+82 popped at 2
+80 pushed at 2
+72 pushed at 3
+72 popped at 3
+24 pushed at 3
+12 pushed at 4
+12 popped at 4
+24 popped at 3
+94 pushed at 3
+1 pushed at 4
+1 popped at 4
+...
+  ^C ^Cbash-3.2$ 
+#+END_SRC
+** The Multithreading Web Server
+... in C
++ vgl. Datei =threading_server.c=
++ wird hier vorerst nicht behandelt
+# Anmerkung: Client-Code als pure function in C realisiert
+** Wrapup of thread synchronization as coordination and coooperation
+
++ Thread coordination constructs range from explicit mutexs in the
+  source code to thread-safe types such as Java's =AtomicInteger=.
+  + Richer thread-safe data structures will be seen later: efficient
+    thread-safe lists and maps.
+    + Classic Java types such as Vector and Hashtable are thread-safe,
+      but inefficient.
++ Thread /synchronization/ includes not just coordination to avoid
+  race conditions and deadlock, but also cooperation to boost
+  performance:
+  + Having a thread wait is a quiet state is better than having a
+    thread use up resources trying to gain a lock.
+  + The StackTF example in Java illustrates with waiting and
+    notifying.
++ The =multithreading_server= highlights multithreading as a concurrency mechanism with these upsides:
+  + The /division of labor/ or /separation of concerns/ between a
+    /listening/ thread and /request handlers/ prevents the disaster of
+    having a hung request interfere with others.
+  + On a multiprocessor host, the /one-thread-per-request/ model can
+    lead to true parallelism.
+  + The example illustrates the concurrent programming style of
+    real-world web servers such as Tomcat and Jetty.
++ The =multithreading_server= underscores that local variables (and
+  parameters) are thread-safe: the idea of a pure function/.
+  + Modern systems allocate separate stack storage per thread, and it's the stack that holds local variables
+      and params by default.
+** Exercises
+vgl. Datei =exercise6.txt=
+*** A thread pool exercise in C
+*** A synchronization with cooperation exercise in Java
+* Thread-Sicherheit -- Höherwertige Concurrent Types in Java
+# original: Thread-Safety And High-Level Concurrent Types In Java
+# Chapter 7 
+** Moving beyond explicit thread management: high-level concurrent data types in Java
+# original: Thread Safety Through High-Level Thread-Safe Data Types
++ =java.util.concurrent.atomic= toolkit to support thread-safe,
+  lock-free programming for counters and the like. The types include:
+  + =AtomicInteger=
+  + =AtomicIntegerArray=
+  + =AtomicLong=
+  + =AtomicLongArray=
+  + Here's a sketch of how an /atomic counter/ might be implemented:
+    #+BEGIN_SRC java
+public final class Counter { 
+   private long value = 0;  // initialized for emphasis
+   public synchronized long getValue() { return value; }
+   public synchronized long increment() {
+      if (value == Long.MAX_VALUE)
+        throw new IllegalStateException("Counter overflow");
+      return ++value;
+   }
+}
+    #+END_SRC
++ For simplicity, a /retrieval/ operation is a /read/ operation: it
+  has no side-effects.  An /update/ operation has side-effects: it
+  changes the data structure.
++ =java.util.concurrent.ConcurrentHashMap=
+  + Same functionality as the ancient =Hashtable=, but highly efficient
+    + The map is partitioned: for example, an update locks only part
+      of the map.  Two updates could occur at the same time if in
+      different partitions.
+    + Retrieval operations generally don't block.
+    + The whole map cannot be locked in any case.
++ =java.util.concurrent.CopyOnWriteArrayList=
+  + Update operations cause a copy of the underlying array to be made.
+    + In effect, an immutable data structure in the spirt of Clojure.
++ =java.util.concurrent.BlockingQueue= interface
+  + A retrieval waits for the queue to become non-empty before
+    retrieving the 1st element.
+  + Various implementations, e.g., =ArrayBlockingQueue= and
+    =PriorityBlockingQueue=
++ Executors and thread pools
+  + The Executor interface provides a single method, execute, designed
+    to replace the old Thread idiom.  For example, if reference
+    =runnable= points to a Runnable object and =exec= to an Executor,
+    then
+    : new Thread(runnable).start();  // create a new Thread to run runnable
+    becomes
+    : exec.execute(runnable);        // may use an already existing worker thread to run runnable
+  + Thread pools
+    + Most executor implementations use thread pools, which hold /worker threads/.
+      + A single worker might be reused to execute many different tasks.
+      + Eliminates cost of continually creating and destroying threads.
++ Fork/Join as an Executor service
+  + The Fork/Join framework implements the =ExecutorService= interface
+    in a way meant to take full advantage of a multiple-processor
+    machine.
+  + Designed for work on recursive structures: structures such as
+    trees whose subparts are also, in this case, (sub)trees. Here's a
+    tree representation of the expression =(A * B) + (C + D)=:
+    #+BEGIN_EXAMPLE
+          +            ## root of tree with two subtrees
+         / \
+        /   \	
+       *     +         ## roots of two subtrees
+      / \   / \ 
+     A   B C   D       ## 'leaf' nodes: no subtrees below
+    #+END_EXAMPLE
+   + The framework distributes tasks to workers from a thread pool,
+     but workers that run out of something to do can 'steal' work from
+     some other thread: highly cooperative task management.
+** The Blocking Queue Example in Java
+*** Overview
+# blockingQueueOverview.txt
+A =BlockingQueue= example: a thread-safe data structure
+
++ The interface =java.util.concurrent.BlockingQueue= has several standard implementations, including
+   =java.util.concurrent.SynchronousQueue=
+  + This implementation is /synchronous/ in that an =insert= operation
+    blocks (waits) for a corresponding =remove= operation.
+    + In different terms, a =SynchronousQueue= does no buffering and,
+      in this sense, acts like a pipe. Indeed, the documentation
+      characterizes this queue as an /empty collection/.
+    + By contrast, an =ArrayBlockingQueue= does have a buffering capacity.
+  + Here's a depiction, using the familar pipe symbol | to represent
+    the =SynchronousQueue=, with the producer and consumer as threads:
+    #+BEGIN_EXAMPLE
+                  item    item
+  producer thread------>|------>consumer thread
+                SynchronousQueue
+    #+END_EXAMPLE
+  + The SynchronousQueue is thread-safe.
++ The =java.lang.Thread class= implements the =java.lang.Runnable= interface, which defines one method:
+  : public void run();
+  The Thread class has an empty implemenation (/adapter/ pattern):
+  : public void run() { }  // returns immediately
+  + In our example, the Producer and Consumer classes could either
+    subclass =Thread= or implement =Runnable=.
+    + For variety, this example takes the 'implement Runnable' approach.
+  + Program structure
+    + The =ProducerConsumerQueue= class has =main=, which creates a
+      =SynchronousQueue= named =dropbox=.
+    + The =Driver= likewise creates two =Producer= threads and a
+      =Consumer= thread, each with access to the =dropbox=.
+    + The =Producer= threads insert Strings into the queue, and the
+      =Consumer= thread removes Strings from the queue one at a time for
+      printing.
+*** Java Code
+#+BEGIN_SRC java
+/** javac ProducerConsumerQueue.java
+    java ProducerConsumerQueue
+*/
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+import java.util.Random;
+
+public class ProducerConsumerQueue {
+    public static void main(String[ ] args) {
+        BlockingQueue<String> dropbox = new SynchronousQueue<String>();  /** line 1 **/
+        new Thread(new Producer(dropbox)).start();                       /** line 2 **/
+	new Thread(new Consumer(dropbox, 12)).start();                   /** line 3 **/
+	new Thread(new Producer(dropbox)).start();                       /** line 4 **/
+    }
+}
+
+class Producer implements Runnable {
+    private BlockingQueue<String> dropbox;
+
+    Producer(BlockingQueue<String> dropbox) {
+        this.dropbox = dropbox;
+    }
+
+    @Override
+    public void run() {                                                  /** line 5 **/
+        String importantInfo[ ] = {
+        "Managed holistic contingency will grow killer action-items.",
+        "Vision-oriented zero administration time-frame will generate back-end interfaces.",
+        "Triple-buffered scalable services will productize visionary infomediaries.",
+        "Reactive radical knowledge base will aggregate extensible vortals.",
+        "Face to face client-server pricing structure will whiteboard robust communities.",
+        "Future-proofed 5th generation protocols will strategize web-enabled networks."
+	};
+        try {
+	    for (String info : importantInfo) dropbox.put(info);         /** line 6 **/
+        } catch (InterruptedException e) {}
+    }
+}
+
+class Consumer implements Runnable {
+    private BlockingQueue<String> dropbox;
+    private int maxTakes;
+
+    Consumer(BlockingQueue<String> dropbox, int maxTakes) {
+        this.dropbox = dropbox;
+	this.maxTakes = maxTakes;
+    }
+
+    @Override
+    public void run() {
+        Random random = new Random();
+        try {
+            for (int i = 0; i < this.maxTakes; i++) {                    /** line 7 **/
+		String message = dropbox.take();                         /** line 8 **/
+                System.out.format("Message received: %s\n", message);
+                Thread.sleep(random.nextInt(3000));                      /** line 9 **/
+            }
+        } catch (InterruptedException e) {}
+    }
+}
+
+
+#+END_SRC
+*** Using the Shell 
+#+BEGIN_SRC shell
+bash-3.2$ javac ProducerConsumerQueue.java 
+bash-3.2$ java ProducerConsumerQueue
+Message received: Managed holistic contingency will grow killer action-items.
+Message received: Vision-oriented zero administration time-frame will generate back-end interfaces.
+Message received: Triple-buffered scalable services will productize visionary infomediaries.
+Message received: Reactive radical knowledge base will aggregate extensible vortals.
+Message received: Face to face client-server pricing structure will whiteboard robust communities.
+Message received: Future-proofed 5th generation protocols will strategize web-enabled networks.
+Message received: Managed holistic contingency will grow killer action-items.
+Message received: Vision-oriented zero administration time-frame will generate back-end interfaces.
+Message received: Triple-buffered scalable services will productize visionary infomediaries.
+Message received: Reactive radical knowledge base will aggregate extensible vortals.
+Message received: Face to face client-server pricing structure will whiteboard robust communities.
+Message received: Future-proofed 5th generation protocols will strategize web-enabled networks.
+bash-3.2$ 
+#+END_SRC
+** The Semaphore/Executor Example in Java
+*** Overview
+# semaphoreOverview.txt
+# Overview of the semaphore/executor-service example
+
++ Semaphores versus mutexes:
+  + A semaphore allows 'counted access' to a resource, and a mutex is
+    the special case for count == 1
+    + A semaphore might allow 10 threads to hit a protected resource,
+      but not 11.
+    + A mutex would allow 1 thread at most to hit a protected resource.
+  + Semphores that allow 'counted access' are called /counting semaphores/.
++ Executor service: the service builds and then manages a thread pool,
+  drawing upon /worker threads/ in the pool as needed. The difference
+  between
+  : new Thread(runnable).start();  // explicitly create and start a Thread to handle the task
+  and
+  : exec.execute(runnable);        // get a Thread from a pool to handle the task
+  + Various options for how the Executor can work: use the same thread
+    for a given task, use any thread from a pool for a given task.
++ The =SkiRental= application to introduce the Executor service and Semaphores
+  + The =SkiPair= class represents a pair of skis to be rented.
+    + Properties are =name= and =inUse==.
+  + The =SkisForRent= class represents the inventory of SkiPairs
+    available for rent.
+    + A pair of synchronized methods =getSkiPair()= and
+      =isReturnable(SkiPair)= safeguard critical section code.
+    + Other methods support the inventory bookkeeping.
+    + To make sure the inventory never runs dry, /semaphore count/ < /inventory count/
+    + Messages about renting out and returning ski pairs are logged.
++ Each rented =SkiPair= is simulated as a =Runnable=, whose duration
+  represents the amount of time spent skiing.
+  + For robustness, the executor service has a thread pool greater by
+    1 in size than the inventory.
+*** Java Code
+#+BEGIN_SRC java
+/** javac Semaphores.java
+    java Semaphores
+
+    This program uses an ExecutorService and Semaphores
+    in a simulation of a ski rental service.
+*/
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Semaphore;                                         /** line 1 **/
+import java.util.Random;
+
+final class SkiPair {                                                          /** line 2 **/
+    private String name;
+    private boolean inUse;
+
+    public SkiPair(String name, boolean inUse) { 
+	setName(name); 
+	setInUse(inUse);
+    }
+    public String getName() { return this. name; }
+    public void setName(String name) { this.name = name; }
+    public void setInUse(boolean inUse) { this.inUse = inUse;  }
+    public boolean isInUse() { return this.inUse; }
+}
+
+final class SkisForRent {
+    public static final int MaxSkiPairs = 150;                                    /** line 3 **/
+    private static final int MinInStock = 5;                                      /** line 4 **/
+    private final Semaphore semaphore = new Semaphore(MaxSkiPairs - MinInStock);  /** line 5 **/
+    private SkiPair[ ] inventory;
+
+    SkisForRent() {
+	inventory = new SkiPair[MaxSkiPairs];
+	for (int i = 0; i < MaxSkiPairs; i++) inventory[i] = new SkiPair("skiPair-" + i, 
+                                                                         false);
+    }
+
+    public SkiPair rentSkiPair() throws Exception {
+	semaphore.acquire();  // get the ticket (acquire() is thread-safe       /** line 6 **/
+	return getSkiPair();  // use tick to retrieve pair                      /** line 7 **/
+    }
+    public void returnSkiPair(SkiPair sp) {
+	if (isReturnable(sp)) semaphore.release(); // release() is thread-safe  /** line 8 **/
+    }
+
+    protected synchronized SkiPair getSkiPair() {                               /** line 9 **/
+	for (SkiPair sp : inventory) 
+	    if (!sp.isInUse()) {
+		sp.setInUse(true);
+		return sp;
+	    }
+	return null; // out of luck
+    }
+    protected synchronized boolean isReturnable(SkiPair sp) {                   /** line 10 **/
+	if (sp.isInUse()) {
+	    sp.setInUse(false);
+	    return true;
+	}
+	return false;
+    }
+}
+
+public class Semaphores {
+    public static void main(String[] args) {
+	Random rand = new Random();
+	final SkisForRent sfr = new SkisForRent();
+	
+	Runnable runnable = new Runnable() {                                    /** line 11 **/
+		@Override
+		public void run() {
+		    String name = Thread.currentThread().getName();
+		    try {
+			while (true) {                                          /** line 12 **/
+			    SkiPair sp = sfr.rentSkiPair();
+			    System.out.printf("%s renting %s%n", name, sp.getName());
+			    Thread.sleep(rand.nextInt(2000));  // skiing
+			    System.out.printf("%s returning %s%n", name, sp.getName());
+			    sfr.returnSkiPair(sp);
+			}
+		    }
+		    catch (Exception e) { System.err.println(e); }
+		}
+	    };
+	ExecutorService[ ] executors =                                          /** line 13 **/
+	    new ExecutorService[SkisForRent.MaxSkiPairs + 1];                       
+	for (ExecutorService executor : executors) {
+	    executor = Executors.newSingleThreadExecutor();                     /** line 14 **/
+	    executor.execute(runnable);                                         /** line 15 **/
+	}
+    }
+}
+#+END_SRC
+*** Using the Shell
+#+BEGIN_SRC shell
+bash-3.2$ javac Semaphores.java 
+bash-3.2$ java Semaphores
+pool-1-thread-1 renting skiPair-0
+pool-145-thread-1 renting skiPair-144
+pool-144-thread-1 renting skiPair-143
+pool-143-thread-1 renting skiPair-142
+pool-142-thread-1 renting skiPair-141
+pool-141-thread-1 renting skiPair-140
+...
+pool-7-thread-1 renting skiPair-6
+pool-6-thread-1 renting skiPair-5
+pool-5-thread-1 renting skiPair-4
+pool-4-thread-1 renting skiPair-3
+pool-3-thread-1 renting skiPair-2
+pool-2-thread-1 renting skiPair-1
+pool-136-thread-1 returning skiPair-135
+pool-82-thread-1 returning skiPair-81
+pool-34-thread-1 returning skiPair-33
+pool-124-thread-1 returning skiPair-123
+pool-126-thread-1 returning skiPair-125
+...
+pool-104-thread-1 renting skiPair-103
+pool-77-thread-1 renting skiPair-76
+pool-68-thread-1 renting skiPair-67
+pool-79-thread-1 renting skiPair-78
+pool-145-thread-1 renting skiPair-144
+pool-35-thread-1 renting skiPair-34
+pool-87-thread-1 renting skiPair-86
+pool-106-thread-1 renting skiPair-105
+pool-85-thread-1 renting skiPair-84
+...
+pool-126-thread-1 renting skiPair-125
+pool-124-thread-1 renting skiPair-123
+pool-34-thread-1 renting skiPair-33
+pool-82-thread-1 renting skiPair-81
+pool-136-thread-1 renting skiPair-135
+pool-89-thread-1 returning skiPair-88
+pool-7-thread-1 returning skiPair-6
+pool-96-thread-1 returning skiPair-95
+pool-144-thread-1 renting skiPair-143
+pool-96-thread-1 renting skiPair-95
+pool-7-thread-1 renting skiPair-6
+pool-89-thread-1 renting skiPair-88
+pool-106-thread-1 returning skiPair-105
+pool-106-thread-1 renting skiPair-105
+pool-138-thread-1 returning skiPair-137
+pool-138-thread-1 renting skiPair-137
+pool-57-thread-1 returning skiPair-56
+pool-57-thread-1 renting skiPair-56
+pool-78-thread-1 returning skiPair-77
+pool-78-thread-1 renting skiPair-77
+pool-115-thread-1 returning skiPair-114
+...
+pool-131-thread-1 renting skiPair-130
+pool-113-thread-1 returning skiPair-112
+pool-113-thread-1 renting skiPair-112
+pool-136-thread-1 returning skiPair-135
+pool-136-thread-1 renting skiPair-135
+pool-73-thread-1 returning skiPair-72
+pool-73-thread-1 renting skiPair-72
+pool-98-thread-1 returning skiPair-97
+pool-98-thread-1 renting skiPair-97
+pool-43-thread-1 returning skiPair-42
+  ^C ^Cbash-3.2$ 
+#+END_SRC
+
+** The Fork-Join Framework in Java
+*** Overview of the FileSearcher program
+# filesearcherOverview.txt
++ An example that uses the fork/join framework meant to encourage the
+  partititioning of a problem into subproblems, which threads
+  executing on separate processors handling each subproblem.
+  + The thread management -- the multithreading -- is under the hood for a
+    very high-level API.
+  + Suited for processing recursive structures such as trees whose
+    parts are likewise trees (that is, subtrees).
+  + The program defines a /recursive task/ (in this case, searching
+    part of the local file sysem), and indicates with calls to =fork=
+    where a suitable subtask begins.
++ The =FileSearcher= searches the file system (starting at the root of
+  some tree) for files with a specified extension.
+  + A traditional Unix-like system has / as the root of the whole
+    system, whereas Windows may have multiple roots such as =C:\=, =D:\=,
+    =E:\=, and so on.
+  + The FileSearcher eventually returns a list of the file names with
+    the specified extension.
++ The 'fork' in the fork/join API announces a subproblem suited for a
+  new thread. The 'join' aggregates results from the work of the
+  threads.
++ Base case and recursive case in the =FileSearcher=
+  + Base case: a search-thread finds a file with the desired extension
+    -- a non-directory file rather than a directory--and adds this
+    file to the list.
+  + Recursive case: a search-thread finds a (sub)directory, which is
+    suitable for separate processing.
+*** Java Code of =FileSearcher=
+#+BEGIN_SRC java
+/** javac FileSearcher.java
+    java MainFS
+
+    The program searches from the user's home directory for
+    files extending with '.txt' as the extension. The list of
+    such files is printed to the screen.
+*/
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import java.util.concurrent.RecursiveTask;                                     /** line 0 **/
+ 
+public class FileSearcher extends RecursiveTask<List<String>> {                /** line 1 **/
+    private final String path;
+    private final String extension;
+ 
+    public FileSearcher(String path, String extension) {                       /** line 2 **/
+	this.path = path;
+	this.extension = extension;
+    }
+    
+    @Override
+    public List<String> compute() {                                            /** line 3 **/
+	List<String> listOfFileNames = new ArrayList<String>();
+	File[ ] files = new File(path).listFiles();                            /** line 4 **/
+	if (files == null) return listOfFileNames; // base case                /** line 5 **/
+
+	List<FileSearcher> tasks = new ArrayList<FileSearcher>();              /** line 6 **/
+	for (File file : files) {                                              /** line 7 **/
+	    String absolutePath = file.getAbsolutePath();                      /** line 8 **/
+	    if (file.isDirectory()) {                                          /** line 9 **/
+		FileSearcher task = new FileSearcher(absolutePath, extension); /** line 10 **/
+		task.fork(); // recursive case                                 /** 1ine 11 **/
+		tasks.add(task);                                               /** line 12 **/
+	    }
+	    else if (file.getName().endsWith(extension))                       /** line 13 **/
+		listOfFileNames.add(absolutePath);
+	}
+	assembleResults(listOfFileNames, tasks);                               /** line 14 **/
+	return listOfFileNames;                                                /** line 15 **/
+    }
+    private void assembleResults(List<String> list, List<FileSearcher> tasks) {
+	for (FileSearcher task : tasks) {
+	    Collection<String> results = task.join();                          /** line 16 **/
+	    list.addAll(results);                                              /** line 17 **/
+	}
+    }
+}
+class MainFS {
+    public static void main(String[ ] args) {
+	List<String> list = 
+	   new FileSearcher(System.getProperty("user.home"), ".txt").compute();  /** line 18 **/
+	System.out.println("Files with extension .txt:");
+	for (String string : list) System.out.println(string);                   /** line 19 **/
+    }
+}
+#+END_SRC
+*** Demo
+!!! live demo !!!
+** Futures And Callables In Java - A Code Example
+#+BEGIN_SRC java
+/** javac AsyncJob.java
+    java MainAJ
+
+    This program illlustrates the Callable interface and the Future interface, the
+    latter of which represents the result of an asynchronous computation.
+*/
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;                                 /** line 1 **/
+import java.util.concurrent.Future;                                   /** line 2 **/
+import java.util.concurrent.ExecutorService;                          /** line 3 **/
+import java.util.concurrent.Executors;
+                                   
+// A 'callable' is like a 'runnable' except that the executed
+// method is now 'call' instead of 'run'; a 'callable' can return
+// a value of a specified type, in this case Long.  
+public class AsyncJob implements Callable<Long> {                     /** line 4 **/
+    @Override
+    public Long call() throws Exception {                             /** line 5 **/
+	long sum = 0;
+	final int n = 1000;
+	for (long i = 0; i < n; i++) sum += i;
+	return sum;
+    }
+}
+
+class MainAJ {
+    public static void main(String[ ] args) {
+	final int poolSize = 10;
+	final int n = 20000; // 20,000
+	
+	ExecutorService executor =
+	    Executors.newFixedThreadPool(poolSize);                   /** line 6 **/
+	List<Future<Long>> jobList = new ArrayList<Future<Long>>();   /** line 7 **/
+
+	for (int i = 0; i < n; i++) {
+	    Callable<Long> job = new AsyncJob();                      /** line 8 **/
+	    Future<Long> pendingJob = executor.submit(job);           /** line 9 **/
+	    jobList.add(pendingJob);                                  /** line 10 **/
+	}
+	
+
+	long sum = 0;
+	// Try to retrieve the results.
+	for (Future<Long> result : jobList) {                         /** line 11 **/
+	    try {
+		sum += result.get();                                  /** line 12 **/
+	    } 
+	    catch (Exception e) { e.printStackTrace(); } 
+	}
+	executor.shutdown();
+	
+	System.out.println("List size: " + jobList.size());      	
+	System.out.println("Sum: " + sum);
+    }
+}
+/* output (formatted for readability):
+
+   List size:        20,000
+   Sum:       9,990,000,000
+*/
+#+END_SRC
+*** Demo
+!!! live demo !!!
+** Thread Safety Through Immutable Types And Pure Functions
+#+BEGIN_SRC java
+/** 
+    String example:
+    
+    String s1 = new String("HI");
+    System.out.println(s1);       // HI
+    String s2 = s1.toLowerCase(); // original string is unchanged
+    System.out.println(s1);       // HI
+    System.out.println(s2);       // hi
+
+    ImmutableRGB API:
+
+    ImmutableRGB sg = new ImmutableRGB(112, 128, 144, "SlateGrey");
+    ImmutableRGB invert = sg.invert(); // Creates a new instance.
+    int colors = sg.getRGB();          // getter only
+    String name = sg.getName();        // getter only
+
+    Clojure (http://clojure.org) relies heavily on immutable structures.
+ */
+
+final public class ImmutableRGB {                                            /** line 1 **/
+    // Values between 0 and 255.
+    final private int red;
+    final private int green;
+    final private int blue;
+    final private String name;
+
+    public ImmutableRGB(int red, int green, int blue, String name) {         /** line 2 **/
+        check(red, green, blue);
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.name = name;
+    }
+    
+    // Store three 8-bit values in a 32-bit int.
+    public int getRGB() {                                                    /** line 3 **/
+        return ((red << 16) | (green << 8) | blue);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ImmutableRGB invert() {                                           /** line 4 **/
+        return new ImmutableRGB(255 - red,
+                       255 - green,
+                       255 - blue,
+                       "Inverse of " + name);
+    }
+    private void check(int red,                                              /** line 5 **/
+                       int green,
+                       int blue) {
+        if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) 
+            throw new IllegalArgumentException();
+    }
+}
+#+END_SRC
+** Zusammenfassung
+ Summary of the main themes in the recent code examples
+
++ producer-consumer pattern using a synchronous queue:
+  + In effect, a thread-safe channel from one thread to another.
+    + Two producers with one consumer to illustrate the thread safety.
+    + The particular queue used in this example acts like a pipe, as there's no buffering.
++ file-searcher: the fork/join framework as a way to 'divide and
+  conqueur' recursive tasks
+  + Java's fork/join framework allows less busy threads from an
+    executor-service to 'steal' work from busier threads.
+  + Basic pattern: divide the task into subtasks (etc.), and then
+    aggregate the results.
++ semaphores: a resource needs limited access, but not mutual
+  exclusion
+  + The ski rental example provides 'tickets' (a counting semaphore)
+    to dictate how many ski pairs from inventory may be rented out at
+    any time
++ Asynchronous multithreading using futures: dispatch a task to a
+  thread, and check later for the result.
++ Immutable types and 'pure functions' are inherently thread-safe:
+  + There's a cost to immutable types, as mutating operations
+    (write-edit-delete) require that a copy be made--and it's the copy
+    that's changed, not the original.
+  + Pure functions have no side-effects, as they work only with
+    parameters and local variables, both of which are thread safe. Is
+    this realistic in real-world programming?
+
+# * Options For Thread Synchronization And Cooperation
+# Chapter 8 
+ Options for thread synchronization (including cooperation) using the
+ GO language
+
+...
+
+vorerst auslassen
+
+ 

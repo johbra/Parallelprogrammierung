@@ -24,39 +24,39 @@
 
     A thread that exits run() terminates, and cannot be restarted.
 */
-public class RaceC {
+public class RaceCS {
     static int n;                            // a single instance on n
+    static Object lock = new Object();       // part of solution
     static void race() {
-	n = 0;                               // initialize to zero before threads alter its value
-	long limit = 100000L;     // Integer.MAX_VALUE * 2L; four billion and change
+        n = 0;                               // initialize to zero before threads alter its value
+        long limit = 100000L;  // Integer.MAX_VALUE * 2L; about four billion 
         Thread t1 = new Thread() {           // incrementing thread
-                public void run() { 
-                    for (long i = 0; i < limit; i++) n = n + 1; // increment limit times
+                public void run() {          // run is a callback-function
+                    for (long i = 0; i < limit; i++) synchronized(lock) { n = n + 1;} // part of solution
                 }
             };
-	Thread t2 = new Thread() {           // decrementing thread
-		public void run() {
-		    for (long i = 0; i < limit; i++) n = n - 1; // decrement limit times
-		}
-	    };
-	t1.start();  // start t1's execution
-	t2.start();  // start t2's execution
-	try {
-	    t1.join();  // wait here until t1 terminates
-	    t2.join();  // wait here until t2 terminates
-	} catch(Exception e) { }
-	System.out.println("n's value is: " + n);
+        Thread t2 = new Thread() {           // decrementing thread
+                public void run() {
+                    for (long i = 0; i < limit; i++) synchronized(lock) { n = n - 1;} // part of solution
+                }
+            };
+        t1.start();  // start t1's execution
+        t2.start();  // start t2's execution
+        try {
+            t1.join();  // wait here until t1 terminates
+            t2.join();  // wait here until t2 terminates
+        } catch(Exception e) { }
+        System.out.println("n's value is: " + n);
     }
 }
 
-class Main {
+class SMain {
     public static void main(String[ ] args) {         //*** main thread executes method main
 	final long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 8; i++) RaceC.race();
+	for (int i = 0; i < 8; i++) RaceCS.race(); 
         final long stopTime = System.currentTimeMillis();
         final long latency = stopTime - startTime;
         System.out.println("latency is: " + latency);
-
     }
 }
 /** Output from a sample run:

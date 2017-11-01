@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-10-23 Mo 20:54 -->
+<!-- 2017-11-01 Wed 15:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung &#x2013; Grundlagen</title>
@@ -237,39 +237,17 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
-</script>
-<script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
 <h1 class="title">Parallelprogrammierung &#x2013; Grundlagen</h1>
 
-<div id="outline-container-org575fd04" class="outline-2">
-<h2 id="org575fd04">Ein wenig Geschichte &#x2026;</h2>
-<div class="outline-text-2" id="text-org575fd04">
-</div><div id="outline-container-orgfe61569" class="outline-3">
-<h3 id="orgfe61569">&#x2026; der Rechensysteme</h3>
-<div class="outline-text-3" id="text-orgfe61569">
+<div id="outline-container-org3e74078" class="outline-2">
+<h2 id="org3e74078">Ein wenig Geschichte &#x2026;</h2>
+<div class="outline-text-2" id="text-org3e74078">
+</div><div id="outline-container-orgd15d944" class="outline-3">
+<h3 id="orgd15d944">&#x2026; der Rechensysteme</h3>
+<div class="outline-text-3" id="text-orgd15d944">
 <p>
 (vgl. <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>)
 </p>
@@ -318,9 +296,9 @@ dessen Aufgaben</li>
 </dl>
 </div>
 </div>
-<div id="outline-container-org5f08b5d" class="outline-3">
-<h3 id="org5f08b5d">&#x2026; der Technologie</h3>
-<div class="outline-text-3" id="text-org5f08b5d">
+<div id="outline-container-org8a103df" class="outline-3">
+<h3 id="org8a103df">&#x2026; der Technologie</h3>
+<div class="outline-text-3" id="text-org8a103df">
 <p>
 &#x2026; der Prozessoren und Speicherchips
 </p>
@@ -345,16 +323,16 @@ auf einem Chip ca. alle 18 Monate &#x2013; gilt noch heute</li>
 </div>
 </div>
 
-<div id="outline-container-org4056c8b" class="outline-2">
-<h2 id="org4056c8b">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
-<div class="outline-text-2" id="text-org4056c8b">
+<div id="outline-container-org3e857e0" class="outline-2">
+<h2 id="org3e857e0">Rechnerarchitekturen für parallele und verteilte Systeme</h2>
+<div class="outline-text-2" id="text-org3e857e0">
 <p>
 (vgl.  <a class='org-ref-reference' href="#Bengel2015">Bengel2015</a>, <a class='org-ref-reference' href="#Kalin2015">Kalin2015</a>)
 </p>
 </div>
-<div id="outline-container-org9e9a77d" class="outline-3">
-<h3 id="org9e9a77d">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
-<div class="outline-text-3" id="text-org9e9a77d">
+<div id="outline-container-org1c03610" class="outline-3">
+<h3 id="org1c03610">Taxonomie von parallelen Rechnerarchitekturen nach Flynn</h3>
+<div class="outline-text-3" id="text-org1c03610">
 <p>
 (vgl. <a class='org-ref-reference' href="#Flynn1972">Flynn1972</a>)
 </p>
@@ -438,12 +416,12 @@ Prozessoren (P).</li>
 </div>
 </div>
 
-<div id="outline-container-org7a1bb1e" class="outline-3">
-<h3 id="org7a1bb1e">Ausprägungen</h3>
-<div class="outline-text-3" id="text-org7a1bb1e">
-</div><div id="outline-container-org2042c0a" class="outline-4">
-<h4 id="org2042c0a">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
-<div class="outline-text-4" id="text-org2042c0a">
+<div id="outline-container-orgd660215" class="outline-3">
+<h3 id="orgd660215">Ausprägungen</h3>
+<div class="outline-text-3" id="text-orgd660215">
+</div><div id="outline-container-orge6525d8" class="outline-4">
+<h4 id="orge6525d8">Eng gekoppelte Multiprozessoren und Multicore-Prozessoren</h4>
+<div class="outline-text-4" id="text-orge6525d8">
 <ul class="org-ul">
 <li>mehrere Prozesse können <i>echt</i> parallel ablaufen (auf
 Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
@@ -451,9 +429,9 @@ Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org709d8c5" class="outline-4">
-<h4 id="org709d8c5">Vektorrechner</h4>
-<div class="outline-text-4" id="text-org709d8c5">
+<div id="outline-container-org51c27f0" class="outline-4">
+<h4 id="org51c27f0">Vektorrechner</h4>
+<div class="outline-text-4" id="text-org51c27f0">
 <ul class="org-ul">
 <li>Ausführung einer Berechnung gleichzeitig auf vielen Daten</li>
 <li>Anordnung der Daten als Vektor bzw. Matrix</li>
@@ -464,9 +442,9 @@ Einprozessorsystemen hingegen nur Quasi-Parallelität)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgda05974" class="outline-4">
-<h4 id="orgda05974">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
-<div class="outline-text-4" id="text-orgda05974">
+<div id="outline-container-org7be6a0d" class="outline-4">
+<h4 id="org7be6a0d">General Purpose Computation on Graphic Processing Unit (GPGPU)</h4>
+<div class="outline-text-4" id="text-org7be6a0d">
 <ul class="org-ul">
 <li>ursprünglich bestehend aus beschränkt programmierbaren
 Spezialprozessoren für Fließkommaoperationen</li>
@@ -479,9 +457,9 @@ Bibliotheken wie z. B. CUDA von Nvidia</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd6455e6" class="outline-4">
-<h4 id="orgd6455e6">Lose gekoppelte Multiprozessoren</h4>
-<div class="outline-text-4" id="text-orgd6455e6">
+<div id="outline-container-org01a943a" class="outline-4">
+<h4 id="org01a943a">Lose gekoppelte Multiprozessoren</h4>
+<div class="outline-text-4" id="text-org01a943a">
 <ul class="org-ul">
 <li>kein gemeinsamer Speicher</li>
 <li>Synchronisation und Kommunikation durch Nachrichtenaustausch</li>
@@ -492,13 +470,13 @@ Bibliotheken wie z. B. CUDA von Nvidia</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org84468b4" class="outline-2">
-<h2 id="org84468b4">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
-<div class="outline-text-2" id="text-org84468b4">
+<div id="outline-container-org3cc8d87" class="outline-2">
+<h2 id="org3cc8d87">Parallelität vs. Nebenläufigkeit &#x2013; Überblick</h2>
+<div class="outline-text-2" id="text-org3cc8d87">
 </div>
-<div id="outline-container-org94529f4" class="outline-3">
-<h3 id="org94529f4">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
-<div class="outline-text-3" id="text-org94529f4">
+<div id="outline-container-org3df646d" class="outline-3">
+<h3 id="org3df646d">Concurrency, parallelism, and non-blocking I/O: an overview</h3>
+<div class="outline-text-3" id="text-org3df646d">
 <ul class="org-ul">
 <li>For now, concurrency is "handling many tasks during the same time span":
 <ul class="org-ul">
@@ -538,9 +516,9 @@ concurrency without parallelism.
 </ul>
 </div>
 </div>
-<div id="outline-container-org762f4e4" class="outline-3">
-<h3 id="org762f4e4">Concurrency and parallelism: working technical definitions</h3>
-<div class="outline-text-3" id="text-org762f4e4">
+<div id="outline-container-orgb50f7c8" class="outline-3">
+<h3 id="orgb50f7c8">Concurrency and parallelism: working technical definitions</h3>
+<div class="outline-text-3" id="text-orgb50f7c8">
 <pre class="example">
       client requests  +------------+   ## Task1: handle request1
     ------------------&gt;| web server |   ## Task2: handle request2
@@ -603,9 +581,9 @@ the longer of the two.
 </dl>
 </div>
 </div>
-<div id="outline-container-org86a96bf" class="outline-3">
-<h3 id="org86a96bf">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
-<div class="outline-text-3" id="text-org86a96bf">
+<div id="outline-container-org4a8bf12" class="outline-3">
+<h3 id="org4a8bf12">System call overview for concurrency, parallelism, and non-blocking I/O</h3>
+<div class="outline-text-3" id="text-org4a8bf12">
 <ul class="org-ul">
 <li><p>
 The systems context: user-space and kernel-space code
@@ -642,9 +620,9 @@ C extensions covering the rest.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbfe79e2" class="outline-3">
-<h3 id="orgbfe79e2">Wrapup of the overview</h3>
-<div class="outline-text-3" id="text-orgbfe79e2">
+<div id="outline-container-org00827a6" class="outline-3">
+<h3 id="org00827a6">Wrapup of the overview</h3>
+<div class="outline-text-3" id="text-org00827a6">
 <ul class="org-ul">
 <li>Concurrency and parallelism are different.
 <ul class="org-ul">
@@ -676,12 +654,12 @@ and strengths with respect to concurrency in particular.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org34c1814" class="outline-2">
-<h2 id="org34c1814">Parallelität vs. Nebenläufigkeit im Detail</h2>
-<div class="outline-text-2" id="text-org34c1814">
-</div><div id="outline-container-orgde68a64" class="outline-3">
-<h3 id="orgde68a64">Processes and threads</h3>
-<div class="outline-text-3" id="text-orgde68a64">
+<div id="outline-container-orgd575784" class="outline-2">
+<h2 id="orgd575784">Parallelität vs. Nebenläufigkeit im Detail</h2>
+<div class="outline-text-2" id="text-orgd575784">
+</div><div id="outline-container-org888e9bd" class="outline-3">
+<h3 id="org888e9bd">Processes and threads</h3>
+<div class="outline-text-3" id="text-org888e9bd">
 <ul class="org-ul">
 <li>A process is a <i>program in execution</i>, each with its own address space.
 <ul class="org-ul">
@@ -731,9 +709,9 @@ executing the instruction:<br />
 </pre>
 </div>
 </div>
-<div id="outline-container-org0d42e89" class="outline-3">
-<h3 id="org0d42e89">Multiprocessing</h3>
-<div class="outline-text-3" id="text-org0d42e89">
+<div id="outline-container-org70683b0" class="outline-3">
+<h3 id="org70683b0">Multiprocessing</h3>
+<div class="outline-text-3" id="text-org70683b0">
 <p>
 A first look at multiprocessing: the command-line pipe operator <code>|</code>
 </p>
@@ -789,9 +767,9 @@ sleep 5 | echo 'Hello, world!'  ## sleep sends no bytes to the pipe, and echo ex
 </ul>
 </div>
 </div>
-<div id="outline-container-org227ed63" class="outline-3">
-<h3 id="org227ed63">Multithreading</h3>
-<div class="outline-text-3" id="text-org227ed63">
+<div id="outline-container-orgc1b6fb4" class="outline-3">
+<h3 id="orgc1b6fb4">Multithreading</h3>
+<div class="outline-text-3" id="text-orgc1b6fb4">
 <p>
 A first look at multithreading: the Tomcat web server, written in Java
 </p>
@@ -821,9 +799,9 @@ requests over HTTP, another for requests over HTTPS if HTTPS is enabled.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5663c86" class="outline-3">
-<h3 id="org5663c86">Non-blocking I/O</h3>
-<div class="outline-text-3" id="text-org5663c86">
+<div id="outline-container-orga7617d2" class="outline-3">
+<h3 id="orga7617d2">Non-blocking I/O</h3>
+<div class="outline-text-3" id="text-orga7617d2">
 <p>
 A first look at non-blocking I/O non-blocking I/O: two code examples
 </p>
@@ -869,9 +847,9 @@ A first look at non-blocking I/O non-blocking I/O: two code examples
 </div>
 </div>
 </div>
-<div id="outline-container-orga4bfae2" class="outline-3">
-<h3 id="orga4bfae2">Zusammenfassung</h3>
-<div class="outline-text-3" id="text-orga4bfae2">
+<div id="outline-container-orga525a11" class="outline-3">
+<h3 id="orga525a11">Zusammenfassung</h3>
+<div class="outline-text-3" id="text-orga525a11">
 <p>
 Three approaches to concurrency: multiprocessing, multithreading, non-blocking I/O
 </p>
@@ -915,9 +893,9 @@ until all of the request bytes for a given task have been read.
 </ul>
 </div>
 </div>
-<div id="outline-container-org324a462" class="outline-3">
-<h3 id="org324a462">Hybrid approaches</h3>
-<div class="outline-text-3" id="text-org324a462">
+<div id="outline-container-orgef966ee" class="outline-3">
+<h3 id="orgef966ee">Hybrid approaches</h3>
+<div class="outline-text-3" id="text-orgef966ee">
 <ul class="org-ul">
 <li>There's no hard-and-fast rule about how best to support concurrency.
 <ul class="org-ul">
@@ -991,1937 +969,9 @@ client request  | loop   |        I/O and callbacks to signal task completion
 </div>
 </div>
 
-<div id="outline-container-orgfc6b8fe" class="outline-2">
-<h2 id="orgfc6b8fe">Multiprocessing &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-orgfc6b8fe">
-</div><div id="outline-container-orgd2a5034" class="outline-3">
-<h3 id="orgd2a5034">A first multiprocessing example in C</h3>
-<div class="outline-text-3" id="text-orgd2a5034">
-</div><div id="outline-container-orged42d90" class="outline-4">
-<h4 id="orged42d90">Overview</h4>
-<div class="outline-text-4" id="text-orged42d90">
-<p>
-&#x2026; key points of the <i>unnamed pipe example</i>
-</p>
-
-<ul class="org-ul">
-<li><p>
-When the program pipeExample.c is compiled and then executed from
-the command-line, it executes as a process. Here's the command to
-execute:
-</p>
-<pre class="example">
-% ./pipeExample   ## On Windows: % pipeExample
-
-</pre></li>
-<li>The executing pipeExample is the <i>parent</i> process.</li>
-<li>The parent process calls the library function fork() to spawn a
-<i>child</i> process, a clone of the parent.
-<ul class="org-ul">
-<li>The library function fork() makes a system call to the OS routine that spawns the child.</li>
-<li>The library function fork() returns one of three values:
-<dl class="org-dl">
-<dt>-1</dt><dd>to signal failure (e.g., the system already has too
-many processes)</dd>
-<dt>0</dt><dd>to the child process</dd>
-<dt>&gt; 0</dt><dd>to the parent process; in particular, the <i>process id</i>
-(pid) of the child is returned to the parent, and a pid
-is always a positive integer</dd>
-</dl></li>
-<li>The parent and child process both execute the code that follows the call to fork().
-<ul class="org-ul">
-<li>fork() effectively <i>clones</i> one process (child) from another (parent).</li>
-<li><p>
-An if-else or equivalent construct is used to ensure that the
-parent does one thing and the child does something else.
-</p>
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #6434A3;">pid_t</span> <span style="color: #BA36A5;">pid</span> = fork<span style="color: #707183;">()</span>;   <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">pid_t is a signed integer data type *</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>-1 == pid<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>      <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">error: couldn't clone a new process *</span><span style="color: #8D8D84;">*/</span>
-    ...                
-<span style="color: #707183;">}</span>   
-<span style="color: #0000FF;">else</span> <span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>0 == pid<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">child code follows *</span><span style="color: #8D8D84;">*/</span>
-    ...
-<span style="color: #707183;">}</span>
-<span style="color: #0000FF;">else</span> <span style="color: #707183;">{</span>                <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">parent code follows *</span><span style="color: #8D8D84;">*/</span>
-    ...
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div></li>
-</ul></li>
-<li>The parent waits for the child to exit so that the child does not
-become a „zombie“.
-<ul class="org-ul">
-<li>When a child terminates, the OS notifies the parent. If the
-parent is already terminated, it cannot be notified&#x2013;and the
-child becomes an „zombie“, dead but still around.</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgda4c5c3" class="outline-4">
-<h4 id="orgda4c5c3">using the shell</h4>
-<div class="outline-text-4" id="text-orgda4c5c3">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ ls pipeExample.c 
-pipeExample.c
-bash-3.2$ gcc -o pipeExample pipeExample.c 
-bash-3.2$ ./pipeExample
-This is the winter of our discontent
-bash-3.2$ </pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgd44f2a9" class="outline-4">
-<h4 id="orgd44f2a9">Source code</h4>
-<div class="outline-text-4" id="text-orgd44f2a9">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A first multiprocessing example: pipes in C </span>
-<span style="color: #8D8D84; font-style: italic;">    To compile (Unix-like system): gcc -o pipeExample pipeExample.c</span>
-<span style="color: #8D8D84; font-style: italic;">    For Windows, the GNU compiler: https://gcc.gnu.org/</span>
-<span style="color: #8D8D84; font-style: italic;">*</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/wait.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">string.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">ReadEnd</span>  0                                                  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 1 *</span><span style="color: #8D8D84;">*/</span>            
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">WriteEnd</span> 1                                                
-
-<span style="color: #6434A3;">void</span> <span style="color: #006699;">report_and_die</span><span style="color: #707183;">(</span><span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">msg</span><span style="color: #707183;">)</span> <span style="color: #707183;">{</span>                              <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 2 *</span><span style="color: #8D8D84;">*/</span>
-  perror<span style="color: #7388D6;">(</span>msg<span style="color: #7388D6;">)</span>;
-  exit<span style="color: #7388D6;">(</span>-1<span style="color: #7388D6;">)</span>;    <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">failure *</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #707183;">}</span>
-
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">pipeFDs</span><span style="color: #7388D6;">[</span>2<span style="color: #7388D6;">]</span>;                                                   <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 3 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">char</span> <span style="color: #BA36A5;">buf</span>;         <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">1-byte buffer </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">msg</span> = <span style="color: #008000;">"This is the winter of our discontent\n"</span>;
-
-  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>pipe<span style="color: #909183;">(</span>pipeFDs<span style="color: #909183;">)</span> &lt; 0<span style="color: #7388D6;">)</span> report_and_die<span style="color: #7388D6;">(</span><span style="color: #008000;">"pipe(...)"</span><span style="color: #7388D6;">)</span>;               <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 4 *</span><span style="color: #8D8D84;">*/</span>
-
-  <span style="color: #6434A3;">pid_t</span> <span style="color: #BA36A5;">cpid</span> = fork<span style="color: #7388D6;">()</span>;                                              <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 5 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>cpid &lt; 0<span style="color: #7388D6;">)</span> report_and_die<span style="color: #7388D6;">(</span><span style="color: #008000;">"fork()"</span><span style="color: #7388D6;">)</span>;                           <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 6 *</span><span style="color: #8D8D84;">*/</span>
-
-  <span style="color: #8D8D84;">/*** </span><span style="color: #8D8D84; font-style: italic;">child **</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>0 == cpid<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>                                                  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 7 *</span><span style="color: #8D8D84;">*/</span>
-    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>WriteEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>;                                       <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 8 *</span><span style="color: #8D8D84;">*/</span>
-    <span style="color: #0000FF;">while</span> <span style="color: #909183;">(</span>read<span style="color: #709870;">(</span>pipeFDs<span style="color: #907373;">[</span>ReadEnd<span style="color: #907373;">]</span>, &amp;buf, 1<span style="color: #709870;">)</span> &gt; 0<span style="color: #909183;">)</span>                     <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 9 *</span><span style="color: #8D8D84;">*/</span>
-      write<span style="color: #909183;">(</span>STDOUT_FILENO, &amp;buf, <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span>buf<span style="color: #709870;">)</span><span style="color: #909183;">)</span>;                      <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">1ine 10 *</span><span style="color: #8D8D84;">*/</span>
-    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>ReadEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>;                                        <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 11 *</span><span style="color: #8D8D84;">*/</span>
-    _exit<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">signal parent of immediate exit *</span><span style="color: #8D8D84;">*/</span>                <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 12 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #7388D6;">}</span> 
-  <span style="color: #8D8D84;">/*** </span><span style="color: #8D8D84; font-style: italic;">parent **</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">else</span> <span style="color: #7388D6;">{</span>                                                            <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 13 *</span><span style="color: #8D8D84;">*/</span> 
-    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>ReadEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>;                                   
-    write<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>WriteEnd<span style="color: #709870;">]</span>, msg, strlen<span style="color: #709870;">(</span>msg<span style="color: #709870;">)</span><span style="color: #909183;">)</span>;                     <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 14 *</span><span style="color: #8D8D84;">*/</span>
-    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>WriteEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">generates an EOF </span><span style="color: #8D8D84;">*/</span>                <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 15 *</span><span style="color: #8D8D84;">*/</span>
-    wait<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/*** </span><span style="color: #8D8D84; font-style: italic;">wait for child to exit **</span><span style="color: #8D8D84;">*/</span>                       <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 16 *</span><span style="color: #8D8D84;">*/</span>  
-    exit<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">exit normally </span><span style="color: #8D8D84;">*/</span>                                    <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 17 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #7388D6;">}</span>
-  <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org9cdef49" class="outline-3">
-<h3 id="org9cdef49">Second Example &#x2013; Named Pipes</h3>
-<div class="outline-text-3" id="text-org9cdef49">
-</div><div id="outline-container-orgefdd7e1" class="outline-4">
-<h4 id="orgefdd7e1">Overview</h4>
-<div class="outline-text-4" id="text-orgefdd7e1">
-<p>
-A second multiprocessing example in C: key points of the <i>named pipe</i> example
-</p>
-
-<ul class="org-ul">
-<li>Two separate processes, but no parent/child relationship between them.
-<ul class="org-ul">
-<li>The processes communicate through a <i>named pipe</i> (aka <i>FIFO</i>).
-<ul class="org-ul">
-<li><p>
-A named pipe is a mechanism designed to support IPC among processes on the same host.
-</p>
-<pre class="example">
-           +------------+
-writer----&gt;| named pipe |&lt;----reader
-           +------------+
-</pre></li>
-</ul></li>
-</ul></li>
-<li>The system implements an FIFO as a temporary file.</li>
-<li>Named pipes are quite similar in functionality to Unix Domain
-Sockets, also called <i>local sockets</i>.
-<ul class="org-ul">
-<li>Network sockets support communcation between processes running on
-different hosts, whereas named pipes and local sockets do the same
-for processes running on the same host.</li>
-</ul></li>
-<li><p>
-The example consists of two executable programs, fifoWriter and
-fifoReader, which can be executed at the command-line as follows:
-</p>
-<pre class="example">
-% ./fifoWriter &amp;    ## for Windows: fifoWriter &amp; (&amp; puts the process in the background) 
-% ./fifoReader      ## for Windows: fifoReader
-
-</pre>
-<ul class="org-ul">
-<li>There are now two processes executing: fifoWriter and fifoReader</li>
-<li>The fifoWriter writes randomly generated integers to the FIFO.</li>
-<li>The fifoReader reads these integers from the FIFO until end-of-file.</li>
-<li>In the C code, the FIFO is <i>written</i> and <i>read</i> as if it were a
-regular disk file: the I/O API is the same.</li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org4b4f846" class="outline-4">
-<h4 id="org4b4f846">using the shell</h4>
-<div class="outline-text-4" id="text-org4b4f846">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ ./fifoWriter &amp;
-<span style="color: #707183;">[</span>1<span style="color: #707183;">]</span> 7316
-bash-3.2$ ./fifoReader
-60749779
-966803328
-1202260494
-...
-<span style="color: #707183;">[</span>1<span style="color: #707183;">]</span>+  Done                    ./fifoWriter
-bash-3.2$ </pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org71183c5" class="outline-4">
-<h4 id="org71183c5">Source Code <code>fifoWriter.c</code></h4>
-<div class="outline-text-4" id="text-org71183c5">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">time.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/stat.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/types.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">MaxWrites</span> 256  
-
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  srand<span style="color: #7388D6;">(</span>time<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">seed the random number generator </span><span style="color: #8D8D84;">*/</span>
-
-  <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">fifoName</span> = <span style="color: #008000;">"./myPipe1"</span>;          
-  mkfifo<span style="color: #7388D6;">(</span>fifoName, 0666<span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">read/write for user/group/others </span><span style="color: #8D8D84;">*/</span>             <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 1 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">fd</span> = open<span style="color: #7388D6;">(</span>fifoName, O_CREAT | O_WRONLY<span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">open blocks on a FIFO </span><span style="color: #8D8D84;">*/</span>   <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 2 *</span><span style="color: #8D8D84;">*/</span>
-
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>;
-  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; MaxWrites; i++<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span> 
-    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">n</span> = rand<span style="color: #909183;">()</span>;             
-    write<span style="color: #909183;">(</span>fd, &amp;n, <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span><span style="color: #6434A3;">int</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">4 bytes per int </span><span style="color: #8D8D84;">*/</span>                       <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 3 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #7388D6;">}</span>
-  close<span style="color: #7388D6;">(</span>fd<span style="color: #7388D6;">)</span>;         <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">close the fifo </span><span style="color: #8D8D84;">*/</span>                                    <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 4 *</span><span style="color: #8D8D84;">*/</span>
-  unlink<span style="color: #7388D6;">(</span>fifoName<span style="color: #7388D6;">)</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">dispose of underlying file </span><span style="color: #8D8D84;">*/</span>                        <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 5 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org9f1400c" class="outline-4">
-<h4 id="org9f1400c">Source Code <code>fifoReader.c</code></h4>
-<div class="outline-text-4" id="text-org9f1400c">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">time.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/stat.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/types.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-    <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">fifoName</span> = <span style="color: #008000;">"./myPipe1"</span>;
-    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">num</span>;
-    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">fd</span> = open<span style="color: #7388D6;">(</span>fifoName, O_RDONLY<span style="color: #7388D6;">)</span>;              <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 1 *</span><span style="color: #8D8D84;">*/</span>
-
-    <span style="color: #0000FF;">while</span> <span style="color: #7388D6;">(</span>read<span style="color: #909183;">(</span>fd, &amp;num, <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span>num<span style="color: #709870;">)</span><span style="color: #909183;">)</span> &gt; 0<span style="color: #7388D6;">)</span>         <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 2 *</span><span style="color: #8D8D84;">*/</span> 
-      printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"%i\n"</span>, num<span style="color: #7388D6;">)</span>;
-    close<span style="color: #7388D6;">(</span>fd<span style="color: #7388D6;">)</span>;                                      <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 3 *</span><span style="color: #8D8D84;">*/</span>
-    unlink<span style="color: #7388D6;">(</span>fifoName<span style="color: #7388D6;">)</span>;                               <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 4 *</span><span style="color: #8D8D84;">*/</span>
-    <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org0fac2b5" class="outline-3">
-<h3 id="org0fac2b5">The Nginx Web Server</h3>
-<div class="outline-text-3" id="text-org0fac2b5">
-<p>
-Multiprocessing in production-grade software: the nginx web server
-</p>
-
-<ul class="org-ul">
-<li>www.nginx.com
-<ul class="org-ul">
-<li>The web server is written in C.</li>
-<li>nginx combines multiprocessing and non-blocking I/O as concurrency mechanisms.</li>
-</ul></li>
-
-<li>nginx, like any modern web server that relies on multiprocessing for concurrency,
-is a "pre-forking" server.
-<ul class="org-ul">
-<li>nginx can be started as a <i>system service</i> (at boot time), and is platform-neutral.</li>
-</ul></li>
-
-<li><p>
-<code>nginx.conf</code>  ()configuration entries are key/value pairs: no XML!)
-</p>
-<pre class="example">
-user www-data;           ## www-data (name is arbitrary) is owner of workers
-worker_processes 4;      ## default number of workers, might be set to processor count
-pid /var/run/nginx.pid;  ## file /var/run/nginx.pid stores pid of master process
-
-events {
-   worker_connections 1024;  ## Max of 1024 connections per worker 
-   ...                       ## (typical browsers open at least two connections to a 
-                                site per client session)
-    }   
-</pre></li>
-
-<li><p>
-<code>ps -ef | grep nginx</code>
-</p>
-<pre class="example">
-Owner     pid   ppid   nginx process type
-
-root      1803     1   master process /usr/sbin/nginx  ## command that started nginx
-www-data  1804  1803   worker process
-www-data  1805  1803   worker process
-www-data  1807  1803   worker process
-www-data  1808  1803   worker process
-</pre></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgfcb59b3" class="outline-3">
-<h3 id="orgfcb59b3">Execing and Forking Options in Multiprocessing</h3>
-<div class="outline-text-3" id="text-orgfcb59b3">
-<p>
-A second way for one executing program to start another
-</p>
-
-<ul class="org-ul">
-<li><p>
-Review of the previously way, introduction of the new way:
-</p>
-<pre class="example">
-        fork()
-parent----------&gt;child        ## Both parent and child continue to execute...
-
-         exec...()
-process1-----------&gt;process2  ## process2 replaces process1, which terminates
-</pre></li>
-<li>In systems speak, an <i>image</i> is an executable program. For instance,
-copying the system from one machine to another is called
-<i>re-imaging</i>.
-<ul class="org-ul">
-<li>In the multiprocessing <i>pipeExample</i> code, the image is the
-compiled, executable program named <i>pipeExample</i></li>
-</ul></li>
-<li>A new process can be <i>spawned</i> (created) under one of two distinct
-scenarios, which the difference between the fork() function and the
-exec-family of functions illustrates.
-<ul class="org-ul">
-<li>The exec-family consists of library functions that, under the
-hood, make the same system call.</li>
-</ul></li>
-<li><p>
-In a successful call to fork(), the new child process executes the
-<i>same</i> image as the parent that spawned it: the forked process is a
-clone. So the standard code idiom is this:
-</p>
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #6434A3;">pid_t</span> <span style="color: #BA36A5;">pid</span> = fork<span style="color: #707183;">()</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">parent executes this </span><span style="color: #8D8D84;">*/</span>
-...                  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">check for success </span><span style="color: #8D8D84;">*/</span>
-<span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>0 == pid<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>      <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">0 returned to the child </span><span style="color: #8D8D84;">*/</span>
-   ...               <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">child code </span><span style="color: #8D8D84;">*/</span>
-<span style="color: #707183;">}</span>
-<span style="color: #0000FF;">else</span> <span style="color: #707183;">{</span>               <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">parent code: fork returns child's pid to parent </span><span style="color: #8D8D84;">*/</span>
-   ...               <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">alternative parent test: if (pid &gt; 0)</span>
-<span style="color: #8D8D84; font-style: italic;">}</span></pre>
-</pre>
-</div></li>
-<li><p>
-In a successful call to an exec-function, replaces the current process image with
-a new image that's loaded into memory.
-</p>
-<div class="org-src-container">
-<pre class="src src-c"><span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">flag</span> = execl<span style="color: #707183;">(</span><span style="color: #008000;">"/usr/bin/myGame"</span>, <span style="color: #008000;">"myGame"</span>, 0<span style="color: #707183;">)</span>;
-<span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>-1 == flag<span style="color: #707183;">)</span> perror<span style="color: #707183;">(</span><span style="color: #008000;">"Couldn't exec..."</span><span style="color: #707183;">)</span>;
-<span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">on success, the 'myGame' program now executes </span><span style="color: #8D8D84;">*/</span></pre>
-</pre>
-</div>
-<ul class="org-ul">
-<li>The new image has its own address space and other features. In
-summary, the old process stops execution and a new one begins
-execution.</li>
-<li>The new process retains the pid (and ppid) of the one it replaces
-<ul class="org-ul">
-<li>The user and group properties are likewise unchanged.</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-<div id="outline-container-orgd837333" class="outline-4">
-<h4 id="orgd837333">Using the Shell</h4>
-<div class="outline-text-4" id="text-orgd837333">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ ./fileStatus tmp
-File name: tmp
-
-Information about file tmp:
-
-Owner ID:    503
-Group ID:    20
-Byte size:   68
-Last access: Fri Oct  6 11:10:23 2017
-File type:   directory
-Owner read:  Owner readable
-Owner write: Owner writable
-
-bash-3.2$ ./fileStatus fileStatus
-File name: fileStatus
-
-Information about file fileStatus:
-
-Owner ID:    503
-Group ID:    20
-Byte size:   8808
-Last access: Fri Oct  6 11:12:05 2017
-File type:   regular
-Owner read:  Owner readable
-Owner write: Owner writable
-
-bash-3.2$ ./execing
-File name: tmp
-
-Information about file tmp:
-
-Owner ID:    503
-Group ID:    20
-Byte size:   68
-Last access: Fri Oct  6 11:10:23 2017
-File type:   directory
-Owner read:  Owner readable
-Owner write: Owner writable</pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org96eec2c" class="outline-4">
-<h4 id="org96eec2c">Source Code</h4>
-<div class="outline-text-4" id="text-org96eec2c">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">To run: </span>
-
-<span style="color: #8D8D84; font-style: italic;">   -- compile this program (gcc -o execing execing.c) and fileStatus.c </span>
-<span style="color: #8D8D84; font-style: italic;">   --                      (gcc -o fileStatus fileStatus.c)</span>
-<span style="color: #8D8D84; font-style: italic;">   -- create a subdirectory named tmp: mkdir tmp</span>
-<span style="color: #8D8D84; font-style: italic;">   -- from the command line: ./execing</span>
-
-<span style="color: #8D8D84; font-style: italic;">   This program 'execs' the fileStatus program, which outputs metadata about the tmp dir..</span>
-<span style="color: #8D8D84; font-style: italic;">   Here's a depiction:</span>
-
-<span style="color: #8D8D84; font-style: italic;">                   execv</span>
-<span style="color: #8D8D84; font-style: italic;">   execing program-------&gt;fileStatus program</span>
-<span style="color: #8D8D84;">*/</span>
-
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">char</span>* <span style="color: #0000FF;">const</span> <span style="color: #BA36A5;">args</span><span style="color: #7388D6;">[]</span> = <span style="color: #7388D6;">{</span><span style="color: #008000;">"./fileStatus"</span>, <span style="color: #008000;">"tmp"</span>, 0<span style="color: #7388D6;">}</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">fileStatus program, tmp directory </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">ret</span> = execv<span style="color: #7388D6;">(</span><span style="color: #008000;">"./fileStatus"</span>, args<span style="color: #7388D6;">)</span>;            <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">"v" for "vector" </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>-1 == ret<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>                                  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">check for failure </span><span style="color: #8D8D84;">*/</span>
-    perror<span style="color: #909183;">(</span><span style="color: #008000;">"execv(...) error"</span><span style="color: #909183;">)</span>;
-    exit<span style="color: #909183;">(</span>-1<span style="color: #909183;">)</span>;
-  <span style="color: #7388D6;">}</span>
-  <span style="color: #0000FF;">else</span> 
-    printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"I'm here\n"</span><span style="color: #7388D6;">)</span>;                           <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">never executes </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org72ed04b" class="outline-3">
-<h3 id="org72ed04b">Process Tracking and Management</h3>
-<div class="outline-text-3" id="text-org72ed04b">
-<p>
-Process tracking and context switching
-</p>
-
-<ul class="org-ul">
-<li>Each process has a unique ID (pid), a non-negative integer.
-<ul class="org-ul">
-<li>A process's pid is recorded in the system's process table.</li>
-<li>Library functions getpid() and getppid() get the pid and the
-parent's pid, respectively.</li>
-<li>The pid of 0 is typically reserved for the <i>idle process</i>, the one
-that <i>runs</i> when there's nothing else to run.</li>
-<li>The <i>init process</i> has a pid of 1: the first user-space process
-that the OS kernel spawns in the boot-up.
-<ul class="org-ul">
-<li>On shutdown, the init process is the last process to terminate:
-it waits for all of its children.</li>
-<li>The init process starts other processes: system services such as
-the login service, etc.</li>
-</ul></li>
-</ul></li>
-<li>Key data structures in a process <i>context</i>:
-<ul class="org-ul">
-<li>process table: tracks information per process, in particular
-information that allows a pre-empted process to restart later.</li>
-<li>page table(s): translate virtual into physical addresses. Each
-process has its own, which effectively partitions virtual address
-spaces among processes.</li>
-<li>file table: tracks, per process, files that a process has opened.</li>
-</ul></li>
-<li>Every process has a user and group <i>owner</i>, which determines the
-process's access rights to resources.
-<ul class="org-ul">
-<li>Every process likewise belongs to a <i>process group</i>, which
-facilitates sending signals to every process in a group, to
-getting information about related processes, and so on.</li>
-<li>In the default case, a child process belongs to the same as its
-parent.</li>
-</ul></li>
-<li>Most modern systems use pre-emptive scheduling, with either
-fixed-length or variable-length time-slices: a process that exceeds
-the time-slice on a given run is pre-empted and sent back to a
-scheduling queue.
-<ul class="org-ul">
-<li>A process and a thread <i>context</i> consists of key information about
-it.
-<ul class="org-ul">
-<li>For a process, key data structures such as the process table,
-the file table, and its page tables define the <i>context</i>.</li>
-</ul></li>
-</ul></li>
-<li>Context switches, which occur during pre-emption, come in two
-flavors:
-<ul class="org-ul">
-<li>From one thread to another within the same process: <i>intraprocess
-switching</i></li>
-<li>From one process to another: <i>interprocess switching</i>
-<ul class="org-ul">
-<li>The big cost is the swapping out of one (virtual) address space
-for another: page tables</li>
-</ul></li>
-<li>A process-level context switch is signficantly more expensive than
-a thread-level context switch.
-<ul class="org-ul">
-<li>The cost of thread-level switching is near zero on modern systems.</li>
-<li><p>
-Depiction:
-</p>
-<pre class="example">
-Process1      Process2        processor7
-  Thread11      Thread21
-  Thread12
-
-1st scenario: Thread12 replaces Thread11 on processor7  + virtually no overhead
-
-2nd scenario: Thread21 replaces Thread11 on processor7  + high overhead--
-                                                          process context switch
-</pre></li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org338647d" class="outline-3">
-<h3 id="org338647d">Multiprocessing Through Richer Code Examples</h3>
-<div class="outline-text-3" id="text-org338647d">
-<p>
-<i>to be continued</i> &#x2026; 
-</p>
-
-<p>
-Examples from 
-</p>
-<ul class="org-ul">
-<li>node.js</li>
-<li>ipc</li>
-<li>nginx</li>
-<li>exercise</li>
-<li>upsides and downsides of multiprocessing</li>
-</ul>
-</div>
-
-<div id="outline-container-org82e24fd" class="outline-4">
-<h4 id="org82e24fd">Overview</h4>
-</div>
-</div>
-</div>
-<div id="outline-container-org055d837" class="outline-2">
-<h2 id="org055d837">Multithreading &#x2013; Grundlagen</h2>
-<div class="outline-text-2" id="text-org055d837">
-</div>
-<div id="outline-container-org4051524" class="outline-3">
-<h3 id="org4051524">Overview</h3>
-<div class="outline-text-3" id="text-org4051524">
-<p>
-Multithreading overview
-</p>
-
-<ul class="org-ul">
-<li>The chief advantage of multithreading over multiprocessing is that
-threads are <i>lighter</i> than processes:
-<ul class="org-ul">
-<li>A process consists of one or more threads of execution.</li>
-<li>A process-level context switch is significantly more expensive, in the millisecond range.</li>
-<li>A thread-level context switch has a near-zero cost for threads in
-the same process.</li>
-</ul></li>
-<li>The chief disadvantage is that threads in the same process share the
-same address space:
-<ul class="org-ul">
-<li>The programmer, rather than the OS, must ensure that two threads
-in the same process don't inappropriately access the same memory
-location (e.g., by trying to update the location).</li>
-<li>The programmer must coordinate threads in the same process to
-avoid <i>race conditions</i>.  
-<ul class="org-ul">
-<li>If the coordination is overdone, <i>deadlock</i> may result.</li>
-</ul></li>
-<li>Thread coordination must be just right:
-<ul class="org-ul">
-<li>Too little brings the threat of race conditions and, therefore,
-unpredictable results.</li>
-<li>Too much hurts efficiency and may result in deadlock.</li>
-</ul></li>
-</ul></li>
-<li>Some systems (e.g., Linux) implement threads as processes that
-happen to share an address space; other systems (e.g., Windows) have
-distinct kernel-level support for threads.
-<ul class="org-ul">
-<li>Under any implementation, the standard behavior is that distinct
-processes have distinct address spaces, whereas threads in the
-same process share an address space.</li>
-</ul></li>
-<li>Examples in C, Java, and Go
-<ul class="org-ul">
-<li>C# and Java have very similar support for threading, although both
-sides might disagree with this characterization. :)</li>
-</ul></li>
-</ul>
-</div>
-<div id="outline-container-org68b1c82" class="outline-4">
-<h4 id="org68b1c82">A Sample Race Condition in Java</h4>
-<div class="outline-text-4" id="text-org68b1c82">
-</div><div id="outline-container-org81bc6dc" class="outline-5">
-<h5 id="org81bc6dc">source code</h5>
-<div class="outline-text-5" id="text-org81bc6dc">
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #036A07;">/** To compile: javac RaceC.java</span>
-<span style="color: #036A07;">    To run:     java Main</span>
-
-<span style="color: #036A07;">    Flow of control for Threads referenced by t1 and t2 (for convenience,</span>
-<span style="color: #036A07;">    call the Threads referenced by t1 and t2 simply 't1' and 't2'):</span>
-
-<span style="color: #036A07;">    The 'main thread' is the thread that executes the method 'main', in</span>
-<span style="color: #036A07;">    this case in class Main (see below).</span>
-
-<span style="color: #036A07;">                 creates</span>
-<span style="color: #036A07;">    main thread-----------</span><span style="color: #ff0000; font-weight: bold;">&gt;</span><span style="color: #036A07;">t1 and t2</span>
-
-<span style="color: #036A07;">                  starts</span>
-<span style="color: #036A07;">    main thread-----------</span><span style="color: #ff0000; font-weight: bold;">&gt;</span><span style="color: #036A07;">t1 and t2</span>
-
-<span style="color: #036A07;">                 calls run()</span>
-<span style="color: #036A07;">    Java runtime-------------</span><span style="color: #ff0000; font-weight: bold;">&gt;</span><span style="color: #036A07;">on started Threads t1 and t2</span>
-
-<span style="color: #036A07;">    At this point, three threads in the app are executing: main, t1, and t2.</span>
-
-<span style="color: #036A07;">    An instance of a Java Thread represents the sequence of instructions in the</span>
-<span style="color: #036A07;">    body of the encapsulated 'run' method (and any other instructions in methods</span>
-<span style="color: #036A07;">    that 'run' invokes).</span>
-
-<span style="color: #036A07;">    A thread that exits run() terminates, and cannot be restarted.</span>
-<span style="color: #036A07;">*/</span>
-<span style="color: #0000FF;">public</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">RaceC</span> <span style="color: #707183;">{</span>
-    <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">n</span>;                            <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">a single instance on n</span>
-    <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">race</span><span style="color: #7388D6;">()</span> <span style="color: #7388D6;">{</span>
-        n = 0;                               <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">initialize to zero before threads alter its value</span>
-        <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">limit</span> = <span style="color: #D0372D;">Integer</span>.MAX_VALUE * 2L; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">four billion and change</span>
-        <span style="color: #6434A3;">Thread</span> <span style="color: #BA36A5;">t1</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Thread</span><span style="color: #909183;">()</span> <span style="color: #909183;">{</span>           <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">incrementing thread</span>
-                <span style="color: #0000FF;">public</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">run</span><span style="color: #709870;">()</span> <span style="color: #709870;">{</span> 
-                    <span style="color: #0000FF;">for</span> <span style="color: #907373;">(</span><span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">i</span> = 0; i &lt; <span style="color: #6434A3;">limit</span>; i++<span style="color: #907373;">)</span> n = n + 1; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">increment limit times</span>
-                <span style="color: #709870;">}</span>
-            <span style="color: #909183;">}</span>;
-        <span style="color: #6434A3;">Thread</span> <span style="color: #BA36A5;">t2</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Thread</span><span style="color: #909183;">()</span> <span style="color: #909183;">{</span>           <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">decrementing thread</span>
-                <span style="color: #0000FF;">public</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">run</span><span style="color: #709870;">()</span> <span style="color: #709870;">{</span>
-                    <span style="color: #0000FF;">for</span> <span style="color: #907373;">(</span><span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">i</span> = 0; i &lt; <span style="color: #6434A3;">limit</span>; i++<span style="color: #907373;">)</span> n = n - 1; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">decrement limit times</span>
-                <span style="color: #709870;">}</span>
-            <span style="color: #909183;">}</span>;
-        t1.start<span style="color: #909183;">()</span>;  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">start t1's execution</span>
-        t2.start<span style="color: #909183;">()</span>;  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">start t2's execution</span>
-        <span style="color: #0000FF;">try</span> <span style="color: #909183;">{</span>
-            t1.join<span style="color: #709870;">()</span>;  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">wait here until t1 terminates</span>
-            t2.join<span style="color: #709870;">()</span>;  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">wait here until t2 terminates</span>
-        <span style="color: #909183;">}</span> <span style="color: #0000FF;">catch</span><span style="color: #909183;">(</span><span style="color: #6434A3;">Exception</span> <span style="color: #BA36A5;">e</span><span style="color: #909183;">)</span> <span style="color: #909183;">{</span> <span style="color: #909183;">}</span>
-        System.out.println<span style="color: #909183;">(</span><span style="color: #008000;">"n's value is: "</span> + n<span style="color: #909183;">)</span>;
-    <span style="color: #7388D6;">}</span>
-<span style="color: #707183;">}</span>
-
-<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Main</span> <span style="color: #707183;">{</span>
-    <span style="color: #0000FF;">public</span> <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">main</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">String</span><span style="color: #909183;">[</span> <span style="color: #909183;">]</span> <span style="color: #BA36A5;">args</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>         <span style="color: #8D8D84;">//</span><span style="color: #8D8D84; font-style: italic;">*** main thread executes method main</span>
-        <span style="color: #0000FF;">for</span> <span style="color: #909183;">(</span><span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span> = 0; i &lt; 8; i++<span style="color: #909183;">)</span> RaceC.race<span style="color: #909183;">()</span>; 
-    <span style="color: #7388D6;">}</span>
-<span style="color: #707183;">}</span>
-<span style="color: #036A07;">/** Output from a sample run:</span>
-
-<span style="color: #036A07;">    n's value is: -265936</span>
-<span style="color: #036A07;">    n's value is: -7317</span>
-<span style="color: #036A07;">    n's value is: 47128</span>
-<span style="color: #036A07;">    n's value is: -219153</span>
-<span style="color: #036A07;">    n's value is: 82805</span>
-<span style="color: #036A07;">    n's value is: -7944</span>
-<span style="color: #036A07;">    n's value is: 87322</span>
-<span style="color: #036A07;">    n's value is: -2</span>
-<span style="color: #036A07;">*/</span></pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org55a5040" class="outline-5">
-<h5 id="org55a5040">using the shell</h5>
-<div class="outline-text-5" id="text-org55a5040">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ javac RaceC.java
-bash-3.2$ java Main
-n<span style="color: #008000;">'s value is: -332920</span>
-<span style="color: #008000;">n'</span>s value is: 237836
-n<span style="color: #008000;">'s value is: 73816</span>
-<span style="color: #008000;">n'</span>s value is: 61941
-n<span style="color: #008000;">'s value is: 59569</span>
-<span style="color: #008000;">n'</span>s value is: -2
-n<span style="color: #008000;">'s value is: -2</span>
-<span style="color: #008000;">n'</span>s value is: 80561</pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org91f396f" class="outline-4">
-<h4 id="org91f396f">Analysis of the Race Condition Code</h4>
-<div class="outline-text-4" id="text-org91f396f">
-<p>
-A detailed look at how a race condition occurs
-</p>
-
-<ul class="org-ul">
-<li>T1 and T2 are threads in process P: T1 and T2 have access the same
-memory locations.</li>
-<li>N is memory location within the address space that T1 and T2 share</li>
-<li><p>
-T1 tries to increment n at the same time that T2 tries to
-decrement N.
-</p>
-<pre class="example">
-      N = N + 1  +---+  N = N - 1        ## Are these statements 'atomic'?
-   T1-----------&gt;| 5 |&lt;-----------T2
-	         +---+
-	           N
-</pre></li>
-<li>Each pseudo-code instruction involves two operations: an addition or
-subtraction, then an assignment
-<ul class="org-ul">
-<li><p>
-Assume that the result of the addition/subtraction is stored in a
-CPU register or on the stack: in either case, in a temporary
-location. Here's a depiction:
-</p>
-<pre class="example">
- Temp1 = N + 1  ### increment N and save the incremented value (N is unchanged so far)
- N = Temp1      ### assign the incremented value to N
-</pre>
-<ul class="org-ul">
-<li>Temp1 is T1's temporary location, Temp2 is T2's temporary location</li>
-</ul></li>
-</ul></li>
-<li>The machine has multiple CPUs: T1 executes on one of these as T2
-executes on another</li>
-<li><p>
-The following depicts one possible outcome of a race condition:
-</p>
-<pre class="example">
-     Clock ticks:
-  
-   C1: Temp1 = 5 + 1 = 6   ## T1's addition
-   C2: Temp2 = 5 - 1 = 4   ## T2's subtraction (T1's assignment has not occurred yet.)
-   C3: N = Temp2           ## T2's assignment operation (N is decremented to 4)
-   C4: N = Temp1           ## T1's assignment operation (N is incremented to 6).
-</pre></li>
-<li>After a single increment by 1 and a single decrement by 1, N winds up as 6&#x2013;not 5.
-<ul class="org-ul">
-<li>Improper interleaving of the operations is at fault.</li>
-<li>Whichever thread starts its arithmetic operation
-(addition/subtraction) must be allow to complete the assignment
-without interruption.
-<ul class="org-ul">
-<li>This is precisely what <i>thread synchronization</i> through locking
-of N ensures: single-threaded execution of the arithmetic
-operation and the subsequent assignment.</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org94ecc42" class="outline-4">
-<h4 id="org94ecc42">Overview of Explicit Thread Locking</h4>
-<div class="outline-text-4" id="text-org94ecc42">
-</div><div id="outline-container-org7977a79" class="outline-5">
-<h5 id="org7977a79">code examples</h5>
-<div class="outline-text-5" id="text-org7977a79">
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">Thread synchronization mechanisms: code examples */</span>
-
-<span style="color: #036A07;">/** C example **/</span>
-<span style="color: #0000FF;">static</span> <span style="color: #6434A3;">pthread_mutex_t</span> <span style="color: #BA36A5;">lock</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">declare a lock */</span>              <span style="color: #036A07;">/** line 1 **/</span>
-<span style="color: #6434A3;">void</span> <span style="color: #006699;">increment_n</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>                                            <span style="color: #036A07;">/** line 2 **/</span>
-    pthread_mutex_lock<span style="color: #7388D6;">(</span>&amp;lock<span style="color: #7388D6;">)</span>;                                  <span style="color: #036A07;">/** line 3 **/</span>
-    n = n + 1;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">critical section code */</span>                     <span style="color: #036A07;">/** line 4 **/</span>
-    pthread_mutex_unlock<span style="color: #7388D6;">(</span>&amp;lock<span style="color: #7388D6;">)</span>;                                <span style="color: #036A07;">/** line 5 **/</span>
-<span style="color: #707183;">}</span>
-
-<span style="color: #036A07;">/** Java example **/</span>
-<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Test</span> <span style="color: #707183;">{</span>
-    <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">n</span>; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">a single, shared storage location          /** line 6 **/</span>
-    <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">Object</span> <span style="color: #BA36A5;">lock</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Object</span><span style="color: #7388D6;">()</span>; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">can't be null         /** line 7 **/</span>
-    <span style="color: #6434A3;">void</span> <span style="color: #006699;">incrementN</span><span style="color: #7388D6;">()</span> <span style="color: #7388D6;">{</span>
-        <span style="color: #0000FF;">synchronized</span><span style="color: #909183;">(</span>lock<span style="color: #909183;">)</span> <span style="color: #909183;">{</span>                                    <span style="color: #036A07;">/** line 8 **/</span>
-            n = n + 1; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">critical section code */</span>              <span style="color: #036A07;">/** line 9 **/</span>
-        <span style="color: #909183;">}</span>                                                       <span style="color: #036A07;">/** line 10 **/</span>
-    <span style="color: #7388D6;">}</span>
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orge0f025d" class="outline-5">
-<h5 id="orge0f025d">Mechanisms for thread coordination</h5>
-<div class="outline-text-5" id="text-orge0f025d">
-<ul class="org-ul">
-<li>The terms below are associated with processes and threads, but the
-focus now is on threads given the assumption that a process executes
-in that one of its threads executes.</li>
-<li>A <i>critical section</i> of code must be executed in single-threaded fashion because
-otherwise a race condition could arise.
-<ul class="org-ul">
-<li><p>
-For example, if threads T1 and T2 can both execute 
-</p>
-<pre class="example">
-N = N + 1  ## the same storage N is accessible to T1 and T2
-
-</pre>
-<p>
-this statement is a critical section of code. T1 and T2 should not
-execute this section at the same time.
-</p></li>
-</ul></li>
-<li>A locking mechanism should provide the following services:
-<ul class="org-ul">
-<li>The mechanism should ensure <i>mutual exclusion</i>: if T1 manages to
-grab the lock, then T2 is excluded from the critical section that
-the lock protects while T1 holds the lock; and vice versa.</li>
-<li>The mechanism should ensure <i>progress</i>: if no thread holds the
-lock, then some thread should be able to grab it and thereby enter
-the critical section that the lock protects.</li>
-</ul></li>
-<li>Various locking mechanisms:
-<ul class="org-ul">
-<li>A <i>semaphore</i> restricts the number of threads allowed to access a
-shared resource (e.g., a shared function). For example, <i>semahore</i>
-might allow two threads to access a chunk of code simultaneously,
-but no more than two. A semaphore is thus a set of permission
-tickets, which enable a thread to access a resource.
-<ul class="org-ul">
-<li>Semaphores as <i>tickets</i>: a semaphore is like a ticket that
-grants access to a resource.  A semaphore with a value of three
-would grant access to three threads at most at a time.</li>
-</ul></li>
-<li>A <i>mutex</i> is a semaphore with a value of 1: whichever thread holds
-the mutex has access to the protected resource, whereas all others
-are excluded.
-<ul class="org-ul">
-<li>A mutex enforces mutual exclusion, but a semaphore with a value
-&gt; 1 would not.</li>
-</ul></li>
-<li>A <i>monitor</i> (which the Java <i>synchronized</i> block provides) is a
-mechanism that enforces mutual exclusion, supports progress, and
-has addition mechanisms for thread cooperation: in Java's case,
-the <i>wait</i> mechanism supports quiet waiting for a lock to be
-released, and the <i>notify</i> mechanism notifies waiters that a lock
-has been released.</li>
-</ul></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org8120808" class="outline-4">
-<h4 id="org8120808">A Sample Deadlock in Java</h4>
-<div class="outline-text-4" id="text-org8120808">
-</div><div id="outline-container-orgb41f7ae" class="outline-5">
-<h5 id="orgb41f7ae">using the shell</h5>
-<div class="outline-text-5" id="text-orgb41f7ae">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ javac Deadlock.java 
-bash-3.2$ java Deadlock
-thread2 holds lock2
-thread1 holds lock1
-thread2 waiting for lock1
-        <span style="color: #707183;">(</span>thread2 needs lock1 to release lock2...<span style="color: #707183;">)</span>
-thread1 waiting for lock2
-        <span style="color: #707183;">(</span>thread1 needs lock2 to release lock1...<span style="color: #707183;">)</span>
-  ^C ^Cbash-3.2$ 
-bash-3.2$ java Deadlock
-thread1 holds lock1
-thread2 holds lock2
-thread2 waiting for lock1
-thread1 waiting for lock2
-        <span style="color: #707183;">(</span>thread2 needs lock1 to release lock2...<span style="color: #707183;">)</span>
-        <span style="color: #707183;">(</span>thread1 needs lock2 to release lock1...<span style="color: #707183;">)</span>
-  ^C ^Cbash-3.2$ </pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org4af8c5c" class="outline-5">
-<h5 id="org4af8c5c">source code</h5>
-<div class="outline-text-5" id="text-org4af8c5c">
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #036A07;">/** To compile and run from the command-line:</span>
-<span style="color: #036A07;">      javac Deadlock.java</span>
-<span style="color: #036A07;">      java Deadlock</span>
-<span style="color: #036A07;">*/</span>
-<span style="color: #0000FF;">public</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Deadlock</span> <span style="color: #707183;">{</span>
-    <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">Object</span> <span style="color: #BA36A5;">lock1</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Object</span><span style="color: #7388D6;">()</span>; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">a single lock1                   /** line 1 **/</span>
-    <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">Object</span> <span style="color: #BA36A5;">lock2</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Object</span><span style="color: #7388D6;">()</span>; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">a single lock2</span>
-    
-    <span style="color: #036A07;">/** Each thread executes its run() method. **/</span>
-    <span style="color: #0000FF;">public</span> <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">main</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">String</span> <span style="color: #BA36A5;">args</span><span style="color: #909183;">[]</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
-        <span style="color: #6434A3;">Thread</span> <span style="color: #BA36A5;">thread1</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Thread</span><span style="color: #909183;">()</span> <span style="color: #909183;">{</span>
-                <span style="color: #0000FF;">public</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">run</span><span style="color: #709870;">()</span> <span style="color: #709870;">{</span>                            
-                    <span style="color: #0000FF;">synchronized</span><span style="color: #907373;">(</span>lock1<span style="color: #907373;">)</span> <span style="color: #907373;">{</span>                                   <span style="color: #036A07;">/** line 2 **/</span>
-                        print<span style="color: #6276BA;">(</span><span style="color: #008000;">"thread1 holds lock1"</span><span style="color: #6276BA;">)</span>;
-                        <span style="color: #0000FF;">try</span> <span style="color: #6276BA;">{</span> Thread.sleep<span style="color: #858580;">(</span>2<span style="color: #858580;">)</span>; <span style="color: #6276BA;">}</span> <span style="color: #0000FF;">catch</span><span style="color: #6276BA;">(</span><span style="color: #6434A3;">Exception</span> <span style="color: #BA36A5;">e</span><span style="color: #6276BA;">)</span> <span style="color: #6276BA;">{</span> <span style="color: #6276BA;">}</span>     <span style="color: #036A07;">/** line 3 **/</span>
-                        print<span style="color: #6276BA;">(</span><span style="color: #008000;">"thread1 waiting for lock2"</span><span style="color: #6276BA;">)</span>;
-                        print<span style="color: #6276BA;">(</span><span style="color: #008000;">"\t(thread1 needs lock2 to release lock1...)"</span><span style="color: #6276BA;">)</span>;
-                        <span style="color: #0000FF;">synchronized</span><span style="color: #6276BA;">(</span>lock2<span style="color: #6276BA;">)</span> <span style="color: #6276BA;">{</span>                               <span style="color: #036A07;">/** line 4 **/</span>
-                            print<span style="color: #858580;">(</span><span style="color: #008000;">"thread1 holds lock1 and lock2"</span><span style="color: #858580;">)</span>;
-                        <span style="color: #6276BA;">}</span> <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">lock2 released here                            /** line 5 **/</span>
-                    <span style="color: #907373;">}</span> <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">lock1 released here                                /** line 6 **/</span>
-                <span style="color: #709870;">}</span> 
-            <span style="color: #909183;">}</span>;
-        <span style="color: #6434A3;">Thread</span> <span style="color: #BA36A5;">thread2</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Thread</span><span style="color: #909183;">()</span> <span style="color: #909183;">{</span>
-                <span style="color: #0000FF;">public</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">run</span><span style="color: #709870;">()</span> <span style="color: #709870;">{</span>
-                    <span style="color: #0000FF;">synchronized</span><span style="color: #907373;">(</span>lock2<span style="color: #907373;">)</span> <span style="color: #907373;">{</span>                                   <span style="color: #036A07;">/** line 7 **/</span>
-                        print<span style="color: #6276BA;">(</span><span style="color: #008000;">"thread2 holds lock2"</span><span style="color: #6276BA;">)</span>;
-                        <span style="color: #0000FF;">try</span> <span style="color: #6276BA;">{</span> Thread.sleep<span style="color: #858580;">(</span>2<span style="color: #858580;">)</span>; <span style="color: #6276BA;">}</span> <span style="color: #0000FF;">catch</span><span style="color: #6276BA;">(</span><span style="color: #6434A3;">Exception</span> <span style="color: #BA36A5;">e</span><span style="color: #6276BA;">)</span> <span style="color: #6276BA;">{</span> <span style="color: #6276BA;">}</span>
-                        print<span style="color: #6276BA;">(</span><span style="color: #008000;">"thread2 waiting for lock1"</span><span style="color: #6276BA;">)</span>;
-                        print<span style="color: #6276BA;">(</span><span style="color: #008000;">"\t(thread2 needs lock1 to release lock2...)"</span><span style="color: #6276BA;">)</span>;
-                        <span style="color: #0000FF;">synchronized</span><span style="color: #6276BA;">(</span>lock1<span style="color: #6276BA;">)</span> <span style="color: #6276BA;">{</span>                               <span style="color: #036A07;">/** line 8 **/</span>
-                            print<span style="color: #858580;">(</span><span style="color: #008000;">"thread2 holds lock2 and lock1"</span><span style="color: #858580;">)</span>;
-                        <span style="color: #6276BA;">}</span> <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">lock1 released here                            /** line 9 **/</span>
-                    <span style="color: #907373;">}</span> <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">lock2 released here                                /** line 10 **/</span>
-                <span style="color: #709870;">}</span>
-            <span style="color: #909183;">}</span>;
-        thread1.start<span style="color: #909183;">()</span>;                                                    <span style="color: #036A07;">/** line 11 **/</span>
-        thread2.start<span style="color: #909183;">()</span>;                                                    <span style="color: #036A07;">/** line 12 **/</span>
-    <span style="color: #7388D6;">}</span>
-    <span style="color: #0000FF;">private</span> <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">print</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">Object</span> <span style="color: #BA36A5;">obj</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span> System.out.println<span style="color: #909183;">(</span>obj<span style="color: #909183;">)</span>; <span style="color: #7388D6;">}</span>
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgaa2c075" class="outline-4">
-<h4 id="orgaa2c075">High-level Concurrency Management in Multithreading</h4>
-<div class="outline-text-4" id="text-orgaa2c075">
-<ul class="org-ul">
-<li>Belaboring the obvious: multithreading is far trickier to manage than multiprocessing
-<ul class="org-ul">
-<li>The OS keeps the processes in multiprocessing from stepping on one another's storge.</li>
-<li>The programmer must do the same for threads within a process: thread coordination</li>
-</ul></li>
-<li><p>
-How to support to thread-safety (i.e., safety from race conditions)?
-</p>
-<ul class="org-ul">
-<li>Consider an in-memory mutable list and an <i>add</i> operation.</li>
-</ul>
-<pre class="example">
-       ADD 3  +---+---+
-thread-------&gt;| 1 | 2 |        ## list L before the ADD
-              +---+---+
-              +---+---+---+
-              | 1 | 2 | 3 |    ## list L after the ADD, which changes the original list
-              +---+---+---+
-</pre></li>
-<li>Basic Java approach: Ensure mutual exclusion on shared storage through locking.
-<ul class="org-ul">
-<li>Locking allows only single-threaded access to the list L during an ADD operation.</li>
-</ul></li>
-
-<li><p>
-Basic Clojure approach: make in-memory objects immutable by default, with a few exceptions
-</p>
-<ul class="org-ul">
-<li>The ADD operation first makes a copy of the original list, and then changes the copy.</li>
-</ul>
-<pre class="example">
-       ADD 3  +---+---+
-thread-------&gt;| 1 | 2 |        ## list L 
-              +---+---+
-                  L
-
-              +---+---+
-              | 1 | 2 |        ## copy of list L
-              +---+---+
-                  Lc
-
-              +---+---+---+
-              | 1 | 2 | 3 |    ## copy after the ADD (original is unchanged)
-              +---+---+---+
-                  Lc
-</pre></li>
-<li><p>
-The preferred Go approach: have a single thread control access to
-list L, with other threads sending messages such as ADD to this
-controlling thread.
-</p>
-<ul class="org-ul">
-<li>The messages are sent through a thread-safe channel.</li>
-</ul>
-<pre class="example">
-             +---+---+
-             | 1 | 2 |      ## a single thread T controls access to L
-             +---+---+
-
-        ADD 3                ADD 33
-thread1-------&gt;channel to T&lt;--------thread2  ## the channel has built-in synchronization
-</pre></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org51b34b3" class="outline-4">
-<h4 id="org51b34b3">Wrapup of multithreading basics and miscellany</h4>
-<div class="outline-text-4" id="text-org51b34b3">
-</div>
-<div id="outline-container-org93af7b5" class="outline-5">
-<h5 id="org93af7b5">Wrapup</h5>
-<div class="outline-text-5" id="text-org93af7b5">
-<ul class="org-ul">
-<li>Multithreading can be a highly efficient way to do concurrent
-programming, as thread-level context switches are very cheap.
-<ul class="org-ul">
-<li>It's the preferred approach to concurrency in languages such as
-Java and C#.</li>
-</ul></li>
-<li>Multithreading has twin challenges for the programmer:
-<ul class="org-ul">
-<li>Avoid race conditions by ensuring that multiple threads don't
-access shared memory locations in inappropriate ways.
-<ul class="org-ul">
-<li>Ensure that critical sections are executed in single-threaded
-mode.</li>
-</ul></li>
-<li>Avoid <i>over synchronization</i> that degrades performance and may
-result in deadlock.</li>
-</ul></li>
-<li>Languages now offer programmers high-level constructs and types to
-ease the challenges of multithreaded programming.
-<ul class="org-ul">
-<li>But sometimes a simple mutex is still the way to go.</li>
-</ul></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-orgc8e4fa0" class="outline-5">
-<h5 id="orgc8e4fa0">Native versus green threads, and the Global Interpreter Lock (GIL)</h5>
-<div class="outline-text-5" id="text-orgc8e4fa0">
-<ul class="org-ul">
-<li>A <i>native thread</i> is under kernel OS control when it comes to
-scheduling.
-<ul class="org-ul">
-<li>Since roughly 2000, Java Thread instances map to <i>native</i>
-threads. (Same for C#.)</li>
-<li>C's <i>pthreads</i> (the 'p' for POSIX API standardization) are
-<i>native</i> threads.</li>
-</ul></li>
-<li>A <i>green thread</i> (aka <i>microthread</i>, <i>tasklet</i>) is under a particular language's runtime control.
-<ul class="org-ul">
-<li>In effect, <i>green threads</i> emulate native threads, and may provide
-better performance for operations such as thread creation and
-synchronization.</li>
-<li>Prior to version 1.9, for example, Ruby's standard implementation (CRuby) had only green threads.</li>
-</ul></li>
-<li>A GIL is a mechanism (in implementation, a mutex) that a runtime
-uses to allow only one thread to execute at a time, even in a
-multithreaded environment: no thread-level parallelism.
-<ul class="org-ul">
-<li>The standard implementations of Ruby (CRuby) and Python (CPython) have a GIL.</li>
-</ul></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org4acb7d8" class="outline-4">
-<h4 id="org4acb7d8">Exercise for basic multithreading</h4>
-<div class="outline-text-4" id="text-org4acb7d8">
-<ul class="org-ul">
-<li>Fix the RaceC program (RaceC.java) by providing explicit locking.
-<ul class="org-ul">
-<li>Use synchronized blocks and a shared lock to ensure that threads
-t1 and t2 do the increment and decrement operations <i>atomically</i>
-(that is, without interruption).</li>
-<li><b>Hint:</b> use a static field as the lock to ensure there's a single instance of the lock.</li>
-</ul></li>
-<li><p>
-To get a sense of what thread syncrhonization costs, time the RaceC
-program with and without thread synchronization.
-</p>
-<ul class="org-ul">
-<li>The program's execution can be timed in various ways, including the way sketched below:</li>
-</ul>
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #0000FF;">final</span> <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">startTime</span> = System.currentTimeMillis<span style="color: #707183;">()</span>;
-<span style="color: #036A07;">/*** code to be timed ***/</span>
-<span style="color: #0000FF;">final</span> <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">stopTime</span> = System.currentTimeMillis<span style="color: #707183;">()</span>;
-<span style="color: #0000FF;">final</span> <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">latency</span> = stopTime - startTime;</pre>
-</pre>
-</div></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgfb69782" class="outline-3">
-<h3 id="orgfb69782">Multithreading Through Richer Code Examples</h3>
-<div class="outline-text-3" id="text-orgfb69782">
-<p>
-Chapter 6
-</p>
-</div>
-</div>
-<div id="outline-container-org3d19889" class="outline-3">
-<h3 id="org3d19889">Thread-Safety And High-Level Concurrent Types In Java</h3>
-<div class="outline-text-3" id="text-org3d19889">
-<p>
-Chapter 7 
-</p>
-</div>
-</div>
-<div id="outline-container-org0e1710f" class="outline-3">
-<h3 id="org0e1710f">Options For Thread Synchronization And Cooperation</h3>
-<div class="outline-text-3" id="text-org0e1710f">
-<p>
-Chapter 8
-</p>
-</div>
-</div>
-<div id="outline-container-org2139fdd" class="outline-3">
-<h3 id="org2139fdd">Concurrency And Non-Blocking I-O</h3>
-<div class="outline-text-3" id="text-org2139fdd">
-<p>
-Chapter 9
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org733d283" class="outline-2">
-<h2 id="org733d283">Parallele Algorithmen</h2>
-<div class="outline-text-2" id="text-org733d283">
-</div>
-<div id="outline-container-org9aec578" class="outline-3">
-<h3 id="org9aec578">Parallelism Basics</h3>
-<div class="outline-text-3" id="text-org9aec578">
-</div>
-<div id="outline-container-orgfa943c0" class="outline-4">
-<h4 id="orgfa943c0">Overview of Parallelism Beyond Concurrency</h4>
-<div class="outline-text-4" id="text-orgfa943c0">
-<p>
-Parallelism in computing
-</p>
-
-<ul class="org-ul">
-<li>So far the emphasis has been on parallelism as concurrency made
-efficient: multiple concurrent tasks are distributed among
-processors so that the tasks can be processed literally at the same
-time&#x2013;in parallel.</li>
-<li>In a multiprocessing approach to concurrency, multiple processes
-execute on multiple processors.
-<ul class="org-ul">
-<li>The OS handles the scheduling.</li>
-</ul></li>
-<li>In a multithreading approach to concurrency, multiple threads within a process execute on multiple processors.
-<ul class="org-ul">
-<li>If API threads map to <i>native</i> threads, then the OS handles the scheduling. (Assuming no GIL.)</li>
-</ul></li>
-<li>In hybrid approaches (e.g., Asp.Net's multithreaded worker
-processes), there's still the distribution of task processing among
-multiple processors.</li>
-</ul>
-
-<p>
-The goal now is to focus on broader uses of parallel computation.
-</p>
-
-<ul class="org-ul">
-<li>Some reasons why parallelism is now so attractive:
-<ul class="org-ul">
-<li>Consumer desktop, laptop, and even handheld machines are now
-multi-core, with one or more processors per core.
-<ul class="org-ul">
-<li>In fact (even if not in reputation), these machines are <i>parallel computers</i>.</li>
-<li>At issue is how to exploit this possibily for parallel computations.</li>
-</ul></li>
-<li>Consumer-level machines may come with GPUs (graphics-processing
-units) and FPUs (floating-point unit or <i>math coproccessor</i>) as
-well as CPUs (central or <i>generic</i> processing units).
-<ul class="org-ul">
-<li>GPUs and FPUs are designed for parallelism.</li>
-<li><i>gpgpu</i> (general-purpose computing on a GPU) refers to the use
-of a GPU for <i>general purposes</i>, that is, purposes beyond just
-graphics. So gpgpu approaches a GPU as if it were a
-(specialized) CPU.</li>
-</ul></li>
-<li>Distributed software systems such as email and the WWW have code
-modules that execute on physically distinct devices.
-<ul class="org-ul">
-<li>The <i>network as the computer</i> describes networked hosts, each
-with its own collection of processors, as a resource for
-distributed parallel computation.</li>
-<li>The key challenge is how to coordinate such computations and to share information among them.
-<ul class="org-ul">
-<li>Message-passing is a popular, general method.</li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li>Parallel computations may used shared, centralized memory;
-distributed memory; or some hybrid of the two.
-<ul class="org-ul">
-<li>The point of interest is how to write programs that execute as
-parallel computations.</li>
-<li>Support from toolchains (in particular, compilers therein) is
-critical to encouarge widespread use of hardware support for
-parallel computing.</li>
-</ul></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org84b127e" class="outline-4">
-<h4 id="org84b127e">A SIMD Auto Vectorization Code Example in C</h4>
-<div class="outline-text-4" id="text-org84b127e">
-</div><div id="outline-container-org8b79f8b" class="outline-5">
-<h5 id="org8b79f8b">the non parallel version</h5>
-<div class="outline-text-5" id="text-org8b79f8b">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile and run:</span>
-
-<span style="color: #8D8D84; font-style: italic;">    gcc -o nonsimd nonsimd.c</span>
-<span style="color: #8D8D84; font-style: italic;">    ./nonsimd  # On Windows: simd</span>
-<span style="color: #8D8D84;">*/</span>
-  
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">Length</span> 8
-
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">array1</span><span style="color: #7388D6;">[</span> <span style="color: #7388D6;">]</span> = <span style="color: #7388D6;">{</span>1, 2, 3, 4, 5, 6, 7, 8<span style="color: #7388D6;">}</span>; 
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">array2</span><span style="color: #7388D6;">[</span> <span style="color: #7388D6;">]</span> = <span style="color: #7388D6;">{</span>8, 7, 6, 5, 4, 3, 2, 1<span style="color: #7388D6;">}</span>;
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">sum</span><span style="color: #7388D6;">[</span>Length<span style="color: #7388D6;">]</span>;
-
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>;
-  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; Length; i++<span style="color: #7388D6;">)</span> sum<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span> = array1<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span> + array2<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span>; <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">serial computation *</span><span style="color: #8D8D84;">*/</span>
-  
-  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; Length; i++<span style="color: #7388D6;">)</span> printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"%i "</span>, sum<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>; 
-  putchar<span style="color: #7388D6;">(</span><span style="color: #008000;">'\n'</span><span style="color: #7388D6;">)</span>;
-  <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span>
-<span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A better way: SSE = Streaming SIMD Extensions = additional instruction set, </span>
-<span style="color: #8D8D84; font-style: italic;">    more CPU registers</span>
-
-<span style="color: #8D8D84; font-style: italic;">In the late 1990s, Intel introduced an SSE instruction set for their Pentium III</span>
-<span style="color: #8D8D84; font-style: italic;">processors. This became known as the MMX instruction set. (Officially, MMX is not an</span>
-<span style="color: #8D8D84; font-style: italic;">acronym.) AMD earlier introduced a comparable instruction set known as 3DNow!. In any case, </span>
-<span style="color: #8D8D84; font-style: italic;">the hardware support included new registers with names that start with 'xmm'. In the </span>
-<span style="color: #8D8D84; font-style: italic;">original SSE, there was support only for integer operations.</span>
-
-<span style="color: #8D8D84; font-style: italic;">SEE has progressed, with new versions: SSE2, SSE3, SSSE3, and</span>
-<span style="color: #8D8D84; font-style: italic;">SSE4. The newer versions bring SIMD support for both integer and</span>
-<span style="color: #8D8D84; font-style: italic;">floating-point operations. At the same time, C/C++ compilers such as</span>
-<span style="color: #8D8D84; font-style: italic;">GNU and Clang provided support, eventually automatic, for</span>
-<span style="color: #8D8D84; font-style: italic;">SIMD-friendly code. Nowadays, both compilers are capable of 'automatic</span>
-<span style="color: #8D8D84; font-style: italic;">vectorization' of approrpiately written source code.</span>
-
-<span style="color: #8D8D84; font-style: italic;">The short version: elements in the arrays 'array1' and 'array2' should</span>
-<span style="color: #8D8D84; font-style: italic;">be added pairwise in parallel in order to boost performance.</span>
-<span style="color: #8D8D84;">*/</span></pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org58053b5" class="outline-5">
-<h5 id="org58053b5">the parallel version</h5>
-<div class="outline-text-5" id="text-org58053b5">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">To compile and run:</span>
-
-<span style="color: #8D8D84; font-style: italic;">    gcc -o simd simd.c</span>
-<span style="color: #8D8D84; font-style: italic;">    ./simd  # On Windows: simd</span>
-
-<span style="color: #8D8D84; font-style: italic;"> No explicit optimization is required. The GNU and Clang compilers</span>
-<span style="color: #8D8D84; font-style: italic;"> do the optimization automatically. </span>
-<span style="color: #8D8D84;">*/</span>
-  
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">A typedef in C supports 'aliasing' of data types. Here's a simple example:</span>
-
-<span style="color: #8D8D84; font-style: italic;">     typedef unsigned boolean; ## 'unsigned' is short for 'unsigned int'</span>
-
-<span style="color: #8D8D84; font-style: italic;">   This typedef allows 'boolean' to be used in place of 'unsigned', for example:</span>
-
-<span style="color: #8D8D84; font-style: italic;">     boolean flag = 0;  ## 0 is 'false' in C</span>
-
-<span style="color: #8D8D84; font-style: italic;">   The typedef below is more complicated, as it includes special information for the</span>
-<span style="color: #8D8D84; font-style: italic;">   compiler, in particuar the '__attribute__' and 'vector_size' terms. Here's the upshot</span>
-<span style="color: #8D8D84; font-style: italic;">   of the typedef:</span>
-
-<span style="color: #8D8D84; font-style: italic;">   # 'intV8' aliases 'int', but as a vector (1-dimensional array) rather than as a scalar </span>
-<span style="color: #8D8D84; font-style: italic;">      type.</span>
-<span style="color: #8D8D84; font-style: italic;">   # The size of an 'intV8' vector is set to 32 == Length * sizeof(int) == 8 * 4. </span>
-<span style="color: #8D8D84; font-style: italic;">     The size is in bytes.</span>
-<span style="color: #8D8D84;">*/</span>
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">Length</span> 8
-<span style="color: #0000FF;">typedef</span> <span style="color: #6434A3;">int</span> <span style="color: #6434A3;">intV8</span> <span style="color: #0000FF;">__attribute__</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>vector_size <span style="color: #909183;">(</span><span style="color: #6434A3;">Length</span> * <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span><span style="color: #6434A3;">int</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>; <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">32 bytes *</span><span style="color: #8D8D84;">*/</span>
-    
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">intV8</span> <span style="color: #BA36A5;">dataV1</span> = <span style="color: #7388D6;">{</span>1, 2, 3, 4, 5, 6, 7, 8<span style="color: #7388D6;">}</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">initialize vector dataV1: no array syntax </span><span style="color: #8D8D84;">*/</span>                   
-  <span style="color: #6434A3;">intV8</span> <span style="color: #BA36A5;">dataV2</span> = <span style="color: #7388D6;">{</span>8, 7, 6, 5, 4, 3, 2, 1<span style="color: #7388D6;">}</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">same for vector dataV2 </span><span style="color: #8D8D84;">*/</span>
-  
-  <span style="color: #6434A3;">intV8</span> <span style="color: #BA36A5;">add</span> = dataV1 + dataV2; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">9  9  9  9  9  9  9 9 -- no array syntax </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">intV8</span> <span style="color: #BA36A5;">mul</span> = dataV1 * dataV2; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">8 14 18 20 20 18 14 8 -- no array syntax </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">intV8</span> <span style="color: #BA36A5;">div</span> = dataV2 / dataV1; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">8  3  2  1  0  0  0 0 -- no array syntax </span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>;
-  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; Length; i++<span style="color: #7388D6;">)</span> printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"%i "</span>, add<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">array syntax </span><span style="color: #8D8D84;">*/</span>
-  putchar<span style="color: #7388D6;">(</span><span style="color: #008000;">'\n'</span><span style="color: #7388D6;">)</span>;
-  <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org14952aa" class="outline-4">
-<h4 id="org14952aa">using the shell</h4>
-<div class="outline-text-4" id="text-org14952aa">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ gcc -o nonsimd nonsimd.c
-bash-3.2$ gcc -o simd simd.c
-
-bash-3.2$ ./nonsimd
-9 9 9 9 9 9 9 9 
-
-bash-3.2$ ./simd
-9 9 9 9 9 9 9 9 </pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org5742a9a" class="outline-4">
-<h4 id="org5742a9a">in Assembly-Code</h4>
-<div class="outline-text-4" id="text-org5742a9a">
-<p>
-Some compiler-generated assembly code from the simd.c program
-</p>
-<pre class="example">
-# A note on C compilation:
-
-                 +------------+    +--------+    +---------+    +------+
-C source code---&gt;|preprocessor|---&gt;|compiler|---&gt;|assembler|---&gt;|linker|---&gt;executable 	
-                 +------------+    +--------+ /  +---------+ /  +------+    machine code
-                                             /              /
-                                        assembly code    object code
-
-## Compile command: gcc -S simd.c  (produces 'simd.s' by default)	
-	
-main:
-   ## The identifiers that start with $ are constants.
-	
-   ## %rsp is the /stack pointer/, which points to the TOP position on the stack.
-	
-   ## An expression such as 96(%rsp) is an address or pointer expression: %rsp is the base 
-      address, 96 is of the offset therefrom. The offset is in bytes, so in this case it/s 
-      96 bytes. (The Intel stack grows downwards, from high to low addresses.)
-
-   ## The full expression 'movl $1, 96(%rsp)' copies (not literally moves) the 32-bit value 
-      1 into stack location %rsp + 96:
-
-	The stack
-	  ...                     ## high addresses
-	+-----+
-	|  1  |&lt;------%rsp + 96   ## instruction 'movl $l, 96(%rsp)' puts 1 in this location
-        +-----+
-	  ...                
-	+-----+
-	|     |
-	+-----+
-	|     |&lt;------%rsp   ## %rsp is the 64-bit 'stack pointer'
-	+-----+
-	  ...                     ## low addresses
-	
-   ## Note that every offset increases by 4 because the values (1,2,3,...) are 4-byte 
-      (32-bit) integer values.
-   movl $1, 96(%rsp)         # data vector 1 start
-   movl $2, 100(%rsp)
-   movl $3, 104(%rsp)
-   movl $4, 108(%rsp)
-   movl $5, 112(%rsp)
-   movl $6, 116(%rsp)
-   movl $7, 120(%rsp)
-   movl $8, 124(%rsp)        # data vector 1 end
-   movl $8, 128(%rsp)        # data vector 2 start
-   movl $7, 132(%rsp)
-   movl $6, 136(%rsp)
-   movl $5, 140(%rsp)
-   movl $4, 144(%rsp)
-   movl $3, 148(%rsp)
-   movl $2, 152(%rsp)
-   movl $1, 156(%rsp)        # data vector 2 end
-	
-   movdqa 96(%rsp), %xmm1    # %xmm1 = dataV1[0..3]: 'dq' is for 'double quadword'
-	                     # (quad == 64 bits) and %xmm1 is a 128-bit register
-	
-   movdqa 128(%rsp), %xmm0   # %xmm0 = dataV2[0..3]
-	
-   paddd %xmm0, %xmm1        # %xmm1 += %xmm0 (the 'paddd' instruction is for 'packed 
-                               addition' of 32-bit values)
-   movdqa 112(%rsp), %xmm2   # %xmm2 = dataV1[4..7]
-   movdqa 144(%rsp), %xmm0   # %xmm0 = dataV2[4..7]
-   paddd %xmm2, %xmm0        # %xmm0 += %xmm2
-	
-   movdqa %xmm1, 32(%rsp)    # save %xmm1 to stack (sums of the 1st four elements)
-   movdqa %xmm0, 48(%rsp)    # save %xmm0 to stack (sums of the last four elements)
-	                     # the sum is now on the stack contiguously, in effect as an array
-   ...
-
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgfe3d611" class="outline-3">
-<h3 id="orgfe3d611">Time the Performance Boost From Parallelism &#x2013; a Code Example</h3>
-<div class="outline-text-3" id="text-orgfe3d611">
-</div>
-<div id="outline-container-orgf58d792" class="outline-4">
-<h4 id="orgf58d792">Source Code</h4>
-<div class="outline-text-4" id="text-orgf58d792">
-<div class="org-src-container">
-<pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A timing example to contrast serial and parallel execution on typical matrix/vector </span>
-<span style="color: #8D8D84; font-style: italic;">    operations. The program uses 'SSE intrinsics', the interface for which is the header </span>
-<span style="color: #8D8D84; font-style: italic;">    file 'xmmintrin.h'.</span>
-<span style="color: #8D8D84; font-style: italic;">    </span>
-<span style="color: #8D8D84; font-style: italic;">    Some of the code is obscure, a good sign of what's involved as you get ever closer </span>
-<span style="color: #8D8D84; font-style: italic;">    to the metal.</span>
-
-<span style="color: #8D8D84; font-style: italic;">    The program adds two vectors, and then multiples the rows of the sum vector by a </span>
-<span style="color: #8D8D84; font-style: italic;">    +third vector.</span>
-<span style="color: #8D8D84; font-style: italic;">*</span><span style="color: #8D8D84;">*/</span>
-
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">xmmintrin.h</span><span style="color: #707183;">&gt;</span>
-<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdint.h</span><span style="color: #707183;">&gt;</span>
-
-<span style="color: #0000FF;">typedef</span> <span style="color: #6434A3;">void</span> <span style="color: #707183;">(</span>*<span style="color: #6434A3;">func</span><span style="color: #707183;">)()</span>;  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">a function that takes no arguments and returns void *</span><span style="color: #8D8D84;">*/</span>
-
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">Length</span>      <span style="color: #707183;">(</span>2048<span style="color: #707183;">)</span>
-<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">AlignedVals</span>    <span style="color: #707183;">(</span>4<span style="color: #707183;">)</span>
-
- <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">Ensure 16-byte alignment of vector elements: 16 bytes is 4 ints or 4 floats,</span>
-<span style="color: #8D8D84; font-style: italic;">     which comes to 128 bits--the size of an %xmm register. *</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">v1</span><span style="color: #707183;">[</span>Length<span style="color: #707183;">]</span> <span style="color: #0000FF;">__attribute__</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>aligned<span style="color: #909183;">(</span>16<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>; 
-<span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">v2</span><span style="color: #707183;">[</span>Length<span style="color: #707183;">]</span> <span style="color: #0000FF;">__attribute__</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>aligned<span style="color: #909183;">(</span>16<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>;
-<span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">v3</span><span style="color: #707183;">[</span>Length<span style="color: #707183;">]</span> <span style="color: #0000FF;">__attribute__</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>aligned<span style="color: #909183;">(</span>16<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>;
-<span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">r1</span><span style="color: #707183;">[</span>Length<span style="color: #707183;">]</span> <span style="color: #0000FF;">__attribute__</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>aligned<span style="color: #909183;">(</span>16<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>;
-<span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">r2</span><span style="color: #707183;">[</span>Length<span style="color: #707183;">]</span> <span style="color: #0000FF;">__attribute__</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>aligned<span style="color: #909183;">(</span>16<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>;
-
-<span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">Initialize with small random values. *</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #6434A3;">void</span> <span style="color: #006699;">init</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">unsigned</span> <span style="color: #BA36A5;">i</span>;
-  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; Length; i++<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
-    v1<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span> = <span style="color: #909183;">(</span><span style="color: #6434A3;">float</span><span style="color: #909183;">)</span> <span style="color: #909183;">(</span>rand<span style="color: #709870;">()</span> / RAND_MAX<span style="color: #909183;">)</span>; 
-    v2<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span> = <span style="color: #909183;">(</span><span style="color: #6434A3;">float</span><span style="color: #909183;">)</span> <span style="color: #909183;">(</span>rand<span style="color: #709870;">()</span> / RAND_MAX<span style="color: #909183;">)</span>;  
-    v3<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span> = <span style="color: #909183;">(</span><span style="color: #6434A3;">float</span><span style="color: #909183;">)</span> <span style="color: #909183;">(</span>rand<span style="color: #709870;">()</span> / RAND_MAX<span style="color: #909183;">)</span>; 
-  <span style="color: #7388D6;">}</span>
-<span style="color: #707183;">}</span>
-
-<span style="color: #6434A3;">void</span> <span style="color: #006699;">in_serial</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">unsigned</span> <span style="color: #BA36A5;">i</span>;
-  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; Length; i++<span style="color: #7388D6;">)</span> r1<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span> = <span style="color: #7388D6;">(</span>v1<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span> + v2<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span> * v3<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span>; <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">the math *</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #707183;">}</span>
-
-<span style="color: #6434A3;">void</span> <span style="color: #006699;">in_parallel</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">set up for the special vector instructions *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">__m128</span>* <span style="color: #BA36A5;">mm_v1</span> = <span style="color: #7388D6;">(</span><span style="color: #6434A3;">__m128</span>*<span style="color: #7388D6;">)</span> v1; 
-  <span style="color: #6434A3;">__m128</span>* <span style="color: #BA36A5;">mm_v2</span> = <span style="color: #7388D6;">(</span><span style="color: #6434A3;">__m128</span>*<span style="color: #7388D6;">)</span> v2;
-  <span style="color: #6434A3;">__m128</span>* <span style="color: #BA36A5;">mm_v3</span> = <span style="color: #7388D6;">(</span><span style="color: #6434A3;">__m128</span>*<span style="color: #7388D6;">)</span> v3;
-  <span style="color: #6434A3;">__m128</span>* <span style="color: #BA36A5;">mm_rv</span> = <span style="color: #7388D6;">(</span><span style="color: #6434A3;">__m128</span>*<span style="color: #7388D6;">)</span> r2;
-
-  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">Multiply a vector row by a vector: the outer instruction is _mm_mul_ps. </span>
-<span style="color: #8D8D84; font-style: italic;">      _mm_add_ps adds vector elements.</span>
-<span style="color: #8D8D84; font-style: italic;">   *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #6434A3;">unsigned</span> <span style="color: #BA36A5;">i</span>;
-  <span style="color: #6434A3;">unsigned</span> <span style="color: #BA36A5;">n</span> = Length / AlignedVals; <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">in this case, n == 512 *</span><span style="color: #8D8D84;">*/</span>
-  <span style="color: #0000FF;">for</span><span style="color: #7388D6;">(</span> i = 0; i &lt; n; i++<span style="color: #7388D6;">)</span> mm_rv<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span> = _mm_mul_ps<span style="color: #7388D6;">(</span>_mm_add_ps<span style="color: #909183;">(</span>mm_v1<span style="color: #709870;">[</span>i<span style="color: #709870;">]</span>, mm_v2<span style="color: #709870;">[</span>i<span style="color: #709870;">]</span><span style="color: #909183;">)</span>, mm_v3<span style="color: #909183;">[</span>i<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>;
-<span style="color: #707183;">}</span>
-
-<span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">from the Intel developer's guide: in-line assembly for reasonably good timings *</span><span style="color: #8D8D84;">*/</span>
-<span style="color: #6434A3;">uint64_t</span> <span style="color: #006699;">rdtsc</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-    <span style="color: #6434A3;">uint32_t</span> <span style="color: #BA36A5;">lo</span>, <span style="color: #BA36A5;">hi</span>;
-    <span style="color: #0000FF;">__asm__</span> __volatile__ <span style="color: #7388D6;">(</span>
-      <span style="color: #008000;">"xorl %%eax, %%eax\n"</span>
-      <span style="color: #008000;">"cpuid\n"</span>
-      <span style="color: #008000;">"rdtsc\n"</span>
-      : <span style="color: #008000;">"=a"</span> <span style="color: #909183;">(</span>lo<span style="color: #909183;">)</span>, <span style="color: #008000;">"=d"</span> <span style="color: #909183;">(</span>hi<span style="color: #909183;">)</span>
-      :
-      : <span style="color: #008000;">"%ebx"</span>, <span style="color: #008000;">"%ecx"</span><span style="color: #7388D6;">)</span>;
-    <span style="color: #0000FF;">return</span> <span style="color: #7388D6;">(</span><span style="color: #6434A3;">uint64_t</span><span style="color: #7388D6;">)</span> hi &lt;&lt; 32 | lo;
-<span style="color: #707183;">}</span>
-
-<span style="color: #6434A3;">void</span> <span style="color: #006699;">time_it</span><span style="color: #707183;">(</span><span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">msg</span>, <span style="color: #6434A3;">func</span> <span style="color: #BA36A5;">func2run</span><span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
-  <span style="color: #6434A3;">unsigned</span> <span style="color: #6434A3;">long</span> <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">start</span>, <span style="color: #BA36A5;">stop</span>;
-  start = rdtsc<span style="color: #7388D6;">()</span>;
-  func2run<span style="color: #7388D6;">()</span>;
-  stop = rdtsc<span style="color: #7388D6;">()</span>;
-  printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"%s: %lld\n"</span>, msg, stop - start<span style="color: #7388D6;">)</span>;
-<span style="color: #707183;">}</span>
-
-<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
-  init<span style="color: #7388D6;">()</span>;
-  time_it<span style="color: #7388D6;">(</span><span style="color: #008000;">"in_serial()  "</span>, in_serial<span style="color: #7388D6;">)</span>;
-  time_it<span style="color: #7388D6;">(</span><span style="color: #008000;">"in_parallel()"</span>, in_parallel<span style="color: #7388D6;">)</span>;
-  <span style="color: #0000FF;">return</span> 0;
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org66bfdcc" class="outline-4">
-<h4 id="org66bfdcc">using the shell</h4>
-<div class="outline-text-4" id="text-org66bfdcc">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ gcc -o sseTimings sseTimings.c
-bash-3.2$ ./sseTimings
-<span style="color: #006699;">in_serial</span><span style="color: #707183;">()</span>  : 19905
-<span style="color: #006699;">in_parallel</span><span style="color: #707183;">()</span>: 10483
-bash-3.2$ ./sseTimings
-<span style="color: #006699;">in_serial</span><span style="color: #707183;">()</span>  : 22260
-<span style="color: #006699;">in_parallel</span><span style="color: #707183;">()</span>: 11319
-bash-3.2$ ./sseTimings
-<span style="color: #006699;">in_serial</span><span style="color: #707183;">()</span>  : 21785
-<span style="color: #006699;">in_parallel</span><span style="color: #707183;">()</span>: 10957</pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org863ecac" class="outline-3">
-<h3 id="org863ecac">OpenMp</h3>
-<div class="outline-text-3" id="text-org863ecac">
-</div>
-<div id="outline-container-org2195eeb" class="outline-4">
-<h4 id="org2195eeb">Overview</h4>
-</div>
-<div id="outline-container-org26a7488" class="outline-4">
-<h4 id="org26a7488">Basics</h4>
-</div>
-<div id="outline-container-org14b2e69" class="outline-4">
-<h4 id="org14b2e69">Miser-Spendthrift Problem</h4>
-</div>
-</div>
-<div id="outline-container-org6c1859c" class="outline-3">
-<h3 id="org6c1859c">Parallelism and Performance</h3>
-<div class="outline-text-3" id="text-org6c1859c">
-</div>
-<div id="outline-container-org6ba300b" class="outline-4">
-<h4 id="org6ba300b">How Can Performance Gains Through Parallelism Be Measured</h4>
-<div class="outline-text-4" id="text-org6ba300b">
-<p>
-Parallelism and performance
-</p>
-
-<ul class="org-ul">
-<li>Revised <i>sseTimings</i> program, now in 3 versions: <i>timings2048</i>,
-<i>timings8192</i>, and <i>timings32768</i>:
-<ul class="org-ul">
-<li>Average speedup of 'serial' version from 20 test runs:<br />
-'timings2048':  average speedup of 2.17    ## 2048 is vector size<br />
-'timings8192':  average speedup of 1.72    ##  8192 <code>= 2048 x 4\\
-       'timings32768': average speedup of 1.65    ## 32768 =</code> 8192 x 4</li>
-<li>Key question: The 'in<sub>parallel</sub>()' function does only 1/4th the
-arithmetic operations as the 'in<sub>serial</sub>()' function. Why is max
-speedup above only slightly over 2 rather than close to (or even
-at) 4?</li>
-</ul></li>
-</ul>
-<hr />
-<ul class="org-ul">
-<li>How to measure performance?
-<ul class="org-ul">
-<li>Response time ('latency'): elapsed time
-<ul class="org-ul">
-<li>Program P1 takes 10 units, whereas program P2 takes 5: P1/P2 =
-2, a speedup of 2</li>
-</ul></li>
-<li>Throughput: number of tasks completed in a fixed amount of time.
-<ul class="org-ul">
-<li><p>
-On single-processor machine M1, with required times for processing above the arrows:
-</p>
-<pre class="example">
-    5       3   +-----------+
-T2-----&gt;T1-----&gt;| processor |  ## Two tasks completed in 8 time units on M1
-                +-----------+
-</pre></li>
-<li><p>
-On multiple-processor machine M2:
-</p>
-<pre class="example">
-   5   +-----------+
-T1-----&gt;| processor | ## T1 takes a bit longer on M2
-       +-----------+
-               ## Two tasks completed in 5 time units on M2, a speedup of about 1.6
-   5   +-----------+
-T2-----&gt;| processor | ## T2 takes the same amount of time on M1 and M2
-       +-----------+
-</pre></li>
-</ul></li>
-<li>Big picture: parallelism is a good way to boost performance
-<ul class="org-ul">
-<li>Parallelism tends to increase throughput, and thereby performance.</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-orgf6bbd1b" class="outline-4">
-<h4 id="orgf6bbd1b">The ParallelSort Program in Java</h4>
-<div class="outline-text-4" id="text-orgf6bbd1b">
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #036A07;">/** A Java program to illustrate the potential speedup of parallelism, in this</span>
-<span style="color: #036A07;">    case for sorting: the program uses the new (as of Java 8) Arrays.parallelSort</span>
-<span style="color: #036A07;">    method, and also the Arrays.parallelSetAll method for parallel initialization</span>
-<span style="color: #036A07;">    of the roughly 4M array of integers.</span>
-
-<span style="color: #036A07;">    As noted, Java 8 or greater is requied.</span>
-<span style="color: #036A07;">*/</span>
-<span style="color: #0000FF;">import</span> <span style="color: #D0372D;">java</span>.<span style="color: #D0372D;">util</span>.<span style="color: #6434A3;">Random</span>;
-<span style="color: #0000FF;">import</span> <span style="color: #D0372D;">java</span>.<span style="color: #D0372D;">util</span>.<span style="color: #6434A3;">Arrays</span>;
-
-<span style="color: #0000FF;">public</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">ParallelSort</span> <span style="color: #707183;">{</span>
-    <span style="color: #0000FF;">private</span> <span style="color: #6434A3;">int</span><span style="color: #7388D6;">[</span> <span style="color: #7388D6;">]</span> <span style="color: #BA36A5;">array2Sort</span>;
-    
-    <span style="color: #0000FF;">public</span> <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">main</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">String</span><span style="color: #909183;">[</span> <span style="color: #909183;">]</span> <span style="color: #BA36A5;">args</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
-        <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">ParallelSort</span><span style="color: #909183;">()</span>.doIt<span style="color: #909183;">()</span>;
-    <span style="color: #7388D6;">}</span>
-    <span style="color: #0000FF;">private</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">doIt</span><span style="color: #7388D6;">()</span> <span style="color: #7388D6;">{</span>
-        <span style="color: #0000FF;">final</span> <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">arraySize</span> = 1024 * 1024 * 4;  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">about 4M: 4,194,304     /** line 1 **/</span>
-
-        <span style="color: #8D8D84;">//</span><span style="color: #8D8D84; font-style: italic;">** serial sort</span>
-        init<span style="color: #909183;">(</span>arraySize<span style="color: #909183;">)</span>;
-        <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">serial</span> = sortArray<span style="color: #909183;">(</span>array2Sort, <span style="color: #D0372D;">false</span><span style="color: #909183;">)</span>;                        <span style="color: #036A07;">/** line 2 **/</span>
-
-        <span style="color: #8D8D84;">//</span><span style="color: #8D8D84; font-style: italic;">** parallel sort</span>
-        init<span style="color: #909183;">(</span>arraySize<span style="color: #909183;">)</span>;
-        <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">parallel</span> = sortArray<span style="color: #909183;">(</span>array2Sort, <span style="color: #D0372D;">true</span><span style="color: #909183;">)</span>;                       <span style="color: #036A07;">/** line 3 **/</span>
-
-        <span style="color: #8D8D84;">//</span><span style="color: #8D8D84; font-style: italic;">** report</span>
-        log<span style="color: #909183;">(</span><span style="color: #008000;">"Serial sort of array of size:   "</span> + arraySize<span style="color: #909183;">)</span>;
-        log<span style="color: #909183;">(</span><span style="color: #008000;">"Elapsed time: "</span> + serial<span style="color: #909183;">)</span>;
-        log<span style="color: #909183;">(</span><span style="color: #008000;">""</span><span style="color: #909183;">)</span>;
-
-        log<span style="color: #909183;">(</span><span style="color: #008000;">"Parallel sort of array of size: "</span> + arraySize<span style="color: #909183;">)</span>; 
-        log<span style="color: #909183;">(</span><span style="color: #008000;">"Elapsed time: "</span> + parallel<span style="color: #909183;">)</span>;
-
-        log<span style="color: #909183;">(</span><span style="color: #008000;">""</span><span style="color: #909183;">)</span>;
-        <span style="color: #6434A3;">double</span> <span style="color: #BA36A5;">ratio</span> = <span style="color: #909183;">(</span><span style="color: #6434A3;">double</span><span style="color: #909183;">)</span> serial / <span style="color: #909183;">(</span><span style="color: #6434A3;">double</span><span style="color: #909183;">)</span> parallel;
-        <span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>parallel &lt; <span style="color: #6434A3;">serial</span><span style="color: #909183;">)</span> 
-            log<span style="color: #909183;">(</span><span style="color: #008000;">"Speedup:  "</span> + ratio<span style="color: #909183;">)</span>;
-        <span style="color: #0000FF;">else</span>
-            log<span style="color: #909183;">(</span><span style="color: #008000;">"Slowdown: "</span> + ratio<span style="color: #909183;">)</span>;
-    <span style="color: #7388D6;">}</span>
-    <span style="color: #0000FF;">private</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">init</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">size</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
-        array2Sort = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">int</span><span style="color: #909183;">[</span>size<span style="color: #909183;">]</span>;
-        <span style="color: #036A07;">/** parallel initialization of array elements **/</span>
-        Arrays.parallelSetAll<span style="color: #909183;">(</span>array2Sort,                                  <span style="color: #036A07;">/** line 4 **/</span> 
-                              i-&gt;<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Random</span><span style="color: #709870;">()</span>.nextInt<span style="color: #709870;">()</span><span style="color: #909183;">)</span>;                  <span style="color: #036A07;">/** line 5 **/</span>
-    <span style="color: #7388D6;">}</span>
-    <span style="color: #0000FF;">private</span> <span style="color: #6434A3;">long</span> <span style="color: #006699;">sortArray</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">int</span><span style="color: #909183;">[</span> <span style="color: #909183;">]</span> <span style="color: #BA36A5;">array</span>, <span style="color: #6434A3;">boolean</span> <span style="color: #BA36A5;">parallel</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
-        <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">start</span> = System.currentTimeMillis<span style="color: #909183;">()</span>;
-        <span style="color: #036A07;">/** parallel version of merge-sort **/</span>
-        <span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>parallel<span style="color: #909183;">)</span> Arrays.parallelSort<span style="color: #909183;">(</span>array<span style="color: #909183;">)</span>;                          <span style="color: #036A07;">/** line 6 **/</span>
-        <span style="color: #036A07;">/** variant of quicksort ('dual pivot') **/</span>
-        <span style="color: #0000FF;">else</span> Arrays.sort<span style="color: #909183;">(</span>array<span style="color: #909183;">)</span>;                                           <span style="color: #036A07;">/** line 7 **/</span>
-        <span style="color: #6434A3;">long</span> <span style="color: #BA36A5;">stop</span> = System.currentTimeMillis<span style="color: #909183;">()</span>;
-        <span style="color: #0000FF;">return</span> stop - start;
-    <span style="color: #7388D6;">}</span>
-    <span style="color: #0000FF;">private</span> <span style="color: #6434A3;">void</span> <span style="color: #006699;">log</span><span style="color: #7388D6;">(</span><span style="color: #6434A3;">String</span> <span style="color: #BA36A5;">msg</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
-        System.out.println<span style="color: #909183;">(</span>msg<span style="color: #909183;">)</span>;
-    <span style="color: #7388D6;">}</span>
-<span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-</div>
-<div id="outline-container-org560429f" class="outline-5">
-<h5 id="org560429f">using the shell</h5>
-<div class="outline-text-5" id="text-org560429f">
-<div class="org-src-container">
-<pre class="src src-sh">bash-3.2$ java ParallelSort
-Serial sort of array of size:   4194304
-Elapsed time: 824
-
-Parallel sort of array of size: 4194304
-Elapsed time: 358
-
-Speedup:  2.3016759776536313
-bash-3.2$ java ParallelSort
-Serial sort of array of size:   4194304
-Elapsed time: 710
-
-Parallel sort of array of size: 4194304
-Elapsed time: 258
-
-Speedup:  2.751937984496124
-bash-3.2$ java ParallelSort
-Serial sort of array of size:   4194304
-Elapsed time: 807
-
-Parallel sort of array of size: 4194304
-Elapsed time: 295
-
-Speedup:  2.7355932203389832</pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-orgd44de76" class="outline-4">
-<h4 id="orgd44de76">Amdahls Law by Example</h4>
-<div class="outline-text-4" id="text-orgd44de76">
-<p>
-A quick look at Amdahl's Law
-</p>
-
-<ul class="org-ul">
-<li>The law, named after its creator (a one-time IBM engineer who
-founded a IBM rival company), sets a theoretical limit on the
-speedup that can be achieved in a computation.
-<ul class="org-ul">
-<li>The law has the practical benefit of sharpening intuitions about
-how speedup should be pursued.</li>
-</ul></li>
-<li>A sample problem for Amdahl's law: 
-<ul class="org-ul">
-<li>Compute the arithmetic mean of 4M floating-point values on
-single-processor machine M1.  Call this problem P.</li>
-<li>Compute the speedup of porting the solution to quad-processor
-machine M4.
-<ul class="org-ul">
-<li>Assume that M1 and M4 differ only in the number of processors.</li>
-</ul></li>
-</ul></li>
-<li>A step-by-step application of the law:
-<ol class="org-ol">
-<li>Compute response time for P on M1: \(RT1\)</li>
-<li>Compute response time for P on M4: \(RT4\)</li>
-<li>Computer the ratio: \(RT1/RT4\)
-<ul class="org-ul">
-<li>If \(\frac{RT1}{RT4} = 1\), the response times are the same: no difference between M1 and M4 performance.</li>
-<li>If \(\frac{RT1}{RT4} < 1\), there's slowdown rather than speedup.</li>
-<li>If \(\frac{RT1}{RT4} > 1\), there's speedup.</li>
-</ul></li>
-<li>Normalize \(RT1\) to 1 time unit: keeps things simple.</li>
-<li>Break \(RT4\) into two parts: 
-<ul class="org-ul">
-<li>\(enchanced\): in this case, parallel and</li>
-<li>\(unenhanced\): in this case, serial</li>
-<li>The \(unenhanced\) part of \(RT4\) is the part still done in serial
-mode &#x2013; no benefit of parallelism.
-<ul class="org-ul">
-<li>The data set needs to be partitioned, assigned to workers
-(threads or processes), the results from the workers need to
-be aggregated, etc.</li>
-</ul></li>
-<li>The \(enhanced\) part of \(RT4\) is the part that benefits from the
-speedup due to parallelism.</li>
-<li>\[Speedup = \frac{RT1}{RT4} = \frac{1}{unenhanced + enhanced}\]</li>
-<li>The \(enhanced\) depends on two factors: what fraction of time is
-sped up, and by what amount.  How much time does M4 speed in
-'parallel mode' when solving P, and how much faster is M4 in
-'parallel mode' than M1 in serial mode?</li>
-<li>Assume M4 is four times faster than M1 when M4 is in 'parallel
-mode', and that M4 is in 'parallel mode' 80% of the time when
-solving P.</li>
-<li>\[Speedup = \frac{RT1}{RT4} = \frac{1}{unenhanced + enhanced} = \frac{1}{0.2 + \frac{0.8}{4.0}} = 2.5\]</li>
-<li>Under the given assumptions, M4 solves P 2.5 times faster than does M1.</li>
-</ul></li>
-</ol></li>
-<li>The big picture of Amdahal's Law:
-<ul class="org-ul">
-<li>It's tempting to be distracted by how much faster a 'local
-speedup' is: M4 is four times faster than M1 when M4 is in
-'parallel mode'.</li>
-<li>It's critical to focus on the fraction of time spent in enhanced
-mode: M4 is in 'parallel mode' 80% of the time&#x2013;not 100% of time.</li>
-</ul></li>
-</ul>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Machine</th>
-<th scope="col" class="org-right">Fraction in local speedup</th>
-<th scope="col" class="org-right">Local speedup</th>
-<th scope="col" class="org-right">Global speedup</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">M4</td>
-<td class="org-right">0.8</td>
-<td class="org-right">4.0</td>
-<td class="org-right">2.5</td>
-</tr>
-
-<tr>
-<td class="org-left">M8</td>
-<td class="org-right">0.7</td>
-<td class="org-right">8.0</td>
-<td class="org-right">2.6</td>
-</tr>
-
-<tr>
-<td class="org-left">M12</td>
-<td class="org-right">0.6</td>
-<td class="org-right">12.0</td>
-<td class="org-right"><b>2.2</b></td>
-</tr>
-
-<tr>
-<td class="org-left">M16</td>
-<td class="org-right">0.5</td>
-<td class="org-right">16.0</td>
-<td class="org-right">1.9</td>
-</tr>
-
-<tr>
-<td class="org-left">M20</td>
-<td class="org-right">0.4</td>
-<td class="org-right">20.0</td>
-<td class="org-right">1.6</td>
-</tr>
-
-<tr>
-<td class="org-left">M24</td>
-<td class="org-right">0.3</td>
-<td class="org-right">24.0</td>
-<td class="org-right">1.4</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-
-<div id="outline-container-org2ab340d" class="outline-4">
-<h4 id="org2ab340d">Programming exercise for parallelism/performance</h4>
-<div class="outline-text-4" id="text-org2ab340d">
-<ul class="org-ul">
-<li>More data gathering and reflecting on the data than coding</li>
-<li>The current version calls Arrays.sort(&#x2026;) and Arrays.parallelSort(&#x2026;) on an array.
-<ul class="org-ul">
-<li>Array has roughly 4M array elements.</li>
-<li>Speedup on the machines I tried was about 2.5 for the parallelSort.</li>
-</ul></li>
-<li><p>
-In the interest of gathering more data, change the program so that
-it tries various sizes.  For instance:
-</p>
-<div class="org-src-container">
-<pre class="src src-java">  <span style="color: #0000FF;">final</span> <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">initialSize</span> = 1024;
-  <span style="color: #0000FF;">final</span> <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">howMany</span> = 16; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">don't go over 20 -- overflow occurs</span>
-  <span style="color: #6434A3;">int</span><span style="color: #707183;">[</span> <span style="color: #707183;">]</span> <span style="color: #BA36A5;">arraySizes</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">int</span><span style="color: #707183;">[</span>howMany<span style="color: #707183;">]</span>;
-  arraySizes<span style="color: #707183;">[</span>0<span style="color: #707183;">]</span> = initialSize;
-  <span style="color: #0000FF;">for</span> <span style="color: #707183;">(</span><span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span> = 1; i &lt; <span style="color: #6434A3;">howMany</span>; i++<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
-      arraySizes<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span> = arraySizes<span style="color: #7388D6;">[</span>i - 1<span style="color: #7388D6;">]</span> * 2;
-  <span style="color: #707183;">}</span></pre>
-</pre>
-</div>
-<p>
-Get the speedup for each of the sizes, and note any trends in speedup.
-</p></li>
-<li>Do the same for numeric types other than int, for instance, long, float, and double.</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-org012f772" class="outline-3">
-<h3 id="org012f772">Parallelism And Distributed Computing</h3>
-<div class="outline-text-3" id="text-org012f772">
-<ul class="org-ul">
-<li>Map/Reduce in Java</li>
-<li>OpenMPI</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-orgdf8a6fd" class="outline-2">
-<h2 id="orgdf8a6fd">weitere verwendete Literatur</h2>
-<div class="outline-text-2" id="text-orgdf8a6fd">
+<div id="outline-container-orgc201c00" class="outline-2">
+<h2 id="orgc201c00">weitere verwendete Literatur</h2>
+<div class="outline-text-2" id="text-orgc201c00">
 <ul class="org-ul">
 <li><a class='org-ref-reference' href="#CACM2017">CACM2017</a></li>
 <li><a class='org-ref-reference' href="#CACM2016">CACM2016</a></li>
@@ -2929,8 +979,8 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </ul>
 </div>
 </div>
-<div id="outline-container-orge61c777" class="outline-2">
-<h2 id="orge61c777"><h2>Literaturverzeichnis</h2>
+<div id="outline-container-orga15f831" class="outline-2">
+<h2 id="orga15f831"><h2>Literaturverzeichnis</h2>
 <ul class='org-ref-bib'><li><a id="Bengel2015">[Bengel2015] Günther Bengel, Christian Baun, Marcel Kunze & Karl-Uwe Stucky, Masterkurs Parallele und Verteilte Systeme, Springer Fachmedien Wiesbaden (2015).</a></li>
 <li><a id="Kalin2015">[Kalin2015] Martin Kalin, Concurrent and Parallel Programming Concepts, (2015), zuletzt aufgerufen am 10.10.2017: <a href="https://www.safaribooksonline.com/library/view/concurrent-and-parallel/9781771375313/">https://www.safaribooksonline.com/library/view/concurrent-and-parallel/9781771375313/</a> </a></li>
 <li><a id="Flynn1972">[Flynn1972] Flynn, Some Computer Organizations and Their Effectiveness, <i>IEEE Trans. Comput.</i>, <b>21(9)</b>, 948-960 (1972). <a href="http://dx.doi.org/10.1109/TC.1972.5009071">link</a>. <a href="http://dx.doi.org/10.1109/TC.1972.5009071">doi</a>.</a></li>
@@ -2942,7 +992,7 @@ Get the speedup for each of the sizes, and note any trends in speedup.
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-10-23 Mo 20:54</p>
+<p class="date">Created: 2017-11-01 Wed 15:59</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

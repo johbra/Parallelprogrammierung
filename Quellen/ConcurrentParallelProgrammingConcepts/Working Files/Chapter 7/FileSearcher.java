@@ -51,8 +51,8 @@ public class FileSearcher extends RecursiveTask<List<String>> {                 
 class MainFS {
     public static void main(String[ ] args) {
 	List<String> list = 
-	    new FileSearcher(System.getProperty("user.home"), ".txt").compute();     /** line 18 **/
-	System.out.println("Files with extension .txt:");
-	for (String string : list) System.out.println(string);                       /** line 19 **/
+            new FileSearcher(System.getProperty("user.home"), ".txt").compute();    /** line 18 **/
+        System.out.println("Files with extension .txt:");
+	for (String string : list) System.out.println(string);                      /** line 19 **/
     }
 }

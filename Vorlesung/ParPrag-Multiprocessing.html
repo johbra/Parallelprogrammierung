@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+<!-- 2017-11-01 Wed 15:02 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parallelprogrammierung &#x2013; Multiprocessing</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Johannes Brauer" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/bigblow/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/bigblow/css/bigblow.css"/>
+<link rel="stylesheet" type="text/css" href="styles/bigblow/css/hideshow.css"/>
+<script type="text/javascript" src="styles/bigblow/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery.localscroll-min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/bigblow.js"></script>
+<script type="text/javascript" src="styles/bigblow/js/hideshow.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<link rel="stylesheet" type="text/css" href="mycss/mystyle.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2017 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Parallelprogrammierung &#x2013; Multiprocessing</h1>
+
+<div id="outline-container-org29937c2" class="outline-2">
+<h2 id="org29937c2">Multiprocessing &#x2013; Grundlagen</h2>
+<div class="outline-text-2" id="text-org29937c2">
+</div><div id="outline-container-org2d95dba" class="outline-3">
+<h3 id="org2d95dba">A first multiprocessing example in C</h3>
+<div class="outline-text-3" id="text-org2d95dba">
+</div><div id="outline-container-orgf3b3d60" class="outline-4">
+<h4 id="orgf3b3d60">Overview</h4>
+<div class="outline-text-4" id="text-orgf3b3d60">
+<p>
+&#x2026; key points of the <i>unnamed pipe example</i>
+</p>
+
+<ul class="org-ul">
+<li><p>
+When the program pipeExample.c is compiled and then executed from
+the command-line, it executes as a process. Here's the command to
+execute:
+</p>
+<pre class="example">
+% ./pipeExample   ## On Windows: % pipeExample
+
+</pre></li>
+<li>The executing pipeExample is the <i>parent</i> process.</li>
+<li>The parent process calls the library function fork() to spawn a
+<i>child</i> process, a clone of the parent.
+<ul class="org-ul">
+<li>The library function fork() makes a system call to the OS routine that spawns the child.</li>
+<li>The library function fork() returns one of three values:
+<dl class="org-dl">
+<dt>-1</dt><dd>to signal failure (e.g., the system already has too
+many processes)</dd>
+<dt>0</dt><dd>to the child process</dd>
+<dt>&gt; 0</dt><dd>to the parent process; in particular, the <i>process id</i>
+(pid) of the child is returned to the parent, and a pid
+is always a positive integer</dd>
+</dl></li>
+<li>The parent and child process both execute the code that follows the call to fork().
+<ul class="org-ul">
+<li>fork() effectively <i>clones</i> one process (child) from another (parent).</li>
+<li><p>
+An if-else or equivalent construct is used to ensure that the
+parent does one thing and the child does something else.
+</p>
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #6434A3;">pid_t</span> <span style="color: #BA36A5;">pid</span> = fork<span style="color: #707183;">()</span>;   <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">pid_t is a signed integer data type *</span><span style="color: #8D8D84;">*/</span>
+<span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>-1 == pid<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>      <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">error: couldn't clone a new process *</span><span style="color: #8D8D84;">*/</span>
+    ...                
+<span style="color: #707183;">}</span>   
+<span style="color: #0000FF;">else</span> <span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>0 == pid<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">child code follows *</span><span style="color: #8D8D84;">*/</span>
+    ...
+<span style="color: #707183;">}</span>
+<span style="color: #0000FF;">else</span> <span style="color: #707183;">{</span>                <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">parent code follows *</span><span style="color: #8D8D84;">*/</span>
+    ...
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div></li>
+</ul></li>
+<li>The parent waits for the child to exit so that the child does not
+become a „zombie“.
+<ul class="org-ul">
+<li>When a child terminates, the OS notifies the parent. If the
+parent is already terminated, it cannot be notified&#x2013;and the
+child becomes an „zombie“, dead but still around.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfbd2ea8" class="outline-4">
+<h4 id="orgfbd2ea8">using the shell</h4>
+<div class="outline-text-4" id="text-orgfbd2ea8">
+<div class="org-src-container">
+<pre class="src src-sh">bash-3.2$ ls pipeExample.c 
+pipeExample.c
+bash-3.2$ gcc -o pipeExample pipeExample.c 
+bash-3.2$ ./pipeExample
+This is the winter of our discontent
+bash-3.2$ </pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org22233e0" class="outline-4">
+<h4 id="org22233e0">Source code</h4>
+<div class="outline-text-4" id="text-org22233e0">
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">A first multiprocessing example: pipes in C </span>
+<span style="color: #8D8D84; font-style: italic;">    To compile (Unix-like system): gcc -o pipeExample pipeExample.c</span>
+<span style="color: #8D8D84; font-style: italic;">    For Windows, the GNU compiler: https://gcc.gnu.org/</span>
+<span style="color: #8D8D84; font-style: italic;">*</span><span style="color: #8D8D84;">*/</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/wait.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">string.h</span><span style="color: #707183;">&gt;</span>
+
+<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">ReadEnd</span>  0                                                  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 1 *</span><span style="color: #8D8D84;">*/</span>            
+<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">WriteEnd</span> 1                                                
+
+<span style="color: #6434A3;">void</span> <span style="color: #006699;">report_and_die</span><span style="color: #707183;">(</span><span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">msg</span><span style="color: #707183;">)</span> <span style="color: #707183;">{</span>                              <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 2 *</span><span style="color: #8D8D84;">*/</span>
+  perror<span style="color: #7388D6;">(</span>msg<span style="color: #7388D6;">)</span>;
+  exit<span style="color: #7388D6;">(</span>-1<span style="color: #7388D6;">)</span>;    <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">failure *</span><span style="color: #8D8D84;">*/</span>
+<span style="color: #707183;">}</span>
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">pipeFDs</span><span style="color: #7388D6;">[</span>2<span style="color: #7388D6;">]</span>;                                                   <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 3 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #6434A3;">char</span> <span style="color: #BA36A5;">buf</span>;         <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">1-byte buffer </span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">msg</span> = <span style="color: #008000;">"This is the winter of our discontent\n"</span>;
+
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>pipe<span style="color: #909183;">(</span>pipeFDs<span style="color: #909183;">)</span> &lt; 0<span style="color: #7388D6;">)</span> report_and_die<span style="color: #7388D6;">(</span><span style="color: #008000;">"pipe(...)"</span><span style="color: #7388D6;">)</span>;               <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 4 *</span><span style="color: #8D8D84;">*/</span>
+
+  <span style="color: #6434A3;">pid_t</span> <span style="color: #BA36A5;">cpid</span> = fork<span style="color: #7388D6;">()</span>;                                              <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 5 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>cpid &lt; 0<span style="color: #7388D6;">)</span> report_and_die<span style="color: #7388D6;">(</span><span style="color: #008000;">"fork()"</span><span style="color: #7388D6;">)</span>;                           <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 6 *</span><span style="color: #8D8D84;">*/</span>
+
+  <span style="color: #8D8D84;">/*** </span><span style="color: #8D8D84; font-style: italic;">child **</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>0 == cpid<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>                                                  <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 7 *</span><span style="color: #8D8D84;">*/</span>
+    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>WriteEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>;                                       <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 8 *</span><span style="color: #8D8D84;">*/</span>
+    <span style="color: #0000FF;">while</span> <span style="color: #909183;">(</span>read<span style="color: #709870;">(</span>pipeFDs<span style="color: #907373;">[</span>ReadEnd<span style="color: #907373;">]</span>, &amp;buf, 1<span style="color: #709870;">)</span> &gt; 0<span style="color: #909183;">)</span>                     <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 9 *</span><span style="color: #8D8D84;">*/</span>
+      write<span style="color: #909183;">(</span>STDOUT_FILENO, &amp;buf, <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span>buf<span style="color: #709870;">)</span><span style="color: #909183;">)</span>;                      <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">1ine 10 *</span><span style="color: #8D8D84;">*/</span>
+    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>ReadEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>;                                        <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 11 *</span><span style="color: #8D8D84;">*/</span>
+    _exit<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">signal parent of immediate exit *</span><span style="color: #8D8D84;">*/</span>                <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 12 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #7388D6;">}</span> 
+  <span style="color: #8D8D84;">/*** </span><span style="color: #8D8D84; font-style: italic;">parent **</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">else</span> <span style="color: #7388D6;">{</span>                                                            <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 13 *</span><span style="color: #8D8D84;">*/</span> 
+    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>ReadEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>;                                   
+    write<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>WriteEnd<span style="color: #709870;">]</span>, msg, strlen<span style="color: #709870;">(</span>msg<span style="color: #709870;">)</span><span style="color: #909183;">)</span>;                     <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 14 *</span><span style="color: #8D8D84;">*/</span>
+    close<span style="color: #909183;">(</span>pipeFDs<span style="color: #709870;">[</span>WriteEnd<span style="color: #709870;">]</span><span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">generates an EOF </span><span style="color: #8D8D84;">*/</span>                <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 15 *</span><span style="color: #8D8D84;">*/</span>
+    wait<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/*** </span><span style="color: #8D8D84; font-style: italic;">wait for child to exit **</span><span style="color: #8D8D84;">*/</span>                       <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 16 *</span><span style="color: #8D8D84;">*/</span>  
+    exit<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">exit normally </span><span style="color: #8D8D84;">*/</span>                                    <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 17 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #7388D6;">}</span>
+  <span style="color: #0000FF;">return</span> 0;
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org8ed68a1" class="outline-3">
+<h3 id="org8ed68a1">Second Example &#x2013; Named Pipes</h3>
+<div class="outline-text-3" id="text-org8ed68a1">
+</div><div id="outline-container-orgde41b95" class="outline-4">
+<h4 id="orgde41b95">Overview</h4>
+<div class="outline-text-4" id="text-orgde41b95">
+<p>
+A second multiprocessing example in C: key points of the <i>named pipe</i> example
+</p>
+
+<ul class="org-ul">
+<li>Two separate processes, but no parent/child relationship between them.
+<ul class="org-ul">
+<li>The processes communicate through a <i>named pipe</i> (aka <i>FIFO</i>).
+<ul class="org-ul">
+<li><p>
+A named pipe is a mechanism designed to support IPC among processes on the same host.
+</p>
+<pre class="example">
+           +------------+
+writer----&gt;| named pipe |&lt;----reader
+           +------------+
+</pre></li>
+</ul></li>
+</ul></li>
+<li>The system implements an FIFO as a temporary file.</li>
+<li>Named pipes are quite similar in functionality to Unix Domain
+Sockets, also called <i>local sockets</i>.
+<ul class="org-ul">
+<li>Network sockets support communcation between processes running on
+different hosts, whereas named pipes and local sockets do the same
+for processes running on the same host.</li>
+</ul></li>
+<li><p>
+The example consists of two executable programs, fifoWriter and
+fifoReader, which can be executed at the command-line as follows:
+</p>
+<pre class="example">
+% ./fifoWriter &amp;    ## for Windows: fifoWriter &amp; (&amp; puts the process in the background) 
+% ./fifoReader      ## for Windows: fifoReader
+
+</pre>
+<ul class="org-ul">
+<li>There are now two processes executing: fifoWriter and fifoReader</li>
+<li>The fifoWriter writes randomly generated integers to the FIFO.</li>
+<li>The fifoReader reads these integers from the FIFO until end-of-file.</li>
+<li>In the C code, the FIFO is <i>written</i> and <i>read</i> as if it were a
+regular disk file: the I/O API is the same.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7cb1dec" class="outline-4">
+<h4 id="org7cb1dec">using the shell</h4>
+<div class="outline-text-4" id="text-org7cb1dec">
+<div class="org-src-container">
+<pre class="src src-sh">bash-3.2$ ./fifoWriter &amp;
+<span style="color: #707183;">[</span>1<span style="color: #707183;">]</span> 7316
+bash-3.2$ ./fifoReader
+60749779
+966803328
+1202260494
+...
+<span style="color: #707183;">[</span>1<span style="color: #707183;">]</span>+  Done                    ./fifoWriter
+bash-3.2$ </pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5579eab" class="outline-4">
+<h4 id="org5579eab">Source Code <code>fifoWriter.c</code></h4>
+<div class="outline-text-4" id="text-org5579eab">
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">time.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/stat.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/types.h</span><span style="color: #707183;">&gt;</span>
+
+<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">MaxWrites</span> 256  
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
+  srand<span style="color: #7388D6;">(</span>time<span style="color: #909183;">(</span>0<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">seed the random number generator </span><span style="color: #8D8D84;">*/</span>
+
+  <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">fifoName</span> = <span style="color: #008000;">"./myPipe1"</span>;          
+  mkfifo<span style="color: #7388D6;">(</span>fifoName, 0666<span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">read/write for user/group/others </span><span style="color: #8D8D84;">*/</span>             <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 1 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">fd</span> = open<span style="color: #7388D6;">(</span>fifoName, O_CREAT | O_WRONLY<span style="color: #7388D6;">)</span>; <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">open blocks on a FIFO </span><span style="color: #8D8D84;">*/</span>   <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 2 *</span><span style="color: #8D8D84;">*/</span>
+
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>;
+  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i = 0; i &lt; MaxWrites; i++<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span> 
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">n</span> = rand<span style="color: #909183;">()</span>;             
+    write<span style="color: #909183;">(</span>fd, &amp;n, <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span><span style="color: #6434A3;">int</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">4 bytes per int </span><span style="color: #8D8D84;">*/</span>                       <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 3 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #7388D6;">}</span>
+  close<span style="color: #7388D6;">(</span>fd<span style="color: #7388D6;">)</span>;         <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">close the fifo </span><span style="color: #8D8D84;">*/</span>                                    <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 4 *</span><span style="color: #8D8D84;">*/</span>
+  unlink<span style="color: #7388D6;">(</span>fifoName<span style="color: #7388D6;">)</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">dispose of underlying file </span><span style="color: #8D8D84;">*/</span>                        <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 5 *</span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">return</span> 0;
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc7aecbd" class="outline-4">
+<h4 id="orgc7aecbd">Source Code <code>fifoReader.c</code></h4>
+<div class="outline-text-4" id="text-orgc7aecbd">
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">fcntl.h</span><span style="color: #707183;">&gt;</span> 
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">time.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/stat.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">sys/types.h</span><span style="color: #707183;">&gt;</span>
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
+    <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">fifoName</span> = <span style="color: #008000;">"./myPipe1"</span>;
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">num</span>;
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">fd</span> = open<span style="color: #7388D6;">(</span>fifoName, O_RDONLY<span style="color: #7388D6;">)</span>;              <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 1 *</span><span style="color: #8D8D84;">*/</span>
+
+    <span style="color: #0000FF;">while</span> <span style="color: #7388D6;">(</span>read<span style="color: #909183;">(</span>fd, &amp;num, <span style="color: #0000FF;">sizeof</span><span style="color: #709870;">(</span>num<span style="color: #709870;">)</span><span style="color: #909183;">)</span> &gt; 0<span style="color: #7388D6;">)</span>         <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 2 *</span><span style="color: #8D8D84;">*/</span> 
+      printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"%i\n"</span>, num<span style="color: #7388D6;">)</span>;
+    close<span style="color: #7388D6;">(</span>fd<span style="color: #7388D6;">)</span>;                                      <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 3 *</span><span style="color: #8D8D84;">*/</span>
+    unlink<span style="color: #7388D6;">(</span>fifoName<span style="color: #7388D6;">)</span>;                               <span style="color: #8D8D84;">/** </span><span style="color: #8D8D84; font-style: italic;">line 4 *</span><span style="color: #8D8D84;">*/</span>
+    <span style="color: #0000FF;">return</span> 0;
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1981a38" class="outline-3">
+<h3 id="org1981a38">The Nginx Web Server</h3>
+<div class="outline-text-3" id="text-org1981a38">
+<p>
+Multiprocessing in production-grade software: the nginx web server
+</p>
+
+<ul class="org-ul">
+<li>www.nginx.com
+<ul class="org-ul">
+<li>The web server is written in C.</li>
+<li>nginx combines multiprocessing and non-blocking I/O as concurrency mechanisms.</li>
+</ul></li>
+
+<li>nginx, like any modern web server that relies on multiprocessing for concurrency,
+is a "pre-forking" server.
+<ul class="org-ul">
+<li>nginx can be started as a <i>system service</i> (at boot time), and is platform-neutral.</li>
+</ul></li>
+
+<li><p>
+<code>nginx.conf</code>  ()configuration entries are key/value pairs: no XML!)
+</p>
+<pre class="example">
+user www-data;           ## www-data (name is arbitrary) is owner of workers
+worker_processes 4;      ## default number of workers, might be set to processor count
+pid /var/run/nginx.pid;  ## file /var/run/nginx.pid stores pid of master process
+
+events {
+   worker_connections 1024;  ## Max of 1024 connections per worker 
+   ...                       ## (typical browsers open at least two connections to a 
+                                site per client session)
+    }   
+</pre></li>
+
+<li><p>
+<code>ps -ef | grep nginx</code>
+</p>
+<pre class="example">
+Owner     pid   ppid   nginx process type
+
+root      1803     1   master process /usr/sbin/nginx  ## command that started nginx
+www-data  1804  1803   worker process
+www-data  1805  1803   worker process
+www-data  1807  1803   worker process
+www-data  1808  1803   worker process
+</pre></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org17ccc73" class="outline-3">
+<h3 id="org17ccc73">Execing and Forking Options in Multiprocessing</h3>
+<div class="outline-text-3" id="text-org17ccc73">
+<p>
+A second way for one executing program to start another
+</p>
+
+<ul class="org-ul">
+<li><p>
+Review of the previously way, introduction of the new way:
+</p>
+<pre class="example">
+        fork()
+parent----------&gt;child        ## Both parent and child continue to execute...
+
+         exec...()
+process1-----------&gt;process2  ## process2 replaces process1, which terminates
+</pre></li>
+<li>In systems speak, an <i>image</i> is an executable program. For instance,
+copying the system from one machine to another is called
+<i>re-imaging</i>.
+<ul class="org-ul">
+<li>In the multiprocessing <i>pipeExample</i> code, the image is the
+compiled, executable program named <i>pipeExample</i></li>
+</ul></li>
+<li>A new process can be <i>spawned</i> (created) under one of two distinct
+scenarios, which the difference between the fork() function and the
+exec-family of functions illustrates.
+<ul class="org-ul">
+<li>The exec-family consists of library functions that, under the
+hood, make the same system call.</li>
+</ul></li>
+<li><p>
+In a successful call to fork(), the new child process executes the
+<i>same</i> image as the parent that spawned it: the forked process is a
+clone. So the standard code idiom is this:
+</p>
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #6434A3;">pid_t</span> <span style="color: #BA36A5;">pid</span> = fork<span style="color: #707183;">()</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">parent executes this </span><span style="color: #8D8D84;">*/</span>
+...                  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">check for success </span><span style="color: #8D8D84;">*/</span>
+<span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>0 == pid<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>      <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">0 returned to the child </span><span style="color: #8D8D84;">*/</span>
+   ...               <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">child code </span><span style="color: #8D8D84;">*/</span>
+<span style="color: #707183;">}</span>
+<span style="color: #0000FF;">else</span> <span style="color: #707183;">{</span>               <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">parent code: fork returns child's pid to parent </span><span style="color: #8D8D84;">*/</span>
+   ...               <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">alternative parent test: if (pid &gt; 0)</span>
+<span style="color: #8D8D84; font-style: italic;">}</span></pre>
+</pre>
+</div></li>
+<li><p>
+In a successful call to an exec-function, replaces the current process image with
+a new image that's loaded into memory.
+</p>
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">flag</span> = execl<span style="color: #707183;">(</span><span style="color: #008000;">"/usr/bin/myGame"</span>, <span style="color: #008000;">"myGame"</span>, 0<span style="color: #707183;">)</span>;
+<span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>-1 == flag<span style="color: #707183;">)</span> perror<span style="color: #707183;">(</span><span style="color: #008000;">"Couldn't exec..."</span><span style="color: #707183;">)</span>;
+<span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">on success, the 'myGame' program now executes </span><span style="color: #8D8D84;">*/</span></pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li>The new image has its own address space and other features. In
+summary, the old process stops execution and a new one begins
+execution.</li>
+<li>The new process retains the pid (and ppid) of the one it replaces
+<ul class="org-ul">
+<li>The user and group properties are likewise unchanged.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-org05803bd" class="outline-4">
+<h4 id="org05803bd">Using the Shell</h4>
+<div class="outline-text-4" id="text-org05803bd">
+<div class="org-src-container">
+<pre class="src src-sh">bash-3.2$ ./fileStatus tmp
+File name: tmp
+
+Information about file tmp:
+
+Owner ID:    503
+Group ID:    20
+Byte size:   68
+Last access: Fri Oct  6 11:10:23 2017
+File type:   directory
+Owner read:  Owner readable
+Owner write: Owner writable
+
+bash-3.2$ ./fileStatus fileStatus
+File name: fileStatus
+
+Information about file fileStatus:
+
+Owner ID:    503
+Group ID:    20
+Byte size:   8808
+Last access: Fri Oct  6 11:12:05 2017
+File type:   regular
+Owner read:  Owner readable
+Owner write: Owner writable
+
+bash-3.2$ ./execing
+File name: tmp
+
+Information about file tmp:
+
+Owner ID:    503
+Group ID:    20
+Byte size:   68
+Last access: Fri Oct  6 11:10:23 2017
+File type:   directory
+Owner read:  Owner readable
+Owner write: Owner writable</pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1a6cef6" class="outline-4">
+<h4 id="org1a6cef6">Source Code</h4>
+<div class="outline-text-4" id="text-org1a6cef6">
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">To run: </span>
+
+<span style="color: #8D8D84; font-style: italic;">   -- compile this program (gcc -o execing execing.c) and fileStatus.c </span>
+<span style="color: #8D8D84; font-style: italic;">   --                      (gcc -o fileStatus fileStatus.c)</span>
+<span style="color: #8D8D84; font-style: italic;">   -- create a subdirectory named tmp: mkdir tmp</span>
+<span style="color: #8D8D84; font-style: italic;">   -- from the command line: ./execing</span>
+
+<span style="color: #8D8D84; font-style: italic;">   This program 'execs' the fileStatus program, which outputs metadata about the tmp dir..</span>
+<span style="color: #8D8D84; font-style: italic;">   Here's a depiction:</span>
+
+<span style="color: #8D8D84; font-style: italic;">                   execv</span>
+<span style="color: #8D8D84; font-style: italic;">   execing program-------&gt;fileStatus program</span>
+<span style="color: #8D8D84;">*/</span>
+
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">unistd.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdio.h</span><span style="color: #707183;">&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #707183;">&lt;</span><span style="color: #008000;">stdlib.h</span><span style="color: #707183;">&gt;</span>
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
+  <span style="color: #6434A3;">char</span>* <span style="color: #0000FF;">const</span> <span style="color: #BA36A5;">args</span><span style="color: #7388D6;">[]</span> = <span style="color: #7388D6;">{</span><span style="color: #008000;">"./fileStatus"</span>, <span style="color: #008000;">"tmp"</span>, 0<span style="color: #7388D6;">}</span>;  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">fileStatus program, tmp directory </span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">ret</span> = execv<span style="color: #7388D6;">(</span><span style="color: #008000;">"./fileStatus"</span>, args<span style="color: #7388D6;">)</span>;            <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">"v" for "vector" </span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>-1 == ret<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>                                  <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">check for failure </span><span style="color: #8D8D84;">*/</span>
+    perror<span style="color: #909183;">(</span><span style="color: #008000;">"execv(...) error"</span><span style="color: #909183;">)</span>;
+    exit<span style="color: #909183;">(</span>-1<span style="color: #909183;">)</span>;
+  <span style="color: #7388D6;">}</span>
+  <span style="color: #0000FF;">else</span> 
+    printf<span style="color: #7388D6;">(</span><span style="color: #008000;">"I'm here\n"</span><span style="color: #7388D6;">)</span>;                           <span style="color: #8D8D84;">/* </span><span style="color: #8D8D84; font-style: italic;">never executes </span><span style="color: #8D8D84;">*/</span>
+  <span style="color: #0000FF;">return</span> 0;
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaef55a6" class="outline-3">
+<h3 id="orgaef55a6">Process Tracking and Management</h3>
+<div class="outline-text-3" id="text-orgaef55a6">
+<p>
+Process tracking and context switching
+</p>
+
+<ul class="org-ul">
+<li>Each process has a unique ID (pid), a non-negative integer.
+<ul class="org-ul">
+<li>A process's pid is recorded in the system's process table.</li>
+<li>Library functions getpid() and getppid() get the pid and the
+parent's pid, respectively.</li>
+<li>The pid of 0 is typically reserved for the <i>idle process</i>, the one
+that <i>runs</i> when there's nothing else to run.</li>
+<li>The <i>init process</i> has a pid of 1: the first user-space process
+that the OS kernel spawns in the boot-up.
+<ul class="org-ul">
+<li>On shutdown, the init process is the last process to terminate:
+it waits for all of its children.</li>
+<li>The init process starts other processes: system services such as
+the login service, etc.</li>
+</ul></li>
+</ul></li>
+<li>Key data structures in a process <i>context</i>:
+<ul class="org-ul">
+<li>process table: tracks information per process, in particular
+information that allows a pre-empted process to restart later.</li>
+<li>page table(s): translate virtual into physical addresses. Each
+process has its own, which effectively partitions virtual address
+spaces among processes.</li>
+<li>file table: tracks, per process, files that a process has opened.</li>
+</ul></li>
+<li>Every process has a user and group <i>owner</i>, which determines the
+process's access rights to resources.
+<ul class="org-ul">
+<li>Every process likewise belongs to a <i>process group</i>, which
+facilitates sending signals to every process in a group, to
+getting information about related processes, and so on.</li>
+<li>In the default case, a child process belongs to the same as its
+parent.</li>
+</ul></li>
+<li>Most modern systems use pre-emptive scheduling, with either
+fixed-length or variable-length time-slices: a process that exceeds
+the time-slice on a given run is pre-empted and sent back to a
+scheduling queue.
+<ul class="org-ul">
+<li>A process and a thread <i>context</i> consists of key information about
+it.
+<ul class="org-ul">
+<li>For a process, key data structures such as the process table,
+the file table, and its page tables define the <i>context</i>.</li>
+</ul></li>
+</ul></li>
+<li>Context switches, which occur during pre-emption, come in two
+flavors:
+<ul class="org-ul">
+<li>From one thread to another within the same process: <i>intraprocess
+switching</i></li>
+<li>From one process to another: <i>interprocess switching</i>
+<ul class="org-ul">
+<li>The big cost is the swapping out of one (virtual) address space
+for another: page tables</li>
+</ul></li>
+<li>A process-level context switch is signficantly more expensive than
+a thread-level context switch.
+<ul class="org-ul">
+<li>The cost of thread-level switching is near zero on modern systems.</li>
+<li><p>
+Depiction:
+</p>
+<pre class="example">
+Process1      Process2        processor7
+  Thread11      Thread21
+  Thread12
+
+1st scenario: Thread12 replaces Thread11 on processor7  + virtually no overhead
+
+2nd scenario: Thread21 replaces Thread11 on processor7  + high overhead--
+                                                          process context switch
+</pre></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org93c2a7c" class="outline-2">
+<h2 id="org93c2a7c">Multiprocessing &#x2013; Vertiefung</h2>
+<div class="outline-text-2" id="text-org93c2a7c">
+<p>
+<i>to be continued</i> &#x2026; 
+</p>
+
+<p>
+Examples from 
+</p>
+<ul class="org-ul">
+<li>node.js ++</li>
+<li>ipc -</li>
+<li>nginx local socket -</li>
+<li>exercise  -?</li>
+<li>upsides and downsides of multiprocessing +</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Autor: Johannes Brauer</p>
+<p class="date">Created: 2017-11-01 Wed 15:02</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

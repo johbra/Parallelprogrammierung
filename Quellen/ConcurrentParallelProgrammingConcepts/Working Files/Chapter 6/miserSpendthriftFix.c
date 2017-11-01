@@ -50,12 +50,12 @@ int main(int argc, char* argv[]) {
    int n = atoi(argv[1]); /** command-line argument conversion to integer **/
    
    pthread_t miser, spendthrift; /* miser increments, spendthrift decrements */          /** line 6 **/
-   pthread_mutex_init(&lock, 0); /** initialize the lock **/
+   pthread_mutex_init(&lock, 0); /** initialize the lock **/ 
    
    if (pthread_create(&miser,  0, deposit,  &n) < 0)      /* miser: deposit */           /** line 7 **/
-      report_and_die("pthread_create: miser");
+     report_and_die("pthread_create: miser");
    if (pthread_create(&spendthrift, 0, withdraw, &n) < 0) /* spendthrift: withdraw */ 
-      report_and_die("pthread_create: spendthrift");
+     report_and_die("pthread_create: spendthrift");
 
    /* Force main thread to wait for the other two to die. */
    pthread_join(miser,  0);                                                              /** line 8 **/
