@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-01 Wed 19:07 -->
+<!-- 2017-11-05 Sun 19:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deklarative Nebenläufigkeit</title>
@@ -245,13 +245,148 @@ for the JavaScript code in this tag.
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
 
-<div id="outline-container-org8e31c0a" class="outline-2">
-<h2 id="org8e31c0a">Notizen</h2>
+<div id="outline-container-org1eb4793" class="outline-2">
+<h2 id="org1eb4793">Notizen</h2>
+<div class="outline-text-2" id="text-org1eb4793">
+</div><div id="outline-container-orgef0ebc5" class="outline-3">
+<h3 id="orgef0ebc5">Concepts, Techniques, and Models of Computer Programming</h3>
+<div class="outline-text-3" id="text-orgef0ebc5">
+</div><div id="outline-container-org9929c64" class="outline-4">
+<h4 id="org9929c64">Chapter 4: Declarative Concurrency</h4>
+<div class="outline-text-4" id="text-org9929c64">
+<ul class="org-ul">
+<li>Nebenläufigkeit kann einfach sein:
+<ul class="org-ul">
+<li>Nutzung von dataflow variables, können nur einmalig an einen Wert
+gebunden werden</li>
+<li>Konsequenzen:
+<ul class="org-ul">
+<li>das Ergebnis eines Programms bleibt das gleiche, egal ob
+nebenläufig oder nicht</li>
+<li>inkrementelle Berechnungen möglich</li>
+</ul></li>
+<li>simples Beispiel
+<ul class="org-ul">
+<li><p>
+sequentielle Version:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Gen
+
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Gen</span> L H}
+   {Delay 100}
+   <span style="color: #0000FF;">if</span> L<span style="color: #0000FF;">&gt;</span>H <span style="color: #0000FF;">then</span> nil <span style="color: #0000FF;">else</span> L <span style="color: #0000FF;">|</span>{Gen L<span style="color: #0000FF;">+</span>1 H} <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span>
+
+Xs={Gen 1 10}
+Ys={Map Xs <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span> X} X<span style="color: #0000FF;">*</span>X <span style="color: #0000FF;">end</span>}
+{Browse Ys}</pre>
+</pre>
+</div></li>
+<li><p>
+nebenläufige Version:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">thread</span> Xs={Gen 1 10} <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">thread</span> Ys={Map Xs <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span> X} X<span style="color: #0000FF;">*</span>X <span style="color: #0000FF;">end</span>} <span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></li>
+</ul></li>
+<li>Worin besteht der Unterschied in der Ausführung?</li>
+</ul></li>
+<li><p>
+Nicht-Determinismus: <br />
+Durch die <code>thread</code>-Anweisung sind grundsätzlich verschiedene
+Ausführungsreihenfolgen möglich. Nach Ausführung der Instruktion
+<code>Ia</code> im Thread T1  
+</p>
+<pre class="example">
+ Ia     Ib     Ic
+-----&gt;------&gt;------&gt; T1
+      \
+       &gt;-----&gt;------&gt; T2
+         I1     I2
+</pre>
+<p>
+könnte auf einer Einprozessormaschine als nächstes entweder <code>Ib</code>
+oder <code>I2</code> ausgeführt werden. Die Ausführung ist
+<i>nicht-deterministisch</i>. (Auf einer Mehrprozessormaschine wäre
+natürlich aus parallele Ausführung möglich.)
+</p>
+<ul class="org-ul">
+<li><p>
+einige mögliche Ausführungsreihenfolgen
+</p>
+<pre class="example">
+  Ia   I1     I2    Ib    Ic
+-----&gt;-----&gt;-----&gt;-----&gt;-----&gt;
+  Ia   I1     Ib    I2    Ic
+-----&gt;-----&gt;-----&gt;-----&gt;-----&gt;
+  Ia   Ib     I1    I2    Ic
+-----&gt;-----&gt;-----&gt;-----&gt;-----&gt;
+  Ia   Ib     Ic    I1    I2
+-----&gt;-----&gt;-----&gt;-----&gt;-----&gt;
+</pre></li>
+</ul></li>
+<li>Im deklarativ nebenläufigem Berechnungsmodell bleibt der
+Nicht-Determinismus für den Programmierer unsichtbar:
+<ul class="org-ul">
+<li>Datenflussvariablen können nur an einen einzigen Wert gebunden
+werden.</li>
+<li><p>
+Jede Instruktion, die den Wert einer Datenflussvariablen
+verarbeiten will, muss warten, bis diese an einen Wert gebunden
+wird. Vgl. auch das folgende Beispiel:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> X0 X1 X2 X3 <span style="color: #0000FF;">in</span> 
+<span style="color: #0000FF;">thread</span> 
+   <span style="color: #0000FF;">local</span> Y0 Y1 Y2 Y3 <span style="color: #0000FF;">in</span> 
+      {Browse [Y0 Y1 Y2 Y3]}  
+      Y0 = X0<span style="color: #0000FF;">+</span>1
+      Y1 = X1<span style="color: #0000FF;">+</span>Y0
+      Y2 = X2<span style="color: #0000FF;">+</span>Y1
+      Y3 = X3<span style="color: #0000FF;">+</span>Y2
+      {Browse completed}
+   <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span> 
+{Browse [X0 X1 X2 X3]}</pre>
+</pre>
+</div>
+<p>
+Das Ergebnis der Auswertung im Oz-Browser zeigt zunächst 8
+ungebundene Variablen:
+</p>
+<pre class="example">
+    [_ _ _ _]
+    [_ _ _ _]
+</pre>
+<p>
+Erst wenn der Reihe nach die folgenden Bindungen ausgeführt
+werden. 
+</p>
+<div class="org-src-container">
+<pre class="src src-oz">X0 = 0
+X1 = 1
+X2 = 2
+X3 = 3</pre>
+</pre>
+</div>
+<p>
+Wenn <code>X0</code> gebunden wird, wacht der Thread auf und kann die
+Bindung <code>Y0 = X0+1</code> vornehmen.
+</p></li>
+</ul></li>
+<li>Scheduling</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-01 Wed 19:07</p>
+<p class="date">Created: 2017-11-05 Sun 19:23</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

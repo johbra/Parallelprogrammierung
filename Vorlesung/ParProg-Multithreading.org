@@ -421,7 +421,7 @@ final long latency = stopTime - startTime;
  Three questions:
 1. What is the basic behavior of *uncoordinated* threads?
 2. What are the possible ways for coordinating threads?
-   multiple answers from low level to high leven
+   multiple answers from low level to high level
 3. How can threads cooperate to boost performance?
 ** The Miser-Spendthrift Problem In C
 # Geizhals-Verschwender-Problem

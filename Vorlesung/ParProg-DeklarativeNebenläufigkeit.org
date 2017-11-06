@@ -23,3 +23,103 @@
 # M-x load-library und dann ox-reveal
 
 * Notizen
+** Concepts, Techniques, and Models of Computer Programming
+*** Chapter 4: Declarative Concurrency
++ Nebenläufigkeit kann einfach sein:
+  + Nutzung von dataflow variables, können nur einmalig an einen Wert
+    gebunden werden
+  + Konsequenzen:
+    + das Ergebnis eines Programms bleibt das gleiche, egal ob
+      nebenläufig oder nicht
+    + inkrementelle Berechnungen möglich
+  + simples Beispiel
+    + sequentielle Version:
+      #+BEGIN_SRC oz 
+declare Gen
+
+fun {Gen L H}
+   {Delay 100}
+   if L>H then nil else L |{Gen L+1 H} end
+end
+
+Xs={Gen 1 10}
+Ys={Map Xs fun {$ X} X*X end}
+{Browse Ys}
+      #+END_SRC
+    + nebenläufige Version:
+      #+BEGIN_SRC oz
+thread Xs={Gen 1 10} end
+thread Ys={Map Xs fun {$ X} X*X end} end
+      #+END_SRC 
+  + Worin besteht der Unterschied in der Ausführung?
++ Nicht-Determinismus: \\
+  Durch die =thread=-Anweisung sind grundsätzlich verschiedene
+  Ausführungsreihenfolgen möglich. Nach Ausführung der Instruktion
+  =Ia= im Thread T1  
+  #+BEGIN_EXAMPLE
+ Ia     Ib     Ic
+----->------>------> T1
+      \
+       >----->------> T2
+         I1     I2
+  #+END_EXAMPLE
+  könnte auf einer Einprozessormaschine als nächstes entweder =Ib=
+  oder =I2= ausgeführt werden. Die Ausführung ist
+  /nicht-deterministisch/. (Auf einer Mehrprozessormaschine wäre
+  natürlich aus parallele Ausführung möglich.)
+  + einige mögliche Ausführungsreihenfolgen
+    #+BEGIN_EXAMPLE
+  Ia   I1     I2    Ib    Ic
+----->----->----->----->----->
+  Ia   I1     Ib    I2    Ic
+----->----->----->----->----->
+  Ia   Ib     I1    I2    Ic
+----->----->----->----->----->
+  Ia   Ib     Ic    I1    I2
+----->----->----->----->----->
+    #+END_EXAMPLE
++ Im deklarativ nebenläufigem Berechnungsmodell bleibt der
+  Nicht-Determinismus für den Programmierer unsichtbar:
+  + Datenflussvariablen können nur an einen einzigen Wert gebunden
+    werden.
+  + Jede Instruktion, die den Wert einer Datenflussvariablen
+    verarbeiten will, muss warten, bis diese an einen Wert gebunden
+    wird. Vgl. auch das folgende Beispiel:
+    #+BEGIN_SRC oz
+declare X0 X1 X2 X3 in 
+thread 
+   local Y0 Y1 Y2 Y3 in 
+      {Browse [Y0 Y1 Y2 Y3]}  
+      Y0 = X0+1
+      Y1 = X1+Y0
+      Y2 = X2+Y1
+      Y3 = X3+Y2
+      {Browse completed}
+   end 
+end 
+{Browse [X0 X1 X2 X3]}
+    #+END_SRC
+    Das Ergebnis der Auswertung im Oz-Browser zeigt zunächst 8
+    ungebundene Variablen:
+    #+BEGIN_EXAMPLE
+    [_ _ _ _]
+    [_ _ _ _]
+    #+END_EXAMPLE
+    Erst wenn der Reihe nach die folgenden Bindungen ausgeführt
+    werden. 
+    #+BEGIN_SRC oz
+X0 = 0
+X1 = 1
+X2 = 2
+X3 = 3
+    #+END_SRC
+    Wenn =X0= gebunden wird, wacht der Thread auf und kann die
+    Bindung =Y0 = X0+1= vornehmen.
++ Scheduling
+  + Der Scheduler wählt einen Thread aus, der im Zustand /ready/ (oder
+    /runnable/) ist. Das ist er, wenn er alle Information hat, um
+    mindestens einen Berechnungsschritt auszuführen.
+  + Fall ein Thread nicht /ready/ ist, ist er /suspended/. Seine erste
+    Instruktion besitzt nicht alle für ihre Ausführung erforderlichen
+    Informationen, sie wird blockiert.
+  + Der Scheduling-Prozess ist fair.
