@@ -87,13 +87,13 @@ The goal now is to focus on broader uses of parallel computation.
 
 int main() {
   int array1[ ] = {1, 2, 3, 4, 5, 6, 7, 8}; 
-  int array2[ ] = {8, 7, 6, 5, 4, 3, 2, 1};
+  int array2[ ] = {8, 7, 6, 5, 4, 3, 2, 1}; 
   int sum[Length];
 
   int i;
   for (i = 0; i < Length; i++) sum[i] = array1[i] + array2[i]; /** serial computation **/
   
-  for (i = 0; i < Length; i++) printf("%i ", sum[i]); 
+  for (i = 0; i < Length; i++) printf("%i ", sum[i]);  /** ideal case for data parallelism **/
   putchar('\n');
   return 0;
 }
@@ -492,7 +492,6 @@ Elapsed time: 295
 Speedup:  2.7355932203389832
 #+END_SRC
 ** Amdahls Law by Example
- A quick look at Amdahl's Law
 
 + The law, named after its creator (a one-time IBM engineer who
   founded a IBM rival company), sets a theoretical limit on the
@@ -508,7 +507,7 @@ Speedup:  2.7355932203389832
 + A step-by-step application of the law:
   1. Compute response time for P on M1: $RT1$
   2. Compute response time for P on M4: $RT4$
-  3. Computer the ratio: $RT1/RT4$
+  3. Computer the ratio: $\frac{RT1}{RT4}$
      + If $\frac{RT1}{RT4} = 1$, the response times are the same: no difference between M1 and M4 performance.
      + If $\frac{RT1}{RT4} < 1$, there's slowdown rather than speedup.
      + If $\frac{RT1}{RT4} > 1$, there's speedup.
