@@ -1088,7 +1088,7 @@ A =BlockingQueue= example: a thread-safe data structure
   + Program structure
     + The =ProducerConsumerQueue= class has =main=, which creates a
       =SynchronousQueue= named =dropbox=.
-    + The =Driver= likewise creates two =Producer= threads and a
+    + The Driver likewise creates two =Producer= threads and a
       =Consumer= thread, each with access to the =dropbox=.
     + The =Producer= threads insert Strings into the queue, and the
       =Consumer= thread removes Strings from the queue one at a time for
@@ -1495,8 +1495,8 @@ public class AsyncJob implements Callable<Long> {                     /** line 4
 
 class MainAJ {
     public static void main(String[ ] args) {
-	final int poolSize = 10;
-	final int n = 20000; // 20,000
+	final int poolSize = 10; // number of threads to be created
+	final int n = 20000; // number of jobs to be done
 	
 	ExecutorService executor =
 	    Executors.newFixedThreadPool(poolSize);                   /** line 6 **/
@@ -1532,6 +1532,25 @@ class MainAJ {
 *** Demo
 !!! live demo !!!
 ** Thread Safety Through Immutable Types And Pure Functions
+*** Webservice-Example
+#+BEGIN_SRC java
+/** Thread safety through 'pure' functions: free of side effects. **/
+package tc;
+
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+
+/** 'stateless' service consisting of 'pure functions': no fields **/
+@WebService
+public class TempConvert {
+    @WebMethod
+    public float c2f(float t) { return 32.0f + (t * 9.0f / 5.0f); }        /** line 1 **/
+
+    @WebMethod
+    public float f2c(float t) { return (5.0f / 9.0f) * (t - 32.0f); }      /** line 2 **/
+}
+#+END_SRC
+*** =String= as immutable datatype in Java 
 #+BEGIN_SRC java
 /** 
     String example:
@@ -1620,11 +1639,11 @@ final public class ImmutableRGB {                                            /**
 
 # * Options For Thread Synchronization And Cooperation
 # Chapter 8 
- Options for thread synchronization (including cooperation) using the
- GO language
+# Options for thread synchronization (including cooperation) using the
+#  GO language
 
-...
+# ...
 
-vorerst auslassen
+# vorerst auslassen
 
  

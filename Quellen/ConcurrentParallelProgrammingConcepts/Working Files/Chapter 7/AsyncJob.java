@@ -27,29 +27,29 @@ public class AsyncJob implements Callable<Long> {                     /** line 4
 
 class MainAJ {
     public static void main(String[ ] args) {
-	final int poolSize = 10;
-	final int n = 20000; // 20,000
+	final int poolSize = 10; // number of threads to be created
+        final int n = 20000; // 20,000, number of jobs to be done
 	
-	ExecutorService executor =
-	    Executors.newFixedThreadPool(poolSize);                   /** line 6 **/
-	List<Future<Long>> jobList = new ArrayList<Future<Long>>();   /** line 7 **/
+        ExecutorService executor =
+            Executors.newFixedThreadPool(poolSize);                   /** line 6 **/
+        List<Future<Long>> jobList = new ArrayList<Future<Long>>();   /** line 7 **/
 
-	for (int i = 0; i < n; i++) {
-	    Callable<Long> job = new AsyncJob();                      /** line 8 **/
-	    Future<Long> pendingJob = executor.submit(job);           /** line 9 **/
-	    jobList.add(pendingJob);                                  /** line 10 **/
-	}
+        for (int i = 0; i < n; i++) {
+            Callable<Long> job = new AsyncJob();                      /** line 8 **/
+            Future<Long> pendingJob = executor.submit(job);           /** line 9 **/
+            jobList.add(pendingJob);                                  /** line 10 **/
+        }
 	
 
-	long sum = 0;
-	// Try to retrieve the results.
-	for (Future<Long> result : jobList) {                         /** line 11 **/
-	    try {
-		sum += result.get();                                  /** line 12 **/
-	    } 
-	    catch (Exception e) { e.printStackTrace(); } 
-	}
-	executor.shutdown();
+        long sum = 0;
+        // Try to retrieve the results.
+        for (Future<Long> result : jobList) {                         /** line 11 **/
+            try {
+                sum += result.get();                                  /** line 12 **/
+            } 
+            catch (Exception e) { e.printStackTrace(); } 
+        }
+        executor.shutdown();
 	
 	System.out.println("List size: " + jobList.size());      	
 	System.out.println("Sum: " + sum);
