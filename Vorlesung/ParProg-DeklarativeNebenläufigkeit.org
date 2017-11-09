@@ -22,9 +22,10 @@
 # um Folien mit reveal.js erzeugen zu können:ml
 # M-x load-library und dann ox-reveal
 
-* Notizen
-** Concepts, Techniques, and Models of Computer Programming
-*** Chapter 4: Declarative Concurrency
+# * Notizen
+# ** Concepts, Techniques, and Models of Computer Programming
+# *** Chapter 4: Declarative Concurrency
+* Einführung
 + Nebenläufigkeit kann einfach sein:
   + Nutzung von dataflow variables, können nur einmalig an einen Wert
     gebunden werden
@@ -123,3 +124,4 @@ X3 = 3
     Instruktion besitzt nicht alle für ihre Ausführung erforderlichen
     Informationen, sie wird blockiert.
   + Der Scheduling-Prozess ist fair.
+

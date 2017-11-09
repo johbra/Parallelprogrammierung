@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-05 Sun 19:23 -->
+<!-- 2017-11-09 Thu 15:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deklarative Nebenläufigkeit</title>
@@ -244,16 +244,9 @@ for the JavaScript code in this tag.
 <br />
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
-
-<div id="outline-container-org1eb4793" class="outline-2">
-<h2 id="org1eb4793">Notizen</h2>
-<div class="outline-text-2" id="text-org1eb4793">
-</div><div id="outline-container-orgef0ebc5" class="outline-3">
-<h3 id="orgef0ebc5">Concepts, Techniques, and Models of Computer Programming</h3>
-<div class="outline-text-3" id="text-orgef0ebc5">
-</div><div id="outline-container-org9929c64" class="outline-4">
-<h4 id="org9929c64">Chapter 4: Declarative Concurrency</h4>
-<div class="outline-text-4" id="text-org9929c64">
+<div id="outline-container-org8f9ea40" class="outline-2">
+<h2 id="org8f9ea40">Einfphrung</h2>
+<div class="outline-text-2" id="text-org8f9ea40">
 <ul class="org-ul">
 <li>Nebenläufigkeit kann einfach sein:
 <ul class="org-ul">
@@ -377,16 +370,23 @@ Wenn <code>X0</code> gebunden wird, wacht der Thread auf und kann die
 Bindung <code>Y0 = X0+1</code> vornehmen.
 </p></li>
 </ul></li>
-<li>Scheduling</li>
+<li>Scheduling
+<ul class="org-ul">
+<li>Der Scheduler wählt einen Thread aus, der im Zustand <i>ready</i> (oder
+<i>runnable</i>) ist. Das ist er, wenn er alle Information hat, um
+mindestens einen Berechnungsschritt auszuführen.</li>
+<li>Fall ein Thread nicht <i>ready</i> ist, ist er <i>suspended</i>. Seine erste
+Instruktion besitzt nicht alle für ihre Ausführung erforderlichen
+Informationen, sie wird blockiert.</li>
+<li>Der Scheduling-Prozess ist fair.</li>
+</ul></li>
 </ul>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-05 Sun 19:23</p>
+<p class="date">Created: 2017-11-09 Thu 15:40</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -507,7 +507,7 @@ Speedup:  2.7355932203389832
 + A step-by-step application of the law:
   1. Compute response time for P on M1: $RT1$
   2. Compute response time for P on M4: $RT4$
-  3. Computer the ratio: $\frac{RT1}{RT4}$
+  3. Compute the ratio: $\frac{RT1}{RT4}$
      + If $\frac{RT1}{RT4} = 1$, the response times are the same: no difference between M1 and M4 performance.
      + If $\frac{RT1}{RT4} < 1$, there's slowdown rather than speedup.
      + If $\frac{RT1}{RT4} > 1$, there's speedup.
