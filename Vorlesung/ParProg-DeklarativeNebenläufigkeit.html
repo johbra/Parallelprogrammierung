@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-09 Thu 15:40 -->
+<!-- 2017-11-10 Fri 17:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deklarative Nebenläufigkeit</title>
@@ -244,13 +244,326 @@ for the JavaScript code in this tag.
 <br />
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
-<div id="outline-container-org8f9ea40" class="outline-2">
-<h2 id="org8f9ea40">Einfphrung</h2>
-<div class="outline-text-2" id="text-org8f9ea40">
+<div id="outline-container-orgb2090ca" class="outline-2">
+<h2 id="orgb2090ca">Einführung</h2>
+<div class="outline-text-2" id="text-orgb2090ca">
+<p>
+Die Ausführungen sind <a class='org-ref-reference' href="#RoyHaridi2004">RoyHaridi2004</a> entnommen.
+</p>
+</div>
+<div id="outline-container-org5488b43" class="outline-3">
+<h3 id="org5488b43">Einstieg in Mozart/Oz</h3>
+<div class="outline-text-3" id="text-org5488b43">
 <ul class="org-ul">
-<li>Nebenläufigkeit kann einfach sein:
+<li>Oz ist eine Multi-Paradigmensprache
 <ul class="org-ul">
-<li>Nutzung von dataflow variables, können nur einmalig an einen Wert
+<li>funktional, objektorientiert, logisch, „constraint”</li>
+<li>nebenläufig</li>
+<li>verteilt</li>
+</ul></li>
+<li>Entwicklungsumgebung
+<ul class="org-ul">
+<li>Oz Programming Interface (OPI)</li>
+<li>realisiert als <i>major Emacs mode</i>
+<ul class="org-ul">
+<li>Demo: <code>{Show 'Hello World'}</code></li>
+<li>Demo: <code>{Browse 'Hello World'}</code></li>
+<li><p>
+Demo: 
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> W H
+{Browse foo(width:W height:H surface:<span style="color: #0000FF;">thread</span> W<span style="color: #0000FF;">*</span>H <span style="color: #0000FF;">end</span>)}</pre>
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6c87984" class="outline-3">
+<h3 id="org6c87984">Die Sprache Oz</h3>
+<div class="outline-text-3" id="text-org6c87984">
+</div><div id="outline-container-orgf219ac1" class="outline-4">
+<h4 id="orgf219ac1">Daten</h4>
+<div class="outline-text-4" id="text-orgf219ac1">
+<dl class="org-dl">
+<dt>Variablen</dt><dd>sind <i>single assignment variables</i>.</dd>
+<dt>Deklarationen</dt><dd><p>
+  <code>local X Y Z in S end</code>
+</p>
+
+<p>
+<code>declare X Y Z in S</code>
+</p></dd>
+<dt>Typen</dt><dd></dd>
+</dl>
+
+<div class="figure">
+<p><img src="./Abbildungen/OzTypes.png" alt="OzTypes.png" />
+</p>
+</div>
+
+<dl class="org-dl">
+<dt>Literale</dt><dd><ul class="org-ul">
+<li><p>
+Atoms:
+</p>
+<pre class="example">
+a   foo   '='   ':='   'OZ 3.0'   'Hello World'
+
+</pre></li>
+<li>Names: <br />
+<code>{NewName X}</code> bindet einen weltweit eindeutigen Namen an
+<code>X</code>. <code>Bool</code> ist ein Untertyp von <code>Name</code>.</li>
+</ul></dd>
+<dt>Records</dt><dd><ul class="org-ul">
+<li><p>
+<i>Records</i> sind zusammengesetzte Strukturen. Ein Record hat ein
+<i>label</i> und eine feste Anzahl von Komponenten. Beispiel:
+</p>
+<pre class="example">
+tree(key: I value: Y left: LT right: RT)
+
+</pre>
+<p>
+4 Konponenten; jede Komponente ist ein <i>Feature:Field</i>-Paar
+</p></li>
+</ul></dd>
+<dt>Tuples</dt><dd><p>
+sind „Records ohne Features“. Beispiel:
+</p>
+<pre class="example">
+tree(I Y LT RT)
+
+</pre>
+<p>
+ist äquivalent zu
+</p>
+<pre class="example">
+tree(1:I 2:Y 3:LT 4:RT)
+
+</pre>
+<ul class="org-ul">
+<li><p>
+Tupel-Konstruktor <code>'#'</code>:
+</p>
+<pre class="example">
+'#'(1 2 3)   1#2#3   '#'()   '#'(X)
+
+</pre></li>
+</ul></dd>
+<dt>Listen</dt><dd>Eine Liste ist entweder das Atom <code>nil</code> (für die leere
+Liste) oder ein Tuple, das mit dem Infix-Operator <code>|</code>
+erzeugt wurde.
+<ul class="org-ul">
+<li><p>
+Die Liste mit den ersten drei natürlichen Zahlen:
+</p>
+<pre class="example">
+1|2|3|nil
+
+</pre></li>
+<li><p>
+Alternative Schreibweise für geschlossene Listen:
+</p>
+<pre class="example">
+[1 2 3]
+
+</pre></li>
+<li><p>
+Eine Liste mit 1 und 2 und der Restliste <code>X</code>:
+</p>
+<pre class="example">
+1|2|X
+
+</pre>
+<p>
+oder „ausführlich”:
+</p>
+<pre class="example">
+'|'(1 '|'(2 X))
+
+</pre></li>
+<li><p>
+Listen von Zeichen (<code>char</code>), genannt <i>Strings</i>:
+</p>
+<pre class="example">
+"OZ 3.0"
+
+</pre>
+<p>
+entspricht der Liste
+</p>
+<pre class="example">
+[79 90 32 51 46 48]
+
+</pre>
+<p>
+oder 
+</p>
+<pre class="example">
+[&amp;O &amp;Z &amp;  &amp;3 &amp;. &amp;0]
+
+</pre></li>
+</ul></dd>
+<dt>Listen sind Tuples sind Records</dt><dd><div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> L1 L2 L3 Head Tail <span style="color: #0000FF;">in</span> 
+   L1 = Head<span style="color: #0000FF;">|</span>Tail
+   Head = 1
+   Tail = 2<span style="color: #0000FF;">|</span>nil
+ 
+   L2 = [1 2]
+   {Browse L1<span style="color: #0000FF;">==</span>L2}
+ 
+   L3 = <span style="color: #008000;">'|'</span>(1:1 2:<span style="color: #008000;">'|'</span>(2 nil))
+   {Browse L1<span style="color: #0000FF;">==</span>L3}
+<span style="color: #0000FF;">end</span>  </pre>
+</pre>
+</div></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orge7ac334" class="outline-4">
+<h4 id="orge7ac334">Kontrollstrukturen</h4>
+<div class="outline-text-4" id="text-orge7ac334">
+<dl class="org-dl">
+<dt>Sequenz</dt><dd><code>S1 S2</code></dd>
+<dt>Fallunterscheidung</dt><dd><pre class="example">
+if B then S1 else S2 end
+if B1 then S1 end
+if B1 then S1 elseif B2 then S2 else S3 end
+
+</pre></dd>
+<dt><code>case</code>-Anweisung &#x2013; Mustervergleich</dt><dd></dd>
+</dl>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">case</span> E <span style="color: #0000FF;">of</span> Pattern_1 <span style="color: #0000FF;">then</span> S1 
+<span style="color: #0000FF;">[]</span> Pattern_2 <span style="color: #0000FF;">then</span> S2 
+<span style="color: #0000FF;">[]</span> <span style="color: #0000FF;">...</span> 
+<span style="color: #0000FF;">else</span> S <span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Insert</span> Key Value TreeIn ?TreeOut}
+   <span style="color: #0000FF;">if</span> TreeIn <span style="color: #0000FF;">==</span> nil <span style="color: #0000FF;">then</span> TreeOut = tree(Key Value nil nil)
+   <span style="color: #0000FF;">else</span>  
+      <span style="color: #0000FF;">local</span> tree(K1 V1 T1 T2) = TreeIn <span style="color: #0000FF;">in</span> 
+         <span style="color: #0000FF;">if</span> Key <span style="color: #0000FF;">==</span> K1 <span style="color: #0000FF;">then</span> TreeOut = tree(Key Value T1 T2)
+         <span style="color: #0000FF;">elseif</span> Key <span style="color: #0000FF;">&lt;</span> K1 <span style="color: #0000FF;">then</span> 
+             <span style="color: #0000FF;">local</span> T <span style="color: #0000FF;">in</span> 
+                TreeOut = tree(K1 V1 T T2)
+                {Insert Key Value T1 T}
+             <span style="color: #0000FF;">end</span> 
+         <span style="color: #0000FF;">else</span> 
+             <span style="color: #0000FF;">local</span> T <span style="color: #0000FF;">in</span> 
+                TreeOut = tree(K1 V1 T1 T)
+                {Insert Key Value T2 T}
+             <span style="color: #0000FF;">end</span>  
+         <span style="color: #0000FF;">end</span> 
+      <span style="color: #0000FF;">end</span> 
+   <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #8D8D84;">% </span><span style="color: #8D8D84; font-style: italic;">case for pattern matching</span>
+<span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Insert</span> Key Value TreeIn ?TreeOut}
+   <span style="color: #0000FF;">case</span> TreeIn
+   <span style="color: #0000FF;">of</span> nil <span style="color: #0000FF;">then</span> TreeOut = tree(Key Value nil nil)
+   <span style="color: #0000FF;">[]</span> tree(K1 V1 T1 T2) <span style="color: #0000FF;">then</span> 
+      <span style="color: #0000FF;">if</span> Key <span style="color: #0000FF;">==</span> K1 <span style="color: #0000FF;">then</span> TreeOut = tree(Key Value T1 T2)
+      <span style="color: #0000FF;">elseif</span> Key <span style="color: #0000FF;">&lt;</span> K1 <span style="color: #0000FF;">then</span> T <span style="color: #0000FF;">in</span> 
+        TreeOut = tree(K1 V1 T T2)
+        {Insert Key Value T1 T}
+      <span style="color: #0000FF;">else</span> T <span style="color: #0000FF;">in</span> 
+        TreeOut = tree(K1 V1 T1 T)
+        {Insert Key Value T2 T}
+      <span style="color: #0000FF;">end</span> 
+   <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd01f9ed" class="outline-4">
+<h4 id="orgd01f9ed">Prozeduren</h4>
+<div class="outline-text-4" id="text-orgd01f9ed">
+<dl class="org-dl">
+<dt>Definition</dt><dd><div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">P</span> X1 <span style="color: #0000FF;">...</span> Xn} S <span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></dd>
+<dt>Beispiel</dt><dd><div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> Max X Y Z <span style="color: #0000FF;">in</span> 
+   <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Max</span> X Y Z}
+      <span style="color: #0000FF;">if</span> X <span style="color: #0000FF;">&gt;=</span> Y <span style="color: #0000FF;">then</span> Z = X <span style="color: #0000FF;">else</span> Z = Y <span style="color: #0000FF;">end</span> 
+   <span style="color: #0000FF;">end</span> 
+   X = 5
+   Y = 10
+   {Max X Y Z} {Browse Z}
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></dd>
+<dt>Anonyme Prozeduren</dt><dd><div class="org-src-container">
+<pre class="src src-oz">P = <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span> X1 <span style="color: #0000FF;">...</span> Xn} S <span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></dd>
+<dt>Beispiel</dt><dd><div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> 
+   Max = <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span> X Y Z}
+             <span style="color: #0000FF;">if</span> X <span style="color: #0000FF;">&gt;=</span> Y <span style="color: #0000FF;">then</span> Z = X
+             <span style="color: #0000FF;">else</span> Z = Y <span style="color: #0000FF;">end</span> 
+         <span style="color: #0000FF;">end</span> 
+   X = 5
+   Y = 10
+   Z
+<span style="color: #0000FF;">in</span> 
+   {Max X Y Z} {Browse Z}
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgcb4c542" class="outline-4">
+<h4 id="orgcb4c542">Funktionen</h4>
+<div class="outline-text-4" id="text-orgcb4c542">
+<dl class="org-dl">
+<dt>Definition</dt><dd><pre class="example">
+  fun {F X1 ... Xn} S E end
+</pre>
+<p>
+mit <code>S</code> ist Anweisung (Statement), <code>E</code> ist Ausdruck (Expression) ist
+              eine abgekürzte Schreibweise für
+</p>
+<div class="org-src-container">
+<pre class="src src-oz">  <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">F</span> X1 <span style="color: #0000FF;">...</span> Xn R} S R=E <span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></dd>
+<dt>Beispiel</dt><dd><div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> 
+   <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Mxax</span> X Y }
+      <span style="color: #0000FF;">if</span> X <span style="color: #0000FF;">&gt;=</span> Y <span style="color: #0000FF;">then</span> X <span style="color: #0000FF;">else</span> Y <span style="color: #0000FF;">end</span> 
+   <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">in</span> 
+   {Browse {Max 10 5}}
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org53bb7b4" class="outline-2">
+<h2 id="org53bb7b4">Nebenläufigkeit</h2>
+<div class="outline-text-2" id="text-org53bb7b4">
+</div><div id="outline-container-org9f02946" class="outline-3">
+<h3 id="org9f02946">&#x2026;kann einfach sein</h3>
+<div class="outline-text-3" id="text-org9f02946">
+<ul class="org-ul">
+<li>Nutzung von dataflow variables: können nur einmalig an einen Wert
 gebunden werden</li>
 <li>Konsequenzen:
 <ul class="org-ul">
@@ -286,9 +599,13 @@ nebenläufige Version:
 </div></li>
 </ul></li>
 <li>Worin besteht der Unterschied in der Ausführung?</li>
-</ul></li>
-<li><p>
-Nicht-Determinismus: <br />
+</ul>
+</div>
+</div>
+<div id="outline-container-orga5501c9" class="outline-3">
+<h3 id="orga5501c9">Nicht-Determinismus</h3>
+<div class="outline-text-3" id="text-orga5501c9">
+<p>
 Durch die <code>thread</code>-Anweisung sind grundsätzlich verschiedene
 Ausführungsreihenfolgen möglich. Nach Ausführung der Instruktion
 <code>Ia</code> im Thread T1  
@@ -320,7 +637,8 @@ einige mögliche Ausführungsreihenfolgen
   Ia   Ib     Ic    I1    I2
 -----&gt;-----&gt;-----&gt;-----&gt;-----&gt;
 </pre></li>
-</ul></li>
+</ul>
+<ul class="org-ul">
 <li>Im deklarativ nebenläufigem Berechnungsmodell bleibt der
 Nicht-Determinismus für den Programmierer unsichtbar:
 <ul class="org-ul">
@@ -383,10 +701,232 @@ Informationen, sie wird blockiert.</li>
 </ul>
 </div>
 </div>
+<div id="outline-container-org59e0ac0" class="outline-3">
+<h3 id="org59e0ac0">Weitere Beispiele</h3>
+<div class="outline-text-3" id="text-org59e0ac0">
+</div><div id="outline-container-org3de1c2e" class="outline-4">
+<h4 id="org3de1c2e">Threads und der Browser</h4>
+<div class="outline-text-4" id="text-org3de1c2e">
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">thread</span> {Browse 111} <span style="color: #0000FF;">end</span>
+{Browse 222}</pre>
+</pre>
+</div>
+<p>
+In welcher Reihenfolge werden 111 und 222 angezeigt?
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> X1 X2 Y1 Y2 <span style="color: #0000FF;">in</span>
+<span style="color: #0000FF;">thread</span> {Browse X1} <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">thread</span> {Browse Y1} <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">thread</span> X1 = all<span style="color: #0000FF;">|</span>roads<span style="color: #0000FF;">|</span>X2 <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">thread</span> Y1 = all<span style="color: #0000FF;">|</span>roams<span style="color: #0000FF;">|</span>Y2 <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">thread</span> X2 = lead<span style="color: #0000FF;">|</span>to<span style="color: #0000FF;">|</span>rome<span style="color: #0000FF;">|</span>_ <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">thread</span> Y2 = lead<span style="color: #0000FF;">|</span>to<span style="color: #0000FF;">|</span>rhodes<span style="color: #0000FF;">|</span>_ <span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<p>
+Was wird im Browser angezeigt?
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd066714" class="outline-4">
+<h4 id="orgd066714">Eine nebenläufige Map-Funktion</h4>
+<div class="outline-text-4" id="text-orgd066714">
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Map
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Map</span> Xs F}
+   <span style="color: #0000FF;">case</span> Xs
+   <span style="color: #0000FF;">of</span> nil <span style="color: #0000FF;">then</span> nil
+   <span style="color: #0000FF;">[]</span> X<span style="color: #0000FF;">|</span>Xr <span style="color: #0000FF;">then</span> <span style="color: #0000FF;">thread</span> {F X} <span style="color: #0000FF;">end</span> <span style="color: #0000FF;">|</span>{Map Xr F}
+   <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>thread ... end</code> ist hier ein Ausdruck</li>
+<li><p>
+Nach Eingabe der Anweisungen
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> 
+F X Y Z
+{Browse <span style="color: #0000FF;">thread</span> {Map X F} <span style="color: #0000FF;">end</span>}  </pre>
+</pre>
+</div>
+<p>
+wird ein Haupt-Thread erzeugt, der <code>Map</code> ausführt. Dieser wird sofort
+blockiert, weil <code>X</code> undefiniert ist.
+</p></li>
+<li><p>
+Nach Eingabe der Anweisungen
+</p>
+<div class="org-src-container">
+<pre class="src src-oz">X = 1<span style="color: #0000FF;">|</span>2<span style="color: #0000FF;">|</span>Y
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">F</span> X} X<span style="color: #0000FF;">*</span>X <span style="color: #0000FF;">end</span>  </pre>
+</pre>
+</div>
+<p>
+wird vom Haupt-Thread die Liste abgearbeitet und es werden zwei
+Threads <code>thread {F 1} end</code> und <code>thread {F 2} end</code>
+erzeugt. Anschließend wird der Haupt-Thread wieder blockiert, weil
+<code>Y</code> undefiniert ist.
+</p></li>
+<li><p>
+Schließlich wird mit
+</p>
+<div class="org-src-container">
+<pre class="src src-oz">Y = 3<span style="color: #0000FF;">|</span>Z
+Z = nil  </pre>
+</pre>
+</div>
+<p>
+wird die Berechnung des Haupt-Threads und des neu erzeugten Thread
+<code>thread {F 3} end</code> abgeschlossen und die Ergebnisliste <code>1|4|9|nil</code>
+angezeigt.
+</p></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9010d53" class="outline-4">
+<h4 id="org9010d53">Ineffiziente Fibonacci-Funktion</h4>
+<div class="outline-text-4" id="text-org9010d53">
+<ul class="org-ul">
+<li><p>
+Die Funktion
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Fib</span> X}
+   <span style="color: #0000FF;">case</span> X
+   <span style="color: #0000FF;">of</span> 0 <span style="color: #0000FF;">then</span> 1
+   <span style="color: #0000FF;">[]</span> 1 <span style="color: #0000FF;">then</span> 1
+   <span style="color: #0000FF;">else</span> <span style="color: #0000FF;">thread</span> {Fib X<span style="color: #0000FF;">-</span>1} <span style="color: #0000FF;">end</span>  <span style="color: #0000FF;">+</span> {Fib X<span style="color: #0000FF;">-</span>2} <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<p>
+erzeugt eine exponentiell wachsende Zahl von Threads. Mit <code>{Fib 6}</code>
+werden die folgenden Threads erzeugt:
+</p></li>
+</ul>
+
+<div class="figure">
+<p><img src="./Abbildungen/fibthreads.png" alt="fibthreads.png" width="400px" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li><code>{Browse {Fib 25}}</code> werden etwa 23000 Threads erzeugt.</li>
+<li>Das Erzeugen von Threads ist in Mozart/Oz zwar sehr billig, sollte
+aber nicht missbraucht werden.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org33b4381" class="outline-4">
+<h4 id="org33b4381">Producer/Consumer</h4>
+<div class="outline-text-4" id="text-org33b4381">
+<ul class="org-ul">
+<li><p>
+Kommunikation über <i>Streams</i>, die als Listen repräsentiert werden,
+deren Restliste ungebunden ist. Beispiel:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Xs Xs2 <span style="color: #0000FF;">in</span>
+XS = 0<span style="color: #0000FF;">|</span>1<span style="color: #0000FF;">|</span>2<span style="color: #0000FF;">|</span>3<span style="color: #0000FF;">|</span>2<span style="color: #0000FF;">|</span>Xs2  </pre>
+</pre>
+</div>
+<p>
+Inkrementelle Erweiterung:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Xs3 <span style="color: #0000FF;">in</span>
+XS2 = 5<span style="color: #0000FF;">|</span>6<span style="color: #0000FF;">|</span>7<span style="color: #0000FF;">|</span>Xs3  </pre>
+</pre>
+</div></li>
+<li><p>
+Das folgende Programm erzeugt asynchron einen Stream von Integers
+und summiert sie:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Generate Sum
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Generate</span> N Limit}
+   <span style="color: #0000FF;">if</span> N<span style="color: #0000FF;">&lt;</span>Limit <span style="color: #0000FF;">then</span>
+      N<span style="color: #0000FF;">|</span>{Generate N<span style="color: #0000FF;">+</span>1 Limit}
+   <span style="color: #0000FF;">else</span> nil <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Sum</span> Xs A}
+   <span style="color: #0000FF;">case</span> Xs
+   <span style="color: #0000FF;">of</span> X<span style="color: #0000FF;">|</span>Xr <span style="color: #0000FF;">then</span> {Sum Xr A<span style="color: #0000FF;">+</span>X}
+   <span style="color: #0000FF;">[]</span> nil <span style="color: #0000FF;">then</span> A
+   <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">local</span> Xs S <span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">thread</span> Xs={Generate 0 150000} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> S={Sum Xs 0} <span style="color: #0000FF;">end</span>
+   {Browse S}
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></li>
+<li><p>
+Auch mehrere Consumer sind möglich:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> Xs S1 S2 S3 <span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">thread</span> Xs={Generate 0 150000} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> S1={Sum Xs 0} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> S2={Sum Xs 0} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> S3={Sum Xs 0} <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<p>
+Die drei Threads arbeiten völlig unabhängig voneinander und
+beeinflussen sich nicht gegenseitig, da sie den Stream nicht
+„verbrauchen” sondern nur lesen.
+</p></li>
+<li><p>
+Filtern eines Streams
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> Xs Ys S <span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">thread</span> Xs={Generate 0 150000} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> Ys={Filter Xs IsOdd}
+   <span style="color: #0000FF;">thread</span> S={Sum Xs 0} <span style="color: #0000FF;">end</span>
+   {Browse S}
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<p>
+mit
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">IsOdd</span> X} X <span style="color: #0000FF;">mod</span> 2 <span style="color: #0000FF;">\=</span> 0 <span style="color: #0000FF;">end</span> </pre>
+</pre>
+</div>
+<p>
+Die folgende Abbildung veranschaulicht den Prozess:
+</p>
+
+<div class="figure">
+<p><img src="./Abbildungen/filterprozess.png" alt="filterprozess.png" width="400px" />
+</p>
+</div></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf1726bd" class="outline-2">
+<h2 id="orgf1726bd"><h2>Literaturverzeichnis</h2>
+<ul class='org-ref-bib'><li><a id="RoyHaridi2004">[RoyHaridi2004] Peter Van Roy & Seif Haridi, Concepts, Techniques, and Models of Computer Programming (MIT Press), The MIT Press (2004).</a></li>
+</ul></h2>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-09 Thu 15:40</p>
+<p class="date">Created: 2017-11-10 Fri 17:12</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

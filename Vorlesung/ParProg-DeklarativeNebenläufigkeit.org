@@ -4,8 +4,7 @@
 #+AUTHOR: Johannes Brauer
 #+OPTIONS:   H:4
 #+OPTIONS: num:nil d:true
-#+OPTIONS: toc:nil
-#+OPTIONS: reveal_single_file:nil
+#+OPTIONS: toc:nil#+OPTIONS: reveal_single_file:nil
 #+Language:  de
 #+STARTUP: latexpreview
 #+STARTUP: inlineimages
@@ -26,16 +25,197 @@
 # ** Concepts, Techniques, and Models of Computer Programming
 # *** Chapter 4: Declarative Concurrency
 * Einführung
-+ Nebenläufigkeit kann einfach sein:
-  + Nutzung von dataflow variables, können nur einmalig an einen Wert
-    gebunden werden
-  + Konsequenzen:
-    + das Ergebnis eines Programms bleibt das gleiche, egal ob
-      nebenläufig oder nicht
-    + inkrementelle Berechnungen möglich
-  + simples Beispiel
-    + sequentielle Version:
-      #+BEGIN_SRC oz 
+Die Ausführungen sind cite:RoyHaridi2004 entnommen.
+** Einstieg in Mozart/Oz
++ Oz ist eine Multi-Paradigmensprache
+  + funktional, objektorientiert, logisch, „constraint”
+  + nebenläufig
+  + verteilt
++ Entwicklungsumgebung
+  + Oz Programming Interface (OPI)
+  + realisiert als /major Emacs mode/
+    + Demo: ={Show 'Hello World'}=
+    + Demo: ={Browse 'Hello World'}=
+    + Demo: 
+      #+BEGIN_SRC oz
+declare W H
+{Browse foo(width:W height:H surface:thread W*H end)}
+      #+END_SRC
+** Die Sprache Oz
+*** Daten
++ Variablen :: sind /single assignment variables/.
++ Deklarationen ::
+
+  =local X Y Z in S end=
+  
+  =declare X Y Z in S=
++ Typen ::
+[[./Abbildungen/OzTypes.png]]
+
++ Literale ::
+  + Atoms:
+    : a   foo   '='   ':='   'OZ 3.0'   'Hello World'
+  + Names: \\
+    ={NewName X}= bindet einen weltweit eindeutigen Namen an
+    =X=. =Bool= ist ein Untertyp von =Name=.
++ Records ::
+  + /Records/ sind zusammengesetzte Strukturen. Ein Record hat ein
+    /label/ und eine feste Anzahl von Komponenten. Beispiel:
+    : tree(key: I value: Y left: LT right: RT)
+    4 Konponenten; jede Komponente ist ein /Feature:Field/-Paar
++ Tuples :: sind „Records ohne Features“. Beispiel:
+  : tree(I Y LT RT)
+  ist äquivalent zu
+  : tree(1:I 2:Y 3:LT 4:RT)
+  + Tupel-Konstruktor ='#'=:
+    : '#'(1 2 3)   1#2#3   '#'()   '#'(X)
++ Listen :: Eine Liste ist entweder das Atom =nil= (für die leere
+            Liste) oder ein Tuple, das mit dem Infix-Operator =|=
+            erzeugt wurde.
+  + Die Liste mit den ersten drei natürlichen Zahlen:
+    : 1|2|3|nil
+  + Alternative Schreibweise für geschlossene Listen:
+    : [1 2 3]
+  + Eine Liste mit 1 und 2 und der Restliste =X=:
+    : 1|2|X
+    oder „ausführlich”:
+    : '|'(1 '|'(2 X))
+  + Listen von Zeichen (=char=), genannt /Strings/:
+    : "OZ 3.0"
+    entspricht der Liste
+    : [79 90 32 51 46 48]
+    oder 
+    : [&O &Z &  &3 &. &0]
++ Listen sind Tuples sind Records ::
+  #+BEGIN_SRC oz
+local L1 L2 L3 Head Tail in 
+   L1 = Head|Tail
+   Head = 1
+   Tail = 2|nil
+ 
+   L2 = [1 2]
+   {Browse L1==L2}
+ 
+   L3 = '|'(1:1 2:'|'(2 nil))
+   {Browse L1==L3}
+end  
+  #+END_SRC
+*** Kontrollstrukturen
++ Sequenz :: =S1 S2=
++ Fallunterscheidung :: 
+  : if B then S1 else S2 end
+  : if B1 then S1 end
+  : if B1 then S1 elseif B2 then S2 else S3 end
++ =case=-Anweisung -- Mustervergleich ::
+#+BEGIN_SRC oz
+case E of Pattern_1 then S1 
+[] Pattern_2 then S2 
+[] ... 
+else S end
+#+END_SRC
+#+BEGIN_SRC oz
+proc {Insert Key Value TreeIn ?TreeOut}
+   if TreeIn == nil then TreeOut = tree(Key Value nil nil)
+   else  
+      local tree(K1 V1 T1 T2) = TreeIn in 
+         if Key == K1 then TreeOut = tree(Key Value T1 T2)
+         elseif Key < K1 then 
+             local T in 
+                TreeOut = tree(K1 V1 T T2)
+                {Insert Key Value T1 T}
+             end 
+         else 
+             local T in 
+                TreeOut = tree(K1 V1 T1 T)
+                {Insert Key Value T2 T}
+             end  
+         end 
+      end 
+   end 
+end
+#+END_SRC
+#+BEGIN_SRC oz
+% case for pattern matching
+proc {Insert Key Value TreeIn ?TreeOut}
+   case TreeIn
+   of nil then TreeOut = tree(Key Value nil nil)
+   [] tree(K1 V1 T1 T2) then 
+      if Key == K1 then TreeOut = tree(Key Value T1 T2)
+      elseif Key < K1 then T in 
+        TreeOut = tree(K1 V1 T T2)
+        {Insert Key Value T1 T}
+      else T in 
+        TreeOut = tree(K1 V1 T1 T)
+        {Insert Key Value T2 T}
+      end 
+   end 
+end
+#+END_SRC
+*** Prozeduren
++ Definition ::
+  #+BEGIN_SRC oz
+proc {P X1 ... Xn} S end
+  #+END_SRC
++ Beispiel ::
+  #+BEGIN_SRC oz
+local Max X Y Z in 
+   proc {Max X Y Z}
+      if X >= Y then Z = X else Z = Y end 
+   end 
+   X = 5
+   Y = 10
+   {Max X Y Z} {Browse Z}
+end
+  #+END_SRC
++ Anonyme Prozeduren :: 
+  #+BEGIN_SRC oz
+P = proc {$ X1 ... Xn} S end
+  #+END_SRC
++ Beispiel :: 
+  #+BEGIN_SRC oz
+local 
+   Max = proc {$ X Y Z}
+             if X >= Y then Z = X
+             else Z = Y end 
+         end 
+   X = 5
+   Y = 10
+   Z
+in 
+   {Max X Y Z} {Browse Z}
+end
+  #+END_SRC
+*** Funktionen
++ Definition ::
+  #+BEGIN_SRC 
+  fun {F X1 ... Xn} S E end
+  #+END_SRC
+  mit =S= ist Anweisung (Statement), =E= ist Ausdruck (Expression) ist
+                eine abgekürzte Schreibweise für
+  #+BEGIN_SRC oz
+  proc {F X1 ... Xn R} S R=E end
+  #+END_SRC
++ Beispiel ::
+  #+BEGIN_SRC oz
+local 
+   fun {Mxax X Y }
+      if X >= Y then X else Y end 
+   end 
+in 
+   {Browse {Max 10 5}}
+end
+  #+END_SRC 
+* Nebenläufigkeit
+** ...kann einfach sein 
+ + Nutzung von dataflow variables: können nur einmalig an einen Wert
+   gebunden werden
+ + Konsequenzen:
+   + das Ergebnis eines Programms bleibt das gleiche, egal ob
+     nebenläufig oder nicht
+   + inkrementelle Berechnungen möglich
+ + simples Beispiel
+   + sequentielle Version:
+     #+BEGIN_SRC oz 
 declare Gen
 
 fun {Gen L H}
@@ -46,14 +226,14 @@ end
 Xs={Gen 1 10}
 Ys={Map Xs fun {$ X} X*X end}
 {Browse Ys}
-      #+END_SRC
-    + nebenläufige Version:
-      #+BEGIN_SRC oz
+     #+END_SRC
+   + nebenläufige Version:
+     #+BEGIN_SRC oz
 thread Xs={Gen 1 10} end
 thread Ys={Map Xs fun {$ X} X*X end} end
-      #+END_SRC 
-  + Worin besteht der Unterschied in der Ausführung?
-+ Nicht-Determinismus: \\
+     #+END_SRC 
+ + Worin besteht der Unterschied in der Ausführung?
+** Nicht-Determinismus
   Durch die =thread=-Anweisung sind grundsätzlich verschiedene
   Ausführungsreihenfolgen möglich. Nach Ausführung der Instruktion
   =Ia= im Thread T1  
@@ -124,4 +304,138 @@ X3 = 3
     Instruktion besitzt nicht alle für ihre Ausführung erforderlichen
     Informationen, sie wird blockiert.
   + Der Scheduling-Prozess ist fair.
+** Weitere Beispiele
+*** Threads und der Browser
+#+BEGIN_SRC oz
+thread {Browse 111} end
+{Browse 222}
+#+END_SRC
+In welcher Reihenfolge werden 111 und 222 angezeigt?
+#+BEGIN_SRC oz
+declare X1 X2 Y1 Y2 in
+thread {Browse X1} end
+thread {Browse Y1} end
+thread X1 = all|roads|X2 end
+thread Y1 = all|roams|Y2 end
+thread X2 = lead|to|rome|_ end
+thread Y2 = lead|to|rhodes|_ end
+#+END_SRC
+Was wird im Browser angezeigt?
 
+*** Eine nebenläufige Map-Funktion
+#+BEGIN_SRC oz 
+declare Map
+fun {Map Xs F}
+   case Xs
+   of nil then nil
+   [] X|Xr then thread {F X} end |{Map Xr F}
+   end 
+end
+#+END_SRC
++ =thread ... end= ist hier ein Ausdruck
++ Nach Eingabe der Anweisungen
+  #+BEGIN_SRC oz
+declare 
+F X Y Z
+{Browse thread {Map X F} end}  
+  #+END_SRC
+  wird ein Haupt-Thread erzeugt, der =Map= ausführt. Dieser wird sofort
+  blockiert, weil =X= undefiniert ist.
++ Nach Eingabe der Anweisungen
+  #+BEGIN_SRC oz
+X = 1|2|Y
+fun {F X} X*X end  
+  #+END_SRC
+  wird vom Haupt-Thread die Liste abgearbeitet und es werden zwei
+  Threads =thread {F 1} end= und =thread {F 2} end=
+  erzeugt. Anschließend wird der Haupt-Thread wieder blockiert, weil
+  =Y= undefiniert ist.
++ Schließlich wird mit
+  #+BEGIN_SRC oz
+Y = 3|Z
+Z = nil  
+  #+END_SRC
+  wird die Berechnung des Haupt-Threads und des neu erzeugten Thread
+  =thread {F 3} end= abgeschlossen und die Ergebnisliste =1|4|9|nil=
+  angezeigt.
+*** Ineffiziente Fibonacci-Funktion
++ Die Funktion
+  #+BEGIN_SRC oz
+fun {Fib X}
+   case X
+   of 0 then 1
+   [] 1 then 1
+   else thread {Fib X-1} end  + {Fib X-2} end 
+end
+  #+END_SRC
+  erzeugt eine exponentiell wachsende Zahl von Threads. Mit ={Fib 6}=
+  werden die folgenden Threads erzeugt:
+#+attr_html: :width 400px
+  [[./Abbildungen/fibthreads.png]]
+  
++ ={Browse {Fib 25}}= werden etwa 23000 Threads erzeugt.
++ Das Erzeugen von Threads ist in Mozart/Oz zwar sehr billig, sollte
+  aber nicht missbraucht werden. 
+*** Producer/Consumer
++ Kommunikation über /Streams/, die als Listen repräsentiert werden,
+  deren Restliste ungebunden ist. Beispiel:
+  #+BEGIN_SRC oz
+declare Xs Xs2 in
+XS = 0|1|2|3|2|Xs2  
+  #+END_SRC
+  Inkrementelle Erweiterung:
+  #+BEGIN_SRC oz
+declare Xs3 in
+XS2 = 5|6|7|Xs3  
+  #+END_SRC
++ Das folgende Programm erzeugt asynchron einen Stream von Integers
+  und summiert sie:
+  #+BEGIN_SRC oz
+declare Generate Sum
+fun {Generate N Limit}
+   if N<Limit then
+      N|{Generate N+1 Limit}
+   else nil end
+end
+fun {Sum Xs A}
+   case Xs
+   of X|Xr then {Sum Xr A+X}
+   [] nil then A
+   end
+end
+local Xs S in
+   thread Xs={Generate 0 150000} end
+   thread S={Sum Xs 0} end
+   {Browse S}
+end
+  #+END_SRC
++ Auch mehrere Consumer sind möglich:
+  #+BEGIN_SRC oz
+local Xs S1 S2 S3 in
+   thread Xs={Generate 0 150000} end
+   thread S1={Sum Xs 0} end
+   thread S2={Sum Xs 0} end
+   thread S3={Sum Xs 0} end
+end
+  #+END_SRC
+  Die drei Threads arbeiten völlig unabhängig voneinander und
+  beeinflussen sich nicht gegenseitig, da sie den Stream nicht
+  „verbrauchen” sondern nur lesen.
++ Filtern eines Streams
+  #+BEGIN_SRC oz
+local Xs Ys S in
+   thread Xs={Generate 0 150000} end
+   thread Ys={Filter Xs IsOdd}
+   thread S={Sum Xs 0} end
+   {Browse S}
+end
+  #+END_SRC
+  mit
+  #+BEGIN_SRC oz
+fun {IsOdd X} X mod 2 \= 0 end 
+  #+END_SRC
+  Die folgende Abbildung veranschaulicht den Prozess:
+  #+attr_html: :width 400px
+  [[./Abbildungen/filterprozess.png]]
+
+* bibliography:referenzen.bib
