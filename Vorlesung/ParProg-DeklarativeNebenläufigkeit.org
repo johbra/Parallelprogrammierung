@@ -37,10 +37,13 @@ Die Ausführungen sind cite:RoyHaridi2004 entnommen.
     + Demo: ={Show 'Hello World'}=
     + Demo: ={Browse 'Hello World'}=
     + Demo: 
-      #+BEGIN_SRC oz
+      #+BEGIN_SRC oz :results output
 declare W H
 {Browse foo(width:W height:H surface:thread W*H end)}
       #+END_SRC
+
+      #+RESULTS:
+
 ** Die Sprache Oz
 *** Daten
 + Variablen :: sind /single assignment variables/.
@@ -87,7 +90,7 @@ declare W H
     oder 
     : [&O &Z &  &3 &. &0]
 + Listen sind Tuples sind Records ::
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local L1 L2 L3 Head Tail in 
    L1 = Head|Tail
    Head = 1
@@ -113,7 +116,7 @@ case E of Pattern_1 then S1
 [] ... 
 else S end
 #+END_SRC
-#+BEGIN_SRC oz
+#+BEGIN_SRC oz :results output
 proc {Insert Key Value TreeIn ?TreeOut}
    if TreeIn == nil then TreeOut = tree(Key Value nil nil)
    else  
@@ -157,7 +160,7 @@ end
 proc {P X1 ... Xn} S end
   #+END_SRC
 + Beispiel ::
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local Max X Y Z in 
    proc {Max X Y Z}
       if X >= Y then Z = X else Z = Y end 
@@ -172,7 +175,7 @@ end
 P = proc {$ X1 ... Xn} S end
   #+END_SRC
 + Beispiel :: 
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local 
    Max = proc {$ X Y Z}
              if X >= Y then Z = X
@@ -196,7 +199,7 @@ end
   proc {F X1 ... Xn R} S R=E end
   #+END_SRC
 + Beispiel ::
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local 
    fun {Mxax X Y }
       if X >= Y then X else Y end 
@@ -215,7 +218,7 @@ end
    + inkrementelle Berechnungen möglich
  + simples Beispiel
    + sequentielle Version:
-     #+BEGIN_SRC oz 
+     #+BEGIN_SRC oz :results output 
 declare Gen
 
 fun {Gen L H}
@@ -228,7 +231,7 @@ Ys={Map Xs fun {$ X} X*X end}
 {Browse Ys}
      #+END_SRC
    + nebenläufige Version:
-     #+BEGIN_SRC oz
+     #+BEGIN_SRC oz :results output
 thread Xs={Gen 1 10} end
 thread Ys={Map Xs fun {$ X} X*X end} end
      #+END_SRC 
@@ -266,7 +269,7 @@ thread Ys={Map Xs fun {$ X} X*X end} end
   + Jede Instruktion, die den Wert einer Datenflussvariablen
     verarbeiten will, muss warten, bis diese an einen Wert gebunden
     wird. Vgl. auch das folgende Beispiel:
-    #+BEGIN_SRC oz
+    #+BEGIN_SRC oz :results output
 declare X0 X1 X2 X3 in 
 thread 
    local Y0 Y1 Y2 Y3 in 
@@ -288,7 +291,7 @@ end
     #+END_EXAMPLE
     Erst wenn der Reihe nach die folgenden Bindungen ausgeführt
     werden. 
-    #+BEGIN_SRC oz
+    #+BEGIN_SRC oz :results output
 X0 = 0
 X1 = 1
 X2 = 2
@@ -306,12 +309,12 @@ X3 = 3
   + Der Scheduling-Prozess ist fair.
 ** Weitere Beispiele
 *** Threads und der Browser
-#+BEGIN_SRC oz
+#+BEGIN_SRC oz :results output
 thread {Browse 111} end
 {Browse 222}
 #+END_SRC
 In welcher Reihenfolge werden 111 und 222 angezeigt?
-#+BEGIN_SRC oz
+#+BEGIN_SRC oz :results output
 declare X1 X2 Y1 Y2 in
 thread {Browse X1} end
 thread {Browse Y1} end
@@ -323,7 +326,7 @@ thread Y2 = lead|to|rhodes|_ end
 Was wird im Browser angezeigt?
 
 *** Eine nebenläufige Map-Funktion
-#+BEGIN_SRC oz 
+#+BEGIN_SRC oz :results output 
 declare Map
 fun {Map Xs F}
    case Xs
@@ -334,7 +337,7 @@ end
 #+END_SRC
 + =thread ... end= ist hier ein Ausdruck
 + Nach Eingabe der Anweisungen
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 declare 
 F X Y Z
 {Browse thread {Map X F} end}  
@@ -342,7 +345,7 @@ F X Y Z
   wird ein Haupt-Thread erzeugt, der =Map= ausführt. Dieser wird sofort
   blockiert, weil =X= undefiniert ist.
 + Nach Eingabe der Anweisungen
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 X = 1|2|Y
 fun {F X} X*X end  
   #+END_SRC
@@ -351,7 +354,7 @@ fun {F X} X*X end
   erzeugt. Anschließend wird der Haupt-Thread wieder blockiert, weil
   =Y= undefiniert ist.
 + Schließlich wird mit
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 Y = 3|Z
 Z = nil  
   #+END_SRC
@@ -360,7 +363,7 @@ Z = nil
   angezeigt.
 *** Ineffiziente Fibonacci-Funktion
 + Die Funktion
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 fun {Fib X}
    case X
    of 0 then 1
@@ -379,18 +382,18 @@ end
 *** Producer/Consumer
 + Kommunikation über /Streams/, die als Listen repräsentiert werden,
   deren Restliste ungebunden ist. Beispiel:
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 declare Xs Xs2 in
 XS = 0|1|2|3|2|Xs2  
   #+END_SRC
   Inkrementelle Erweiterung:
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 declare Xs3 in
 XS2 = 5|6|7|Xs3  
   #+END_SRC
 + Das folgende Programm erzeugt asynchron einen Stream von Integers
   und summiert sie:
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 declare Generate Sum
 fun {Generate N Limit}
    if N<Limit then
@@ -410,7 +413,7 @@ local Xs S in
 end
   #+END_SRC
 + Auch mehrere Consumer sind möglich:
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local Xs S1 S2 S3 in
    thread Xs={Generate 0 150000} end
    thread S1={Sum Xs 0} end
@@ -422,7 +425,7 @@ end
   beeinflussen sich nicht gegenseitig, da sie den Stream nicht
   „verbrauchen” sondern nur lesen.
 + Filtern eines Streams
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local Xs Ys S in
    thread Xs={Generate 0 150000} end
    thread Ys={Filter Xs IsOdd}
@@ -431,7 +434,7 @@ local Xs Ys S in
 end
   #+END_SRC
   mit
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 fun {IsOdd X} X mod 2 \= 0 end 
   #+END_SRC
   Die folgende Abbildung veranschaulicht den Prozess:
