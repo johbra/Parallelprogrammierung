@@ -70,9 +70,9 @@
 |   |        | - Thread-Sicherheit                | nur Einstieg              |      |                                  |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 |   |        | Hausaufgaben - Organisation        |                           |      |                                  |
-|   |        | Multithreading - Thread-Sicherheit | weiter mit Blocking Queue |      | Frank: bitte schneller machen    |
+|   |        | Multithreading - Thread-Sicherheit | weiter mit Blocking Queue |      |                                  |
 | 5 | 13.11. | Parallele Algorithmen              |                           |      |                                  |
-|   |        | Deklarative Nebenläufigkeit        |                           |      |                                  |
+|   |        | Deklarative Nebenläufigkeit        | bis Nl. kann einfach sein |      |                                  |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 | 6 | 20.11. | Deklarative Nebenläufigkeit        |                           |      |                                  |
 |   |        | Parallelprogrammierung in Scala    |                           |      |                                  |

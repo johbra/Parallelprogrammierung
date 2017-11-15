@@ -362,7 +362,8 @@ Z = nil
   =thread {F 3} end= abgeschlossen und die Ergebnisliste =1|4|9|nil=
   angezeigt.
 *** Ineffiziente Fibonacci-Funktion
-+ Die Funktion
++ Deklarative Programm können sehr leicht nebenläufig gemacht werden.
++ Benutze einfach die =thread=-Anweisung, wo sie gebraucht wird.
   #+BEGIN_SRC oz :results output
 fun {Fib X}
    case X
@@ -371,12 +372,26 @@ fun {Fib X}
    else thread {Fib X-1} end  + {Fib X-2} end 
 end
   #+END_SRC
-  erzeugt eine exponentiell wachsende Zahl von Threads. Mit ={Fib 6}=
++ Datenflussabhängigkeit
+  #+BEGIN_SRC oz
+fun {Fib X} 
+   if X=<2 then 1 
+   else F1 F2 in
+   --> F1 = thread {Fib X-1} end
+   |   F2 = {Fib X-2} 
+   |-------------------------Datenflussabhängigkeit
+   |
+   --> F1 + F2
+   end 
+end
+  #+END_SRC
++ Die Funktion erzeugt eine exponentiell wachsende Zahl von Threads. Mit ={Fib 6}=
   werden die folgenden Threads erzeugt:
 #+attr_html: :width 400px
   [[./Abbildungen/fibthreads.png]]
   
 + ={Browse {Fib 25}}= werden etwa 23000 Threads erzeugt.
+  [[./Abbildungen/fibpanel.png]]
 + Das Erzeugen von Threads ist in Mozart/Oz zwar sehr billig, sollte
   aber nicht missbraucht werden. 
 *** Producer/Consumer
@@ -440,5 +455,134 @@ fun {IsOdd X} X mod 2 \= 0 end
   Die folgende Abbildung veranschaulicht den Prozess:
   #+attr_html: :width 400px
   [[./Abbildungen/filterprozess.png]]
+**** Größeres Beispiel: Sieb des Eratosthenes
++ Erzeugt Primzahlen
++ Nimmt einen Stream $2 ... N$, entfernt die 2 vom Rest des Streams 
++ Liefert den Rest des Streams an das nächste Sieb
+  [[./Abbildungen/sieve.png]]
++ Die Funktion =Sieve=
+  #+BEGIN_SRC oz
+  fun {Sieve Xs}
+   case Xs
+   of nil then nil
+   [] X|Xr then Ys in
+      thread Ys = {Filter Xr fun {$ Y} Y mod X \= 0 end} end
+      X | {Sieve Ys}
+   end
+end
+  #+END_SRC
+  erzeugt einen =filter=-Thread für jeden Aufruf von =Sieve=.
++ Beispielablauf
+  #+BEGIN_SRC oz
+declare Sieve Generate
 
+fun {Generate N Limit} 
+   if N=<Limit then 
+   N | {Generate N+1 Limit} 
+else nil end 
+end 
+
+fun {Sieve Xs}
+   case Xs
+   of nil then nil
+   [] X|Xr then Ys in
+   thread Ys = {Filter Xr fun {$ Y} Y mod X \= 0 end} end
+   X | {Sieve Ys}
+   end
+end
+
+local Xs Ys in
+   thread Xs =  {Generate 2 100000} end
+   thread Ys = {Sieve Xs} end
+   thread for Y in Ys do {Show Y} end end
+end  
+  #+END_SRC
++ Der Filterprozess
+#+attr_html: :width 400px
+  [[./Abbildungen/filtersieve.png]]
+
+**** Mögliches Problem
++ Ein Producer könnte viel schneller als ein Consumer arbeiten.
++ Dadurch wird temporär ein großer Stream entstehen, der potentiell
+  unbegrenzt viel Speicher benötigt.
++ Lösungsmöglichkeiten:
+  1. Man konfiguriert die Geschwindigkeiten der Threads mithilfe des
+     Schedulers (z. B. durch Vergabe von Prioritäten).
+  2. Man erzeugt einen Puffer mit endlicher Größe, so dass der
+     Producer blockiert wird, wen der Puffer voll ist.
+  3. Der Consumer signalisiert dem Producer, wenn er eine neues
+     Datenelement benötigt (/demand driven/, /lazy evaluation/)
+** Steuerungsabstraktion
++ Bisher wurde nur die „fork“-Operation durch =thread ... end= betrachtet.
++ Wie sieht die „join”-Operation aus?
+#+attr_html: :width 200px  
+  [[./Abbildungen/forkjoin.png]]
+*** Endeerkennung
++ Die folgende Konstruktion sorgt für die Entdeckung der Termination
+  von mehreren Threads und das Warten eines weiteren Threads auf
+  dieses Ereignis.
++ Lösung ist einfach mit der Benutzung von Datenflussvariablen:
+  #+BEGIN_SRC oz
+local X1 X2 X3 ... Xn1 Xn in 
+  thread ⟨stmt⟩1 X1=unit end 
+  thread ⟨stmt⟩2 X2=X1 end thread ⟨stmt⟩3 X3=X2 end 
+  ...
+  thread ⟨stmt⟩n Xn=XnMinus1 end
+{Wait Xn}
+end
+  #+END_SRC
++ Wenn alle Threads beendet sind, haben alle Variablen =X1 ... Xn= den
+  Wert =unit=. 
++ ={Wait XN}= blockiert den Haupt-Thread bis =Xn= gebunden ist.
+*** Nebenläufige Komposition 
++ So etwas hätte man gern:
+  #+BEGIN_SRC oz
+conc
+  ⟨stmt⟩1 [] ⟨stmt⟩2 [] ... [] ⟨stmt⟩n
+end
+  #+END_SRC
++ Könnte so implementiert werden:
+  #+BEGIN_SRC oz
+declare Conc
+local
+   proc {Conc1 Ps I O}
+      case Ps of P|Pr then 
+         M in 
+         thread {P} M = I end
+         {Conc1 Pr M O}
+      [] nil then O = I
+      end
+   end
+in
+   proc {Conc Ps} 
+      X in {Conc1 Ps unit X}
+      {Wait X}
+   end
+end  
+  #+END_SRC
++ =Conc= erwartet eine Liste von parameterlosen Prozeduren, die als
+  Threads gestartet werden, und terminiert wenn all diese Threads
+  beendet sind.
++ Anwendungsbeispiel:
+  #+BEGIN_SRC oz
+local
+   proc {Ping N}
+      for I in 1 .. N do
+         {Delay 500} {Browse ping}
+      end
+      {Browse 'ping terminate'}
+   end
+   proc {Pong N}
+      for I in 1 .. N do
+         {Delay 600} {Browse pong}
+      end
+      {Browse 'pong terminate'}
+   end
+in {Browse 'game started'}
+   {Conc 
+    [ proc {$} {Ping 10} end
+      proc {$} {Pong 10} end  ]}
+   {Browse 'game tarminated'}
+end  
+  #+END_SRC
 * bibliography:referenzen.bib

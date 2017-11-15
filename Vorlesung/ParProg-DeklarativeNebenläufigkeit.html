@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-10 Fri 17:12 -->
+<!-- 2017-11-15 Wed 16:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deklarative Nebenläufigkeit</title>
@@ -68,6 +68,7 @@
   pre.src-fortran:before { content: 'Fortran'; }
   pre.src-gnuplot:before { content: 'gnuplot'; }
   pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
   pre.src-java:before { content: 'Java'; }
   pre.src-js:before { content: 'Javascript'; }
   pre.src-latex:before { content: 'LaTeX'; }
@@ -237,6 +238,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -244,16 +267,16 @@ for the JavaScript code in this tag.
 <br />
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
-<div id="outline-container-orgb2090ca" class="outline-2">
-<h2 id="orgb2090ca">Einführung</h2>
-<div class="outline-text-2" id="text-orgb2090ca">
+<div id="outline-container-org1e53bfd" class="outline-2">
+<h2 id="org1e53bfd">Einführung</h2>
+<div class="outline-text-2" id="text-org1e53bfd">
 <p>
 Die Ausführungen sind <a class='org-ref-reference' href="#RoyHaridi2004">RoyHaridi2004</a> entnommen.
 </p>
 </div>
-<div id="outline-container-org5488b43" class="outline-3">
-<h3 id="org5488b43">Einstieg in Mozart/Oz</h3>
-<div class="outline-text-3" id="text-org5488b43">
+<div id="outline-container-org14be8e4" class="outline-3">
+<h3 id="org14be8e4">Einstieg in Mozart/Oz</h3>
+<div class="outline-text-3" id="text-org14be8e4">
 <ul class="org-ul">
 <li>Oz ist eine Multi-Paradigmensprache
 <ul class="org-ul">
@@ -281,12 +304,14 @@ Demo:
 </ul>
 </div>
 </div>
-<div id="outline-container-org6c87984" class="outline-3">
-<h3 id="org6c87984">Die Sprache Oz</h3>
-<div class="outline-text-3" id="text-org6c87984">
-</div><div id="outline-container-orgf219ac1" class="outline-4">
-<h4 id="orgf219ac1">Daten</h4>
-<div class="outline-text-4" id="text-orgf219ac1">
+
+<div id="outline-container-orgde47dff" class="outline-3">
+<h3 id="orgde47dff">Die Sprache Oz</h3>
+<div class="outline-text-3" id="text-orgde47dff">
+</div>
+<div id="outline-container-orgd8ffa10" class="outline-4">
+<h4 id="orgd8ffa10">Daten</h4>
+<div class="outline-text-4" id="text-orgd8ffa10">
 <dl class="org-dl">
 <dt>Variablen</dt><dd>sind <i>single assignment variables</i>.</dd>
 <dt>Deklarationen</dt><dd><p>
@@ -424,9 +449,9 @@ oder
 </dl>
 </div>
 </div>
-<div id="outline-container-orge7ac334" class="outline-4">
-<h4 id="orge7ac334">Kontrollstrukturen</h4>
-<div class="outline-text-4" id="text-orge7ac334">
+<div id="outline-container-org088b216" class="outline-4">
+<h4 id="org088b216">Kontrollstrukturen</h4>
+<div class="outline-text-4" id="text-org088b216">
 <dl class="org-dl">
 <dt>Sequenz</dt><dd><code>S1 S2</code></dd>
 <dt>Fallunterscheidung</dt><dd><pre class="example">
@@ -486,9 +511,9 @@ if B1 then S1 elseif B2 then S2 else S3 end
 </div>
 </div>
 </div>
-<div id="outline-container-orgd01f9ed" class="outline-4">
-<h4 id="orgd01f9ed">Prozeduren</h4>
-<div class="outline-text-4" id="text-orgd01f9ed">
+<div id="outline-container-orgc6fe2cb" class="outline-4">
+<h4 id="orgc6fe2cb">Prozeduren</h4>
+<div class="outline-text-4" id="text-orgc6fe2cb">
 <dl class="org-dl">
 <dt>Definition</dt><dd><div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">P</span> X1 <span style="color: #0000FF;">...</span> Xn} S <span style="color: #0000FF;">end</span></pre>
@@ -526,9 +551,9 @@ if B1 then S1 elseif B2 then S2 else S3 end
 </dl>
 </div>
 </div>
-<div id="outline-container-orgcb4c542" class="outline-4">
-<h4 id="orgcb4c542">Funktionen</h4>
-<div class="outline-text-4" id="text-orgcb4c542">
+<div id="outline-container-org5d535bf" class="outline-4">
+<h4 id="org5d535bf">Funktionen</h4>
+<div class="outline-text-4" id="text-org5d535bf">
 <dl class="org-dl">
 <dt>Definition</dt><dd><pre class="example">
   fun {F X1 ... Xn} S E end
@@ -556,12 +581,13 @@ mit <code>S</code> ist Anweisung (Statement), <code>E</code> ist Ausdruck (Expre
 </div>
 </div>
 </div>
-<div id="outline-container-org53bb7b4" class="outline-2">
-<h2 id="org53bb7b4">Nebenläufigkeit</h2>
-<div class="outline-text-2" id="text-org53bb7b4">
-</div><div id="outline-container-org9f02946" class="outline-3">
-<h3 id="org9f02946">&#x2026;kann einfach sein</h3>
-<div class="outline-text-3" id="text-org9f02946">
+<div id="outline-container-org682bb4b" class="outline-2">
+<h2 id="org682bb4b">Nebenläufigkeit</h2>
+<div class="outline-text-2" id="text-org682bb4b">
+</div>
+<div id="outline-container-orgf9f53c4" class="outline-3">
+<h3 id="orgf9f53c4">&#x2026;kann einfach sein</h3>
+<div class="outline-text-3" id="text-orgf9f53c4">
 <ul class="org-ul">
 <li>Nutzung von dataflow variables: können nur einmalig an einen Wert
 gebunden werden</li>
@@ -602,9 +628,9 @@ nebenläufige Version:
 </ul>
 </div>
 </div>
-<div id="outline-container-orga5501c9" class="outline-3">
-<h3 id="orga5501c9">Nicht-Determinismus</h3>
-<div class="outline-text-3" id="text-orga5501c9">
+<div id="outline-container-org66246f2" class="outline-3">
+<h3 id="org66246f2">Nicht-Determinismus</h3>
+<div class="outline-text-3" id="text-org66246f2">
 <p>
 Durch die <code>thread</code>-Anweisung sind grundsätzlich verschiedene
 Ausführungsreihenfolgen möglich. Nach Ausführung der Instruktion
@@ -701,12 +727,13 @@ Informationen, sie wird blockiert.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org59e0ac0" class="outline-3">
-<h3 id="org59e0ac0">Weitere Beispiele</h3>
-<div class="outline-text-3" id="text-org59e0ac0">
-</div><div id="outline-container-org3de1c2e" class="outline-4">
-<h4 id="org3de1c2e">Threads und der Browser</h4>
-<div class="outline-text-4" id="text-org3de1c2e">
+<div id="outline-container-orgc9d711c" class="outline-3">
+<h3 id="orgc9d711c">Weitere Beispiele</h3>
+<div class="outline-text-3" id="text-orgc9d711c">
+</div>
+<div id="outline-container-org3128a12" class="outline-4">
+<h4 id="org3128a12">Threads und der Browser</h4>
+<div class="outline-text-4" id="text-org3128a12">
 <div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">thread</span> {Browse 111} <span style="color: #0000FF;">end</span>
 {Browse 222}</pre>
@@ -731,9 +758,9 @@ Was wird im Browser angezeigt?
 </div>
 </div>
 
-<div id="outline-container-orgd066714" class="outline-4">
-<h4 id="orgd066714">Eine nebenläufige Map-Funktion</h4>
-<div class="outline-text-4" id="text-orgd066714">
+<div id="outline-container-org94fae74" class="outline-4">
+<h4 id="org94fae74">Eine nebenläufige Map-Funktion</h4>
+<div class="outline-text-4" id="text-org94fae74">
 <div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">declare</span> Map
 <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Map</span> Xs F}
@@ -789,12 +816,13 @@ angezeigt.
 </ul>
 </div>
 </div>
-<div id="outline-container-org9010d53" class="outline-4">
-<h4 id="org9010d53">Ineffiziente Fibonacci-Funktion</h4>
-<div class="outline-text-4" id="text-org9010d53">
+<div id="outline-container-org51a548c" class="outline-4">
+<h4 id="org51a548c">Ineffiziente Fibonacci-Funktion</h4>
+<div class="outline-text-4" id="text-org51a548c">
 <ul class="org-ul">
+<li>Deklarative Programm können sehr leicht nebenläufig gemacht werden.</li>
 <li><p>
-Die Funktion
+Benutze einfach die <code>thread</code>-Anweisung, wo sie gebraucht wird.
 </p>
 <div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Fib</span> X}
@@ -804,11 +832,25 @@ Die Funktion
    <span style="color: #0000FF;">else</span> <span style="color: #0000FF;">thread</span> {Fib X<span style="color: #0000FF;">-</span>1} <span style="color: #0000FF;">end</span>  <span style="color: #0000FF;">+</span> {Fib X<span style="color: #0000FF;">-</span>2} <span style="color: #0000FF;">end</span> 
 <span style="color: #0000FF;">end</span></pre>
 </pre>
-</div>
-<p>
-erzeugt eine exponentiell wachsende Zahl von Threads. Mit <code>{Fib 6}</code>
-werden die folgenden Threads erzeugt:
-</p></li>
+</div></li>
+<li><p>
+Datenflussabhängigkeit
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Fib</span> X} 
+   <span style="color: #0000FF;">if</span> X<span style="color: #0000FF;">=&lt;</span>2 <span style="color: #0000FF;">then</span> 1 
+   <span style="color: #0000FF;">else</span> F1 F2 <span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">--&gt;</span> F1 = <span style="color: #0000FF;">thread</span> {Fib X<span style="color: #0000FF;">-</span>1} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">|</span>   F2 = {Fib X<span style="color: #0000FF;">-</span>2} 
+   <span style="color: #0000FF;">|-------------------------</span>Datenflussabh&#228;ngigkeit
+   <span style="color: #0000FF;">|</span>
+   <span style="color: #0000FF;">--&gt;</span> F1 <span style="color: #0000FF;">+</span> F2
+   <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></li>
+<li>Die Funktion erzeugt eine exponentiell wachsende Zahl von Threads. Mit <code>{Fib 6}</code>
+werden die folgenden Threads erzeugt:</li>
 </ul>
 
 <div class="figure">
@@ -817,15 +859,16 @@ werden die folgenden Threads erzeugt:
 </div>
 
 <ul class="org-ul">
-<li><code>{Browse {Fib 25}}</code> werden etwa 23000 Threads erzeugt.</li>
+<li><code>{Browse {Fib 25}}</code> werden etwa 23000 Threads erzeugt.
+<img src="./Abbildungen/fibpanel.png" alt="fibpanel.png" /></li>
 <li>Das Erzeugen von Threads ist in Mozart/Oz zwar sehr billig, sollte
 aber nicht missbraucht werden.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org33b4381" class="outline-4">
-<h4 id="org33b4381">Producer/Consumer</h4>
-<div class="outline-text-4" id="text-org33b4381">
+<div id="outline-container-org207fd95" class="outline-4">
+<h4 id="org207fd95">Producer/Consumer</h4>
+<div class="outline-text-4" id="text-org207fd95">
 <ul class="org-ul">
 <li><p>
 Kommunikation über <i>Streams</i>, die als Listen repräsentiert werden,
@@ -914,19 +957,206 @@ Die folgende Abbildung veranschaulicht den Prozess:
 </div></li>
 </ul>
 </div>
+<div id="outline-container-org2c6e1d4" class="outline-5">
+<h5 id="org2c6e1d4">Größeres Beispiel: Sieb des Eratosthenes</h5>
+<div class="outline-text-5" id="text-org2c6e1d4">
+<ul class="org-ul">
+<li>Erzeugt Primzahlen</li>
+<li>Nimmt einen Stream \(2 ... N\), entfernt die 2 vom Rest des Streams</li>
+<li>Liefert den Rest des Streams an das nächste Sieb
+<img src="./Abbildungen/sieve.png" alt="sieve.png" /></li>
+<li><p>
+Die Funktion <code>Sieve</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-oz">  <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Sieve</span> Xs}
+   <span style="color: #0000FF;">case</span> Xs
+   <span style="color: #0000FF;">of</span> nil <span style="color: #0000FF;">then</span> nil
+   <span style="color: #0000FF;">[]</span> X<span style="color: #0000FF;">|</span>Xr <span style="color: #0000FF;">then</span> Ys <span style="color: #0000FF;">in</span>
+      <span style="color: #0000FF;">thread</span> Ys = {Filter Xr <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span> Y} Y <span style="color: #0000FF;">mod</span> X <span style="color: #0000FF;">\=</span> 0 <span style="color: #0000FF;">end</span>} <span style="color: #0000FF;">end</span>
+      X <span style="color: #0000FF;">|</span> {Sieve Ys}
+   <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div>
+<p>
+erzeugt einen <code>filter</code>-Thread für jeden Aufruf von <code>Sieve</code>.
+</p></li>
+<li><p>
+Beispielablauf
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Sieve Generate
+
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Generate</span> N Limit} 
+   <span style="color: #0000FF;">if</span> N<span style="color: #0000FF;">=&lt;</span>Limit <span style="color: #0000FF;">then</span> 
+   N <span style="color: #0000FF;">|</span> {Generate N<span style="color: #0000FF;">+</span>1 Limit} 
+<span style="color: #0000FF;">else</span> nil <span style="color: #0000FF;">end</span> 
+<span style="color: #0000FF;">end</span> 
+
+<span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Sieve</span> Xs}
+   <span style="color: #0000FF;">case</span> Xs
+   <span style="color: #0000FF;">of</span> nil <span style="color: #0000FF;">then</span> nil
+   <span style="color: #0000FF;">[]</span> X<span style="color: #0000FF;">|</span>Xr <span style="color: #0000FF;">then</span> Ys <span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">thread</span> Ys = {Filter Xr <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span> Y} Y <span style="color: #0000FF;">mod</span> X <span style="color: #0000FF;">\=</span> 0 <span style="color: #0000FF;">end</span>} <span style="color: #0000FF;">end</span>
+   X <span style="color: #0000FF;">|</span> {Sieve Ys}
+   <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span>
+
+<span style="color: #0000FF;">local</span> Xs Ys <span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">thread</span> Xs =  {Generate 2 100000} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> Ys = {Sieve Xs} <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">thread</span> <span style="color: #0000FF;">for</span> Y <span style="color: #0000FF;">in</span> Ys <span style="color: #0000FF;">do</span> {Show Y} <span style="color: #0000FF;">end</span> <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span>  </pre>
+</pre>
+</div></li>
+<li>Der Filterprozess</li>
+</ul>
+
+<div class="figure">
+<p><img src="./Abbildungen/filtersieve.png" alt="filtersieve.png" width="400px" />
+</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf1726bd" class="outline-2">
-<h2 id="orgf1726bd"><h2>Literaturverzeichnis</h2>
+<div id="outline-container-orgf1ccfd0" class="outline-5">
+<h5 id="orgf1ccfd0">Mögliches Problem</h5>
+<div class="outline-text-5" id="text-orgf1ccfd0">
+<ul class="org-ul">
+<li>Ein Producer könnte viel schneller als ein Consumer arbeiten.</li>
+<li>Dadurch wird temporär ein großer Stream entstehen, der potentiell
+unbegrenzt viel Speicher benötigt.</li>
+<li>Lösungsmöglichkeiten:
+<ol class="org-ol">
+<li>Man konfiguriert die Geschwindigkeiten der Threads mithilfe des
+Schedulers (z. B. durch Vergabe von Prioritäten).</li>
+<li>Man erzeugt einen Puffer mit endlicher Größe, so dass der
+Producer blockiert wird, wen der Puffer voll ist.</li>
+<li>Der Consumer signalisiert dem Producer, wenn er eine neues
+Datenelement benötigt (<i>demand driven</i>, <i>lazy evaluation</i>)</li>
+</ol></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfacd02c" class="outline-3">
+<h3 id="orgfacd02c">Steuerungsabstraktion</h3>
+<div class="outline-text-3" id="text-orgfacd02c">
+<ul class="org-ul">
+<li>Bisher wurde nur die „fork“-Operation durch <code>thread ... end</code> betrachtet.</li>
+<li>Wie sieht die „join”-Operation aus?</li>
+</ul>
+
+<div class="figure">
+<p><img src="./Abbildungen/forkjoin.png" alt="forkjoin.png" width="200px" />
+</p>
+</div>
+</div>
+<div id="outline-container-org14e5d21" class="outline-4">
+<h4 id="org14e5d21">Endeerkennung</h4>
+<div class="outline-text-4" id="text-org14e5d21">
+<ul class="org-ul">
+<li>Die folgende Konstruktion sorgt für die Entdeckung der Termination
+von mehreren Threads und das Warten eines weiteren Threads auf
+dieses Ereignis.</li>
+<li><p>
+Lösung ist einfach mit der Benutzung von Datenflussvariablen:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span> X1 X2 X3 <span style="color: #0000FF;">...</span> Xn1 Xn <span style="color: #0000FF;">in</span> 
+  <span style="color: #0000FF;">thread</span> &#10216;stmt&#10217;1 X1=<span style="color: #0000FF;">unit</span> <span style="color: #0000FF;">end</span> 
+  <span style="color: #0000FF;">thread</span> &#10216;stmt&#10217;2 X2=X1 <span style="color: #0000FF;">end</span> <span style="color: #0000FF;">thread</span> &#10216;stmt&#10217;3 X3=X2 <span style="color: #0000FF;">end</span> 
+  <span style="color: #0000FF;">...</span>
+  <span style="color: #0000FF;">thread</span> &#10216;stmt&#10217;n Xn=XnMinus1 <span style="color: #0000FF;">end</span>
+{Wait Xn}
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></li>
+<li>Wenn alle Threads beendet sind, haben alle Variablen <code>X1 ... Xn</code> den
+Wert <code>unit</code>.</li>
+<li><code>{Wait XN}</code> blockiert den Haupt-Thread bis <code>Xn</code> gebunden ist.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc1c67f7" class="outline-4">
+<h4 id="orgc1c67f7">Nebenläufige Komposition</h4>
+<div class="outline-text-4" id="text-orgc1c67f7">
+<ul class="org-ul">
+<li><p>
+So etwas hätte man gern:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz">conc
+  &#10216;stmt&#10217;1 <span style="color: #0000FF;">[]</span> &#10216;stmt&#10217;2 <span style="color: #0000FF;">[]</span> <span style="color: #0000FF;">...</span> <span style="color: #0000FF;">[]</span> &#10216;stmt&#10217;n
+<span style="color: #0000FF;">end</span></pre>
+</pre>
+</div></li>
+<li><p>
+Könnte so implementiert werden:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">declare</span> Conc
+<span style="color: #0000FF;">local</span>
+   <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Conc1</span> Ps I O}
+      <span style="color: #0000FF;">case</span> Ps <span style="color: #0000FF;">of</span> P<span style="color: #0000FF;">|</span>Pr <span style="color: #0000FF;">then</span> 
+         M <span style="color: #0000FF;">in</span> 
+         <span style="color: #0000FF;">thread</span> {P} M = I <span style="color: #0000FF;">end</span>
+         {Conc1 Pr M O}
+      <span style="color: #0000FF;">[]</span> nil <span style="color: #0000FF;">then</span> O = I
+      <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">in</span>
+   <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Conc</span> Ps} 
+      X <span style="color: #0000FF;">in</span> {Conc1 Ps <span style="color: #0000FF;">unit</span> X}
+      {Wait X}
+   <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">end</span>  </pre>
+</pre>
+</div></li>
+<li><code>Conc</code> erwartet eine Liste von parameterlosen Prozeduren, die als
+Threads gestartet werden, und terminiert wenn all diese Threads
+beendet sind.</li>
+<li><p>
+Anwendungsbeispiel:
+</p>
+<div class="org-src-container">
+<pre class="src src-oz"><span style="color: #0000FF;">local</span>
+   <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Ping</span> N}
+      <span style="color: #0000FF;">for</span> I <span style="color: #0000FF;">in</span> 1 <span style="color: #0000FF;">..</span> N <span style="color: #0000FF;">do</span>
+         {Delay 500} {Browse ping}
+      <span style="color: #0000FF;">end</span>
+      {Browse <span style="color: #008000;">'ping terminate'</span>}
+   <span style="color: #0000FF;">end</span>
+   <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Pong</span> N}
+      <span style="color: #0000FF;">for</span> I <span style="color: #0000FF;">in</span> 1 <span style="color: #0000FF;">..</span> N <span style="color: #0000FF;">do</span>
+         {Delay 600} {Browse pong}
+      <span style="color: #0000FF;">end</span>
+      {Browse <span style="color: #008000;">'pong terminate'</span>}
+   <span style="color: #0000FF;">end</span>
+<span style="color: #0000FF;">in</span> {Browse <span style="color: #008000;">'game started'</span>}
+   {Conc 
+    [ <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span>} {Ping 10} <span style="color: #0000FF;">end</span>
+      <span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">$</span>} {Pong 10} <span style="color: #0000FF;">end</span>  ]}
+   {Browse <span style="color: #008000;">'game tarminated'</span>}
+<span style="color: #0000FF;">end</span>  </pre>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org821cd3c" class="outline-2">
+<h2 id="org821cd3c"><h2>Literaturverzeichnis</h2>
 <ul class='org-ref-bib'><li><a id="RoyHaridi2004">[RoyHaridi2004] Peter Van Roy & Seif Haridi, Concepts, Techniques, and Models of Computer Programming (MIT Press), The MIT Press (2004).</a></li>
 </ul></h2>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-10 Fri 17:12</p>
+<p class="date">Created: 2017-11-15 Wed 16:43</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
