@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-18 Sat 19:49 -->
+<!-- 2017-11-18 Sat 19:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung in Scala</title>
@@ -238,6 +238,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -245,12 +267,1608 @@ for the JavaScript code in this tag.
 <br />
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
+<div id="outline-container-orgd8c45e8" class="outline-2">
+<h2 id="orgd8c45e8">Einführung</h2>
+<div class="outline-text-2" id="text-orgd8c45e8">
 <p>
-Parallelprogrammierung in Scala</p>
+Darstellungen lehnen sich an <a class='org-ref-reference' href="#KuncakProkopec2015">KuncakProkopec2015</a> an.
+</p>
+</div>
+<div id="outline-container-org987dc99" class="outline-3">
+<h3 id="org987dc99">Threads wie in Java</h3>
+<div class="outline-text-3" id="text-org987dc99">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">class</span> <span style="color: #6434A3;">HelloThread</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Thread</span> <span style="color: #707183;">{</span>
+  <span style="color: #006FE0;">override</span> <span style="color: #0000FF;">def</span> <span style="color: #006699;">run</span><span style="color: #7388D6;">()</span> <span style="color: #7388D6;">{</span>
+    println<span style="color: #909183;">(</span><span style="color: #008000;">"Hello"</span><span style="color: #909183;">)</span>
+    println<span style="color: #909183;">(</span><span style="color: #008000;">"world!"</span><span style="color: #909183;">)</span>
+  <span style="color: #7388D6;">}</span>
+<span style="color: #707183;">}</span>
+
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">main</span><span style="color: #707183;">()</span> <span style="color: #707183;">{</span>
+   <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">HelloThread</span><span style="color: #7388D6;">()</span>
+   <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">s</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">HelloThread</span><span style="color: #7388D6;">()</span>
+   t.start<span style="color: #7388D6;">()</span>
+   s.start<span style="color: #7388D6;">()</span>
+   t.join<span style="color: #7388D6;">()</span>
+   s.join<span style="color: #7388D6;">()</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgadc8ea2" class="outline-3">
+<h3 id="orgadc8ea2">Synchronized blocks</h3>
+<div class="outline-text-3" id="text-orgadc8ea2">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #006FE0;">private</span> <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">x</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">AnyRef</span> <span style="color: #707183;">{}</span>
+<span style="color: #006FE0;">private</span> <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">uidCount</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0L</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">getUniqueId</span><span style="color: #707183;">()</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Long</span> <span style="color: #0000FF;">=</span> x.synchronized <span style="color: #707183;">{</span>
+  uidCount <span style="color: #0000FF;">=</span> uidCount + <span style="color: #D0372D;">1</span>
+  uidCount 
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org15caef6" class="outline-3">
+<h3 id="org15caef6">Basic parallel construct</h3>
+<div class="outline-text-3" id="text-org15caef6">
+<p>
+Um zwei Ausdrücke, <code>e1</code> and <code>e2</code>, parallel zu berechnen und das
+Ergebnispaar zurückzugeben:
+</p>
+<pre class="example">
+parallel(e1, e2)
+
+</pre>
+</div>
+<div id="outline-container-org25f4fc5" class="outline-4">
+<h4 id="org25f4fc5">Beispiel: Berechnung der <a href="https://de.wikipedia.org/wiki/P-Norm">P-Norm</a></h4>
+<div class="outline-text-4" id="text-org25f4fc5">
+<ul class="org-ul">
+<li>Gegeben sei ein Vektor als Array von ganzen Zahlen.</li>
+<li>Die P-Norm ist die Veralgemeinerung des Begriffs der <i>Länge</i> eines
+Vektors aus der Geometrie.</li>
+<li>Die 2-Norm eines zweidimensionalen Vektors \((a_1, a_2)\) ist \((a_1^2 + a_2^2)^{1/2}\).</li>
+<li>Die Verallgemeinerung:
+Die P-Norm eines Vektors \((a_1, \ldots\ , a_n)\) ist
+\[(\sum_{i-1}^n |a_i|^p)^{1/p}\]</li>
+</ul>
+</div>
+<div id="outline-container-orgb4b3bc4" class="outline-5">
+<h5 id="orgb4b3bc4">Sequentielle Lösung</h5>
+<div class="outline-text-5" id="text-orgb4b3bc4">
+<ul class="org-ul">
+<li>Eine etwas verallgemeinerte Funktion <code>sumSegment</code> soll folgendes
+Problem lösen. Gegeben sind
+<ul class="org-ul">
+<li>ein Integer-Array <code>a</code>, das den Vektor repräsentiert</li>
+<li>eine positive Double-Zahl <code>p</code></li>
+<li>zwei gültige Array-Indizes <code>s</code> und <code>t</code> auf <code>a</code> mit \(s \leq t\)</li>
+</ul></li>
+<li>Berechne \[(\sum_{i-s}^{t-1}\lfloor|a_i|\rfloor^p)^{1/p}\] mit
+\(\lfloor x\rfloor\) ist die größte ganze Zahl kleiner oder gleich
+\(x\).</li>
+</ul>
+
+<div class="figure">
+<p><img src="./Abbildungen/ast.png" alt="ast.png" width="300px" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">sumSegment</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>, s<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+         <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">i</span><span style="color: #0000FF;">=</span> s; <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">sum</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0</span>
+         <span style="color: #0000FF;">while</span> <span style="color: #7388D6;">(</span>i &lt; t<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+           sum<span style="color: #0000FF;">=</span> sum + power<span style="color: #909183;">(</span>a<span style="color: #709870;">(</span>i<span style="color: #709870;">)</span>, p<span style="color: #909183;">)</span>
+           i<span style="color: #0000FF;">=</span> i + <span style="color: #D0372D;">1</span> 
+         <span style="color: #7388D6;">}</span>
+sum 
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<p>
+<code>power</code> berechnet \(\lfloor |x^p|\rfloor\)
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"> <span style="color: #0000FF;">def</span> <span style="color: #006699;">power</span><span style="color: #707183;">(</span>x<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> math.exp<span style="color: #707183;">(</span>p * math.log<span style="color: #7388D6;">(</span>abs<span style="color: #909183;">(</span>x<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>.toInt</pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+Berechnung der P-Norm mithilfe von <code>sumSegment(a, p, s, t)</code>
+\[||a||_p := (\sum_{i=0}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}\] mit <code>N = a.length</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">pNorm</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span>
+  power<span style="color: #707183;">(</span>sumSegment<span style="color: #7388D6;">(</span>a, p, <span style="color: #D0372D;">0</span>, a.length<span style="color: #7388D6;">)</span>, <span style="color: #D0372D;">1</span>/p<span style="color: #707183;">)</span>  </pre>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcd7fa7f" class="outline-5">
+<h5 id="orgcd7fa7f">Parallelisierung</h5>
+<div class="outline-text-5" id="text-orgcd7fa7f">
+<ul class="org-ul">
+<li><p>
+Aufspaltung der Summe in zwei Teilsummen
+\[||a||_p :=
+  (\sum_{i=0}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}=(\sum_{i=1}^{m-1}\lfloor|a_i|\rfloor^p +
+  \sum_{i=m}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}\]
+</p>
+
+<div class="figure">
+<p><img src="./Abbildungen/m.png" alt="m.png" width="300px" />
+</p>
+</div></li>
+<li><p>
+Zwei Aufrufe von <code>sumSegment</code> parallel:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">pNormTwoPart</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+         <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">m</span> <span style="color: #0000FF;">=</span> a.length / <span style="color: #D0372D;">2</span>
+         <span style="color: #0000FF;">val</span> <span style="color: #7388D6;">(</span><span style="color: #BA36A5;">sum1</span>, <span style="color: #BA36A5;">sum2</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=</span> parallel<span style="color: #7388D6;">(</span>sumSegment<span style="color: #909183;">(</span>a, p, <span style="color: #D0372D;">0</span>, m<span style="color: #909183;">)</span>,
+                                     sumSegment<span style="color: #909183;">(</span>a, p, m, a.length<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+         power<span style="color: #7388D6;">(</span>sum1 + sum2, <span style="color: #D0372D;">1</span>/p<span style="color: #7388D6;">)</span> <span style="color: #707183;">}</span></pre>
+</pre>
+</div></li>
+<li><p>
+Vier Aufrufe parallel:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">m1</span> <span style="color: #0000FF;">=</span> a.length/<span style="color: #D0372D;">4</span>; <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">m2</span> <span style="color: #0000FF;">=</span> a.length/<span style="color: #D0372D;">2</span>; <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">m3</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">3</span>*a.length/<span style="color: #D0372D;">4</span>
+       <span style="color: #0000FF;">val</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">sum1</span>, <span style="color: #BA36A5;">sum2</span><span style="color: #7388D6;">)</span>,<span style="color: #7388D6;">(</span><span style="color: #BA36A5;">sum3</span>,<span style="color: #BA36A5;">sum4</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span>
+         parallel<span style="color: #707183;">(</span>parallel<span style="color: #7388D6;">(</span>sumSegment<span style="color: #909183;">(</span>a, p, <span style="color: #D0372D;">0</span>, m1<span style="color: #909183;">)</span>, sumSegment<span style="color: #909183;">(</span>a, p, m1, m2<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>,
+                  parallel<span style="color: #7388D6;">(</span>sumSegment<span style="color: #909183;">(</span>a, p, m2, m3<span style="color: #909183;">)</span>, sumSegment<span style="color: #909183;">(</span>a, p, m3, a.length<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span></pre>
+</pre>
+</div></li>
+<li><p>
+Rekursive Zerlegung
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">pNormRec</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span>
+  power<span style="color: #707183;">(</span>segmentRec<span style="color: #7388D6;">(</span>a, p, <span style="color: #D0372D;">0</span>, a.length<span style="color: #7388D6;">)</span>, <span style="color: #D0372D;">1</span>/p<span style="color: #707183;">)</span>
+
+<span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">wie sumSegment nur parallel</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">segmentRec</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>, s<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>t - s &lt; threshold<span style="color: #7388D6;">)</span>
+    sumSegment<span style="color: #7388D6;">(</span>a, p, s, t<span style="color: #7388D6;">)</span>  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">kleines Segment: mach es sequentiell</span>
+  <span style="color: #0000FF;">else</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">m</span> <span style="color: #0000FF;">=</span> s + <span style="color: #909183;">(</span>t - s<span style="color: #909183;">)</span>/<span style="color: #D0372D;">2</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #909183;">(</span><span style="color: #BA36A5;">sum1</span>, <span style="color: #BA36A5;">sum2</span><span style="color: #909183;">)</span> <span style="color: #0000FF;">=</span> parallel<span style="color: #909183;">(</span>segmentRec<span style="color: #709870;">(</span>a, p, s, m<span style="color: #709870;">)</span>,
+                                segmentRec<span style="color: #709870;">(</span>a, p, m, t<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    sum1 + sum2 <span style="color: #7388D6;">}</span> 
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org94b5b1e" class="outline-3">
+<h3 id="org94b5b1e">Kontrollstruktur <code>parallel</code></h3>
+<div class="outline-text-3" id="text-org94b5b1e">
+<ul class="org-ul">
+<li><code>parallel</code> ist ein Schlüsselwort in Scala.</li>
+<li><p>
+<code>parallel</code> könnte auch als Funktion mit folgender Signatur
+implementiert werden:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">parallel</span> <span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>, <span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>taskA<span style="color: #0000FF;">:</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span>, taskB<span style="color: #0000FF;">:</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #707183;">(</span><span style="color: #D0372D;">A</span>, <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span> ... <span style="color: #707183;">}</span>  </pre>
+</pre>
+</div></li>
+</ul>
+</div>
+<div id="outline-container-org5caf197" class="outline-4">
+<h4 id="org5caf197">Systemunterstützung</h4>
+<div class="outline-text-4" id="text-org5caf197">
+<ul class="org-ul">
+<li>Effiziente Parallelität erfordert Unterstützung durch
+<ul class="org-ul">
+<li>die Sprache und ihre Bibliotheken</li>
+<li>die virtuelle Maschine</li>
+<li>das Betriebssystem</li>
+<li>die Hardware</li>
+</ul></li>
+<li>Gängige Implementierung von <code>parallel</code> nutzt JVM-Threads.</li>
+<li>Von Parallelarbeit kann man nur dann eine wesentliche
+Geschwindigkeitssteigerung erwarten, wenn die parallel
+auszuführenden Schritte nicht zu trivial sind.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgef5f08d" class="outline-2">
+<h2 id="orgef5f08d">First-Class Tasks</h2>
+<div class="outline-text-2" id="text-orgef5f08d">
+</div>
+<div id="outline-container-org207ece8" class="outline-3">
+<h3 id="org207ece8">Flexiblere Alternative für parallele Berechnungen</h3>
+<div class="outline-text-3" id="text-org207ece8">
+<ul class="org-ul">
+<li><p>
+Statt
+</p>
+<pre class="example">
+val (v1, v2) = parallel(e1, e2)
+
+</pre>
+<p>
+kann man auch das <code>task</code>-Konstrukt benutzen:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t1</span> <span style="color: #0000FF;">=</span> task<span style="color: #707183;">(</span>e1<span style="color: #707183;">)</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t2</span> <span style="color: #0000FF;">=</span> task<span style="color: #707183;">(</span>e2<span style="color: #707183;">)</span> 
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">v1</span> <span style="color: #0000FF;">=</span> t1.join
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">v2</span> <span style="color: #0000FF;">=</span> t2.join  </pre>
+</pre>
+</div>
+<p>
+Der Ausdruck <code>t = task(e)</code> startet die Berechnung als Thread:
+</p>
+<ul class="org-ul">
+<li><code>t</code> ist eine <code>task</code> die, die den Wert von <code>e</code> berechnet.</li>
+<li>Die laufende Berechnung wird parallel zu <code>t</code> fortgesetzt.</li>
+<li>Um das Resultat von <code>e</code> zu erhalten, benutzt man <code>t.join</code>.</li>
+<li><code>t.join</code> sorgt dafür, dass der ausführende Thread auf die
+Beendigung von <code>t</code> wartet.</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-orge31d26f" class="outline-4">
+<h4 id="orge31d26f">Task-Interface</h4>
+<div class="outline-text-4" id="text-orge31d26f">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">task</span><span style="color: #707183;">(</span>c<span style="color: #0000FF;">:</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Task</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span>
+<span style="color: #0000FF;">trait</span> <span style="color: #6434A3;">Task</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">join</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>task</code> und <code>join</code> erzeugen Abbildungen zwischen Berechnungen und Tasks.</li>
+<li>Die Gleichung <code>task(e).join == e</code> gilt immer.</li>
+<li><p>
+Auf die Verwendung von <code>.join</code> kann verzichtet werden, wenn man eine
+implizite Umwandlung definiert: 
+</p>
+<pre class="example">
+implicit def getJoin[T](x:Task[T]): T = x.join
+
+</pre></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2f8e73f" class="outline-4">
+<h4 id="org2f8e73f">Anwendungsbeispiel für vier Tasks</h4>
+<div class="outline-text-4" id="text-org2f8e73f">
+<p>
+Statt
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #707183;">(</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">part1</span>, <span style="color: #BA36A5;">part2</span><span style="color: #7388D6;">)</span>,<span style="color: #7388D6;">(</span><span style="color: #BA36A5;">part3</span>,<span style="color: #BA36A5;">part4</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span>
+  parallel<span style="color: #707183;">(</span>parallel<span style="color: #7388D6;">(</span>sumSegment<span style="color: #909183;">(</span>a, p, <span style="color: #D0372D;">0</span>, mid1<span style="color: #909183;">)</span>,
+                    sumSegment<span style="color: #909183;">(</span>a, p, mid1, mid2<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>,
+           parallel<span style="color: #7388D6;">(</span>sumSegment<span style="color: #909183;">(</span>a, p, mid2, mid3<span style="color: #909183;">)</span>,
+                    sumSegment<span style="color: #909183;">(</span>a, p, mid3, a.length<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+power<span style="color: #707183;">(</span>part1 + part2 + part3 + part4, <span style="color: #D0372D;">1</span>/p<span style="color: #707183;">)</span></pre>
+</pre>
+</div>
+<p>
+kann man nun auch Tasks benutzen:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t1</span> <span style="color: #0000FF;">=</span> task <span style="color: #707183;">{</span>sumSegment<span style="color: #7388D6;">(</span>a, p, <span style="color: #D0372D;">0</span>, mid1<span style="color: #7388D6;">)</span><span style="color: #707183;">}</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t2</span> <span style="color: #0000FF;">=</span> task <span style="color: #707183;">{</span>sumSegment<span style="color: #7388D6;">(</span>a, p, mid1, mid2<span style="color: #7388D6;">)</span><span style="color: #707183;">}</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t3</span> <span style="color: #0000FF;">=</span> task <span style="color: #707183;">{</span>sumSegment<span style="color: #7388D6;">(</span>a, p, mid2, mid3<span style="color: #7388D6;">)</span><span style="color: #707183;">}</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">t4</span> <span style="color: #0000FF;">=</span> task <span style="color: #707183;">{</span>sumSegment<span style="color: #7388D6;">(</span>a, p, mid3, a.length<span style="color: #7388D6;">)</span><span style="color: #707183;">}</span>
+power<span style="color: #707183;">(</span>t1 + t2 + t3 + t4, <span style="color: #D0372D;">1</span>/p<span style="color: #707183;">)</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdc6eeba" class="outline-2">
+<h2 id="orgdc6eeba">ScalaMeter</h2>
+<div class="outline-text-2" id="text-orgdc6eeba">
+</div>
+<div id="outline-container-org7680154" class="outline-3">
+<h3 id="org7680154">Wie schnell sind parallele Programme</h3>
+<div class="outline-text-3" id="text-org7680154">
+<ul class="org-ul">
+<li>Bewertung von Programmen/Algorithmen durch asymptotische Analyse
+<ul class="org-ul">
+<li>anwendbar auf rekursive Programme und damit auch auf rekursive
+Parallelität (vgl. die <code>segmentRec</code>-Funktion für die Berechnung
+der P-Norm)</li>
+</ul></li>
+<li>Zeitmessungen durchführen
+<ul class="org-ul">
+<li>Beispiele bereits betrachtet</li>
+<li>Frage: Warum sind Zeitmessungen schwierig?</li>
+</ul></li>
+<li>Amdahls Law</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeec619e" class="outline-3">
+<h3 id="orgeec619e">Was ist Benchmarking?</h3>
+<div class="outline-text-3" id="text-orgeec619e">
+<ul class="org-ul">
+<li><i>Testen</i> soll zeigen, dass für konkrete Anwednungsfälle das Programm
+das erwartete Ergebnis liefert.</li>
+<li><i>Benchmarking</i> berechnet Performanz–Maße für Teile eines Programms.</li>
+<li>Warum ist Benchmarking für parallele Programme besonders interessant?</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org885dba5" class="outline-3">
+<h3 id="org885dba5">Laufzeitfaktoren</h3>
+<div class="outline-text-3" id="text-org885dba5">
+<ul class="org-ul">
+<li>Prozessorgeschwindigkeit</li>
+<li>Anzahl der Prozessoren</li>
+<li>Speicherzugriffszeit und Datenrate</li>
+<li>Verhalten der Cache-Speicher</li>
+<li>Laufzeitsystem 
+<ul class="org-ul">
+<li>Garbage-Collection</li>
+<li>Just-in-time-Übersetzung</li>
+<li>Thread-Scheduling</li>
+</ul></li>
+<li>Ergänzende Information: <a class='org-ref-reference' href="#Drepper2007">Drepper2007</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4b7076d" class="outline-3">
+<h3 id="org4b7076d">Mess-Methodik</h3>
+<div class="outline-text-3" id="text-org4b7076d">
+<ul class="org-ul">
+<li>Einfache Laufzeitmessungen liefern zufällige Ergebnisse.</li>
+<li>Maßnahmen:
+<ul class="org-ul">
+<li>mehrfache Wiederholung</li>
+<li>stastische Methoden anwenden: Durchschnitt, Varianz, Elimination
+von Ausreißern</li>
+<li>Sicherstellen eines „stabilen“ Systemzustands (Warm-up-Phase)</li>
+<li>Sonderverhalten ausschließen (Garbage-Collection,
+Just-in-time-Übersetzung, Spezialoptimierungen)</li>
+</ul></li>
+<li>Ergänzende Information: <a class='org-ref-reference' href="#Georges2007">Georges2007</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org915cc8e" class="outline-3">
+<h3 id="org915cc8e">Benchmarking mit ScalaMeter</h3>
+<div class="outline-text-3" id="text-org915cc8e">
+<ul class="org-ul">
+<li>Framework für 
+<ul class="org-ul">
+<li>Performanz-Regressionstest &#x2013; Vergleich der Performanz eines
+Programmlaufs mit den Ergebnissen vorheriger Läufe</li>
+<li><b>Benchmarking</b> &#x2013; Messen der Performance eines Programms bzw. eines
+bestimmten Teils davon</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-org9736746" class="outline-4">
+<h4 id="org9736746">Benutzung</h4>
+<div class="outline-text-4" id="text-org9736746">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">import</span> org.scalameter.<span style="color: #0000FF;">_</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">time</span> <span style="color: #0000FF;">=</span> measure <span style="color: #707183;">{</span>
+  <span style="color: #7388D6;">(</span><span style="color: #D0372D;">0</span> until <span style="color: #D0372D;">1000000</span><span style="color: #7388D6;">)</span>.toArray
+<span style="color: #707183;">}</span>
+println<span style="color: #707183;">(</span>s&#8221;Array initialization time<span style="color: #0000FF;">:</span> $time ms&#8221;<span style="color: #707183;">)</span></pre>
+</pre>
+</div>
+<p>
+Einige Messergebnisse:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">scala&gt; import org.scalameter._
+import org.scalameter._
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res16: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 112.550853 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res17: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 129.276758 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res18: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 114.564872 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res19: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 76.054651 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res20: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 44.536571 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res21: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 42.655136 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res22: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 41.384557 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res23: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 40.751557 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res24: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 62.932047 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res25: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 48.995 ms
+
+scala&gt; measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res26: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 54.067021 ms</pre>
+</pre>
+</div>
+</div>
+<div id="outline-container-orga3c4166" class="outline-5">
+<h5 id="orga3c4166">JVM Warmup</h5>
+<div class="outline-text-5" id="text-orga3c4166">
+<ul class="org-ul">
+<li>Sehr unterschiedliche Messergebnisse bei aufeinanderfolgenden Programmläufen</li>
+<li>Ein Programm, das auf der JVM läuft, durchläuft eine Aufwärmperiode,
+nach deren Ablauf es seine maximale Geschwindigkeit erreicht.
+<ol class="org-ol">
+<li>Das Programm (der Bytecode) wird interpretiert.</li>
+<li>Teile des Programms werden in Maschinencode übersetzt.</li>
+<li>Die JVM wird eventuell weitere dynamische Optimierungen vornehmen.</li>
+<li>Das Programm erreicht einen stabilen Zustand.</li>
+</ol></li>
+<li>Normalerweise will man die Geschwindigkeit nach Ablauf der
+Aufwärmperiode messen.</li>
+<li><p>
+ScalaMeter <code>Warmer</code>-Objekte lassen den zu messenden Code laufen, bis
+ein stabiler Zustand erreicht ist:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">time</span> <span style="color: #0000FF;">=</span> withWarmer<span style="color: #707183;">(</span><span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Warmer</span>.<span style="color: #D0372D;">Default</span><span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span>
+  <span style="color: #7388D6;">(</span><span style="color: #D0372D;">0</span> until <span style="color: #D0372D;">1000000</span><span style="color: #7388D6;">)</span>.toArray
+<span style="color: #707183;">}</span>  </pre>
+</pre>
+</div></li>
+<li>Einige Messergebnisse:</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">scala&gt; withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res27: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 91.896549 ms
+
+scala&gt; withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res28: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 36.076516 ms
+
+scala&gt; withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res29: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 41.084076 ms
+
+scala&gt; withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res30: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 37.660086 ms
+
+scala&gt; withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res31: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 41.897866 ms
+
+scala&gt; withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span><span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res32: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 51.400989 ms
+</pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge387f56" class="outline-5">
+<h5 id="orge387f56">ScalaMeter Configuration</h5>
+<div class="outline-text-5" id="text-orge387f56">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">time</span> <span style="color: #0000FF;">=</span> config<span style="color: #707183;">(</span>
+  <span style="color: #D0372D;">Key</span>.exec.minWarmupRuns -&gt; <span style="color: #D0372D;">20</span>,
+  <span style="color: #D0372D;">Key</span>.exec.maxWarmupRuns -&gt; <span style="color: #D0372D;">60</span>,
+  <span style="color: #D0372D;">Key</span>.verbose -&gt; <span style="color: #D0372D;">true</span>
+<span style="color: #707183;">)</span> withWarmer<span style="color: #707183;">(</span><span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Warmer</span>.<span style="color: #D0372D;">Default</span><span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span>
+  <span style="color: #7388D6;">(</span><span style="color: #D0372D;">0</span> until <span style="color: #D0372D;">1000000</span><span style="color: #7388D6;">)</span>.toArray
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+Benutzung:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">scala&gt; val time = config<span style="color: #707183;">(</span>
+     |   Key.exec.minWarmupRuns -&gt; 20,
+     |   Key.exec.maxWarmupRuns -&gt; 60,
+     |   Key.verbose -&gt; true
+     | <span style="color: #707183;">)</span> withWarmer<span style="color: #707183;">(</span>new Warmer.Default<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span>
+     |   <span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray
+     | <span style="color: #707183;">}</span>
+Starting warmup.
+0. warmup run running time: 79.517448 <span style="color: #707183;">(</span>covNoGC: NaN, covGC: NaN<span style="color: #707183;">)</span>
+1. warmup run running time: 134.792116 <span style="color: #707183;">(</span>covNoGC: 0,3648, covGC: 0,3648<span style="color: #707183;">)</span>
+2. warmup run running time: 112.503768 <span style="color: #707183;">(</span>covNoGC: 0,2553, covGC: 0,2553<span style="color: #707183;">)</span>
+3. warmup run running time: 84.27628 <span style="color: #707183;">(</span>covNoGC: 0,2514, covGC: 0,2514<span style="color: #707183;">)</span>
+4. warmup run running time: 95.29925 <span style="color: #707183;">(</span>covNoGC: 0,2234, covGC: 0,2234<span style="color: #707183;">)</span>
+GC detected.
+5. warmup run running time: 194.387408 <span style="color: #707183;">(</span>covNoGC: 0,2234, covGC: 0,3687<span style="color: #707183;">)</span>
+6. warmup run running time: 102.420648 <span style="color: #707183;">(</span>covNoGC: 0,1995, covGC: 0,3459<span style="color: #707183;">)</span>
+7. warmup run running time: 97.337027 <span style="color: #707183;">(</span>covNoGC: 0,1838, covGC: 0,3309<span style="color: #707183;">)</span>
+8. warmup run running time: 93.12814 <span style="color: #707183;">(</span>covNoGC: 0,1740, covGC: 0,3210<span style="color: #707183;">)</span>
+9. warmup run running time: 81.202894 <span style="color: #707183;">(</span>covNoGC: 0,1780, covGC: 0,3225<span style="color: #707183;">)</span>
+10. warmup run running time: 83.395876 <span style="color: #707183;">(</span>covNoGC: 0,1768, covGC: 0,3199<span style="color: #707183;">)</span>
+11. warmup run running time: 83.710833 <span style="color: #707183;">(</span>covNoGC: 0,1745, covGC: 0,3161<span style="color: #707183;">)</span>
+12. warmup run running time: 93.719995 <span style="color: #707183;">(</span>covNoGC: 0,1666, covGC: 0,3060<span style="color: #707183;">)</span>
+13. warmup run running time: 79.129419 <span style="color: #707183;">(</span>covNoGC: 0,1684, covGC: 0,3053<span style="color: #707183;">)</span>
+14. warmup run running time: 49.723492 <span style="color: #707183;">(</span>covNoGC: 0,2120, covGC: 0,3334<span style="color: #707183;">)</span>
+15. warmup run running time: 43.142197 <span style="color: #707183;">(</span>covNoGC: 0,2540, covGC: 0,3637<span style="color: #707183;">)</span>
+16. warmup run running time: 43.33126 <span style="color: #707183;">(</span>covNoGC: 0,2849, covGC: 0,3881<span style="color: #707183;">)</span>
+17. warmup run running time: 44.380355 <span style="color: #707183;">(</span>covNoGC: 0,3078, covGC: 0,4071<span style="color: #707183;">)</span>
+18. warmup run running time: 42.96821 <span style="color: #707183;">(</span>covNoGC: 0,3279, covGC: 0,4244<span style="color: #707183;">)</span>
+19. warmup run running time: 37.649185 <span style="color: #707183;">(</span>covNoGC: 0,3509, covGC: 0,4444<span style="color: #707183;">)</span>
+GC detected.
+20. warmup run running time: 55.993767 <span style="color: #707183;">(</span>covNoGC: 0,3509, covGC: 0,4569<span style="color: #707183;">)</span>
+21. warmup run running time: 41.373658 <span style="color: #707183;">(</span>covNoGC: 0,3659, covGC: 0,4711<span style="color: #707183;">)</span>
+22. warmup run running time: 42.396609 <span style="color: #707183;">(</span>covNoGC: 0,3883, covGC: 0,4916<span style="color: #707183;">)</span>
+23. warmup run running time: 42.881321 <span style="color: #707183;">(</span>covNoGC: 0,3712, covGC: 0,5137<span style="color: #707183;">)</span>
+24. warmup run running time: 45.010063 <span style="color: #707183;">(</span>covNoGC: 0,3671, covGC: 0,5331<span style="color: #707183;">)</span>
+25. warmup run running time: 42.99345 <span style="color: #707183;">(</span>covNoGC: 0,3812, covGC: 0,3761<span style="color: #707183;">)</span>
+26. warmup run running time: 44.65123 <span style="color: #707183;">(</span>covNoGC: 0,3843, covGC: 0,3656<span style="color: #707183;">)</span>
+27. warmup run running time: 45.08368 <span style="color: #707183;">(</span>covNoGC: 0,3728, covGC: 0,3520<span style="color: #707183;">)</span>
+28. warmup run running time: 44.773776 <span style="color: #707183;">(</span>covNoGC: 0,3587, covGC: 0,3349<span style="color: #707183;">)</span>
+29. warmup run running time: 39.385705 <span style="color: #707183;">(</span>covNoGC: 0,3457, covGC: 0,3318<span style="color: #707183;">)</span>
+30. warmup run running time: 43.370046 <span style="color: #707183;">(</span>covNoGC: 0,3375, covGC: 0,3144<span style="color: #707183;">)</span>
+31. warmup run running time: 40.737444 <span style="color: #707183;">(</span>covNoGC: 0,3208, covGC: 0,2872<span style="color: #707183;">)</span>
+32. warmup run running time: 43.941155 <span style="color: #707183;">(</span>covNoGC: 0,2888, covGC: 0,1912<span style="color: #707183;">)</span>
+33. warmup run running time: 38.465119 <span style="color: #707183;">(</span>covNoGC: 0,1901, covGC: 0,0902<span style="color: #707183;">)</span>
+Steady-state detected.
+Ending warmup.
+measurements: 45.413679 ms
+<span style="color: #0000FF;">time</span>: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 45.413679 ms</pre>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf8f90f5" class="outline-5">
+<h5 id="orgf8f90f5">Weitere Messungen</h5>
+<div class="outline-text-5" id="text-orgf8f90f5">
+<dl class="org-dl">
+<dt><code>Measurer.Default</code></dt><dd>reine Laufzeit</dd>
+<dt><code>IgnoringGC</code></dt><dd>Laufzeit ohne Pausen durch GC</dd>
+<dt><code>OutlierElimination</code></dt><dd>entfernt statische Ausreißer</dd>
+<dt><code>MemoryFootprint</code></dt><dd>Speicherabdruck eines Objekts</dd>
+<dt><code>GarbageCollectionCycles</code></dt><dd>Gesamtzahl aller GC-Pausen</dd>
+<dt>&#x2026;</dt><dd></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgc74b19c" class="outline-5">
+<h5 id="orgc74b19c">Beispiel</h5>
+<div class="outline-text-5" id="text-orgc74b19c">
+<div class="org-src-container">
+<pre class="src src-shell">scala&gt; withMeasurer<span style="color: #707183;">(</span>new Measurer.MemoryFootprint<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span> <span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res42: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 146.72 kB
+
+scala&gt; withMeasurer<span style="color: #707183;">(</span>new Measurer.MemoryFootprint<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span> <span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res43: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 3993.488 kB
+
+scala&gt; withMeasurer<span style="color: #707183;">(</span>new Measurer.MemoryFootprint<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span> <span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res44: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 3999.064 kB
+
+scala&gt; withMeasurer<span style="color: #707183;">(</span>new Measurer.MemoryFootprint<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span> <span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
+res45: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 3995.936 kB</pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc148a7f" class="outline-2">
+<h2 id="orgc148a7f">Anwendungsbeispiele</h2>
+<div class="outline-text-2" id="text-orgc148a7f">
+</div>
+<div id="outline-container-org8d98078" class="outline-3">
+<h3 id="org8d98078">Paralleles Mapping</h3>
+<div class="outline-text-3" id="text-org8d98078">
+</div>
+<div id="outline-container-orgdd5202c" class="outline-4">
+<h4 id="orgdd5202c">Parallelität und Collections</h4>
+<div class="outline-text-4" id="text-orgdd5202c">
+<ul class="org-ul">
+<li>Parallelverarbeitung von Collections ist wichtig!
+<ul class="org-ul">
+<li>gehört zu den wichtigsten Anwendungen der Parallelarbeit</li>
+</ul></li>
+<li>Unter welchen Bedingungen ist Parallelarbeit möglich?
+<ul class="org-ul">
+<li>Eigenschaften von Collections: Zerlegung, Verknüpfung</li>
+<li>Eigenschaften von Operationen: Assoziativität, Unabhängigkeit</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgae12ffc" class="outline-4">
+<h4 id="orgae12ffc">Funktionale Programmierung und Collections</h4>
+<div class="outline-text-4" id="text-orgae12ffc">
+<ul class="org-ul">
+<li>Operationen auf Collections sind in der funktionalen Programmierung
+von besonderem Gewicht.</li>
+<li id="<code>map</code>"><p>
+wende eine Funktion auf jedes Element an
+</p>
+<pre class="example">
+List(1,3,8).map(x =&gt; x*x) == List(1, 9, 64) 
+
+</pre></li>
+<li id="<code>fold</code>"><p>
+verknüpfe die Elemente mit einer gegebenen Operation
+</p>
+<pre class="example">
+List(1,3,8).fold(100)((s,x) =&gt; s + x) == 112
+
+</pre></li>
+<li id="<code>scan</code>"><p>
+verknüpfe die „folds" aller Listen-Präfixe
+</p>
+<pre class="example">
+List(1,3,8).scan(100)((s,x) =&gt; s + x) == List(100, 101, 104, 112)
+
+</pre></li>
+</ul>
+<p>
+Diese Operationen sind für parallelle Collections noch wichtiger als
+für sequentielle
+</p>
+</div>
+</div>
+<div id="outline-container-org945e24b" class="outline-4">
+<h4 id="org945e24b">Wahl der Datenstrukturen</h4>
+<div class="outline-text-4" id="text-org945e24b">
+<ul class="org-ul">
+<li>Die Collection <code>List</code> wird benutzt, um das Resultat von Operationen
+zu sepzifizieren</li>
+<li><p>
+Grundsätzlich sind Lists aber für parallele Implementierungen
+ungeeignet weil 
+</p>
+<ul class="org-ul">
+<li>sie in zwei Teile zu zerlegen und</li>
+<li>die Elemente miteinander zu verknüpfen</li>
+</ul>
+<p>
+jeweils linearen Zeitaufwand erfordert.
+</p></li>
+<li>Stattdessen werden folgende Alternativen betrachtet
+<dl class="org-dl">
+<dt>Arrays</dt><dd>als imperative Datenstruktur</dd>
+<dt>Bäume</dt><dd>als funktionale Datenstruktur</dd>
+</dl></li>
+</ul>
+<p>
+Darüber hinaus verfügt Scala über Bibliotheken mit sehr effizient
+implementierten parallelen Collections.
+</p>
+</div>
+</div>
+<div id="outline-container-org70b313d" class="outline-4">
+<h4 id="org70b313d">Bedeutung von <code>map</code></h4>
+<div class="outline-text-4" id="text-org70b313d">
+<p>
+<code>map</code> wendet die als Argument übergebene Funktion auf jedes
+Listenelement an: 
+</p>
+<pre class="example">
+List(1,3,8).map(x =&gt; x*x) == List(1, 9, 64)
+List(a1, a2, ..., an).map(f) == List(f(a1), f(a2), ..., f(an)) 
+
+</pre>
+<p>
+Weiter gilt:
+</p>
+<ul class="org-ul">
+<li><code>list.map(x =&gt; x) == list</code></li>
+<li><code>list.map(f.compose(g)) == list.map(g).map(f)</code> <br />
+mit <code>(f.compose(g))(x) = f(g(x))</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgefe40b6" class="outline-4">
+<h4 id="orgefe40b6">Sequentielle Implementierung für Listen</h4>
+<div class="outline-text-4" id="text-orgefe40b6">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapSeq</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>lst<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">B</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> lst <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #D0372D;">Nil</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Nil</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #BA36A5;">h</span> <span style="color: #6434A3;">::</span> <span style="color: #BA36A5;">t</span> <span style="color: #0000FF;">=&gt;</span> f<span style="color: #7388D6;">(</span>h<span style="color: #7388D6;">)</span> :: mapSeq<span style="color: #7388D6;">(</span>t,f<span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<p>
+Gesucht ist eine Version die folgendes parallelisiert:
+</p>
+<ul class="org-ul">
+<li>die Berechnung von <code>f(h)</code> für verschiedene Elemente <code>h</code></li>
+<li>den wahlfreien Zugriff auf die Elemente (Listen sind hier
+ungeeignet)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc57176c" class="outline-4">
+<h4 id="orgc57176c">Sequentialle Version von <code>map</code> für Bäume</h4>
+<div class="outline-text-4" id="text-orgc57176c">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapASegSeq</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span>,
+                    out<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">B</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">Writes to out(i) for left &lt;= i &lt;= right-1</span>
+  <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">i</span><span style="color: #0000FF;">=</span> left
+  <span style="color: #0000FF;">while</span> <span style="color: #7388D6;">(</span>i &lt; right<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+    out<span style="color: #909183;">(</span>i<span style="color: #909183;">)</span><span style="color: #0000FF;">=</span> f<span style="color: #909183;">(</span>inp<span style="color: #709870;">(</span>i<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+i<span style="color: #0000FF;">=</span> i+<span style="color: #D0372D;">1</span> <span style="color: #7388D6;">}</span><span style="color: #707183;">}</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">in</span><span style="color: #0000FF;">=</span> <span style="color: #D0372D;">Array</span><span style="color: #707183;">(</span><span style="color: #D0372D;">2</span>,<span style="color: #D0372D;">3</span>,<span style="color: #D0372D;">4</span>,<span style="color: #D0372D;">5</span>,<span style="color: #D0372D;">6</span><span style="color: #707183;">)</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">out</span><span style="color: #0000FF;">=</span> <span style="color: #D0372D;">Array</span><span style="color: #707183;">(</span><span style="color: #D0372D;">0</span>,<span style="color: #D0372D;">0</span>,<span style="color: #D0372D;">0</span>,<span style="color: #D0372D;">0</span>,<span style="color: #D0372D;">0</span><span style="color: #707183;">)</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">f</span><span style="color: #0000FF;">=</span> <span style="color: #707183;">(</span>x<span style="color: #0000FF;">:</span><span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=&gt;</span> x*x
+mapASegSeq<span style="color: #707183;">(</span>in, <span style="color: #D0372D;">1</span>, <span style="color: #D0372D;">3</span>, f, out<span style="color: #707183;">)</span>
+out
+
+res1<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #707183;">[</span><span style="color: #D0372D;">Int</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">Array</span><span style="color: #707183;">(</span><span style="color: #D0372D;">0</span>, <span style="color: #D0372D;">9</span>, <span style="color: #D0372D;">16</span>, <span style="color: #D0372D;">0</span>, <span style="color: #D0372D;">0</span><span style="color: #707183;">)</span>
+</pre>
+</pre>
+</div>
+
+<div class="figure">
+<p><img src="./Abbildungen/inpout.png" alt="inpout.png" width="350px" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge134c4b" class="outline-4">
+<h4 id="orge134c4b">Parallele Version von <code>map</code> für <code>arrays</code></h4>
+<div class="outline-text-4" id="text-orge134c4b">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapASegPar</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span>,
+                    out<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">B</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Unit</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">Writes to out(i) for left &lt;= i &lt;= right-1</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>right - left &lt; threshold<span style="color: #7388D6;">)</span>
+    mapASegSeq<span style="color: #7388D6;">(</span>inp, left, right, f, out<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">else</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">mid</span> <span style="color: #0000FF;">=</span> left + <span style="color: #909183;">(</span>right - left<span style="color: #909183;">)</span>/<span style="color: #D0372D;">2</span>
+    parallel<span style="color: #909183;">(</span>mapASegPar<span style="color: #709870;">(</span>inp, left, mid, f, out<span style="color: #709870;">)</span>,
+             mapASegPar<span style="color: #709870;">(</span>inp, mid, right, f, out<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+  <span style="color: #7388D6;">}</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<p>
+Anmerkungen:
+</p>
+<ul class="org-ul">
+<li>Schreibzugriffe nur für auf verschiedene Array-Elemente zulässig.</li>
+<li>Der Wert von <code>threshold</code> darf nicht zu klein gewählt werden.</li>
+</ul>
+</div>
+<div id="outline-container-orgd71c49a" class="outline-5">
+<h5 id="orgd71c49a">Benutzungsbeispiel</h5>
+<div class="outline-text-5" id="text-orgd71c49a">
+<p>
+Erhebe jedes Array-Element zur <code>p</code>-ten Potenz:
+\[Array(a_1, a_2, \ldots , a_n) \rightarrow Array(|a_1|^p, |a_2|^p, \ldots , |a_n|^p)\]
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">p</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">1.5</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">f</span><span style="color: #707183;">(</span>x<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span> <span style="color: #0000FF;">=</span> power<span style="color: #707183;">(</span>x, p<span style="color: #707183;">)</span>
+mapASegSeq<span style="color: #707183;">(</span>inp, <span style="color: #D0372D;">0</span>, inp.length, f, out<span style="color: #707183;">)</span>   <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">sequential</span>
+mapASegPar<span style="color: #707183;">(</span>inp, <span style="color: #D0372D;">0</span>, inp.length, f, out<span style="color: #707183;">)</span>   <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">parallel</span></pre>
+</pre>
+</div>
+<p>
+Zwei Fragen:
+</p>
+<ol class="org-ol">
+<li>Gibt es Geschwindigkeitsgewinne durch die parallele Ausführung?</li>
+<li>Könnte es Geschwindigkeitsgewinne geben, falls man auf die oben
+eingeführten =map=Varianten verzichtet?</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4d3ae0d" class="outline-5">
+<h5 id="org4d3ae0d">„Herkömmliche“ sequentielle Version des Algorithmus</h5>
+<div class="outline-text-5" id="text-org4d3ae0d">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">normsOf</span><span style="color: #707183;">(</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>,
+            left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>,
+            out<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Double</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Unit</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">i</span><span style="color: #0000FF;">=</span> left
+  <span style="color: #0000FF;">while</span> <span style="color: #7388D6;">(</span>i &lt; right<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+     out<span style="color: #909183;">(</span>i<span style="color: #909183;">)</span><span style="color: #0000FF;">=</span> power<span style="color: #909183;">(</span>inp<span style="color: #709870;">(</span>i<span style="color: #709870;">)</span>,p<span style="color: #909183;">)</span>
+     i<span style="color: #0000FF;">=</span> i+<span style="color: #D0372D;">1</span>
+  <span style="color: #7388D6;">}</span> 
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd04cd83" class="outline-5">
+<h5 id="orgd04cd83">„Herkömmliche“ parallele Version des Algorithmus</h5>
+<div class="outline-text-5" id="text-orgd04cd83">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">normsOfPar</span><span style="color: #707183;">(</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>,
+               left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>,
+               out<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Double</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Unit</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>right - left &lt; threshold<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">i</span><span style="color: #0000FF;">=</span> left
+    <span style="color: #0000FF;">while</span> <span style="color: #909183;">(</span>i &lt; right<span style="color: #909183;">)</span> <span style="color: #909183;">{</span>
+      out<span style="color: #709870;">(</span>i<span style="color: #709870;">)</span><span style="color: #0000FF;">=</span> power<span style="color: #709870;">(</span>inp<span style="color: #907373;">(</span>i<span style="color: #907373;">)</span>,p<span style="color: #709870;">)</span>
+      i<span style="color: #0000FF;">=</span> i+<span style="color: #D0372D;">1</span> 
+    <span style="color: #909183;">}</span>
+  <span style="color: #7388D6;">}</span> <span style="color: #0000FF;">else</span> <span style="color: #7388D6;">{</span>
+     <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">mid</span> <span style="color: #0000FF;">=</span> left + <span style="color: #909183;">(</span>right - left<span style="color: #909183;">)</span>/<span style="color: #D0372D;">2</span>
+     parallel<span style="color: #909183;">(</span>normsOfPar<span style="color: #709870;">(</span>inp, p, left, mid, out<span style="color: #709870;">)</span>,
+              normsOfPar<span style="color: #709870;">(</span>inp, p, mid, right, out<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+  <span style="color: #7388D6;">}</span> 
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge56a83b" class="outline-5">
+<h5 id="orge56a83b">Messungen mit ScalaMeter</h5>
+<div class="outline-text-5" id="text-orge56a83b">
+<ul class="org-ul">
+<li><code>inp.length = 2000000</code></li>
+<li><code>threshold = 10000</code></li>
+<li><p>
+Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz (4-core, 8 HW threads),
+16GB RAM
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Ausdruck</th>
+<th scope="col" class="org-right">Zeit(ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">mapASegSeq(inp, 0, inp.length, f, out)</td>
+<td class="org-right">174.17</td>
+</tr>
+
+<tr>
+<td class="org-left">mapASegPar(inp, 0, inp.length, f, out)</td>
+<td class="org-right">28.93</td>
+</tr>
+
+<tr>
+<td class="org-left">normsOfSeq(inp, p, 0, inp.length, out)</td>
+<td class="org-right">166.84</td>
+</tr>
+
+<tr>
+<td class="org-left">normsOfPar(inp, p, 0, inp.length, out)</td>
+<td class="org-right">28.17</td>
+</tr>
+</tbody>
+</table></li>
+
+<li>Die Parallelisierung zahlt sich aus.</li>
+<li>Die Vermeidung von Funktionen höherer Ordnung zahlt sich nicht aus.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8aa8f8" class="outline-4">
+<h4 id="orga8aa8f8">Parallele Version von <code>map</code> für Bäume</h4>
+<div class="outline-text-4" id="text-orga8aa8f8">
+<p>
+Baumstruktur
+</p>
+<ul class="org-ul">
+<li>Blätter Speichern Array-Segmente</li>
+<li><p>
+Innere Knoten speichern zwei Unterbäume
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #006FE0;">sealed</span> <span style="color: #006FE0;">abstract</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span> <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">size</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #707183;">}</span>
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Leaf</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+ <span style="color: #006FE0;">override</span> <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">size</span> <span style="color: #0000FF;">=</span> a.size
+<span style="color: #707183;">}</span>
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Node</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>l<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, r<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #006FE0;">override</span> <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">size</span> <span style="color: #0000FF;">=</span> l.size + r.size
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div></li>
+<li>Unter der Voraussetzung, dass die Bäume balanciert sind, können die
+Zweige parallel betrachtet werden.</li>
+</ul>
+</div>
+<div id="outline-container-orged44407" class="outline-5">
+<h5 id="orged44407">Implementierung</h5>
+<div class="outline-text-5" id="text-orged44407">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapTreePar</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #0000FF;">:</span><span style="color: #6434A3;">Manifest</span>,<span style="color: #D0372D;">B</span><span style="color: #0000FF;">:</span><span style="color: #6434A3;">Manifest</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">B</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span>
+t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">a</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">len</span> <span style="color: #0000FF;">=</span> a.length; <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">b</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Array</span><span style="color: #909183;">[</span><span style="color: #D0372D;">B</span><span style="color: #909183;">](</span>len<span style="color: #909183;">)</span>
+    <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">i</span><span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0</span>
+    <span style="color: #0000FF;">while</span> <span style="color: #909183;">(</span>i &lt; len<span style="color: #909183;">)</span> <span style="color: #909183;">{</span> b<span style="color: #709870;">(</span>i<span style="color: #709870;">)</span><span style="color: #0000FF;">=</span> f<span style="color: #709870;">(</span>a<span style="color: #907373;">(</span>i<span style="color: #907373;">)</span><span style="color: #709870;">)</span>; i<span style="color: #0000FF;">=</span> i + <span style="color: #D0372D;">1</span> <span style="color: #909183;">}</span>
+    <span style="color: #D0372D;">Leaf</span><span style="color: #909183;">(</span>b<span style="color: #909183;">)</span> <span style="color: #7388D6;">}</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">l</span>,<span style="color: #BA36A5;">r</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #909183;">(</span><span style="color: #BA36A5;">lb</span>,<span style="color: #BA36A5;">rb</span><span style="color: #909183;">)</span> <span style="color: #0000FF;">=</span> parallel<span style="color: #909183;">(</span>mapTreePar<span style="color: #709870;">(</span>l,f<span style="color: #709870;">)</span>, mapTreePar<span style="color: #709870;">(</span>r,f<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #D0372D;">Node</span><span style="color: #909183;">(</span>lb, rb<span style="color: #909183;">)</span> <span style="color: #7388D6;">}</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<p>
+Performanz ist mit der Array-Variante vergleichbar.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgefba3c2" class="outline-4">
+<h4 id="orgefba3c2">Vergleich der Array- mit der Baum-Variante</h4>
+<div class="outline-text-4" id="text-orgefba3c2">
+<dl class="org-dl">
+<dt>Arrays</dt><dd><ul class="org-ul">
+<li>(<code>+</code>) Wahlfreier Zugriff auf die Element, geteilter Zugriff ist möglich</li>
+<li>(<code>+</code>) gute</li>
+<li>(<code>-</code>) imperativ: Race-Conditions müssen vermieden werden</li>
+<li>(<code>-</code>) Verkettung kann aufwändig sein</li>
+</ul></dd>
+<dt>Bäume (nicht änderbare)</dt><dd><ul class="org-ul">
+<li>(<code>+</code>) rein funktional, erzeugen neue Bäume, alte bleiben erhalten</li>
+<li>(<code>+</code>) keine Synchronisation erforderlich</li>
+<li>(<code>+</code>) Verkettung zweier Bäume sehr effizient</li>
+<li>(<code>-</code>) Speicherverwaltung aufwändig</li>
+<li>(<code>-</code>) schlechte Lokalität des Speicherzugriffs</li>
+</ul></dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org72e497f" class="outline-3">
+<h3 id="org72e497f">Faltungsoperationen</h3>
+<div class="outline-text-3" id="text-org72e497f">
+<ul class="org-ul">
+<li><p>
+Bisher betrachtet:
+</p>
+<ul class="org-ul">
+<li><code>map</code>: wende eine Funktion auf jedes Element einer Collection an</li>
+</ul>
+<pre class="example">
+List(1,3,8).map(x =&gt; x*x) == List(1, 9, 64)
+
+</pre></li>
+<li><p>
+Jetzt betrachten wir:
+</p>
+<ul class="org-ul">
+<li><code>fold</code>: verknüpfe die Elemente mit einer gegebenen Funktion</li>
+</ul>
+<pre class="example">
+List(1,3,8).fold(100)((s,x) =&gt; s + x) == 112
+
+</pre></li>
+</ul>
+</div>
+<div id="outline-container-orgc327a86" class="outline-4">
+<h4 id="orgc327a86">Varianten</h4>
+<div class="outline-text-4" id="text-orgc327a86">
+<p>
+<code>fold</code> akzeptiert neben anderen eine binäre Verknüpfungsoperation als
+Argument. Dabei tun sich verschiedene Varianten auf:
+</p>
+<ul class="org-ul">
+<li>sie erwarten ein Startelement oder gehen von nicht leeren Listen aus</li>
+<li>in welcher Reihenfolge wird die Verknüpfungsoperation auf die
+Elemente angewendet</li>
+</ul>
+<pre class="example">
+List(1,3,8).foldLeft(100)((s,x) =&gt; s - x) == ((100 - 1) - 3) - 8 == 88 
+List(1,3,8).foldRight(100)((s,x) =&gt; s - x) == 1 - (3 - (8-100)) == -94 
+List(1,3,8).reduceLeft((s,x) =&gt; s - x) == (1 - 3) - 8 == -10 
+List(1,3,8).reduceRight((s,x) =&gt; s - x) == 1 - (3 - 8) == 6
+
+</pre>
+<p>
+Für die Parallelisierung braucht man assoziative Operationen
+</p>
+<ul class="org-ul">
+<li>z. B. Addition, Zeichenkettenverkettung (aber keine Subtraktion)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5e59249" class="outline-4">
+<h4 id="org5e59249">Assoziativität</h4>
+<div class="outline-text-4" id="text-org5e59249">
+<ul class="org-ul">
+<li>Eine Operation \(f: (A,A) \rightarrow A\) ist assoziativ genau dann,
+wenn für alle \(x, y, z\) gilt: \[f(x, f(y, z)) = f(f(x, y), z)\]</li>
+<li>Schreibt man \(f(a, b)\) in Infix-Notation als \(a \otimes b\), wird aus
+der Assoziativitätsregel: \[x\otimes(y\otimes z) = (x\otimes y)\otimes z\]</li>
+<li>Konsequenz: Klammersetzung spielt keine Rolle, z. B, liefern diese
+Ausdrücke immer das gleiche Resultat:
+\[(x\otimes y)\otimes (z\otimes w) = (x\otimes (y\otimes z))\otimes w = ((x\otimes y)\otimes z)\otimes w\]</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4b06942" class="outline-4">
+<h4 id="org4b06942">Ausdrücke als Bäume</h4>
+<div class="outline-text-4" id="text-org4b06942">
+<ul class="org-ul">
+<li>Blätter sind die Werte</li>
+<li>Knoten sind die Operationen 
+<dl class="org-dl">
+<dt>\(x\otimes(y\otimes z)\)</dt><dd><img src="./Abbildungen/xyz.png" alt="xyz.png" width="200px" /></dd>
+<dt>\((x\otimes y)\otimes (z\otimes w)\)</dt><dd><img src="./Abbildungen/xyzw.png" alt="xyzw.png" width="200px" /></dd>
+</dl></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org32bafbd" class="outline-4">
+<h4 id="org32bafbd">Falten (Reduzieren) von Bäumen</h4>
+<div class="outline-text-4" id="text-org32bafbd">
+<ul class="org-ul">
+<li><p>
+Wie wird der Wert eines Ausdrucksbaums berechnet?
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #006FE0;">sealed</span> <span style="color: #006FE0;">abstract</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span>
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Leaf</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>value<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span>
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Node</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span>  </pre>
+</pre>
+</div></li>
+<li>Das Resultat der Auswertung eines Ausdrucks entsteht durch Anwendung
+einer Funktio <code>reduce</code> auf den Baum.</li>
+</ul>
+</div>
+<div id="outline-container-orgca8d5a6" class="outline-5">
+<h5 id="orgca8d5a6">Sequentielle Definition:</h5>
+<div class="outline-text-5" id="text-orgca8d5a6">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">reduce</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">v</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> v
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">l</span>, <span style="color: #BA36A5;">r</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> f<span style="color: #7388D6;">(</span>reduce<span style="color: #909183;">[</span><span style="color: #D0372D;">A</span><span style="color: #909183;">](</span>l, f<span style="color: #909183;">)</span>, reduce<span style="color: #909183;">[</span><span style="color: #D0372D;">A</span><span style="color: #909183;">](</span>r, f<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>   <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">Node -&gt; f</span>
+<span style="color: #707183;">}</span>  </pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Die Faltung (Reduzierung) eines Knotens (<code>Node</code>) kann als Ersetzung
+des <code>Node</code>-Konstruktors durch die Argumentfunktion <code>f</code> angesehen
+werden.</li>
+<li>Anwendung von <code>reduce</code>
+<ul class="org-ul">
+<li><p>
+Für nicht-assoziative Operationen hängt das Resultat von der
+Struktur des Baumes ab:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">tree</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">Node</span><span style="color: #707183;">(</span><span style="color: #D0372D;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #D0372D;">1</span><span style="color: #7388D6;">)</span>, <span style="color: #D0372D;">Node</span><span style="color: #7388D6;">(</span><span style="color: #D0372D;">Leaf</span><span style="color: #909183;">(</span><span style="color: #D0372D;">3</span><span style="color: #909183;">)</span>, <span style="color: #D0372D;">Leaf</span><span style="color: #909183;">(</span><span style="color: #D0372D;">8</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">fMinus</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">(</span>x<span style="color: #0000FF;">:</span><span style="color: #6434A3;">Int</span>,y<span style="color: #0000FF;">:</span><span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=&gt;</span> x - y
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">res</span> <span style="color: #0000FF;">=</span> reduce<span style="color: #707183;">[</span><span style="color: #D0372D;">Int</span><span style="color: #707183;">](</span>tree, fMinus<span style="color: #707183;">)</span></pre>
+</pre>
+</div></li>
+<li>Resultat?</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbabc8f1" class="outline-5">
+<h5 id="orgbabc8f1">Parallele Definition</h5>
+<div class="outline-text-5" id="text-orgbabc8f1">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">reduce</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">v</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> v
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">l</span>, <span style="color: #BA36A5;">r</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #909183;">(</span><span style="color: #BA36A5;">lV</span>, <span style="color: #BA36A5;">rV</span><span style="color: #909183;">)</span> <span style="color: #0000FF;">=</span> parallel<span style="color: #909183;">(</span>reduce<span style="color: #709870;">[</span><span style="color: #D0372D;">A</span><span style="color: #709870;">](</span>l, f<span style="color: #709870;">)</span>, reduce<span style="color: #709870;">[</span><span style="color: #D0372D;">A</span><span style="color: #709870;">](</span>r, f<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+f<span style="color: #909183;">(</span>lV, rV<span style="color: #909183;">)</span> <span style="color: #7388D6;">}</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org60702be" class="outline-4">
+<h4 id="org60702be">Assoziativitätsbetrachtung</h4>
+<div class="outline-text-4" id="text-org60702be">
+<p>
+\[ $x\otimes(y\otimes z) = (x\otimes y)\otimes z\]
+Mit Ersetzung von \(\otimes\) in Scala durch <code>f</code> kann die Gleichung wie
+folgt geschrieben werden:
+</p>
+<pre class="example">
+reduce(Node(Leaf(x), Node(Leaf(y), Leaf(z))), f) ==
+reduce(Node(Node(Leaf(x), Leaf(y)), Leaf(z)), f)
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org43844af" class="outline-4">
+<h4 id="org43844af">Baumordnung repräsentiert durch Listen</h4>
+<div class="outline-text-4" id="text-org43844af">
+<ul class="org-ul">
+<li><p>
+Die Ordnung der Elemente in einem Baum kann durch Umwandlung in eine
+Liste wiedergegeben werden:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">toList</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">v</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">List</span><span style="color: #7388D6;">(</span>v<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">l</span>, <span style="color: #BA36A5;">r</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> toList<span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">](</span>l<span style="color: #7388D6;">)</span> ++ toList<span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">](</span>r<span style="color: #7388D6;">)</span>  <span style="color: #707183;">}</span></pre>
+</pre>
+</div></li>
+<li><p>
+Wie kann unter Verwendung der folgenden <code>map</code>-Funktion für Bäume 
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">map</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">B</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">v</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Leaf</span><span style="color: #7388D6;">(</span>f<span style="color: #909183;">(</span>v<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">l</span>, <span style="color: #BA36A5;">r</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Node</span><span style="color: #7388D6;">(</span>map<span style="color: #909183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #909183;">](</span>l, f<span style="color: #909183;">)</span>, map<span style="color: #909183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #909183;">](</span>r, f<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>  
+<span style="color: #707183;">}</span>  </pre>
+</pre>
+</div>
+<p>
+die Funktion <code>toList</code> unter Verwendung von <code>map</code> und <code>reduce</code>
+formuliert werden?
+</p></li>
+<li>Antwort:</li>
+</ul>
+</div>
+<div id="outline-container-org4858f38" class="outline-5">
+<h5 id="org4858f38">Konsequenz der Assoziativität für die Baumreduktion</h5>
+<div class="outline-text-5" id="text-org4858f38">
+<ul class="org-ul">
+<li>Betrachte zwei Ausdrücke mit derselben Liste von Operanden,
+verknüpft mit $&otimes;§ aber unterschiedlicher Klammerung: Diese
+Ausdrücke besitzen den gleichen Wert.</li>
+<li><p>
+Formal:<br />
+Wenn <code>f: (A,A) =&gt; A</code> assoziativ ist, <code>t1: Tree[A]</code>, <code>t2: Tree[A]</code>
+und wenn <code>toList(t1)==toList(t2)</code> dann gilt: <br />
+</p>
+
+<p>
+<code>reduce(t1, f)==reduce(t2, f)</code>
+</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d2e908" class="outline-4">
+<h4 id="org2d2e908">Ergänzung: Parallele Faltungsoperation für Arrays</h4>
+<div class="outline-text-4" id="text-org2d2e908">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">reduceSeg</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, f<span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>right - left &lt; threshold<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">res</span><span style="color: #0000FF;">=</span> inp<span style="color: #909183;">(</span>left<span style="color: #909183;">)</span>; <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">i</span><span style="color: #0000FF;">=</span> left+<span style="color: #D0372D;">1</span>
+    <span style="color: #0000FF;">while</span> <span style="color: #909183;">(</span>i &lt; right<span style="color: #909183;">)</span> <span style="color: #909183;">{</span> res<span style="color: #0000FF;">=</span> f<span style="color: #709870;">(</span>res, inp<span style="color: #907373;">(</span>i<span style="color: #907373;">)</span><span style="color: #709870;">)</span>; i<span style="color: #0000FF;">=</span> i+<span style="color: #D0372D;">1</span> <span style="color: #909183;">}</span>
+    res
+  <span style="color: #7388D6;">}</span> <span style="color: #0000FF;">else</span> <span style="color: #7388D6;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">mid</span> <span style="color: #0000FF;">=</span> left + <span style="color: #909183;">(</span>right - left<span style="color: #909183;">)</span>/<span style="color: #D0372D;">2</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #909183;">(</span><span style="color: #BA36A5;">a1</span>,<span style="color: #BA36A5;">a2</span><span style="color: #909183;">)</span> <span style="color: #0000FF;">=</span> parallel<span style="color: #909183;">(</span>reduceSeg<span style="color: #709870;">(</span>inp, left, mid, f<span style="color: #709870;">)</span>,
+                           reduceSeg<span style="color: #709870;">(</span>inp, mid, right, f<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+f<span style="color: #909183;">(</span>a1,a2<span style="color: #909183;">)</span> <span style="color: #7388D6;">}</span>
+<span style="color: #707183;">}</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">reduce</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f<span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span>
+  reduceSeg<span style="color: #707183;">(</span>inp, <span style="color: #D0372D;">0</span>, inp.length, f<span style="color: #707183;">)</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6c9cac7" class="outline-2">
+<h2 id="org6c9cac7">Datenparallelität</h2>
+<div class="outline-text-2" id="text-org6c9cac7">
+<p>
+Bisher Task-Parallelität betrachtet:
+</p>
+<blockquote>
+<p>
+Verteilung von Berechnungsprozessen auf Prozessoren
+</p>
+</blockquote>
+<p>
+In Scala stehen hier die Konstrukte <code>parallel</code> und <code>task</code> zur
+Verfügung.
+</p>
+
+<p>
+Datenparallelität
+</p>
+<blockquote>
+<p>
+Verteilung von Daten auf Prozessoren
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org756792d" class="outline-4">
+<h4 id="org756792d">Datenparalleles Programmiermodell</h4>
+<div class="outline-text-4" id="text-org756792d">
+<ul class="org-ul">
+<li>Einfachste Form der datenparallelen Programmierung ist die parallele</li>
+</ul>
+<p>
+<code>for</code>-Schleife.
+</p>
+<ul class="org-ul">
+<li>Beispiel Initialisierung von Array-elementen:</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">initializeArray</span><span style="color: #707183;">(</span>xs<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)(</span>v<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Unit</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>i <span style="color: #0000FF;">&lt;-</span> <span style="color: #909183;">(</span><span style="color: #D0372D;">0</span> until xs.length<span style="color: #909183;">)</span>.par<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
+xs<span style="color: #909183;">(</span>i<span style="color: #909183;">)</span> <span style="color: #0000FF;">=</span> v <span style="color: #7388D6;">}</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Der Aufruf von <code>.par</code> sorgt dafür, dass die Iterationen der
+<code>for</code>-Schleife auf verschiedenen Prozessoren konkurrierend
+ablaufen.</li>
+<li>Achtung: Die parallele <code>for</code>-Schleife ist nicht funktional sondern
+arbeitet mit Seiteneffekten.</li>
+<li>Der Programmierer ist dafür verantwortlich, dass innerhalb der
+Schleife nur unterschiedliche Speicherzellen beschrieben werden.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdb0b52e" class="outline-4">
+<h4 id="orgdb0b52e">Parallele Collections</h4>
+<div class="outline-text-4" id="text-orgdb0b52e">
+<ul class="org-ul">
+<li>Neben der parallelen <code>for</code>-Schleife können auch sequentielle
+Collections in parallele verwandelt werden.</li>
+<li><p>
+Der Aufruf von <code>.par</code> macht aus dem sequentiellen Interval ein
+paralleles:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #707183;">(</span><span style="color: #D0372D;">1</span> until <span style="color: #D0372D;">1000</span><span style="color: #707183;">)</span>.par
+  .filter<span style="color: #707183;">(</span>n <span style="color: #0000FF;">=&gt;</span> n % <span style="color: #D0372D;">3</span> == <span style="color: #D0372D;">0</span><span style="color: #707183;">)</span>
+  .count<span style="color: #707183;">(</span>n <span style="color: #0000FF;">=&gt;</span> n.toString == n.toString.reverse<span style="color: #707183;">)</span> </pre>
+</pre>
+</div></li>
+<li>Nicht alle Operationen sind parallelisierbar.
+<ul class="org-ul">
+<li><p>
+Beispiel: Versuch, die Methode <code>sum</code> mithilfe von <code>foldLeft</code> zu
+implementieren:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">sum</span><span style="color: #707183;">(</span>xs<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  xs.par.foldLeft<span style="color: #7388D6;">(</span><span style="color: #D0372D;">0</span><span style="color: #7388D6;">)(</span><span style="color: #0000FF;">_</span> + <span style="color: #0000FF;">_</span><span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span>  </pre>
+</pre>
+</div></li>
+<li>Warum wird <code>sum</code> nicht parallel ausgeführt?</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2d05a46" class="outline-4">
+<h4 id="org2d05a46">Die Operation <code>fold</code></h4>
+<div class="outline-text-4" id="text-org2d05a46">
+<ul class="org-ul">
+<li><code>fold</code>-Operation führt intern eine Baumreduktion durch (s. o.).</li>
+<li><p>
+Implementierung der <code>sum</code>-Methode:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">sum</span><span style="color: #707183;">(</span>xs<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  xs.par.fold<span style="color: #7388D6;">(</span><span style="color: #D0372D;">0</span><span style="color: #7388D6;">)(</span><span style="color: #0000FF;">_</span> + <span style="color: #0000FF;">_</span><span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div></li>
+<li>Voraussetzung: Die Verknüpfungsoperation muss assoziativ sein.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge705f01" class="outline-4">
+<h4 id="orge705f01">Hierarchie der Scala Collection-Klassen</h4>
+<div class="outline-text-4" id="text-orge705f01">
+<dl class="org-dl">
+<dt>Traversable[T]</dt><dd>Collection mit Elementen vom Typ <code>T</code> mit
+Operationen, die mit <code>foreach</code> implementiert sind</dd>
+<dt>Iterable[T]</dt><dd>Collection mit Elementen vom Typ <code>T=mit
+                    Operationen, die mit =iterator</code> implementiert sind</dd>
+<dt>Seq[T]</dt><dd>geordnete Sequenz mit Elementen vom Typ <code>T</code></dd>
+<dt>Set[T]</dt><dd>eine Menge mit Elementen vom Typ <code>T</code> (keine Duplikate)</dd>
+<dt>Map[K, V]</dt><dd>eine Map mit Schlüsseln vom Typ <code>K</code> und Werten vom Typ
+<code>V</code> (Schlüssel sind eindeutig)</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgd0e672c" class="outline-4">
+<h4 id="orgd0e672c">Parallele Collection-Hierarchie</h4>
+<div class="outline-text-4" id="text-orgd0e672c">
+<ul class="org-ul">
+<li>Traits <code>ParIterable[T]</code>, <code>ParSeq[T]</code>, <code>ParSet[T]</code> und <code>ParMap[K, V]</code>
+sind die parallelen Gegenstücke zu verschiednen sequentiellen
+Traits.</li>
+<li><p>
+Für Programmcode, der agnostisch gegenüber Parallelität sein soll,
+existiert eine separate Hierarchie von generischen
+Collection-Traits: 
+</p>
+
+<p>
+<code>GenIterable[T]</code>, <code>GenSeq[T]</code>, <code>GenSet[T]</code>, <code>GenMap[K, V]</code>
+</p>
+
+
+<div class="figure">
+<p><img src="./Abbildungen/gencoll.png" alt="gencoll.png" width="450px" />
+</p>
+</div></li>
+</ul>
+</div>
+
+<div id="outline-container-org61b7cbb" class="outline-5">
+<h5 id="org61b7cbb">Anwendungsbeispiel</h5>
+<div class="outline-text-5" id="text-org61b7cbb">
+<p>
+Finde das größte Palindrom in einer Sequenz:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">largestPalindrome</span><span style="color: #707183;">(</span>xs<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">GenSeq</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  xs.aggregate<span style="color: #7388D6;">(</span><span style="color: #D0372D;">Int</span>.<span style="color: #D0372D;">MinValue</span><span style="color: #7388D6;">)(</span>
+    <span style="color: #909183;">(</span>largest, n<span style="color: #909183;">)</span> <span style="color: #0000FF;">=&gt;</span>
+    <span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>n &gt; largest &amp;&amp; n.toString == n.toString.reverse<span style="color: #909183;">)</span> n <span style="color: #0000FF;">else</span> largest,
+    math.max
+<span style="color: #7388D6;">)</span> <span style="color: #707183;">}</span>
+<span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">array</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">(</span><span style="color: #D0372D;">0</span> until <span style="color: #D0372D;">1000000</span><span style="color: #707183;">)</span>.toArray
+<span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">2 gleichwertige Aufrufvarianten</span>
+largestPalindrome<span style="color: #707183;">(</span>array<span style="color: #707183;">)</span>
+largestPalindrome<span style="color: #707183;">(</span>array.par<span style="color: #707183;">)</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org44c1ccc" class="outline-2">
+<h2 id="org44c1ccc">Datenstrukturen für parallele Berechnungen</h2>
+<div class="outline-text-2" id="text-org44c1ccc">
+<p>
+hier: interne Repräsentation von Listen durch Conc-Bäume
+</p>
+</div>
+<div id="outline-container-orgab72e7d" class="outline-3">
+<h3 id="orgab72e7d">Ein Datentyp für Listen</h3>
+<div class="outline-text-3" id="text-orgab72e7d">
+<p>
+&#x2026; wie er für funktionale Programmiersprachen typisch ist:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #006FE0;">sealed</span> <span style="color: #0000FF;">trait</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span>+<span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">head</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">tail</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span>
+<span style="color: #707183;">}</span>
+
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">::</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>head<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span>, tail<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span>
+
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">object</span> <span style="color: #D0372D;">Nil</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">Nothing</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">head</span> <span style="color: #0000FF;">=</span> sys.error<span style="color: #7388D6;">(</span>&#8221;empty list&#8221;<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">tail</span> <span style="color: #0000FF;">=</span> sys.error<span style="color: #7388D6;">(</span>&#8221;empty list&#8221;<span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+<div id="outline-container-org5957484" class="outline-4">
+<h4 id="org5957484">Filter-Methode</h4>
+<div class="outline-text-4" id="text-org5957484">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">filter</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>lst<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)(</span>p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Boolean</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> lst <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #BA36A5;">x</span> <span style="color: #6434A3;">::</span> <span style="color: #BA36A5;">xs</span> <span style="color: #0000FF;">if</span> p<span style="color: #7388D6;">(</span>x<span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> x :: filter<span style="color: #7388D6;">(</span>xs<span style="color: #7388D6;">)(</span>p<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #BA36A5;">x</span> <span style="color: #6434A3;">::</span> <span style="color: #BA36A5;">xs</span> <span style="color: #0000FF;">=&gt;</span> filter<span style="color: #7388D6;">(</span>xs<span style="color: #7388D6;">)(</span>p<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #D0372D;">Nil</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Nil</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org30b67f9" class="outline-3">
+<h3 id="org30b67f9">Ein Datentyp für Bäume</h3>
+<div class="outline-text-3" id="text-org30b67f9">
+<ul class="org-ul">
+<li>Listen sind für sequentielle Berechnungen geeignet, sie werden von
+links nach rechts abgearbeitet.</li>
+<li>Bäume erlauben parallele Verarbeitung der Unterbäume.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #006FE0;">sealed</span> <span style="color: #0000FF;">trait</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span>+<span style="color: #D0372D;">T</span><span style="color: #707183;">]</span>
+
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Node</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span>
+
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Leaf</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>elem<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span>
+
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">object</span> <span style="color: #D0372D;">Empty</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">Nothing</span><span style="color: #707183;">]</span></pre>
+</pre>
+</div>
+</div>
+<div id="outline-container-org08dfb7c" class="outline-4">
+<h4 id="org08dfb7c">Filter-Methode</h4>
+<div class="outline-text-4" id="text-org08dfb7c">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">filter</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)(</span>p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Boolean</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">left</span>, <span style="color: #BA36A5;">right</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Node</span><span style="color: #7388D6;">(</span>parallel<span style="color: #909183;">(</span>filter<span style="color: #709870;">(</span>left<span style="color: #709870;">)(</span>p<span style="color: #709870;">)</span>, filter<span style="color: #709870;">(</span>right<span style="color: #709870;">)(</span>p<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">elem</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>p<span style="color: #909183;">(</span>elem<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span> t <span style="color: #0000FF;">else</span> <span style="color: #D0372D;">Empty</span>
+  <span style="color: #0000FF;">case</span> <span style="color: #D0372D;">Empty</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Empty</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<p>
+Bäume „entarten“ leicht zu Listen.
+</p>
+
+<div class="figure">
+<p><img src="./Abbildungen/baumfilterung.png" alt="baumfilterung.png" width="600px" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgde7d932" class="outline-3">
+<h3 id="orgde7d932">Der Datentyp <code>Conc</code></h3>
+<div class="outline-text-3" id="text-orgde7d932">
+<p>
+Ein Datentyp für balancierte Bäume:
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #006FE0;">sealed</span> <span style="color: #0000FF;">trait</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span>+<span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">level</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">size</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">left</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">right</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+<p>
+In der parallelen Programmierung wird dieser Typ auch als <i>conc-list</i>
+bezeichnet (ursprünglich für die Programmiersprache <i><a href="https://de.wikipedia.org/wiki/Fortress_(Programmiersprache)">Fortress</a></i>
+entwickelt).
+</p>
+</div>
+<div id="outline-container-org209227c" class="outline-4">
+<h4 id="org209227c">Konkrete Implementierung</h4>
+<div class="outline-text-4" id="text-org209227c">
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">case</span> <span style="color: #0000FF;">object</span> <span style="color: #D0372D;">Empty</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span><span style="color: #D0372D;">Nothing</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">level</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0</span>
+  <span style="color: #0000FF;">def</span> <span style="color: #006699;">size</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0</span>
+<span style="color: #707183;">}</span>
+<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Single</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">x</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">level</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0</span>
+<span style="color: #0000FF;">def</span> <span style="color: #006699;">size</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">1</span> <span style="color: #707183;">}</span>
+<span style="color: #0000FF;">case</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">level</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">1</span> + math.max<span style="color: #7388D6;">(</span>left.level, right.level<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">size</span> <span style="color: #0000FF;">=</span> left.size + right.size
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad2c8c7" class="outline-4">
+<h4 id="orgad2c8c7">Invarianten für Conc-Bäume</h4>
+<div class="outline-text-4" id="text-orgad2c8c7">
+<ol class="org-ol">
+<li>Ein <code>&lt;&gt;</code>-Knoten kann niemals <code>Empty</code> als Umterbaum besitzen.</li>
+<li>Die <code>level</code>-Differenz zwischen linkem und rechten Unterbaum ist
+immer kleiner oder gleich 1.</li>
+</ol>
+<p>
+Implementierungen müssen diese Invarianten beachten.
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">&lt;&gt;</span><span style="color: #707183;">(</span>that<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span><span style="color: #0000FF;">this</span> == <span style="color: #D0372D;">Empty</span><span style="color: #7388D6;">)</span> that
+  <span style="color: #0000FF;">else</span> <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>that == <span style="color: #D0372D;">Empty</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">this</span>
+  <span style="color: #0000FF;">else</span> concat<span style="color: #7388D6;">(</span><span style="color: #0000FF;">this</span>, that<span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span></pre>
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc38b7ba" class="outline-5">
+<h5 id="orgc38b7ba">Implementierung von <code>concat</code></h5>
+<div class="outline-text-5" id="text-orgc38b7ba">
+<p>
+Verschiedene Fälle sind zu betrachten.
+</p>
+<dl class="org-dl">
+<dt>Fall 1</dt><dd><p>
+Die beiden zu verknüpfenden Bäume haben eine Höhendifferenz \(\leq 1\)
+</p>
+
+<div class="figure">
+<p><img src="./Abbildungen/kleineHoehendifferenz.png" alt="kleineHoehendifferenz.png" width="600px" />
+</p>
+</div>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">concat</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>xs<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span>, ys<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">diff</span> <span style="color: #0000FF;">=</span> ys.level - xs.level
+  <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>diff &gt;= <span style="color: #D0372D;">-1</span> &amp;&amp; diff &lt;= <span style="color: #D0372D;">1</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #7388D6;">(</span>xs, ys<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">else</span> <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>diff &lt; <span style="color: #D0372D;">-1</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>  </pre>
+</pre>
+</div></dd>
+<dt>Fall 2</dt><dd>Der linke Baum ist höher als der rechte
+<dl class="org-dl">
+<dt>Unterfall 1</dt><dd><p>
+der linke Baum ist linkslastig &#x2026;
+</p>
+<p width="600px">
+<img src="./Abbildungen/concat.png" alt="concat.png" width="600px" />
+&#x2026; dann „concateniere” rekursiv mit dem rechten Unterbaum
+</p>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>xs.left.level &gt;= xs.right.level<span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
+  <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">nr</span> <span style="color: #0000FF;">=</span> concat<span style="color: #7388D6;">(</span>xs.right, ys<span style="color: #7388D6;">)</span>
+  <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #7388D6;">(</span>xs.left, nr<span style="color: #7388D6;">)</span>
+<span style="color: #707183;">}</span> <span style="color: #0000FF;">else</span> <span style="color: #707183;">{</span>    </pre>
+</pre>
+</div></dd>
+<dt>Unterfall2</dt><dd><p>
+der linke Baum ist rechtslastig &#x2026; 
+</p>
+
+<div class="figure">
+<p><img src="./Abbildungen/concat2.png" alt="concat2.png" width="600px" />
+</p>
+</div>
+<div class="org-src-container">
+<pre class="src src-scala"><span style="background-color: #FFDCDC; text-decoration: underline;">}</span> <span style="color: #0000FF;">else</span> <span style="background-color: #FFDCDC; text-decoration: underline;">{</span>
+  <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">nrr</span> <span style="color: #0000FF;">=</span> concat<span style="color: #707183;">(</span>xs.right.right, ys<span style="color: #707183;">)</span>
+  <span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>nrr.level == xs.level - <span style="color: #D0372D;">3</span><span style="color: #707183;">)</span> <span style="color: #707183;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">nl</span> <span style="color: #0000FF;">=</span> xs.left
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">nr</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #7388D6;">(</span>xs.right.left, nrr<span style="color: #7388D6;">)</span>
+    <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #7388D6;">(</span>nl, nr<span style="color: #7388D6;">)</span>
+  <span style="color: #707183;">}</span> <span style="color: #0000FF;">else</span> <span style="color: #707183;">{</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">nl</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #7388D6;">(</span>xs.left, xs.right.left<span style="color: #7388D6;">)</span>
+    <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">nr</span> <span style="color: #0000FF;">=</span> nrr
+    <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">&lt;&gt;</span><span style="color: #7388D6;">(</span>nl, nr<span style="color: #7388D6;">)</span>
+  <span style="color: #707183;">}</span> 
+<span style="background-color: #FFDCDC; text-decoration: underline;">}</span>    </pre>
+</pre>
+</div></dd>
+</dl></dd>
+</dl>
+<p>
+<b>Wichtig:</b> Die Konkatenation ist von der Ordnung \(O(h_1 - h_2)\), wobei
+ \(h_1\) und \(h_2\) die Höhen der beiden Bäume sind.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0aeedda" class="outline-2">
+<h2 id="org0aeedda"><h2>Literaturverzeichnis</h2>
+<ul class='org-ref-bib'><li><a id="KuncakProkopec2015">[KuncakProkopec2015] Viktor Kuncak & Aleksandar Prokopec, Parallel Programming, (2015), zuletzt aufgerufen am 10.11.2017: <a href="https://www.coursera.org/learn/parprog1/home/info">https://www.coursera.org/learn/parprog1/home/info</a> </a></li>
+<li><a id="Drepper2007">[Drepper2007] Ulrich Drepper, What Every Programmer Should Know About Memory, (2007), zuletzt aufgerufen am 16.11.2017: <a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf">https://people.freebsd.org/~lstewart/articles/cpumemory.pdf</a> </a></li>
+<li><a id="Georges2007">[Georges2007] Georges, Buytaert & Eeckhout, Statistically Rigorous Java Performance Evaluation, <i>SIGPLAN Not.</i>, <b>42(10)</b>, 57-76 (2007). <a href="http://doi.acm.org/10.1145/1297105.1297033">link</a>. <a href="http://dx.doi.org/10.1145/1297105.1297033">doi</a>.</a></li>
+</ul></h2>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-18 Sat 19:49</p>
+<p class="date">Created: 2017-11-18 Sat 19:52</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
