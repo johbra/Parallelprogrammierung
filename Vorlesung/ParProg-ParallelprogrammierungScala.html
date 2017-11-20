@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-18 Sat 19:52 -->
+<!-- 2017-11-20 Mon 12:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Parallelprogrammierung in Scala</title>
@@ -267,16 +267,16 @@ for the JavaScript code in this tag.
 <br />
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
-<div id="outline-container-orgd8c45e8" class="outline-2">
-<h2 id="orgd8c45e8">Einführung</h2>
-<div class="outline-text-2" id="text-orgd8c45e8">
+<div id="outline-container-orgaf25343" class="outline-2">
+<h2 id="orgaf25343">Einführung</h2>
+<div class="outline-text-2" id="text-orgaf25343">
 <p>
 Darstellungen lehnen sich an <a class='org-ref-reference' href="#KuncakProkopec2015">KuncakProkopec2015</a> an.
 </p>
 </div>
-<div id="outline-container-org987dc99" class="outline-3">
-<h3 id="org987dc99">Threads wie in Java</h3>
-<div class="outline-text-3" id="text-org987dc99">
+<div id="outline-container-orga0f713f" class="outline-3">
+<h3 id="orga0f713f">Threads wie in Java</h3>
+<div class="outline-text-3" id="text-orga0f713f">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">class</span> <span style="color: #6434A3;">HelloThread</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Thread</span> <span style="color: #707183;">{</span>
   <span style="color: #006FE0;">override</span> <span style="color: #0000FF;">def</span> <span style="color: #006699;">run</span><span style="color: #7388D6;">()</span> <span style="color: #7388D6;">{</span>
@@ -297,9 +297,9 @@ Darstellungen lehnen sich an <a class='org-ref-reference' href="#KuncakProkopec2
 </div>
 </div>
 </div>
-<div id="outline-container-orgadc8ea2" class="outline-3">
-<h3 id="orgadc8ea2">Synchronized blocks</h3>
-<div class="outline-text-3" id="text-orgadc8ea2">
+<div id="outline-container-org4623214" class="outline-3">
+<h3 id="org4623214">Synchronized blocks</h3>
+<div class="outline-text-3" id="text-org4623214">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #006FE0;">private</span> <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">x</span> <span style="color: #0000FF;">=</span> <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">AnyRef</span> <span style="color: #707183;">{}</span>
 <span style="color: #006FE0;">private</span> <span style="color: #0000FF;">var</span> <span style="color: #ff0000; font-weight: bold;">uidCount</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0L</span>
@@ -311,9 +311,9 @@ Darstellungen lehnen sich an <a class='org-ref-reference' href="#KuncakProkopec2
 </div>
 </div>
 </div>
-<div id="outline-container-org15caef6" class="outline-3">
-<h3 id="org15caef6">Basic parallel construct</h3>
-<div class="outline-text-3" id="text-org15caef6">
+<div id="outline-container-org69833f8" class="outline-3">
+<h3 id="org69833f8">Basic parallel construct</h3>
+<div class="outline-text-3" id="text-org69833f8">
 <p>
 Um zwei Ausdrücke, <code>e1</code> and <code>e2</code>, parallel zu berechnen und das
 Ergebnispaar zurückzugeben:
@@ -323,9 +323,9 @@ parallel(e1, e2)
 
 </pre>
 </div>
-<div id="outline-container-org25f4fc5" class="outline-4">
-<h4 id="org25f4fc5">Beispiel: Berechnung der <a href="https://de.wikipedia.org/wiki/P-Norm">P-Norm</a></h4>
-<div class="outline-text-4" id="text-org25f4fc5">
+<div id="outline-container-orgcf95516" class="outline-4">
+<h4 id="orgcf95516">Beispiel: Berechnung der <a href="https://de.wikipedia.org/wiki/P-Norm">P-Norm</a></h4>
+<div class="outline-text-4" id="text-orgcf95516">
 <ul class="org-ul">
 <li>Gegeben sei ein Vektor als Array von ganzen Zahlen.</li>
 <li>Die P-Norm ist die Veralgemeinerung des Begriffs der <i>Länge</i> eines
@@ -336,9 +336,9 @@ Die P-Norm eines Vektors \((a_1, \ldots\ , a_n)\) ist
 \[(\sum_{i-1}^n |a_i|^p)^{1/p}\]</li>
 </ul>
 </div>
-<div id="outline-container-orgb4b3bc4" class="outline-5">
-<h5 id="orgb4b3bc4">Sequentielle Lösung</h5>
-<div class="outline-text-5" id="text-orgb4b3bc4">
+<div id="outline-container-org765a90e" class="outline-5">
+<h5 id="org765a90e">Sequentielle Lösung</h5>
+<div class="outline-text-5" id="text-org765a90e">
 <ul class="org-ul">
 <li>Eine etwas verallgemeinerte Funktion <code>sumSegment</code> soll folgendes
 Problem lösen. Gegeben sind
@@ -388,14 +388,14 @@ Berechnung der P-Norm mithilfe von <code>sumSegment(a, p, s, t)</code>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcd7fa7f" class="outline-5">
-<h5 id="orgcd7fa7f">Parallelisierung</h5>
-<div class="outline-text-5" id="text-orgcd7fa7f">
+<div id="outline-container-org0d7fa89" class="outline-5">
+<h5 id="org0d7fa89">Parallelisierung</h5>
+<div class="outline-text-5" id="text-org0d7fa89">
 <ul class="org-ul">
 <li><p>
 Aufspaltung der Summe in zwei Teilsummen
 \[||a||_p :=
-  (\sum_{i=0}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}=(\sum_{i=1}^{m-1}\lfloor|a_i|\rfloor^p +
+  (\sum_{i=0}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}=(\sum_{i=0}^{m-1}\lfloor|a_i|\rfloor^p +
   \sum_{i=m}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}\]
 </p>
 
@@ -431,7 +431,7 @@ Rekursive Zerlegung
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">pNormRec</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span> <span style="color: #0000FF;">=</span>
   power<span style="color: #707183;">(</span>segmentRec<span style="color: #7388D6;">(</span>a, p, <span style="color: #D0372D;">0</span>, a.length<span style="color: #7388D6;">)</span>, <span style="color: #D0372D;">1</span>/p<span style="color: #707183;">)</span>
 
-<span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">wie sumSegment nur parallel</span>
+<span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">wie sumSegment nur parallel/rekursiv</span>
 <span style="color: #0000FF;">def</span> <span style="color: #006699;">segmentRec</span><span style="color: #707183;">(</span>a<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>, s<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>t - s &lt; threshold<span style="color: #7388D6;">)</span>
     sumSegment<span style="color: #7388D6;">(</span>a, p, s, t<span style="color: #7388D6;">)</span>  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">kleines Segment: mach es sequentiell</span>
@@ -448,9 +448,9 @@ Rekursive Zerlegung
 </div>
 </div>
 </div>
-<div id="outline-container-org94b5b1e" class="outline-3">
-<h3 id="org94b5b1e">Kontrollstruktur <code>parallel</code></h3>
-<div class="outline-text-3" id="text-org94b5b1e">
+<div id="outline-container-org5fd1ea7" class="outline-3">
+<h3 id="org5fd1ea7">Kontrollstruktur <code>parallel</code></h3>
+<div class="outline-text-3" id="text-org5fd1ea7">
 <ul class="org-ul">
 <li><code>parallel</code> ist ein Schlüsselwort in Scala.</li>
 <li><p>
@@ -463,9 +463,9 @@ implementiert werden:
 </div></li>
 </ul>
 </div>
-<div id="outline-container-org5caf197" class="outline-4">
-<h4 id="org5caf197">Systemunterstützung</h4>
-<div class="outline-text-4" id="text-org5caf197">
+<div id="outline-container-org9a28206" class="outline-4">
+<h4 id="org9a28206">Systemunterstützung</h4>
+<div class="outline-text-4" id="text-org9a28206">
 <ul class="org-ul">
 <li>Effiziente Parallelität erfordert Unterstützung durch
 <ul class="org-ul">
@@ -483,13 +483,13 @@ auszuführenden Schritte nicht zu trivial sind.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgef5f08d" class="outline-2">
-<h2 id="orgef5f08d">First-Class Tasks</h2>
-<div class="outline-text-2" id="text-orgef5f08d">
+<div id="outline-container-orgb8ff487" class="outline-2">
+<h2 id="orgb8ff487">First-Class Tasks</h2>
+<div class="outline-text-2" id="text-orgb8ff487">
 </div>
-<div id="outline-container-org207ece8" class="outline-3">
-<h3 id="org207ece8">Flexiblere Alternative für parallele Berechnungen</h3>
-<div class="outline-text-3" id="text-org207ece8">
+<div id="outline-container-orgb35c82d" class="outline-3">
+<h3 id="orgb35c82d">Flexiblere Alternative für parallele Berechnungen</h3>
+<div class="outline-text-3" id="text-orgb35c82d">
 <ul class="org-ul">
 <li><p>
 Statt
@@ -512,7 +512,7 @@ kann man auch das <code>task</code>-Konstrukt benutzen:
 Der Ausdruck <code>t = task(e)</code> startet die Berechnung als Thread:
 </p>
 <ul class="org-ul">
-<li><code>t</code> ist eine <code>task</code> die, die den Wert von <code>e</code> berechnet.</li>
+<li><code>t</code> ist eine <code>task</code>, die den Wert von <code>e</code> berechnet.</li>
 <li>Die laufende Berechnung wird parallel zu <code>t</code> fortgesetzt.</li>
 <li>Um das Resultat von <code>e</code> zu erhalten, benutzt man <code>t.join</code>.</li>
 <li><code>t.join</code> sorgt dafür, dass der ausführende Thread auf die
@@ -520,9 +520,9 @@ Beendigung von <code>t</code> wartet.</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orge31d26f" class="outline-4">
-<h4 id="orge31d26f">Task-Interface</h4>
-<div class="outline-text-4" id="text-orge31d26f">
+<div id="outline-container-org2c751f2" class="outline-4">
+<h4 id="org2c751f2">Task-Interface</h4>
+<div class="outline-text-4" id="text-org2c751f2">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">task</span><span style="color: #707183;">(</span>c<span style="color: #0000FF;">:</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Task</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span>
 <span style="color: #0000FF;">trait</span> <span style="color: #6434A3;">Task</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
@@ -544,9 +544,9 @@ implicit def getJoin[T](x:Task[T]): T = x.join
 </ul>
 </div>
 </div>
-<div id="outline-container-org2f8e73f" class="outline-4">
-<h4 id="org2f8e73f">Anwendungsbeispiel für vier Tasks</h4>
-<div class="outline-text-4" id="text-org2f8e73f">
+<div id="outline-container-orgbcf95d9" class="outline-4">
+<h4 id="orgbcf95d9">Anwendungsbeispiel für vier Tasks</h4>
+<div class="outline-text-4" id="text-orgbcf95d9">
 <p>
 Statt
 </p>
@@ -574,13 +574,13 @@ power<span style="color: #707183;">(</span>t1 + t2 + t3 + t4, <span style="color
 </div>
 </div>
 </div>
-<div id="outline-container-orgdc6eeba" class="outline-2">
-<h2 id="orgdc6eeba">ScalaMeter</h2>
-<div class="outline-text-2" id="text-orgdc6eeba">
+<div id="outline-container-org0fd835c" class="outline-2">
+<h2 id="org0fd835c">ScalaMeter</h2>
+<div class="outline-text-2" id="text-org0fd835c">
 </div>
-<div id="outline-container-org7680154" class="outline-3">
-<h3 id="org7680154">Wie schnell sind parallele Programme</h3>
-<div class="outline-text-3" id="text-org7680154">
+<div id="outline-container-org121849b" class="outline-3">
+<h3 id="org121849b">Wie schnell sind parallele Programme</h3>
+<div class="outline-text-3" id="text-org121849b">
 <ul class="org-ul">
 <li>Bewertung von Programmen/Algorithmen durch asymptotische Analyse
 <ul class="org-ul">
@@ -597,20 +597,20 @@ der P-Norm)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgeec619e" class="outline-3">
-<h3 id="orgeec619e">Was ist Benchmarking?</h3>
-<div class="outline-text-3" id="text-orgeec619e">
+<div id="outline-container-orgf0fc07c" class="outline-3">
+<h3 id="orgf0fc07c">Was ist Benchmarking?</h3>
+<div class="outline-text-3" id="text-orgf0fc07c">
 <ul class="org-ul">
-<li><i>Testen</i> soll zeigen, dass für konkrete Anwednungsfälle das Programm
+<li><i>Testen</i> soll zeigen, dass für konkrete Anwendungsfälle das Programm
 das erwartete Ergebnis liefert.</li>
 <li><i>Benchmarking</i> berechnet Performanz–Maße für Teile eines Programms.</li>
 <li>Warum ist Benchmarking für parallele Programme besonders interessant?</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org885dba5" class="outline-3">
-<h3 id="org885dba5">Laufzeitfaktoren</h3>
-<div class="outline-text-3" id="text-org885dba5">
+<div id="outline-container-org5cd5e53" class="outline-3">
+<h3 id="org5cd5e53">Laufzeitfaktoren</h3>
+<div class="outline-text-3" id="text-org5cd5e53">
 <ul class="org-ul">
 <li>Prozessorgeschwindigkeit</li>
 <li>Anzahl der Prozessoren</li>
@@ -626,9 +626,9 @@ das erwartete Ergebnis liefert.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4b7076d" class="outline-3">
-<h3 id="org4b7076d">Mess-Methodik</h3>
-<div class="outline-text-3" id="text-org4b7076d">
+<div id="outline-container-org554f968" class="outline-3">
+<h3 id="org554f968">Mess-Methodik</h3>
+<div class="outline-text-3" id="text-org554f968">
 <ul class="org-ul">
 <li>Einfache Laufzeitmessungen liefern zufällige Ergebnisse.</li>
 <li>Maßnahmen:
@@ -644,9 +644,9 @@ Just-in-time-Übersetzung, Spezialoptimierungen)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org915cc8e" class="outline-3">
-<h3 id="org915cc8e">Benchmarking mit ScalaMeter</h3>
-<div class="outline-text-3" id="text-org915cc8e">
+<div id="outline-container-orgdbedfc0" class="outline-3">
+<h3 id="orgdbedfc0">Benchmarking mit ScalaMeter</h3>
+<div class="outline-text-3" id="text-orgdbedfc0">
 <ul class="org-ul">
 <li>Framework für 
 <ul class="org-ul">
@@ -657,9 +657,9 @@ bestimmten Teils davon</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org9736746" class="outline-4">
-<h4 id="org9736746">Benutzung</h4>
-<div class="outline-text-4" id="text-org9736746">
+<div id="outline-container-orgbc0e17f" class="outline-4">
+<h4 id="orgbc0e17f">Benutzung</h4>
+<div class="outline-text-4" id="text-orgbc0e17f">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">import</span> org.scalameter.<span style="color: #0000FF;">_</span>
 <span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">time</span> <span style="color: #0000FF;">=</span> measure <span style="color: #707183;">{</span>
@@ -709,9 +709,9 @@ res26: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span 
 </pre>
 </div>
 </div>
-<div id="outline-container-orga3c4166" class="outline-5">
-<h5 id="orga3c4166">JVM Warmup</h5>
-<div class="outline-text-5" id="text-orga3c4166">
+<div id="outline-container-orgadff2d7" class="outline-5">
+<h5 id="orgadff2d7">JVM Warmup</h5>
+<div class="outline-text-5" id="text-orgadff2d7">
 <ul class="org-ul">
 <li>Sehr unterschiedliche Messergebnisse bei aufeinanderfolgenden Programmläufen</li>
 <li>Ein Programm, das auf der JVM läuft, durchläuft eine Aufwärmperiode,
@@ -759,9 +759,9 @@ res32: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span 
 </div>
 </div>
 </div>
-<div id="outline-container-orge387f56" class="outline-5">
-<h5 id="orge387f56">ScalaMeter Configuration</h5>
-<div class="outline-text-5" id="text-orge387f56">
+<div id="outline-container-orge53d46e" class="outline-5">
+<h5 id="orge53d46e">ScalaMeter Configuration</h5>
+<div class="outline-text-5" id="text-orge53d46e">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">val</span> <span style="color: #BA36A5;">time</span> <span style="color: #0000FF;">=</span> config<span style="color: #707183;">(</span>
   <span style="color: #D0372D;">Key</span>.exec.minWarmupRuns -&gt; <span style="color: #D0372D;">20</span>,
@@ -830,9 +830,9 @@ measurements: 45.413679 ms
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf8f90f5" class="outline-5">
-<h5 id="orgf8f90f5">Weitere Messungen</h5>
-<div class="outline-text-5" id="text-orgf8f90f5">
+<div id="outline-container-orgd97c596" class="outline-5">
+<h5 id="orgd97c596">Weitere Messungen</h5>
+<div class="outline-text-5" id="text-orgd97c596">
 <dl class="org-dl">
 <dt><code>Measurer.Default</code></dt><dd>reine Laufzeit</dd>
 <dt><code>IgnoringGC</code></dt><dd>Laufzeit ohne Pausen durch GC</dd>
@@ -843,9 +843,9 @@ measurements: 45.413679 ms
 </dl>
 </div>
 </div>
-<div id="outline-container-orgc74b19c" class="outline-5">
-<h5 id="orgc74b19c">Beispiel</h5>
-<div class="outline-text-5" id="text-orgc74b19c">
+<div id="outline-container-org725b748" class="outline-5">
+<h5 id="org725b748">Beispiel</h5>
+<div class="outline-text-5" id="text-org725b748">
 <div class="org-src-container">
 <pre class="src src-shell">scala&gt; withMeasurer<span style="color: #707183;">(</span>new Measurer.MemoryFootprint<span style="color: #707183;">)</span> measure <span style="color: #707183;">{</span> <span style="color: #7388D6;">(</span>0 until 1000000<span style="color: #7388D6;">)</span>.toArray<span style="color: #707183;">}</span>
 res42: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span style="color: #707183;">]</span> = 146.72 kB
@@ -865,17 +865,17 @@ res45: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span 
 </div>
 </div>
 </div>
-<div id="outline-container-orgc148a7f" class="outline-2">
-<h2 id="orgc148a7f">Anwendungsbeispiele</h2>
-<div class="outline-text-2" id="text-orgc148a7f">
+<div id="outline-container-org0999033" class="outline-2">
+<h2 id="org0999033">Anwendungsbeispiele</h2>
+<div class="outline-text-2" id="text-org0999033">
 </div>
-<div id="outline-container-org8d98078" class="outline-3">
-<h3 id="org8d98078">Paralleles Mapping</h3>
-<div class="outline-text-3" id="text-org8d98078">
+<div id="outline-container-org981c912" class="outline-3">
+<h3 id="org981c912">Paralleles Mapping</h3>
+<div class="outline-text-3" id="text-org981c912">
 </div>
-<div id="outline-container-orgdd5202c" class="outline-4">
-<h4 id="orgdd5202c">Parallelität und Collections</h4>
-<div class="outline-text-4" id="text-orgdd5202c">
+<div id="outline-container-org94454e6" class="outline-4">
+<h4 id="org94454e6">Parallelität und Collections</h4>
+<div class="outline-text-4" id="text-org94454e6">
 <ul class="org-ul">
 <li>Parallelverarbeitung von Collections ist wichtig!
 <ul class="org-ul">
@@ -889,9 +889,9 @@ res45: org.scalameter.Quantity<span style="color: #707183;">[</span>Double<span 
 </ul>
 </div>
 </div>
-<div id="outline-container-orgae12ffc" class="outline-4">
-<h4 id="orgae12ffc">Funktionale Programmierung und Collections</h4>
-<div class="outline-text-4" id="text-orgae12ffc">
+<div id="outline-container-org0935359" class="outline-4">
+<h4 id="org0935359">Funktionale Programmierung und Collections</h4>
+<div class="outline-text-4" id="text-org0935359">
 <ul class="org-ul">
 <li>Operationen auf Collections sind in der funktionalen Programmierung
 von besonderem Gewicht.</li>
@@ -919,16 +919,16 @@ List(1,3,8).scan(100)((s,x) =&gt; s + x) == List(100, 101, 104, 112)
 </ul>
 <p>
 Diese Operationen sind für parallelle Collections noch wichtiger als
-für sequentielle
+für sequentielle.
 </p>
 </div>
 </div>
-<div id="outline-container-org945e24b" class="outline-4">
-<h4 id="org945e24b">Wahl der Datenstrukturen</h4>
-<div class="outline-text-4" id="text-org945e24b">
+<div id="outline-container-org0631e8b" class="outline-4">
+<h4 id="org0631e8b">Wahl der Datenstrukturen</h4>
+<div class="outline-text-4" id="text-org0631e8b">
 <ul class="org-ul">
 <li>Die Collection <code>List</code> wird benutzt, um das Resultat von Operationen
-zu sepzifizieren</li>
+zu spezifizieren.</li>
 <li><p>
 Grundsätzlich sind Lists aber für parallele Implementierungen
 ungeeignet weil 
@@ -952,9 +952,9 @@ implementierten parallelen Collections.
 </p>
 </div>
 </div>
-<div id="outline-container-org70b313d" class="outline-4">
-<h4 id="org70b313d">Bedeutung von <code>map</code></h4>
-<div class="outline-text-4" id="text-org70b313d">
+<div id="outline-container-orga3bf0ac" class="outline-4">
+<h4 id="orga3bf0ac">Bedeutung von <code>map</code></h4>
+<div class="outline-text-4" id="text-orga3bf0ac">
 <p>
 <code>map</code> wendet die als Argument übergebene Funktion auf jedes
 Listenelement an: 
@@ -974,9 +974,9 @@ mit <code>(f.compose(g))(x) = f(g(x))</code></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgefe40b6" class="outline-4">
-<h4 id="orgefe40b6">Sequentielle Implementierung für Listen</h4>
-<div class="outline-text-4" id="text-orgefe40b6">
+<div id="outline-container-org6cea833" class="outline-4">
+<h4 id="org6cea833">Sequentielle Implementierung für Listen</h4>
+<div class="outline-text-4" id="text-org6cea833">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapSeq</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>lst<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">B</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> lst <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">case</span> <span style="color: #D0372D;">Nil</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Nil</span>
@@ -985,7 +985,7 @@ mit <code>(f.compose(g))(x) = f(g(x))</code></li>
 </pre>
 </div>
 <p>
-Gesucht ist eine Version die folgendes parallelisiert:
+Gesucht ist eine Version, die folgendes parallelisiert:
 </p>
 <ul class="org-ul">
 <li>die Berechnung von <code>f(h)</code> für verschiedene Elemente <code>h</code></li>
@@ -994,9 +994,9 @@ ungeeignet)</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc57176c" class="outline-4">
-<h4 id="orgc57176c">Sequentialle Version von <code>map</code> für Bäume</h4>
-<div class="outline-text-4" id="text-orgc57176c">
+<div id="outline-container-org487a0b3" class="outline-4">
+<h4 id="org487a0b3">Sequentielle Version von <code>map</code> für Bäume</h4>
+<div class="outline-text-4" id="text-org487a0b3">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapASegSeq</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span>,
                     out<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">B</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
@@ -1023,9 +1023,9 @@ res1<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</
 </div>
 </div>
 
-<div id="outline-container-orge134c4b" class="outline-4">
-<h4 id="orge134c4b">Parallele Version von <code>map</code> für <code>arrays</code></h4>
-<div class="outline-text-4" id="text-orge134c4b">
+<div id="outline-container-orgb973d08" class="outline-4">
+<h4 id="orgb973d08">Parallele Version von <code>map</code> für <code>arrays</code></h4>
+<div class="outline-text-4" id="text-orgb973d08">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapASegPar</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">B</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, f <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span>,
                     out<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">B</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Unit</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
@@ -1048,9 +1048,9 @@ Anmerkungen:
 <li>Der Wert von <code>threshold</code> darf nicht zu klein gewählt werden.</li>
 </ul>
 </div>
-<div id="outline-container-orgd71c49a" class="outline-5">
-<h5 id="orgd71c49a">Benutzungsbeispiel</h5>
-<div class="outline-text-5" id="text-orgd71c49a">
+<div id="outline-container-org340689b" class="outline-5">
+<h5 id="org340689b">Benutzungsbeispiel</h5>
+<div class="outline-text-5" id="text-org340689b">
 <p>
 Erhebe jedes Array-Element zur <code>p</code>-ten Potenz:
 \[Array(a_1, a_2, \ldots , a_n) \rightarrow Array(|a_1|^p, |a_2|^p, \ldots , |a_n|^p)\]
@@ -1072,9 +1072,9 @@ eingeführten =map=Varianten verzichtet?</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org4d3ae0d" class="outline-5">
-<h5 id="org4d3ae0d">„Herkömmliche“ sequentielle Version des Algorithmus</h5>
-<div class="outline-text-5" id="text-org4d3ae0d">
+<div id="outline-container-org919bccd" class="outline-5">
+<h5 id="org919bccd">„Herkömmliche“ sequentielle Version des Algorithmus</h5>
+<div class="outline-text-5" id="text-org919bccd">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">normsOf</span><span style="color: #707183;">(</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>,
             left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>,
@@ -1090,9 +1090,9 @@ eingeführten =map=Varianten verzichtet?</li>
 </div>
 </div>
 
-<div id="outline-container-orgd04cd83" class="outline-5">
-<h5 id="orgd04cd83">„Herkömmliche“ parallele Version des Algorithmus</h5>
-<div class="outline-text-5" id="text-orgd04cd83">
+<div id="outline-container-org1f90f47" class="outline-5">
+<h5 id="org1f90f47">„Herkömmliche“ parallele Version des Algorithmus</h5>
+<div class="outline-text-5" id="text-org1f90f47">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">normsOfPar</span><span style="color: #707183;">(</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">Int</span><span style="color: #7388D6;">]</span>, p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Double</span>,
                left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>,
@@ -1113,9 +1113,9 @@ eingeführten =map=Varianten verzichtet?</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orge56a83b" class="outline-5">
-<h5 id="orge56a83b">Messungen mit ScalaMeter</h5>
-<div class="outline-text-5" id="text-orge56a83b">
+<div id="outline-container-orgfa1f51b" class="outline-5">
+<h5 id="orgfa1f51b">Messungen mit ScalaMeter</h5>
+<div class="outline-text-5" id="text-orgfa1f51b">
 <ul class="org-ul">
 <li><code>inp.length = 2000000</code></li>
 <li><code>threshold = 10000</code></li>
@@ -1166,9 +1166,9 @@ Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz (4-core, 8 HW threads),
 </div>
 </div>
 </div>
-<div id="outline-container-orga8aa8f8" class="outline-4">
-<h4 id="orga8aa8f8">Parallele Version von <code>map</code> für Bäume</h4>
-<div class="outline-text-4" id="text-orga8aa8f8">
+<div id="outline-container-orgd438c79" class="outline-4">
+<h4 id="orgd438c79">Parallele Version von <code>map</code> für Bäume</h4>
+<div class="outline-text-4" id="text-orgd438c79">
 <p>
 Baumstruktur
 </p>
@@ -1191,9 +1191,9 @@ Innere Knoten speichern zwei Unterbäume
 Zweige parallel betrachtet werden.</li>
 </ul>
 </div>
-<div id="outline-container-orged44407" class="outline-5">
-<h5 id="orged44407">Implementierung</h5>
-<div class="outline-text-5" id="text-orged44407">
+<div id="outline-container-org9bb550f" class="outline-5">
+<h5 id="org9bb550f">Implementierung</h5>
+<div class="outline-text-5" id="text-org9bb550f">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">mapTreePar</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #0000FF;">:</span><span style="color: #6434A3;">Manifest</span>,<span style="color: #D0372D;">B</span><span style="color: #0000FF;">:</span><span style="color: #6434A3;">Manifest</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">B</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">B</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span>
 t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
@@ -1214,9 +1214,9 @@ Performanz ist mit der Array-Variante vergleichbar.
 </div>
 </div>
 </div>
-<div id="outline-container-orgefba3c2" class="outline-4">
-<h4 id="orgefba3c2">Vergleich der Array- mit der Baum-Variante</h4>
-<div class="outline-text-4" id="text-orgefba3c2">
+<div id="outline-container-orgaa4c4a0" class="outline-4">
+<h4 id="orgaa4c4a0">Vergleich der Array- mit der Baum-Variante</h4>
+<div class="outline-text-4" id="text-orgaa4c4a0">
 <dl class="org-dl">
 <dt>Arrays</dt><dd><ul class="org-ul">
 <li>(<code>+</code>) Wahlfreier Zugriff auf die Element, geteilter Zugriff ist möglich</li>
@@ -1236,9 +1236,9 @@ Performanz ist mit der Array-Variante vergleichbar.
 </div>
 </div>
 
-<div id="outline-container-org72e497f" class="outline-3">
-<h3 id="org72e497f">Faltungsoperationen</h3>
-<div class="outline-text-3" id="text-org72e497f">
+<div id="outline-container-orgf971278" class="outline-3">
+<h3 id="orgf971278">Faltungsoperationen</h3>
+<div class="outline-text-3" id="text-orgf971278">
 <ul class="org-ul">
 <li><p>
 Bisher betrachtet:
@@ -1262,9 +1262,9 @@ List(1,3,8).fold(100)((s,x) =&gt; s + x) == 112
 </pre></li>
 </ul>
 </div>
-<div id="outline-container-orgc327a86" class="outline-4">
-<h4 id="orgc327a86">Varianten</h4>
-<div class="outline-text-4" id="text-orgc327a86">
+<div id="outline-container-org4ac57a6" class="outline-4">
+<h4 id="org4ac57a6">Varianten</h4>
+<div class="outline-text-4" id="text-org4ac57a6">
 <p>
 <code>fold</code> akzeptiert neben anderen eine binäre Verknüpfungsoperation als
 Argument. Dabei tun sich verschiedene Varianten auf:
@@ -1289,9 +1289,9 @@ Für die Parallelisierung braucht man assoziative Operationen
 </ul>
 </div>
 </div>
-<div id="outline-container-org5e59249" class="outline-4">
-<h4 id="org5e59249">Assoziativität</h4>
-<div class="outline-text-4" id="text-org5e59249">
+<div id="outline-container-org78d7bd9" class="outline-4">
+<h4 id="org78d7bd9">Assoziativität</h4>
+<div class="outline-text-4" id="text-org78d7bd9">
 <ul class="org-ul">
 <li>Eine Operation \(f: (A,A) \rightarrow A\) ist assoziativ genau dann,
 wenn für alle \(x, y, z\) gilt: \[f(x, f(y, z)) = f(f(x, y), z)\]</li>
@@ -1303,9 +1303,9 @@ Ausdrücke immer das gleiche Resultat:
 </ul>
 </div>
 </div>
-<div id="outline-container-org4b06942" class="outline-4">
-<h4 id="org4b06942">Ausdrücke als Bäume</h4>
-<div class="outline-text-4" id="text-org4b06942">
+<div id="outline-container-orgaca5c53" class="outline-4">
+<h4 id="orgaca5c53">Ausdrücke als Bäume</h4>
+<div class="outline-text-4" id="text-orgaca5c53">
 <ul class="org-ul">
 <li>Blätter sind die Werte</li>
 <li>Knoten sind die Operationen 
@@ -1316,9 +1316,9 @@ Ausdrücke immer das gleiche Resultat:
 </ul>
 </div>
 </div>
-<div id="outline-container-org32bafbd" class="outline-4">
-<h4 id="org32bafbd">Falten (Reduzieren) von Bäumen</h4>
-<div class="outline-text-4" id="text-org32bafbd">
+<div id="outline-container-org42451a2" class="outline-4">
+<h4 id="org42451a2">Falten (Reduzieren) von Bäumen</h4>
+<div class="outline-text-4" id="text-org42451a2">
 <ul class="org-ul">
 <li><p>
 Wie wird der Wert eines Ausdrucksbaums berechnet?
@@ -1333,9 +1333,9 @@ Wie wird der Wert eines Ausdrucksbaums berechnet?
 einer Funktio <code>reduce</code> auf den Baum.</li>
 </ul>
 </div>
-<div id="outline-container-orgca8d5a6" class="outline-5">
-<h5 id="orgca8d5a6">Sequentielle Definition:</h5>
-<div class="outline-text-5" id="text-orgca8d5a6">
+<div id="outline-container-org7d7f906" class="outline-5">
+<h5 id="org7d7f906">Sequentielle Definition:</h5>
+<div class="outline-text-5" id="text-org7d7f906">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">reduce</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">v</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> v
@@ -1364,9 +1364,9 @@ Struktur des Baumes ab:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbabc8f1" class="outline-5">
-<h5 id="orgbabc8f1">Parallele Definition</h5>
-<div class="outline-text-5" id="text-orgbabc8f1">
+<div id="outline-container-org73ff574" class="outline-5">
+<h5 id="org73ff574">Parallele Definition</h5>
+<div class="outline-text-5" id="text-org73ff574">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">reduce</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, f <span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Leaf</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">v</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> v
@@ -1379,9 +1379,9 @@ f<span style="color: #909183;">(</span>lV, rV<span style="color: #909183;">)</sp
 </div>
 </div>
 </div>
-<div id="outline-container-org60702be" class="outline-4">
-<h4 id="org60702be">Assoziativitätsbetrachtung</h4>
-<div class="outline-text-4" id="text-org60702be">
+<div id="outline-container-orgb86a20c" class="outline-4">
+<h4 id="orgb86a20c">Assoziativitätsbetrachtung</h4>
+<div class="outline-text-4" id="text-orgb86a20c">
 <p>
 \[ $x\otimes(y\otimes z) = (x\otimes y)\otimes z\]
 Mit Ersetzung von \(\otimes\) in Scala durch <code>f</code> kann die Gleichung wie
@@ -1394,9 +1394,9 @@ reduce(Node(Node(Leaf(x), Leaf(y)), Leaf(z)), f)
 </pre>
 </div>
 </div>
-<div id="outline-container-org43844af" class="outline-4">
-<h4 id="org43844af">Baumordnung repräsentiert durch Listen</h4>
-<div class="outline-text-4" id="text-org43844af">
+<div id="outline-container-orgde0046b" class="outline-4">
+<h4 id="orgde0046b">Baumordnung repräsentiert durch Listen</h4>
+<div class="outline-text-4" id="text-orgde0046b">
 <ul class="org-ul">
 <li><p>
 Die Ordnung der Elemente in einem Baum kann durch Umwandlung in eine
@@ -1425,9 +1425,9 @@ formuliert werden?
 <li>Antwort:</li>
 </ul>
 </div>
-<div id="outline-container-org4858f38" class="outline-5">
-<h5 id="org4858f38">Konsequenz der Assoziativität für die Baumreduktion</h5>
-<div class="outline-text-5" id="text-org4858f38">
+<div id="outline-container-org58a12ea" class="outline-5">
+<h5 id="org58a12ea">Konsequenz der Assoziativität für die Baumreduktion</h5>
+<div class="outline-text-5" id="text-org58a12ea">
 <ul class="org-ul">
 <li>Betrachte zwei Ausdrücke mit derselben Liste von Operanden,
 verknüpft mit $&otimes;§ aber unterschiedlicher Klammerung: Diese
@@ -1445,9 +1445,9 @@ und wenn <code>toList(t1)==toList(t2)</code> dann gilt: <br />
 </div>
 </div>
 </div>
-<div id="outline-container-org2d2e908" class="outline-4">
-<h4 id="org2d2e908">Ergänzung: Parallele Faltungsoperation für Arrays</h4>
-<div class="outline-text-4" id="text-org2d2e908">
+<div id="outline-container-org0fa2935" class="outline-4">
+<h4 id="org0fa2935">Ergänzung: Parallele Faltungsoperation für Arrays</h4>
+<div class="outline-text-4" id="text-org0fa2935">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">reduceSeg</span><span style="color: #707183;">[</span><span style="color: #D0372D;">A</span><span style="color: #707183;">](</span>inp<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Array</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">A</span><span style="color: #7388D6;">]</span>, left<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, right<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Int</span>, f<span style="color: #0000FF;">:</span> <span style="color: #7388D6;">(</span><span style="color: #D0372D;">A</span>,<span style="color: #D0372D;">A</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">A</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">A</span> <span style="color: #0000FF;">=</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>right - left &lt; threshold<span style="color: #7388D6;">)</span> <span style="color: #7388D6;">{</span>
@@ -1469,9 +1469,9 @@ f<span style="color: #909183;">(</span>a1,a2<span style="color: #909183;">)</spa
 </div>
 </div>
 
-<div id="outline-container-org6c9cac7" class="outline-2">
-<h2 id="org6c9cac7">Datenparallelität</h2>
-<div class="outline-text-2" id="text-org6c9cac7">
+<div id="outline-container-org78ba825" class="outline-2">
+<h2 id="org78ba825">Datenparallelität</h2>
+<div class="outline-text-2" id="text-org78ba825">
 <p>
 Bisher Task-Parallelität betrachtet:
 </p>
@@ -1494,9 +1494,9 @@ Verteilung von Daten auf Prozessoren
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org756792d" class="outline-4">
-<h4 id="org756792d">Datenparalleles Programmiermodell</h4>
-<div class="outline-text-4" id="text-org756792d">
+<div id="outline-container-org650e550" class="outline-4">
+<h4 id="org650e550">Datenparalleles Programmiermodell</h4>
+<div class="outline-text-4" id="text-org650e550">
 <ul class="org-ul">
 <li>Einfachste Form der datenparallelen Programmierung ist die parallele</li>
 </ul>
@@ -1524,9 +1524,9 @@ Schleife nur unterschiedliche Speicherzellen beschrieben werden.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdb0b52e" class="outline-4">
-<h4 id="orgdb0b52e">Parallele Collections</h4>
-<div class="outline-text-4" id="text-orgdb0b52e">
+<div id="outline-container-org2d0cd66" class="outline-4">
+<h4 id="org2d0cd66">Parallele Collections</h4>
+<div class="outline-text-4" id="text-org2d0cd66">
 <ul class="org-ul">
 <li>Neben der parallelen <code>for</code>-Schleife können auch sequentielle
 Collections in parallele verwandelt werden.</li>
@@ -1557,9 +1557,9 @@ implementieren:
 </ul>
 </div>
 </div>
-<div id="outline-container-org2d05a46" class="outline-4">
-<h4 id="org2d05a46">Die Operation <code>fold</code></h4>
-<div class="outline-text-4" id="text-org2d05a46">
+<div id="outline-container-org3d8e4fa" class="outline-4">
+<h4 id="org3d8e4fa">Die Operation <code>fold</code></h4>
+<div class="outline-text-4" id="text-org3d8e4fa">
 <ul class="org-ul">
 <li><code>fold</code>-Operation führt intern eine Baumreduktion durch (s. o.).</li>
 <li><p>
@@ -1575,9 +1575,9 @@ Implementierung der <code>sum</code>-Methode:
 </ul>
 </div>
 </div>
-<div id="outline-container-orge705f01" class="outline-4">
-<h4 id="orge705f01">Hierarchie der Scala Collection-Klassen</h4>
-<div class="outline-text-4" id="text-orge705f01">
+<div id="outline-container-orgaac87dc" class="outline-4">
+<h4 id="orgaac87dc">Hierarchie der Scala Collection-Klassen</h4>
+<div class="outline-text-4" id="text-orgaac87dc">
 <dl class="org-dl">
 <dt>Traversable[T]</dt><dd>Collection mit Elementen vom Typ <code>T</code> mit
 Operationen, die mit <code>foreach</code> implementiert sind</dd>
@@ -1590,9 +1590,9 @@ Operationen, die mit <code>foreach</code> implementiert sind</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-orgd0e672c" class="outline-4">
-<h4 id="orgd0e672c">Parallele Collection-Hierarchie</h4>
-<div class="outline-text-4" id="text-orgd0e672c">
+<div id="outline-container-orgb7454e8" class="outline-4">
+<h4 id="orgb7454e8">Parallele Collection-Hierarchie</h4>
+<div class="outline-text-4" id="text-orgb7454e8">
 <ul class="org-ul">
 <li>Traits <code>ParIterable[T]</code>, <code>ParSeq[T]</code>, <code>ParSet[T]</code> und <code>ParMap[K, V]</code>
 sind die parallelen Gegenstücke zu verschiednen sequentiellen
@@ -1615,9 +1615,9 @@ Collection-Traits:
 </ul>
 </div>
 
-<div id="outline-container-org61b7cbb" class="outline-5">
-<h5 id="org61b7cbb">Anwendungsbeispiel</h5>
-<div class="outline-text-5" id="text-org61b7cbb">
+<div id="outline-container-org9e34a54" class="outline-5">
+<h5 id="org9e34a54">Anwendungsbeispiel</h5>
+<div class="outline-text-5" id="text-org9e34a54">
 <p>
 Finde das größte Palindrom in einer Sequenz:
 </p>
@@ -1639,16 +1639,16 @@ largestPalindrome<span style="color: #707183;">(</span>array.par<span style="col
 </div>
 </div>
 
-<div id="outline-container-org44c1ccc" class="outline-2">
-<h2 id="org44c1ccc">Datenstrukturen für parallele Berechnungen</h2>
-<div class="outline-text-2" id="text-org44c1ccc">
+<div id="outline-container-org569ef9f" class="outline-2">
+<h2 id="org569ef9f">Datenstrukturen für parallele Berechnungen</h2>
+<div class="outline-text-2" id="text-org569ef9f">
 <p>
 hier: interne Repräsentation von Listen durch Conc-Bäume
 </p>
 </div>
-<div id="outline-container-orgab72e7d" class="outline-3">
-<h3 id="orgab72e7d">Ein Datentyp für Listen</h3>
-<div class="outline-text-3" id="text-orgab72e7d">
+<div id="outline-container-org23a2409" class="outline-3">
+<h3 id="org23a2409">Ein Datentyp für Listen</h3>
+<div class="outline-text-3" id="text-org23a2409">
 <p>
 &#x2026; wie er für funktionale Programmiersprachen typisch ist:
 </p>
@@ -1668,9 +1668,9 @@ hier: interne Repräsentation von Listen durch Conc-Bäume
 </pre>
 </div>
 </div>
-<div id="outline-container-org5957484" class="outline-4">
-<h4 id="org5957484">Filter-Methode</h4>
-<div class="outline-text-4" id="text-org5957484">
+<div id="outline-container-org4b70bbc" class="outline-4">
+<h4 id="org4b70bbc">Filter-Methode</h4>
+<div class="outline-text-4" id="text-org4b70bbc">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">filter</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>lst<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)(</span>p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Boolean</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">List</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> lst <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">case</span> <span style="color: #BA36A5;">x</span> <span style="color: #6434A3;">::</span> <span style="color: #BA36A5;">xs</span> <span style="color: #0000FF;">if</span> p<span style="color: #7388D6;">(</span>x<span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> x :: filter<span style="color: #7388D6;">(</span>xs<span style="color: #7388D6;">)(</span>p<span style="color: #7388D6;">)</span>
@@ -1682,9 +1682,9 @@ hier: interne Repräsentation von Listen durch Conc-Bäume
 </div>
 </div>
 </div>
-<div id="outline-container-org30b67f9" class="outline-3">
-<h3 id="org30b67f9">Ein Datentyp für Bäume</h3>
-<div class="outline-text-3" id="text-org30b67f9">
+<div id="outline-container-org17ad066" class="outline-3">
+<h3 id="org17ad066">Ein Datentyp für Bäume</h3>
+<div class="outline-text-3" id="text-org17ad066">
 <ul class="org-ul">
 <li>Listen sind für sequentielle Berechnungen geeignet, sie werden von
 links nach rechts abgearbeitet.</li>
@@ -1702,9 +1702,9 @@ links nach rechts abgearbeitet.</li>
 </pre>
 </div>
 </div>
-<div id="outline-container-org08dfb7c" class="outline-4">
-<h4 id="org08dfb7c">Filter-Methode</h4>
-<div class="outline-text-4" id="text-org08dfb7c">
+<div id="outline-container-org55b6fe8" class="outline-4">
+<h4 id="org55b6fe8">Filter-Methode</h4>
+<div class="outline-text-4" id="text-org55b6fe8">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">def</span> <span style="color: #006699;">filter</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">](</span>t<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #7388D6;">[</span><span style="color: #D0372D;">T</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)(</span>p<span style="color: #0000FF;">:</span> <span style="color: #6434A3;">T</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Boolean</span><span style="color: #707183;">)</span><span style="color: #0000FF;">:</span> <span style="color: #6434A3;">Tree</span><span style="color: #707183;">[</span><span style="color: #D0372D;">T</span><span style="color: #707183;">]</span> <span style="color: #0000FF;">=</span> t <span style="color: #0000FF;">match</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">case</span> <span style="color: #6434A3;">Node</span><span style="color: #7388D6;">(</span><span style="color: #BA36A5;">left</span>, <span style="color: #BA36A5;">right</span><span style="color: #7388D6;">)</span> <span style="color: #0000FF;">=&gt;</span> <span style="color: #D0372D;">Node</span><span style="color: #7388D6;">(</span>parallel<span style="color: #909183;">(</span>filter<span style="color: #709870;">(</span>left<span style="color: #709870;">)(</span>p<span style="color: #709870;">)</span>, filter<span style="color: #709870;">(</span>right<span style="color: #709870;">)(</span>p<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
@@ -1725,9 +1725,9 @@ Bäume „entarten“ leicht zu Listen.
 </div>
 </div>
 
-<div id="outline-container-orgde7d932" class="outline-3">
-<h3 id="orgde7d932">Der Datentyp <code>Conc</code></h3>
-<div class="outline-text-3" id="text-orgde7d932">
+<div id="outline-container-org3f7f0ae" class="outline-3">
+<h3 id="org3f7f0ae">Der Datentyp <code>Conc</code></h3>
+<div class="outline-text-3" id="text-org3f7f0ae">
 <p>
 Ein Datentyp für balancierte Bäume:
 </p>
@@ -1746,9 +1746,9 @@ bezeichnet (ursprünglich für die Programmiersprache <i><a href="https://de.wik
 entwickelt).
 </p>
 </div>
-<div id="outline-container-org209227c" class="outline-4">
-<h4 id="org209227c">Konkrete Implementierung</h4>
-<div class="outline-text-4" id="text-org209227c">
+<div id="outline-container-orgb75b4f0" class="outline-4">
+<h4 id="orgb75b4f0">Konkrete Implementierung</h4>
+<div class="outline-text-4" id="text-orgb75b4f0">
 <div class="org-src-container">
 <pre class="src src-scala"><span style="color: #0000FF;">case</span> <span style="color: #0000FF;">object</span> <span style="color: #D0372D;">Empty</span> <span style="color: #0000FF;">extends</span> <span style="color: #6434A3;">Conc</span><span style="color: #707183;">[</span><span style="color: #D0372D;">Nothing</span><span style="color: #707183;">]</span> <span style="color: #707183;">{</span>
   <span style="color: #0000FF;">def</span> <span style="color: #006699;">level</span> <span style="color: #0000FF;">=</span> <span style="color: #D0372D;">0</span>
@@ -1765,9 +1765,9 @@ entwickelt).
 </div>
 </div>
 </div>
-<div id="outline-container-orgad2c8c7" class="outline-4">
-<h4 id="orgad2c8c7">Invarianten für Conc-Bäume</h4>
-<div class="outline-text-4" id="text-orgad2c8c7">
+<div id="outline-container-org6647387" class="outline-4">
+<h4 id="org6647387">Invarianten für Conc-Bäume</h4>
+<div class="outline-text-4" id="text-org6647387">
 <ol class="org-ol">
 <li>Ein <code>&lt;&gt;</code>-Knoten kann niemals <code>Empty</code> als Umterbaum besitzen.</li>
 <li>Die <code>level</code>-Differenz zwischen linkem und rechten Unterbaum ist
@@ -1785,9 +1785,9 @@ Implementierungen müssen diese Invarianten beachten.
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc38b7ba" class="outline-5">
-<h5 id="orgc38b7ba">Implementierung von <code>concat</code></h5>
-<div class="outline-text-5" id="text-orgc38b7ba">
+<div id="outline-container-orgf458633" class="outline-5">
+<h5 id="orgf458633">Implementierung von <code>concat</code></h5>
+<div class="outline-text-5" id="text-orgf458633">
 <p>
 Verschiedene Fälle sind zu betrachten.
 </p>
@@ -1858,8 +1858,8 @@ der linke Baum ist rechtslastig &#x2026;
 </div>
 </div>
 
-<div id="outline-container-org0aeedda" class="outline-2">
-<h2 id="org0aeedda"><h2>Literaturverzeichnis</h2>
+<div id="outline-container-orgff26b63" class="outline-2">
+<h2 id="orgff26b63"><h2>Literaturverzeichnis</h2>
 <ul class='org-ref-bib'><li><a id="KuncakProkopec2015">[KuncakProkopec2015] Viktor Kuncak & Aleksandar Prokopec, Parallel Programming, (2015), zuletzt aufgerufen am 10.11.2017: <a href="https://www.coursera.org/learn/parprog1/home/info">https://www.coursera.org/learn/parprog1/home/info</a> </a></li>
 <li><a id="Drepper2007">[Drepper2007] Ulrich Drepper, What Every Programmer Should Know About Memory, (2007), zuletzt aufgerufen am 16.11.2017: <a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf">https://people.freebsd.org/~lstewart/articles/cpumemory.pdf</a> </a></li>
 <li><a id="Georges2007">[Georges2007] Georges, Buytaert & Eeckhout, Statistically Rigorous Java Performance Evaluation, <i>SIGPLAN Not.</i>, <b>42(10)</b>, 57-76 (2007). <a href="http://doi.acm.org/10.1145/1297105.1297033">link</a>. <a href="http://dx.doi.org/10.1145/1297105.1297033">doi</a>.</a></li>
@@ -1868,7 +1868,7 @@ der linke Baum ist rechtslastig &#x2026;
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-18 Sat 19:52</p>
+<p class="date">Created: 2017-11-20 Mon 12:28</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

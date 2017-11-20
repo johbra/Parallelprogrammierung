@@ -100,7 +100,7 @@ def pNorm(a: Array[Int], p: Double): Int =
 **** Parallelisierung
 + Aufspaltung der Summe in zwei Teilsummen
   $$||a||_p :=
-  (\sum_{i=0}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}=(\sum_{i=1}^{m-1}\lfloor|a_i|\rfloor^p +
+  (\sum_{i=0}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}=(\sum_{i=0}^{m-1}\lfloor|a_i|\rfloor^p +
   \sum_{i=m}^{N-1}\lfloor|a_i|\rfloor^p)^{1/p}$$
   #+attr_html: :width 300px
   [[./Abbildungen/m.png]]
@@ -124,7 +124,7 @@ val m1 = a.length/4; val m2 = a.length/2; val m3 = 3*a.length/4
 def pNormRec(a: Array[Int], p: Double): Int =
   power(segmentRec(a, p, 0, a.length), 1/p)
 
-// wie sumSegment nur parallel
+// wie sumSegment nur parallel/rekursiv
 def segmentRec(a: Array[Int], p: Double, s: Int, t: Int) = {
   if (t - s < threshold)
     sumSegment(a, p, s, t)  // kleines Segment: mach es sequentiell
@@ -166,7 +166,7 @@ val v1 = t1.join
 val v2 = t2.join  
   #+END_SRC
   Der Ausdruck ~t = task(e)~ startet die Berechnung als Thread:
-  + =t= ist eine =task= die, die den Wert von =e= berechnet.
+  + =t= ist eine =task=, die den Wert von =e= berechnet.
   + Die laufende Berechnung wird parallel zu =t= fortgesetzt.
   + Um das Resultat von =e= zu erhalten, benutzt man =t.join=.
   + =t.join= sorgt dafür, dass der ausführende Thread auf die
@@ -212,7 +212,7 @@ power(t1 + t2 + t3 + t4, 1/p)
   + Frage: Warum sind Zeitmessungen schwierig?
 + Amdahls Law
 ** Was ist Benchmarking?
-+ /Testen/ soll zeigen, dass für konkrete Anwednungsfälle das Programm
++ /Testen/ soll zeigen, dass für konkrete Anwendungsfälle das Programm
   das erwartete Ergebnis liefert. 
 + /Benchmarking/ berechnet Performanz–Maße für Teile eines Programms.
 + Warum ist Benchmarking für parallele Programme besonders interessant?
@@ -425,10 +425,10 @@ res45: org.scalameter.Quantity[Double] = 3995.936 kB
 + =scan= :: verknüpfe die „folds" aller Listen-Präfixe
   : List(1,3,8).scan(100)((s,x) => s + x) == List(100, 101, 104, 112)
 Diese Operationen sind für parallelle Collections noch wichtiger als
-für sequentielle
+für sequentielle.
 *** Wahl der Datenstrukturen
 + Die Collection =List= wird benutzt, um das Resultat von Operationen
-  zu sepzifizieren
+  zu spezifizieren.
 + Grundsätzlich sind Lists aber für parallele Implementierungen
   ungeeignet weil 
   + sie in zwei Teile zu zerlegen und
@@ -455,11 +455,11 @@ def mapSeq[A,B](lst: List[A], f : A => B): List[B] = lst match {
   case h :: t => f(h) :: mapSeq(t,f)
 }
 #+END_SRC
-Gesucht ist eine Version die folgendes parallelisiert:
+Gesucht ist eine Version, die folgendes parallelisiert:
 + die Berechnung von =f(h)= für verschiedene Elemente =h=
 + den wahlfreien Zugriff auf die Elemente (Listen sind hier
   ungeeignet)
-*** Sequentialle Version von =map= für Bäume
+*** Sequentielle Version von =map= für Bäume
 #+BEGIN_SRC scala
 def mapASegSeq[A,B](inp: Array[A], left: Int, right: Int, f : A => B,
                     out: Array[B]) = {
