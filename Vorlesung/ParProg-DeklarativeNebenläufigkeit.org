@@ -313,6 +313,9 @@ X3 = 3
 thread {Browse 111} end
 {Browse 222}
 #+END_SRC
+
+#+RESULTS:
+
 In welcher Reihenfolge werden 111 und 222 angezeigt?
 #+BEGIN_SRC oz :results output
 declare X1 X2 Y1 Y2 in
@@ -358,11 +361,11 @@ fun {F X} X*X end
 Y = 3|Z
 Z = nil  
   #+END_SRC
-  wird die Berechnung des Haupt-Threads und des neu erzeugten Thread
+  die Berechnung des Haupt-Threads und des neu erzeugten Thread
   =thread {F 3} end= abgeschlossen und die Ergebnisliste =1|4|9|nil=
   angezeigt.
 *** Ineffiziente Fibonacci-Funktion
-+ Deklarative Programm können sehr leicht nebenläufig gemacht werden.
++ Deklarative Programme können sehr leicht nebenläufig gemacht werden.
 + Benutze einfach die =thread=-Anweisung, wo sie gebraucht wird.
   #+BEGIN_SRC oz :results output
 fun {Fib X}
@@ -542,7 +545,7 @@ conc
 end
   #+END_SRC
 + Könnte so implementiert werden:
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 declare Conc
 local
    proc {Conc1 Ps I O}
@@ -560,11 +563,14 @@ in
    end
 end  
   #+END_SRC
+
+  #+RESULTS:
+
 + =Conc= erwartet eine Liste von parameterlosen Prozeduren, die als
   Threads gestartet werden, und terminiert wenn all diese Threads
   beendet sind.
 + Anwendungsbeispiel:
-  #+BEGIN_SRC oz
+  #+BEGIN_SRC oz :results output
 local
    proc {Ping N}
       for I in 1 .. N do
@@ -585,4 +591,7 @@ in {Browse 'game started'}
    {Browse 'game tarminated'}
 end  
   #+END_SRC
+
+  #+RESULTS:
+
 * bibliography:referenzen.bib

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
 <head>
-<!-- 2017-11-15 Wed 16:43 -->
+<!-- 2017-11-20 Mon 10:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deklarative Nebenläufigkeit</title>
@@ -267,16 +267,16 @@ for the JavaScript code in this tag.
 <br />
 <span class="subtitle">Parallelprogrammierung</span>
 </h1>
-<div id="outline-container-org1e53bfd" class="outline-2">
-<h2 id="org1e53bfd">Einführung</h2>
-<div class="outline-text-2" id="text-org1e53bfd">
+<div id="outline-container-orgf6504e5" class="outline-2">
+<h2 id="orgf6504e5">Einführung</h2>
+<div class="outline-text-2" id="text-orgf6504e5">
 <p>
 Die Ausführungen sind <a class='org-ref-reference' href="#RoyHaridi2004">RoyHaridi2004</a> entnommen.
 </p>
 </div>
-<div id="outline-container-org14be8e4" class="outline-3">
-<h3 id="org14be8e4">Einstieg in Mozart/Oz</h3>
-<div class="outline-text-3" id="text-org14be8e4">
+<div id="outline-container-orgb785e25" class="outline-3">
+<h3 id="orgb785e25">Einstieg in Mozart/Oz</h3>
+<div class="outline-text-3" id="text-orgb785e25">
 <ul class="org-ul">
 <li>Oz ist eine Multi-Paradigmensprache
 <ul class="org-ul">
@@ -305,13 +305,13 @@ Demo:
 </div>
 </div>
 
-<div id="outline-container-orgde47dff" class="outline-3">
-<h3 id="orgde47dff">Die Sprache Oz</h3>
-<div class="outline-text-3" id="text-orgde47dff">
+<div id="outline-container-org9c0e4b4" class="outline-3">
+<h3 id="org9c0e4b4">Die Sprache Oz</h3>
+<div class="outline-text-3" id="text-org9c0e4b4">
 </div>
-<div id="outline-container-orgd8ffa10" class="outline-4">
-<h4 id="orgd8ffa10">Daten</h4>
-<div class="outline-text-4" id="text-orgd8ffa10">
+<div id="outline-container-orgd951d53" class="outline-4">
+<h4 id="orgd951d53">Daten</h4>
+<div class="outline-text-4" id="text-orgd951d53">
 <dl class="org-dl">
 <dt>Variablen</dt><dd>sind <i>single assignment variables</i>.</dd>
 <dt>Deklarationen</dt><dd><p>
@@ -449,9 +449,9 @@ oder
 </dl>
 </div>
 </div>
-<div id="outline-container-org088b216" class="outline-4">
-<h4 id="org088b216">Kontrollstrukturen</h4>
-<div class="outline-text-4" id="text-org088b216">
+<div id="outline-container-orgebba69c" class="outline-4">
+<h4 id="orgebba69c">Kontrollstrukturen</h4>
+<div class="outline-text-4" id="text-orgebba69c">
 <dl class="org-dl">
 <dt>Sequenz</dt><dd><code>S1 S2</code></dd>
 <dt>Fallunterscheidung</dt><dd><pre class="example">
@@ -511,9 +511,9 @@ if B1 then S1 elseif B2 then S2 else S3 end
 </div>
 </div>
 </div>
-<div id="outline-container-orgc6fe2cb" class="outline-4">
-<h4 id="orgc6fe2cb">Prozeduren</h4>
-<div class="outline-text-4" id="text-orgc6fe2cb">
+<div id="outline-container-orgf127b53" class="outline-4">
+<h4 id="orgf127b53">Prozeduren</h4>
+<div class="outline-text-4" id="text-orgf127b53">
 <dl class="org-dl">
 <dt>Definition</dt><dd><div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">proc</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">P</span> X1 <span style="color: #0000FF;">...</span> Xn} S <span style="color: #0000FF;">end</span></pre>
@@ -551,9 +551,9 @@ if B1 then S1 elseif B2 then S2 else S3 end
 </dl>
 </div>
 </div>
-<div id="outline-container-org5d535bf" class="outline-4">
-<h4 id="org5d535bf">Funktionen</h4>
-<div class="outline-text-4" id="text-org5d535bf">
+<div id="outline-container-org07cab62" class="outline-4">
+<h4 id="org07cab62">Funktionen</h4>
+<div class="outline-text-4" id="text-org07cab62">
 <dl class="org-dl">
 <dt>Definition</dt><dd><pre class="example">
   fun {F X1 ... Xn} S E end
@@ -581,13 +581,13 @@ mit <code>S</code> ist Anweisung (Statement), <code>E</code> ist Ausdruck (Expre
 </div>
 </div>
 </div>
-<div id="outline-container-org682bb4b" class="outline-2">
-<h2 id="org682bb4b">Nebenläufigkeit</h2>
-<div class="outline-text-2" id="text-org682bb4b">
+<div id="outline-container-orge7b999f" class="outline-2">
+<h2 id="orge7b999f">Nebenläufigkeit</h2>
+<div class="outline-text-2" id="text-orge7b999f">
 </div>
-<div id="outline-container-orgf9f53c4" class="outline-3">
-<h3 id="orgf9f53c4">&#x2026;kann einfach sein</h3>
-<div class="outline-text-3" id="text-orgf9f53c4">
+<div id="outline-container-org972bb17" class="outline-3">
+<h3 id="org972bb17">&#x2026;kann einfach sein</h3>
+<div class="outline-text-3" id="text-org972bb17">
 <ul class="org-ul">
 <li>Nutzung von dataflow variables: können nur einmalig an einen Wert
 gebunden werden</li>
@@ -628,9 +628,9 @@ nebenläufige Version:
 </ul>
 </div>
 </div>
-<div id="outline-container-org66246f2" class="outline-3">
-<h3 id="org66246f2">Nicht-Determinismus</h3>
-<div class="outline-text-3" id="text-org66246f2">
+<div id="outline-container-org398d141" class="outline-3">
+<h3 id="org398d141">Nicht-Determinismus</h3>
+<div class="outline-text-3" id="text-org398d141">
 <p>
 Durch die <code>thread</code>-Anweisung sind grundsätzlich verschiedene
 Ausführungsreihenfolgen möglich. Nach Ausführung der Instruktion
@@ -727,18 +727,19 @@ Informationen, sie wird blockiert.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc9d711c" class="outline-3">
-<h3 id="orgc9d711c">Weitere Beispiele</h3>
-<div class="outline-text-3" id="text-orgc9d711c">
+<div id="outline-container-org2a70660" class="outline-3">
+<h3 id="org2a70660">Weitere Beispiele</h3>
+<div class="outline-text-3" id="text-org2a70660">
 </div>
-<div id="outline-container-org3128a12" class="outline-4">
-<h4 id="org3128a12">Threads und der Browser</h4>
-<div class="outline-text-4" id="text-org3128a12">
+<div id="outline-container-orgd0a3998" class="outline-4">
+<h4 id="orgd0a3998">Threads und der Browser</h4>
+<div class="outline-text-4" id="text-orgd0a3998">
 <div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">thread</span> {Browse 111} <span style="color: #0000FF;">end</span>
 {Browse 222}</pre>
 </pre>
 </div>
+
 <p>
 In welcher Reihenfolge werden 111 und 222 angezeigt?
 </p>
@@ -758,9 +759,9 @@ Was wird im Browser angezeigt?
 </div>
 </div>
 
-<div id="outline-container-org94fae74" class="outline-4">
-<h4 id="org94fae74">Eine nebenläufige Map-Funktion</h4>
-<div class="outline-text-4" id="text-org94fae74">
+<div id="outline-container-org13c81d8" class="outline-4">
+<h4 id="org13c81d8">Eine nebenläufige Map-Funktion</h4>
+<div class="outline-text-4" id="text-org13c81d8">
 <div class="org-src-container">
 <pre class="src src-oz"><span style="color: #0000FF;">declare</span> Map
 <span style="color: #0000FF;">fun</span><span style="color: #BA36A5;"> </span>{<span style="color: #006699;">Map</span> Xs F}
@@ -809,18 +810,18 @@ Z = nil  </pre>
 </pre>
 </div>
 <p>
-wird die Berechnung des Haupt-Threads und des neu erzeugten Thread
+die Berechnung des Haupt-Threads und des neu erzeugten Thread
 <code>thread {F 3} end</code> abgeschlossen und die Ergebnisliste <code>1|4|9|nil</code>
 angezeigt.
 </p></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org51a548c" class="outline-4">
-<h4 id="org51a548c">Ineffiziente Fibonacci-Funktion</h4>
-<div class="outline-text-4" id="text-org51a548c">
+<div id="outline-container-org2f50e15" class="outline-4">
+<h4 id="org2f50e15">Ineffiziente Fibonacci-Funktion</h4>
+<div class="outline-text-4" id="text-org2f50e15">
 <ul class="org-ul">
-<li>Deklarative Programm können sehr leicht nebenläufig gemacht werden.</li>
+<li>Deklarative Programme können sehr leicht nebenläufig gemacht werden.</li>
 <li><p>
 Benutze einfach die <code>thread</code>-Anweisung, wo sie gebraucht wird.
 </p>
@@ -866,9 +867,9 @@ aber nicht missbraucht werden.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org207fd95" class="outline-4">
-<h4 id="org207fd95">Producer/Consumer</h4>
-<div class="outline-text-4" id="text-org207fd95">
+<div id="outline-container-orgd9c1dba" class="outline-4">
+<h4 id="orgd9c1dba">Producer/Consumer</h4>
+<div class="outline-text-4" id="text-orgd9c1dba">
 <ul class="org-ul">
 <li><p>
 Kommunikation über <i>Streams</i>, die als Listen repräsentiert werden,
@@ -957,9 +958,9 @@ Die folgende Abbildung veranschaulicht den Prozess:
 </div></li>
 </ul>
 </div>
-<div id="outline-container-org2c6e1d4" class="outline-5">
-<h5 id="org2c6e1d4">Größeres Beispiel: Sieb des Eratosthenes</h5>
-<div class="outline-text-5" id="text-org2c6e1d4">
+<div id="outline-container-orge588b69" class="outline-5">
+<h5 id="orge588b69">Größeres Beispiel: Sieb des Eratosthenes</h5>
+<div class="outline-text-5" id="text-orge588b69">
 <ul class="org-ul">
 <li>Erzeugt Primzahlen</li>
 <li>Nimmt einen Stream \(2 ... N\), entfernt die 2 vom Rest des Streams</li>
@@ -1020,9 +1021,9 @@ Beispielablauf
 </div>
 </div>
 
-<div id="outline-container-orgf1ccfd0" class="outline-5">
-<h5 id="orgf1ccfd0">Mögliches Problem</h5>
-<div class="outline-text-5" id="text-orgf1ccfd0">
+<div id="outline-container-org30a3901" class="outline-5">
+<h5 id="org30a3901">Mögliches Problem</h5>
+<div class="outline-text-5" id="text-org30a3901">
 <ul class="org-ul">
 <li>Ein Producer könnte viel schneller als ein Consumer arbeiten.</li>
 <li>Dadurch wird temporär ein großer Stream entstehen, der potentiell
@@ -1041,9 +1042,9 @@ Datenelement benötigt (<i>demand driven</i>, <i>lazy evaluation</i>)</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfacd02c" class="outline-3">
-<h3 id="orgfacd02c">Steuerungsabstraktion</h3>
-<div class="outline-text-3" id="text-orgfacd02c">
+<div id="outline-container-org877e58b" class="outline-3">
+<h3 id="org877e58b">Steuerungsabstraktion</h3>
+<div class="outline-text-3" id="text-org877e58b">
 <ul class="org-ul">
 <li>Bisher wurde nur die „fork“-Operation durch <code>thread ... end</code> betrachtet.</li>
 <li>Wie sieht die „join”-Operation aus?</li>
@@ -1054,9 +1055,9 @@ Datenelement benötigt (<i>demand driven</i>, <i>lazy evaluation</i>)</li>
 </p>
 </div>
 </div>
-<div id="outline-container-org14e5d21" class="outline-4">
-<h4 id="org14e5d21">Endeerkennung</h4>
-<div class="outline-text-4" id="text-org14e5d21">
+<div id="outline-container-org3752c91" class="outline-4">
+<h4 id="org3752c91">Endeerkennung</h4>
+<div class="outline-text-4" id="text-org3752c91">
 <ul class="org-ul">
 <li>Die folgende Konstruktion sorgt für die Entdeckung der Termination
 von mehreren Threads und das Warten eines weiteren Threads auf
@@ -1080,9 +1081,9 @@ Wert <code>unit</code>.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc1c67f7" class="outline-4">
-<h4 id="orgc1c67f7">Nebenläufige Komposition</h4>
-<div class="outline-text-4" id="text-orgc1c67f7">
+<div id="outline-container-orgebfcfed" class="outline-4">
+<h4 id="orgebfcfed">Nebenläufige Komposition</h4>
+<div class="outline-text-4" id="text-orgebfcfed">
 <ul class="org-ul">
 <li><p>
 So etwas hätte man gern:
@@ -1115,6 +1116,7 @@ Könnte so implementiert werden:
 <span style="color: #0000FF;">end</span>  </pre>
 </pre>
 </div></li>
+
 <li><code>Conc</code> erwartet eine Liste von parameterlosen Prozeduren, die als
 Threads gestartet werden, und terminiert wenn all diese Threads
 beendet sind.</li>
@@ -1148,15 +1150,16 @@ Anwendungsbeispiel:
 </div>
 </div>
 </div>
-<div id="outline-container-org821cd3c" class="outline-2">
-<h2 id="org821cd3c"><h2>Literaturverzeichnis</h2>
+
+<div id="outline-container-org97f9909" class="outline-2">
+<h2 id="org97f9909"><h2>Literaturverzeichnis</h2>
 <ul class='org-ref-bib'><li><a id="RoyHaridi2004">[RoyHaridi2004] Peter Van Roy & Seif Haridi, Concepts, Techniques, and Models of Computer Programming (MIT Press), The MIT Press (2004).</a></li>
 </ul></h2>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Johannes Brauer</p>
-<p class="date">Created: 2017-11-15 Wed 16:43</p>
+<p class="date">Created: 2017-11-20 Mon 10:45</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

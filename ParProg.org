@@ -74,8 +74,8 @@
 | 5 | 13.11. | Parallele Algorithmen              |                           |      |                                  |
 |   |        | Deklarative Nebenläufigkeit        | bis Nl. kann einfach sein |      |                                  |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
-| 6 | 20.11. | Deklarative Nebenläufigkeit        |                           |      | zirkulaer.oz ansprechen          |
-|   |        | Parallelprogrammierung in Scala    |                           |      |                                  |
+| 6 | 20.11. | Deklarative Nebenläufigkeit        |                           |      | Hausaufgaben - Organisation      |
+| s |        | Parallelprogrammierung in Scala    |                           |      | zirkulaer.oz ansprechen          |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 | 7 | 27.11. | Frank                              |                           |      |                                  |
 |   |        | Thomsen                            |                           |      |                                  |
