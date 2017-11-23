@@ -8,4 +8,4 @@ thread
       {Browse completed}
    end 
 end 
-{Browse [X0 X1 X2 X3]}
+{Browse [X0 X1 X2]}

@@ -75,10 +75,11 @@
 |   |        | Deklarative Nebenläufigkeit        | bis Nl. kann einfach sein |      |                                  |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 | 6 | 20.11. | Deklarative Nebenläufigkeit        |                           |      | Hausaufgaben - Organisation      |
-| s |        | Parallelprogrammierung in Scala    |                           |      | zirkulaer.oz ansprechen          |
+| s |        | Parallelprogrammierung in Scala    | bis Anw. Parall. Mapping  |      | zirkulaer.oz ansprechen          |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 | 7 | 27.11. | Frank                              |                           |      |                                  |
 |   |        | Thomsen                            |                           |      |                                  |
+|   |        | Parallelprogrammierung in Scala    | weiter mit Faltungsoprtn. |      |                                  |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 | 8 |  4.12. | Koltsov                            |                           |      |                                  |
 |   |        | Hennig                             |                           |      |                                  |
@@ -87,3 +88,19 @@
 |   |        |                                    |                           |      |                                  |
 |---+--------+------------------------------------+---------------------------+------+----------------------------------|
 * [[file:themenliste.org::*Themenliste][Vortragsthemen]]
+* Hausarbeit
+** Ablauf
+1. Prüfungsvorleistung ist die Präsentation zu den selbst gewählten
+   Themen am 27.11. bzw. 4.12.2017.
+2. Bearbeitungszeitraum der Hausarbeit: 4.12.2017 bis 22.12.2017
+3. Umfang der Hausarbeit: 15 bis 25 Seiten.
+4. Die Grundlage des Themas der Hausarbeit ist das Thema der
+   Präsentation. Davon ausgehend gibt es verschiedene Möglichkeiten das Thema zu definieren:
+   1. Ein Aspekt des Präsentationsthemas wird in der Hausarbeit vertiefend dargestellt.
+   2. Ein in der Literatur dokumentiertes Praxisbeispiel wird dargestellt.
+   3. Es wird ein Praxisbeispiel selbst entwickelt und in der Hausarbeit dokumentiert.
+   4. Andere Formen der Themendefintion sind nach Absprache auch
+      möglich.
+5. Die Themenbeschreibung (max. eine halbe Seite) wird zusammen mit
+   einem ersten Gliederungsentwurf dem Dozenten bis spätestens zum
+   4.12.2017 vorgelegt.
