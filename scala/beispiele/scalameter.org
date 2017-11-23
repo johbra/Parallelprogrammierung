@@ -1,5 +1,0 @@
-scala> import org.scalameter._
-import org.scalameter._
-
-scala> measure {(0 until 1000000).toArray}
-res0: org.scalameter.Quantity[Double] = 161.21816 ms
